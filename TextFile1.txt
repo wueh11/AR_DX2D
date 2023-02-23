@@ -1,0 +1,12 @@
+
+
+DirectX44
+- 참조 -> 참조추가
+
+속성 - C/C++ - 일반 - 추가 포함 디렉터리 - Engine_SOURCE 경로 추가
+
+Engine_SOURCE
+- 속성 - 미리컴파일된헤더 사용안함
+
+-DirectX44\x64\Debug\Lib 폴더 생성
+속성- 출력디렉토리 $(SolutionDir)$(Configuration)\Lib\ 
