@@ -38,7 +38,10 @@ namespace ya
 			if (gameObject == nullptr)
 				continue;
 			if (gameObject->GetState() != GameObject::eState::Active)
+			{
+				int a = 0;
 				continue;
+			}
 
 			gameObject->Update();
 		}
@@ -64,7 +67,10 @@ namespace ya
 			if (gameObject == nullptr)
 				continue;
 			if (gameObject->GetState() != GameObject::eState::Active)
+			{
+				int a = 0;
 				continue;
+			}
 
 			gameObject->Render();
 		}

@@ -46,6 +46,15 @@ namespace ya::renderer
 		gridShader->SetDSState(eDSType::NoWrite); /// 영향을 받으면 안됨
 		gridShader->SetBSState(eBSType::AlphaBlend);
 		Resources::Insert<Shader>(L"GridShader", gridShader);
+
+		// Fade Shader
+		std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
+		fadeShader->Create(eShaderStage::VS, L"FadeVS.hlsl", "main");
+		fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
+		fadeShader->SetRSState(eRSType::SolidNone);
+		fadeShader->SetDSState(eDSType::NoWrite);
+		fadeShader->SetBSState(eBSType::AlphaBlend);
+		Resources::Insert<Shader>(L"FadeShader", fadeShader);
 		
 		/*** Input Layout 설정 ***/
 
@@ -100,6 +109,11 @@ namespace ya::renderer
 			, gridShader->GetVSBlobBufferPointer()
 			, gridShader->GetVSBlobBufferSize()
 			, gridShader->GetInputLayoutAddressOf());
+
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, fadeShader->GetVSBlobBufferPointer()
+			, fadeShader->GetVSBlobBufferSize()
+			, fadeShader->GetInputLayoutAddressOf());
 	}
 
 	void SetUpState()
@@ -270,6 +284,13 @@ namespace ya::renderer
 			std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();
 			gridMaterial->SetShader(gridShader);
 			Resources::Insert<Material>(L"GridMaterial", gridMaterial);
+		}
+
+		{ // Fade
+			std::shared_ptr<Shader> fadeShader = Resources::Find<Shader>(L"FadeShader");
+			std::shared_ptr<Material> fadeMaterial = std::make_shared<Material>();
+			fadeMaterial->SetShader(fadeShader);
+			Resources::Insert<Material>(L"FadeMaterial", fadeMaterial);
 		}
 	}
 

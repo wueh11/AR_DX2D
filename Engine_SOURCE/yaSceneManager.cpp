@@ -13,6 +13,7 @@
 #include "yaCameraScript.h"
 #include "yaSpriteRenderer.h"
 #include "yaGridScript.h"
+#include "yaFadeScript.h"
 
 #include "yaObject.h"
 
@@ -34,15 +35,15 @@ namespace ya
 		}
 
 		{ //Main Camera Game Object
-			GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera, Vector3::Zero, Vector3::Zero);
-			cameraObj->AddComponent<CameraScript>();
+			GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera);
 			Camera* cameraComp = cameraObj->AddComponent<Camera>();
 			cameraComp->RegisterCameraInRenderer();
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
+			cameraObj->AddComponent<CameraScript>();
 		}
 
 		{ //Camera UI
-			GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera, Vector3::Zero, Vector3::Zero);
+			GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
 			Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
 			cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
 			cameraUIComp->DisableLayerMasks(); 
@@ -63,6 +64,8 @@ namespace ya
 			std::shared_ptr<Material> spriteMaterial = Resources::Find<Material>(L"SpriteMaterial");
 			sr->SetMaterial(spriteMaterial);
 			sr->SetMesh(mesh);
+
+			//spriteObj->Pause();
 		}
 
 		{ //SMILE RECT
@@ -103,11 +106,20 @@ namespace ya
 			hpBarTR->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 
 			SpriteRenderer* hpsr = hpBar->AddComponent<SpriteRenderer>();
+			
 			std::shared_ptr<Material> hpspriteMaterial = Resources::Find<Material>(L"UIMaterial");
 			hpsr->SetMesh(mesh);
 			hpsr->SetMaterial(hpspriteMaterial);
 
 			//hpBar->Pause();
+		}
+
+		{ // Fade Object
+			GameObject* fadeObject = object::Instantiate<GameObject>(eLayerType::UI);
+			MeshRenderer* fadeMr = fadeObject->AddComponent<MeshRenderer>();
+			fadeMr->SetMesh(mesh);
+			fadeMr->SetMaterial(Resources::Find<Material>(L"FadeMaterial"));
+			FadeScript* fadeScript = fadeObject->AddComponent<FadeScript>();
 		}
 
 		mActiveScene->Initialize();
