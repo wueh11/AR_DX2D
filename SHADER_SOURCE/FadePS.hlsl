@@ -12,7 +12,6 @@ struct VSOut
     float4 Pos : SV_Position;
     float4 Color : COLOR;
     float2 UV : TEXCOORD;
-    float2 WorldPos : POSITION;
 };
 
 float4 main(VSOut In) : SV_TARGET

@@ -24,14 +24,10 @@ namespace ya
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
-		void SetCamera(Camera* camera) { mCamera = camera; }
-
 		void SetState(eState state) { mState = state; }
 		
-		float mAlpha;
 	private:
-		Camera* mCamera;
-
 		eState mState;
+		float mAlpha;
 	};
 }
