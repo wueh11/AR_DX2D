@@ -87,4 +87,12 @@ namespace ya::object
 	{
 		gameObject->Death();
 	}
+
+	void DontDestroyOnLoad(GameObject* gameObject)
+	{ //씬 이동시 이 오브젝트는 삭제하지 않는다
+		if (gameObject == nullptr)
+			return;
+
+		gameObject->DontDestroy(true);
+	}
 }

@@ -16,10 +16,7 @@ struct VSOut
 
 float4 main(VSOut In) : SV_TARGET
 {
-    const float alpha = (float) cbfData;
-    
-   // float4 fade = float4(0.0f, 0.0f, 0.0f, alpha);
-    float4 fade = float4(In.Color.xyz, alpha);
+    float4 fade = float4(In.Color.xyz, cbfData);
 
     return fade;
 }

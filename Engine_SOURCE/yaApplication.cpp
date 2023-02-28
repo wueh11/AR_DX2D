@@ -58,12 +58,17 @@ namespace ya
 		graphicDevice->Present();
 	}
 
+	void Application::Destroy()
+	{
+	}
+
 	// Running main engine loop
 	void Application::Run()
 	{
 		Update();
 		FixedUpdate();
 		Render();
+		Destroy();
 	}
 
 	void Application::Release()

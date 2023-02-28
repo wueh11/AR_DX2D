@@ -21,6 +21,8 @@ namespace ya
 
 		virtual void Render();
 
+		virtual void Destroy();
+
 		// Running main engine loop
 		void Run();
 		void Release();

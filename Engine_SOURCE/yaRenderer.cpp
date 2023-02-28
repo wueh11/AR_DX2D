@@ -20,42 +20,6 @@ namespace ya::renderer
 
 	void LoadShader()
 	{
-		// Default
-		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
-		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
-		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
-		Resources::Insert<Shader>(L"RectShader", shader);
-		
-		// Sprite
-		std::shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
-		spriteShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
-		spriteShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
-		Resources::Insert<Shader>(L"SpriteShader", spriteShader);
-
-		// UI
-		std::shared_ptr<Shader> UIshader = std::make_shared<Shader>();
-		UIshader->Create(eShaderStage::VS, L"UserInterfaceVS.hlsl", "main");
-		UIshader->Create(eShaderStage::PS, L"UserInterfacePS.hlsl", "main");
-		Resources::Insert<Shader>(L"UIShader", UIshader);
-
-		// Grid Shader
-		std::shared_ptr<Shader> gridShader = std::make_shared<Shader>();
-		gridShader->Create(eShaderStage::VS, L"GridVS.hlsl", "main");
-		gridShader->Create(eShaderStage::PS, L"GridPS.hlsl", "main");
-		gridShader->SetRSState(eRSType::SolidNone); /// 컬링되면 안됨(그리드라 항상 나와야함)
-		gridShader->SetDSState(eDSType::NoWrite); /// 영향을 받으면 안됨
-		gridShader->SetBSState(eBSType::AlphaBlend);
-		Resources::Insert<Shader>(L"GridShader", gridShader);
-
-		// Fade Shader
-		std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
-		fadeShader->Create(eShaderStage::VS, L"FadeVS.hlsl", "main");
-		fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
-		fadeShader->SetRSState(eRSType::SolidNone);
-		fadeShader->SetDSState(eDSType::NoWrite);
-		fadeShader->SetBSState(eBSType::AlphaBlend);
-		Resources::Insert<Shader>(L"FadeShader", fadeShader);
-		
 		/*** Input Layout 설정 ***/
 
 #pragma region Input layout description
@@ -86,34 +50,71 @@ namespace ya::renderer
 		arrLayoutDesc[2].SemanticIndex = 0;
 #pragma endregion
 
-		//std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"RectShader");
+		{ // Default
+			std::shared_ptr<Shader> shader = std::make_shared<Shader>();
+			shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
+			shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
+			Resources::Insert<Shader>(L"RectShader", shader);
 
-		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
-			, shader->GetVSBlobBufferPointer()
-			, shader->GetVSBlobBufferSize()
-			, shader->GetInputLayoutAddressOf());
+			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+				, shader->GetVSBlobBufferPointer()
+				, shader->GetVSBlobBufferSize()
+				, shader->GetInputLayoutAddressOf());
+		}
 
-		//std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
+		{ // Sprite
+			std::shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
+			spriteShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+			spriteShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
+			Resources::Insert<Shader>(L"SpriteShader", spriteShader);
 
-		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
-			, spriteShader->GetVSBlobBufferPointer()
-			, spriteShader->GetVSBlobBufferSize()
-			, spriteShader->GetInputLayoutAddressOf());
+			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+				, spriteShader->GetVSBlobBufferPointer()
+				, spriteShader->GetVSBlobBufferSize()
+				, spriteShader->GetInputLayoutAddressOf());
+		}
+		
+		{ // UI
+			std::shared_ptr<Shader> UIshader = std::make_shared<Shader>();
+			UIshader->Create(eShaderStage::VS, L"UserInterfaceVS.hlsl", "main");
+			UIshader->Create(eShaderStage::PS, L"UserInterfacePS.hlsl", "main");
+			Resources::Insert<Shader>(L"UIShader", UIshader);
 
-		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
-			, UIshader->GetVSBlobBufferPointer()
-			, UIshader->GetVSBlobBufferSize()
-			, UIshader->GetInputLayoutAddressOf());
+			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+				, UIshader->GetVSBlobBufferPointer()
+				, UIshader->GetVSBlobBufferSize()
+				, UIshader->GetInputLayoutAddressOf());
+		}
+		
+		{ // Grid Shader
+			std::shared_ptr<Shader> gridShader = std::make_shared<Shader>();
+			gridShader->Create(eShaderStage::VS, L"GridVS.hlsl", "main");
+			gridShader->Create(eShaderStage::PS, L"GridPS.hlsl", "main");
+			gridShader->SetRSState(eRSType::SolidNone); /// 컬링되면 안됨(그리드라 항상 나와야함)
+			gridShader->SetDSState(eDSType::NoWrite); /// 영향을 받으면 안됨
+			gridShader->SetBSState(eBSType::AlphaBlend);
+			Resources::Insert<Shader>(L"GridShader", gridShader);
 
-		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
-			, gridShader->GetVSBlobBufferPointer()
-			, gridShader->GetVSBlobBufferSize()
-			, gridShader->GetInputLayoutAddressOf());
+			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+				, gridShader->GetVSBlobBufferPointer()
+				, gridShader->GetVSBlobBufferSize()
+				, gridShader->GetInputLayoutAddressOf());
+		}
 
-		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
-			, fadeShader->GetVSBlobBufferPointer()
-			, fadeShader->GetVSBlobBufferSize()
-			, fadeShader->GetInputLayoutAddressOf());
+		{ // Fade Shader
+			std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
+			fadeShader->Create(eShaderStage::VS, L"FadeVS.hlsl", "main");
+			fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
+			fadeShader->SetRSState(eRSType::SolidNone);
+			fadeShader->SetDSState(eDSType::NoWrite);
+			fadeShader->SetBSState(eBSType::AlphaBlend);
+			Resources::Insert<Shader>(L"FadeShader", fadeShader);
+
+			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+				, fadeShader->GetVSBlobBufferPointer()
+				, fadeShader->GetVSBlobBufferSize()
+				, fadeShader->GetInputLayoutAddressOf());
+		}
 	}
 
 	void SetUpState()

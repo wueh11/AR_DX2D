@@ -5,6 +5,7 @@ namespace ya
 {
 	GameObject::GameObject()
 		: mState(eState::Active)
+		, mType(eLayerType::None)
 	{
 		mComponents.resize((UINT)eComponentType::End);
 		AddComponent(new Transform());
@@ -16,7 +17,7 @@ namespace ya
 		{
 			if (comp == nullptr)
 				continue;
-			
+
 			delete comp;
 			comp = nullptr;
 		}

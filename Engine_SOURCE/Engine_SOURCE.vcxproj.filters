@@ -70,6 +70,21 @@
     <Filter Include="Input">
       <UniqueIdentifier>{cd4b9eba-c6cf-46a9-a814-89a620c95213}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Player">
+      <UniqueIdentifier>{f7a8eb8d-e7ba-4c78-a24f-02e3cb288011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Issac">
+      <UniqueIdentifier>{07f468fd-039e-439c-a499-80af84fa9760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Base">
+      <UniqueIdentifier>{d8adf510-7e00-47f1-bb12-e5d653d32a8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Layer">
+      <UniqueIdentifier>{4d6f9912-02e3-4e06-a2ab-00a3d9033675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\SceneManager">
+      <UniqueIdentifier>{49744003-78e9-4d0b-8cf7-a2182ecdcd13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -96,20 +111,11 @@
     <ClCompile Include="yaRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="yaScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="yaSceneManager.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="yaMesh.cpp">
       <Filter>Resource\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="yaShader.cpp">
       <Filter>Resource\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="yaLayer.cpp">
-      <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="yaResources.cpp">
       <Filter>Resource\Manager</Filter>
@@ -157,6 +163,28 @@
     <ClCompile Include="yaFadeScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="yaMonster.cpp">
+      <Filter>GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="yaIssac.cpp">
+      <Filter>GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRoom.cpp" />
+    <ClCompile Include="yaPlayScene.cpp">
+      <Filter>Scene\Issac</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSceneManager.cpp">
+      <Filter>Scene\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLayer.cpp">
+      <Filter>Scene\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaScene.cpp">
+      <Filter>Scene\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTitleScene.cpp">
+      <Filter>Scene\Issac</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -195,20 +223,11 @@
     <ClInclude Include="yaRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="yaScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="yaSceneManager.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="yaMesh.h">
       <Filter>Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="yaShader.h">
       <Filter>Resource\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="yaLayer.h">
-      <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="yaResources.h">
       <Filter>Resource\Manager</Filter>
@@ -258,6 +277,28 @@
     </ClInclude>
     <ClInclude Include="yaFadeScript.h">
       <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonster.h">
+      <Filter>GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="yaIssac.h">
+      <Filter>GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRoom.h" />
+    <ClInclude Include="yaPlayScene.h">
+      <Filter>Scene\Issac</Filter>
+    </ClInclude>
+    <ClInclude Include="yaSceneManager.h">
+      <Filter>Scene\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLayer.h">
+      <Filter>Scene\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaScene.h">
+      <Filter>Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTitleScene.h">
+      <Filter>Scene\Issac</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

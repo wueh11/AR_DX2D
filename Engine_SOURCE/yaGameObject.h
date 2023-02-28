@@ -3,7 +3,7 @@
 #include "yaScript.h"
 #include "yaEntity.h"
 
-namespace ya 
+namespace ya
 {
 	class GameObject : public Entity
 	{
@@ -14,7 +14,7 @@ namespace ya
 			Paused, /// Update X, Render X
 			Dead, /// 한곳에 모으고 Update가 끝난 후 삭제
 		};
-		
+
 	public:
 		GameObject();
 		virtual ~GameObject();
@@ -54,7 +54,7 @@ namespace ya
 			for (auto c : mComponents)
 			{
 				comp = dynamic_cast<T*>(c);
-				
+
 				if (comp != nullptr)
 					return comp;
 			}
@@ -68,10 +68,17 @@ namespace ya
 
 		eState GetState() { return mState; }
 
+		bool IsDontDestroy() { return mbDontDestroy; }
+		void DontDestroy(bool enable) { mbDontDestroy = enable; }
+
+		void SetLayerType(eLayerType type) { mType = type; }
+		eLayerType GetLayerType() { return mType; }
+
 	private:
 		eState mState;
+		eLayerType mType;
 		std::vector<Component*> mComponents;
 		std::vector<Component*> mScripts;
-		
+		bool mbDontDestroy;
 	};
 }

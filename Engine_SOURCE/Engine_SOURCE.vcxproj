@@ -158,6 +158,7 @@
     <ClInclude Include="yaBaseRenderer.h" />
     <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaCameraScript.h" />
+    <ClInclude Include="yaMonster.h" />
     <ClInclude Include="yaComponent.h" />
     <ClInclude Include="yaConstantBuffer.h" />
     <ClInclude Include="yaEngine.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="yaGraphics.h" />
     <ClInclude Include="yaGridScript.h" />
     <ClInclude Include="yaInput.h" />
+    <ClInclude Include="yaIssac.h" />
     <ClInclude Include="yaLayer.h" />
     <ClInclude Include="yaMaterial.h" />
     <ClInclude Include="yaMath.h" />
@@ -176,9 +178,11 @@
     <ClInclude Include="yaMeshRenderer.h" />
     <ClInclude Include="yaObject.h" />
     <ClInclude Include="yaPlayerScript.h" />
+    <ClInclude Include="yaPlayScene.h" />
     <ClInclude Include="yaRenderer.h" />
     <ClInclude Include="yaResource.h" />
     <ClInclude Include="yaResources.h" />
+    <ClInclude Include="yaRoom.h" />
     <ClInclude Include="yaScene.h" />
     <ClInclude Include="yaSceneManager.h" />
     <ClInclude Include="yaScript.h" />
@@ -186,6 +190,7 @@
     <ClInclude Include="yaSpriteRenderer.h" />
     <ClInclude Include="yaTexture.h" />
     <ClInclude Include="yaTime.h" />
+    <ClInclude Include="yaTitleScene.h" />
     <ClInclude Include="yaTransform.h" />
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +198,7 @@
     <ClCompile Include="yaBaseRenderer.cpp" />
     <ClCompile Include="yaCamera.cpp" />
     <ClCompile Include="yaCameraScript.cpp" />
+    <ClCompile Include="yaMonster.cpp" />
     <ClCompile Include="yaComponent.cpp" />
     <ClCompile Include="yaConstantBuffer.cpp" />
     <ClCompile Include="yaEntity.cpp" />
@@ -201,15 +207,18 @@
     <ClCompile Include="yaGraphicDevice_DX11.cpp" />
     <ClCompile Include="yaGridScript.cpp" />
     <ClCompile Include="yaInput.cpp" />
+    <ClCompile Include="yaIssac.cpp" />
     <ClCompile Include="yaLayer.cpp" />
     <ClCompile Include="yaMaterial.cpp" />
     <ClCompile Include="yaMath.cpp" />
     <ClCompile Include="yaMesh.cpp" />
     <ClCompile Include="yaMeshRenderer.cpp" />
     <ClCompile Include="yaPlayerScript.cpp" />
+    <ClCompile Include="yaPlayScene.cpp" />
     <ClCompile Include="yaRenderer.cpp" />
     <ClCompile Include="yaResource.cpp" />
     <ClCompile Include="yaResources.cpp" />
+    <ClCompile Include="yaRoom.cpp" />
     <ClCompile Include="yaScene.cpp" />
     <ClCompile Include="yaSceneManager.cpp" />
     <ClCompile Include="yaScript.cpp" />
@@ -217,6 +226,7 @@
     <ClCompile Include="yaSpriteRenderer.cpp" />
     <ClCompile Include="yaTexture.cpp" />
     <ClCompile Include="yaTime.cpp" />
+    <ClCompile Include="yaTitleScene.cpp" />
     <ClCompile Include="yaTransform.cpp" />
   </ItemGroup>
   <ItemGroup>

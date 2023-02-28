@@ -1,7 +1,5 @@
 #include "yaLayer.h"
 
-
-
 namespace ya
 {
 	Layer::Layer()
@@ -67,12 +65,44 @@ namespace ya
 			if (gameObject == nullptr)
 				continue;
 			if (gameObject->GetState() != GameObject::eState::Active)
-			{
-				int a = 0;
 				continue;
-			}
 
 			gameObject->Render();
+		}
+	}
+
+	void Layer::Destroy()
+	{
+		std::set<GameObject*> deleteObjects;
+		// 삭제할 오브젝트들을 전부 찾아온다
+		for (GameObject* gameObj : mGameObjects)
+		{
+			if (gameObj->GetState() == GameObject::eState::Dead)
+			{
+				deleteObjects.insert(gameObj);
+			}
+		}
+
+		// 지워야할 오브젝트들 게임 오브젝트들 모음 안에서 삭제
+		for (std::vector<GameObject*>::iterator iter = mGameObjects.begin(); iter < mGameObjects.end();)
+		{
+			std::set<GameObject*>::iterator deleteIter = deleteObjects.find(*iter);
+
+			if (deleteIter != deleteObjects.end())
+			{
+				mGameObjects.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
+		}
+
+		// 삭제할 오브젝트들의 실제 메모리 삭제
+		for (GameObject* gameObj : mGameObjects)
+		{
+			delete gameObj;
+			gameObj = nullptr;
 		}
 	}
 
@@ -83,4 +113,26 @@ namespace ya
 
 		mGameObjects.push_back(gameObject);
 	}
+
+	std::vector<GameObject*> Layer::GetDontDestroyGameObjects()
+	{
+		std::vector<GameObject*> donts;
+
+		for (std::vector<GameObject*>::iterator iter = mGameObjects.begin(); iter < mGameObjects.end();)
+		{
+			if ((*iter)->IsDontDestroy() == true)
+			{
+				donts.push_back((*iter));
+				mGameObjects.erase(iter); ///erase는 iterator를 사용한다
+			}
+			else
+			{
+				iter++; /// erase시 iterator가 erase된곳을 참조하는것을 막기위해 
+			}
+		}
+
+		return donts;
+	}
+
+
 }
