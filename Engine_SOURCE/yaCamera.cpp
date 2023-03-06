@@ -9,6 +9,7 @@
 #include "yaMaterial.h"
 
 #include "yaBaseRenderer.h"
+#include "yaSceneManager.h"
 
 extern ya::Application application;
 
@@ -106,7 +107,8 @@ namespace ya
 	}
 	void Camera::RegisterCameraInRenderer()
 	{
-		renderer::cameras.push_back(this);
+		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
+		renderer::cameras[(UINT)type].push_back(this);
 	}
 
 	void Camera::TurnLayerMask(eLayerType layer, bool enable)
@@ -177,8 +179,8 @@ namespace ya
 			return;
 
 		std::shared_ptr<Material> material = renderer->GetMaterial();
-		if (material == nullptr)
-			return;
+		/*if (material == nullptr)
+			return;*/
 
 		eRenderingMode mode = material->GetRenderingMode();
 

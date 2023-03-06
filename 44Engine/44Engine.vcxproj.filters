@@ -8,12 +8,21 @@
     <Filter Include="main">
       <UniqueIdentifier>{9173a508-0e8e-47c5-a538-a4b61db55c55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{5c3098e5-3d9c-43d9-b00f-29d314024394}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="44Engine.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="yaEditor.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="yaEditorObject.h" />
+    <ClInclude Include="yaWidget.h" />
+    <ClInclude Include="yaDebugObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="44Engine.rc">
@@ -32,5 +41,11 @@
     <ClCompile Include="main.cpp">
       <Filter>main</Filter>
     </ClCompile>
+    <ClCompile Include="yaEditor.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="yaWidget.cpp" />
+    <ClCompile Include="yaDebugObject.cpp" />
+    <ClCompile Include="yaEditorObject.cpp" />
   </ItemGroup>
 </Project>

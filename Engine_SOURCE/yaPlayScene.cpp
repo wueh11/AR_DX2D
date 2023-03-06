@@ -1,8 +1,17 @@
 #include "yaPlayScene.h"
 
+#include "yaSceneManager.h"
+#include "yaInput.h"
+#include "yaObject.h"
+#include "yaCamera.h"
+#include "yaCameraScript.h"
+#include "yaRenderer.h"
+
+
 namespace ya
 {
 	PlayScene::PlayScene()
+		:Scene(eSceneType::Play)
 	{
 	}
 
@@ -12,11 +21,24 @@ namespace ya
 
 	void PlayScene::Initialize()
 	{
+		//{ //Main Camera Game Object
+		//	GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
+		//	Camera* cameraComp = cameraObj->AddComponent<Camera>();
+		//	cameraComp->RegisterCameraInRenderer();
+		//	cameraComp->TurnLayerMask(eLayerType::UI, false);
+		//	cameraObj->AddComponent<CameraScript>();
+		//}
+
 		Scene::Initialize();
 	}
 
 	void PlayScene::Update()
 	{
+		if (Input::GetKeyDown(eKeyCode::N))
+		{
+			SceneManager::LoadScene(eSceneType::Title);
+		}
+
 		Scene::Update();
 	}
 

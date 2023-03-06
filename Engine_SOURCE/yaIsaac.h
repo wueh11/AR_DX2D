@@ -4,7 +4,7 @@
 namespace ya
 {
 	class MeshRenderer;
-	class Issac : public GameObject
+	class Isaac : public GameObject
 	{
 		struct Info
 		{
@@ -14,8 +14,8 @@ namespace ya
 		};
 
 	public:
-		Issac();
-		virtual ~Issac();
+		Isaac();
+		virtual ~Isaac();
 
 		virtual void Initialize();
 		virtual void Update();

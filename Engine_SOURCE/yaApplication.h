@@ -12,23 +12,17 @@ namespace ya
 		~Application();
 
 		virtual void Initialize();
-
-		// CPU UPDATE ( 게임 로직 캐릭터 이동 등등 )
-		virtual void Update();
-
-		// GPU update
-		virtual void FixedUpdate();
-
+		virtual void Update(); // CPU UPDATE ( 게임 로직 캐릭터 이동 등등 )
+		virtual void FixedUpdate(); // GPU update
 		virtual void Render();
-
 		virtual void Destroy();
 
 		// Running main engine loop
 		void Run();
+		void Present();
 		void Release();
 
 		void SetWindow(HWND hwnd, UINT width, UINT height);
-
 		void SetHwnd(HWND hwnd) { mHwnd = hwnd; }
 		HWND GetHwnd() { return mHwnd; }
 		UINT GetWidth() { return mWidth; }

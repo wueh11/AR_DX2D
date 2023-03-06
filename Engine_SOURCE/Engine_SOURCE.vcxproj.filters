@@ -85,6 +85,18 @@
     <Filter Include="Scene\SceneManager">
       <UniqueIdentifier>{49744003-78e9-4d0b-8cf7-a2182ecdcd13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Collider">
+      <UniqueIdentifier>{32a3582e-a16c-4d4a-bc40-d6eda4a19477}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider\2D">
+      <UniqueIdentifier>{0efcea61-ebd4-497d-bdc1-309749f59ff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider\3D">
+      <UniqueIdentifier>{a57d7ca9-b957-4b47-b452-6688ecb0c397}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider\Manager">
+      <UniqueIdentifier>{36f0f005-90eb-42ec-8198-ce19424633e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -166,7 +178,7 @@
     <ClCompile Include="yaMonster.cpp">
       <Filter>GameObject\Player</Filter>
     </ClCompile>
-    <ClCompile Include="yaIssac.cpp">
+    <ClCompile Include="yaIsaac.cpp">
       <Filter>GameObject\Player</Filter>
     </ClCompile>
     <ClCompile Include="yaRoom.cpp" />
@@ -184,6 +196,18 @@
     </ClCompile>
     <ClCompile Include="yaTitleScene.cpp">
       <Filter>Scene\Issac</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCollider.cpp">
+      <Filter>Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCollider2D.cpp">
+      <Filter>Component\Collider\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCollider3D.cpp">
+      <Filter>Component\Collider\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCollisionManager.cpp">
+      <Filter>Component\Collider\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -281,7 +305,7 @@
     <ClInclude Include="yaMonster.h">
       <Filter>GameObject\Player</Filter>
     </ClInclude>
-    <ClInclude Include="yaIssac.h">
+    <ClInclude Include="yaIsaac.h">
       <Filter>GameObject\Player</Filter>
     </ClInclude>
     <ClInclude Include="yaRoom.h" />
@@ -299,6 +323,18 @@
     </ClInclude>
     <ClInclude Include="yaTitleScene.h">
       <Filter>Scene\Issac</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCollider.h">
+      <Filter>Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCollider2D.h">
+      <Filter>Component\Collider\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCollider3D.h">
+      <Filter>Component\Collider\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCollisionManager.h">
+      <Filter>Component\Collider\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

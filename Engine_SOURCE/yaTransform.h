@@ -34,6 +34,8 @@ namespace ya
 		Vector3 Up() { return mUp; }
 
 	private:
+		Transform* mParent;
+
 		/// 물체의 기준이되는 기저벡터 -> 물체의 transform 체크
 		Vector3 mForward; 
 		Vector3 mRight;
@@ -45,7 +47,6 @@ namespace ya
 
 		Matrix mWorld;
 
-		Transform* mParent;
 	};
 }
 

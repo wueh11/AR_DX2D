@@ -20,6 +20,16 @@ namespace ya::object
 	}
 
 	template<typename T>
+	static T* Instantiate(enums::eLayerType type, Scene* scene)
+	{
+		T* gameObj = new T();
+		Layer& layer = scene->GetLayer(type);
+		layer.AddGameObject(gameObj);
+
+		return gameObj;
+	}
+
+	template<typename T>
 	static T* Instantiate(enums::eLayerType type, Transform* parent)
 	{
 		T* gameObj = new T();
@@ -83,12 +93,12 @@ namespace ya::object
 		return gameObj;
 	}
 
-	void Destroy(GameObject* gameObject)
+	static void Destroy(GameObject* gameObject)
 	{
 		gameObject->Death();
 	}
 
-	void DontDestroyOnLoad(GameObject* gameObject)
+	static void DontDestroyOnLoad(GameObject* gameObject)
 	{ //씬 이동시 이 오브젝트는 삭제하지 않는다
 		if (gameObject == nullptr)
 			return;

@@ -1,6 +1,5 @@
 #pragma once
 #include "yaComponent.h"
-#include "yaGameObject.h"
 
 namespace ya
 {
@@ -10,24 +9,25 @@ namespace ya
 	public:
 		enum eProjectionType
 		{
-			Perspective, // 직교투영
+			Perspective, /// 직교투영
 			Orthographic,
 		};
 	public:
-		__forceinline static Matrix& GetViewMatrix() { return View; }
-		__forceinline static Matrix& GetProjectionMatrix() { return Projection; }
+		__forceinline static Matrix& GetGpuViewMatrix() { return View; }
+		__forceinline static Matrix& GetGpuProjectionMatrix() { return Projection; }
+		__forceinline static void SetGpuViewMatrix(Matrix view) { View = view; }
+		__forceinline static void SetGpuProjectionMatrix(Matrix projection) { Projection = projection; }
 
 		Camera();
-		~Camera();
+		virtual ~Camera();
 
-		virtual void Initialize();
-		virtual void Update();
-		virtual void FixedUpdate();
-		virtual void Render();
+		virtual void Initialize() override;
+		virtual void Update() override;
+		virtual void FixedUpdate() override;
+		virtual void Render() override;
 
 		void CreateViewMatrix();
 		void CreateProjectionMatrix();
-
 		void RegisterCameraInRenderer();
 
 		void TurnLayerMask(eLayerType layer, bool enable = true); /// 원하는 비트 위치 값 설정
@@ -35,6 +35,8 @@ namespace ya
 		void DisableLayerMasks() { mLayerMasks.reset(); }/// 전부 false 
 
 		void SetProjectionType(eProjectionType type) { mType = type; }
+		Matrix& GetViewMatrix() { return mView; }
+		Matrix& GetProjectionMatrix() { return mProjection; }
 
 	private:
 		void SortGameObjects();

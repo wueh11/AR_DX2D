@@ -1,7 +1,20 @@
 #include "yaLayer.h"
-
+#include "yaRenderer.h"
+#include "yaTransform.h"
 namespace ya
 {
+	/* // z값 정렬
+	static bool compareGameObjectByZAxis(GameObject& a, GameObject& b)
+	{
+		Transform* aTr = a.GetComponent<Transform>();
+		Transform* bTr = b.GetComponent<Transform>();
+		
+		if (aTr->GetPosition().z <= bTr->GetPosition().z)
+			return true;
+		
+		return false;
+	}*/
+	
 	Layer::Layer()
 	{
 	}
@@ -56,6 +69,9 @@ namespace ya
 
 			gameObject->FixedUpdate();
 		}
+
+		// sort z axis
+		//std::sort(mGameObjects.begin(), mGameObjects.end(), compareGameObjectByZAxis);
 	}
 
 	void Layer::Render()
@@ -123,7 +139,7 @@ namespace ya
 			if ((*iter)->IsDontDestroy() == true)
 			{
 				donts.push_back((*iter));
-				mGameObjects.erase(iter); ///erase는 iterator를 사용한다
+				iter = mGameObjects.erase(iter); ///erase는 iterator를 사용한다
 			}
 			else
 			{

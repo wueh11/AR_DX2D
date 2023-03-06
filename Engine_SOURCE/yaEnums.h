@@ -48,4 +48,25 @@ namespace ya::enums
 		Script,
 		End,
 	};
+
+	enum class eColliderType
+	{
+		None,
+
+		///2D
+		Rect,
+		Circle,
+
+		///3D
+		Box,		
+		Sphere,
+
+		End,
+	};
+
+	/*struct Ray
+	{
+		Vector3 origin;
+		Vector3 dest;
+	};*/
 }

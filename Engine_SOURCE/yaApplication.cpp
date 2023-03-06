@@ -51,11 +51,7 @@ namespace ya
 		graphicDevice->Clear();
 		graphicDevice->AdjustViewPorts();
 
-		//SceneManager::Render();
 		renderer::Render();
-
-		//graphicDevice->Render();
-		graphicDevice->Present();
 	}
 
 	void Application::Destroy()
@@ -69,6 +65,11 @@ namespace ya
 		FixedUpdate();
 		Render();
 		Destroy();
+	}
+
+	void Application::Present()
+	{
+		graphicDevice->Present();
 	}
 
 	void Application::Release()

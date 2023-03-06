@@ -17,7 +17,7 @@ namespace ya
 		{
 			if (comp == nullptr)
 				continue;
-
+			
 			delete comp;
 			comp = nullptr;
 		}

@@ -17,9 +17,13 @@
 #include "yaGridScript.h"
 #include "yaFadeScript.h"
 
+#include "yaInput.h"
+#include "yaCollider2D.h"
+
 namespace ya
 {
 	TitleScene::TitleScene()
+		:Scene(eSceneType::Title)
 	{
 	}
 	TitleScene::~TitleScene()
@@ -27,16 +31,13 @@ namespace ya
 	}
 	void TitleScene::Initialize()
 	{
-		Scene::Initialize();
-
-		{ //Main Camera Game Object
-			GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera);
-			Camera* cameraComp = cameraObj->AddComponent<Camera>();
-			cameraComp->RegisterCameraInRenderer();
-			cameraComp->TurnLayerMask(eLayerType::UI, false);
-			cameraObj->AddComponent<CameraScript>();
-			renderer::cameras[0] = cameraComp;
-		}
+		 //Main Camera Game Object
+		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera);
+		Camera* cameraComp = cameraObj->AddComponent<Camera>();
+		//cameraComp->RegisterCameraInRenderer();
+		cameraComp->TurnLayerMask(eLayerType::UI, false);
+		cameraObj->AddComponent<CameraScript>();
+		mainCamera = cameraComp;
 
 		{ //Camera UI
 			GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
@@ -46,17 +47,8 @@ namespace ya
 			cameraUIComp->TurnLayerMask(eLayerType::UI, true);	/// 모든 Layer을 끄고 UI만 표시한다.
 		}
 
-		{ // Grid Object
-			GameObject* gridObject = object::Instantiate<GameObject>(eLayerType::None);
-			MeshRenderer* gridMr = gridObject->AddComponent<MeshRenderer>();
-			gridMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-			gridMr->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
-			GridScript* gridScript = gridObject->AddComponent<GridScript>();
-			gridScript->SetCamera(renderer::cameras[0]);
-		}
-
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
-
+		
 		{ // Light Object
 			GameObject* spriteObj = object::Instantiate<GameObject>(eLayerType::Player);
 			spriteObj->SetName(L"LIGHT");
@@ -77,17 +69,21 @@ namespace ya
 			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Player);
 			obj->SetName(L"IMAGE");
 			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetPosition(Vector3(-3.0f, 0.0f, 10.0f));
+			tr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
 			//tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2));
-			tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+			//tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+
+			Collider2D* collider = obj->AddComponent<Collider2D>();
+			collider->SetType(eColliderType::Rect);
 
 			MeshRenderer* mr = obj->AddComponent<MeshRenderer>();
 			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
+			mr->SetMaterial(mateiral);
 			//Vector2 vec2(1.0f, 1.0f);
 			//mateiral->SetData(eGPUParam::Vector2, &vec2);
-			mr->SetMaterial(mateiral);
 			mr->SetMesh(mesh);
 			obj->AddComponent<PlayerScript>();
+			object::DontDestroyOnLoad(obj);
 
 			{ //SMILE RECT Child
 				GameObject* child = object::Instantiate<GameObject>(eLayerType::Player, tr);
@@ -127,9 +123,15 @@ namespace ya
 			FadeScript* fadeScript = fadeObject->AddComponent<FadeScript>();
 		}
 
+		Scene::Initialize();
 	}
 	void TitleScene::Update()
 	{
+		if (Input::GetKeyDown(eKeyCode::N))
+		{
+			SceneManager::LoadScene(eSceneType::Play);
+		}
+
 		Scene::Update();
 	}
 

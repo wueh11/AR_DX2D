@@ -1,7 +1,7 @@
 #include "yaRenderer.h"
 #include "yaResources.h"
 #include "yaMaterial.h"
-#include "yaCamera.h"
+#include "yaSceneManager.h"
 
 namespace ya::renderer
 {
@@ -16,7 +16,78 @@ namespace ya::renderer
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthstencilStates[(UINT)eDSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[(UINT)eBSType::End] = {};
 
-	std::vector<Camera*> cameras;
+	Camera* mainCamera = nullptr;
+	std::vector<Camera*> cameras[(UINT)eSceneType::End]; /// 씬마다 사용하는 카메라 설정
+	std::vector<DebugMesh> debugMeshes;
+
+	void LoadMesh() 
+	{
+		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.5f, 1.0f);
+		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		vertexes[0].uv = Vector2(0.f, 0.f);
+
+		vertexes[1].pos = Vector4(0.5f, 0.5f, 0.5f, 1.0f);
+		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		vertexes[1].uv = Vector2(1.0f, 0.0f);
+
+		vertexes[2].pos = Vector4(0.5f, -0.5f, 0.5f, 1.0f);
+		vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		vertexes[2].uv = Vector2(1.0f, 1.0f);
+
+		vertexes[3].pos = Vector4(-0.5f, -0.5f, 0.5f, 1.0f);
+		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		vertexes[3].uv = Vector2(0.0f, 1.0f);
+
+		// Create Mesh
+		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
+		Resources::Insert<Mesh>(L"RectMesh", mesh);
+
+		// Vertex Buffer
+		mesh->CreateVertexBuffer(vertexes, 4);
+
+		// Index Buffer
+		std::vector<UINT> indexes;
+		indexes = { 0, 1, 2, 0, 2, 3, 0 };
+		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
+
+		// Circle Mesh
+		std::vector<Vertex> circleVtxes;
+		Vertex center = {};
+		center.pos = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+		center.uv = Vector2::Zero;
+
+		circleVtxes.push_back(center);
+
+		int iSlice = 60; /// 원을 구성할 점을 몇개로 구성할지(center 점으로부터 정점);
+		float fRadius = 0.5f;
+		float fTheta = XM_2PI / (float)iSlice;	/// 점과 점 사이 각도
+
+		for (size_t i = 0; i < iSlice; i++)
+		{
+			Vertex vtx = {};
+			vtx.pos = Vector4(
+				fRadius * cosf(fTheta * (float)i)
+				, fRadius * sinf(fTheta * (float)i)
+				, 0.5f, 1.0f
+			);
+			vtx.color = center.color;
+
+			circleVtxes.push_back(vtx);
+		}
+		
+		indexes.clear();
+		for (size_t i = 0; i < iSlice - 2; i++)
+		{
+			indexes.push_back(i + 1); /// 중앙center 제외하고 원테두리부터 시작
+		}
+		indexes.push_back(1); /// 원에서 원으로 끝나도록
+
+		std::shared_ptr<Mesh> circleMesh = std::make_shared<Mesh>();
+		Resources::Insert<Mesh>(L"CircleMesh", circleMesh);
+		circleMesh->CreateVertexBuffer(circleVtxes.data(), circleVtxes.size());
+		circleMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+	}
 
 	void LoadShader()
 	{
@@ -105,8 +176,8 @@ namespace ya::renderer
 			std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
 			fadeShader->Create(eShaderStage::VS, L"FadeVS.hlsl", "main");
 			fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
-			fadeShader->SetRSState(eRSType::SolidNone);
-			fadeShader->SetDSState(eDSType::NoWrite);
+			fadeShader->SetRSState(eRSType::SolidNone);	/// 컬링
+			fadeShader->SetDSState(eDSType::NoWrite);	/// 깊이버퍼
 			fadeShader->SetBSState(eBSType::AlphaBlend);
 			Resources::Insert<Shader>(L"FadeShader", fadeShader);
 
@@ -114,6 +185,22 @@ namespace ya::renderer
 				, fadeShader->GetVSBlobBufferPointer()
 				, fadeShader->GetVSBlobBufferSize()
 				, fadeShader->GetInputLayoutAddressOf());
+		}
+
+		{ // Debug Shader
+			std::shared_ptr<Shader> debugShader = std::make_shared<Shader>();
+			debugShader->Create(eShaderStage::VS, L"DebugVS.hlsl", "main");
+			debugShader->Create(eShaderStage::PS, L"DebugPS.hlsl", "main");
+			debugShader->SetRSState(eRSType::SolidNone);
+			debugShader->SetDSState(eDSType::NoWrite);
+			debugShader->SetBSState(eBSType::AlphaBlend);
+			debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+			Resources::Insert<Shader>(L"DebugShader", debugShader);
+
+			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+				, debugShader->GetVSBlobBufferPointer()
+				, debugShader->GetVSBlobBufferSize()
+				, debugShader->GetInputLayoutAddressOf());
 		}
 	}
 
@@ -176,14 +263,14 @@ namespace ya::renderer
 
 			dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
 			dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
-			GetDevice()->CreateDepthStencilState(&dsDesc, depthstencilStates[(UINT)eDSType::None].GetAddressOf());
+			GetDevice()->CreateDepthStencilState(&dsDesc, depthstencilStates[(UINT)eDSType::NoWrite].GetAddressOf());
 
 			dsDesc.DepthEnable = false;
 			dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
 			dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
 			dsDesc.StencilEnable = false;
 
-			GetDevice()->CreateDepthStencilState(&dsDesc, depthstencilStates[(UINT)eDSType::NoWrite].GetAddressOf());
+			GetDevice()->CreateDepthStencilState(&dsDesc, depthstencilStates[(UINT)eDSType::None].GetAddressOf());
 		}
 		#pragma endregion
 
@@ -219,18 +306,6 @@ namespace ya::renderer
 
 	void LoadBuffer()
 	{
-		// Create Mesh
-		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
-		Resources::Insert<Mesh>(L"RectMesh", mesh);
-
-		// Vertex Buffer
-		mesh->CreateVertexBuffer(vertexes, 4);
-
-		// Index Buffer
-		std::vector<UINT> indexes;
-		indexes = { 0, 1, 2, 0, 2, 3 };
-		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
-
 		// Constant Buffer
 		constantBuffers[(UINT)eCBType::Transform] = new ConstantBuffer(eCBType::Transform);
 		constantBuffers[(UINT)eCBType::Transform]->Create(sizeof(TransformCB));
@@ -293,26 +368,19 @@ namespace ya::renderer
 			fadeMaterial->SetShader(fadeShader);
 			Resources::Insert<Material>(L"FadeMaterial", fadeMaterial);
 		}
+
+		{ // Debug
+			std::shared_ptr<Shader> debugShader = Resources::Find<Shader>(L"DebugShader");
+			std::shared_ptr<Material> debugMaterial = std::make_shared<Material>();
+			debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
+			debugMaterial->SetShader(debugShader);
+			Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
+		}
 	}
 
 	void Initialize()
 	{
-		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.5f, 1.0f);
-		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
-		vertexes[0].uv = Vector2(0.f, 0.f);
-
-		vertexes[1].pos = Vector4(0.5f, 0.5f, 0.5f, 1.0f);
-		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
-		vertexes[1].uv = Vector2(1.0f, 0.0f);
-
-		vertexes[2].pos = Vector4(0.5f, -0.5f, 0.5f, 1.0f);
-		vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		vertexes[2].uv = Vector2(1.0f, 1.0f);
-
-		vertexes[3].pos = Vector4(-0.5f, -0.5f, 0.5f, 1.0f);
-		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
-		vertexes[3].uv = Vector2(0.0f, 1.0f);
-
+		LoadMesh();
 		LoadShader();
 		SetUpState();
 		LoadBuffer();
@@ -322,7 +390,8 @@ namespace ya::renderer
 
 	void Render()
 	{
-		for (Camera* cam : cameras)
+		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
+		for (Camera* cam : cameras[(UINT)type])
 		{
 			if (cam == nullptr)
 				continue;
@@ -330,7 +399,7 @@ namespace ya::renderer
 			cam->Render();
 		}
 
-		cameras.clear();
+		cameras[(UINT)type].clear();
 	}
 
 	void Release()
