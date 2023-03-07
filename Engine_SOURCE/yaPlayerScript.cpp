@@ -56,4 +56,23 @@ namespace ya
 	void PlayerScript::Render()
 	{
 	}
+
+	void PlayerScript::OnCollisionEnter(Collider2D* collider)
+	{
+	}
+	void PlayerScript::OnCollisionStay(Collider2D* collider)
+	{
+	}
+	void PlayerScript::OnCollisionExit(Collider2D* collider)
+	{
+	}
+	void PlayerScript::OnTriggerEnter(Collider2D* collider)
+	{
+	}
+	void PlayerScript::OnTriggerStay(Collider2D* collider)
+	{
+	}
+	void PlayerScript::OnTriggerExit(Collider2D* collider)
+	{
+	}
 }

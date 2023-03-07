@@ -6,6 +6,7 @@ namespace ya
 	GameObject::GameObject()
 		: mState(eState::Active)
 		, mType(eLayerType::None)
+		, mbDontDestroy(false)
 	{
 		mComponents.resize((UINT)eComponentType::End);
 		AddComponent(new Transform());
@@ -119,7 +120,7 @@ namespace ya
 		}
 		else
 		{
-			mScripts.push_back(comp);
+			mScripts.push_back(dynamic_cast<Script*>(comp));
 			comp->SetOwner(this);
 		}
 	}

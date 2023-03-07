@@ -17,12 +17,11 @@ namespace ya
 		mDebugObjects.resize((UINT)eColliderType::End);
 
 		std::shared_ptr<Material> material = Resources::Find<Material>(L"DebugMaterial");
-
+			
 		{ /// rect
-			std::shared_ptr<Mesh> rectMesh = Resources::Find<Mesh>(L"RectMesh");
+			std::shared_ptr<Mesh> rectMesh = Resources::Find<Mesh>(L"DebugRectMesh");
 
 			mDebugObjects[(UINT)eColliderType::Rect] = new DebugObject();
-			mDebugObjects[(UINT)eColliderType::Rect]->AddComponent<Transform>();
 			MeshRenderer* renderer = mDebugObjects[(UINT)eColliderType::Rect]->AddComponent<MeshRenderer>();
 
 			renderer->SetMaterial(material);
@@ -33,7 +32,6 @@ namespace ya
 			std::shared_ptr<Mesh> circleMesh = Resources::Find<Mesh>(L"CircleMesh");
 
 			mDebugObjects[(UINT)eColliderType::Circle] = new DebugObject();
-			mDebugObjects[(UINT)eColliderType::Circle]->AddComponent<Transform>();
 			MeshRenderer* renderer = mDebugObjects[(UINT)eColliderType::Circle]->AddComponent<MeshRenderer>();
 
 			renderer->SetMaterial(material);
@@ -48,7 +46,7 @@ namespace ya
 			gridMr->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
 			GridScript* gridScript = gridObject->AddComponent<GridScript>();
 			gridScript->SetCamera(mainCamera);
-
+			
 			mEditorObjects.push_back(gridObject);
 		}
 	}
@@ -114,14 +112,13 @@ namespace ya
 		Transform* tr = debugObj->GetComponent<Transform>();
 		tr->SetPosition(mesh.position);
 		tr->SetRotation(mesh.rotation);
-
+		
 		if (mesh.type == eColliderType::Rect)
 			tr->SetScale(mesh.scale);
 		else
 			tr->SetScale(Vector3(mesh.radius));
 
 		BaseRenderer* renderer = debugObj->GetComponent<BaseRenderer>();
-		Camera* camera = renderer::mainCamera;
 
 		tr->FixedUpdate(); /// ¹Ù²ï°ª Àû¿ë
 

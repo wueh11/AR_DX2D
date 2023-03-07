@@ -97,6 +97,9 @@
     <Filter Include="Component\Collider\Manager">
       <UniqueIdentifier>{36f0f005-90eb-42ec-8198-ce19424633e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\UI">
+      <UniqueIdentifier>{27204620-003e-4ffb-bc17-852ed9e83660}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -208,6 +211,12 @@
     </ClCompile>
     <ClCompile Include="yaCollisionManager.cpp">
       <Filter>Component\Collider\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayer.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaUIheart.cpp">
+      <Filter>GameObject\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,6 +344,12 @@
     </ClInclude>
     <ClInclude Include="yaCollisionManager.h">
       <Filter>Component\Collider\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPlayer.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaUIheart.h">
+      <Filter>GameObject\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

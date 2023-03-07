@@ -16,6 +16,7 @@ namespace ya
 		{
 			if (comp == nullptr)
 				continue;
+
 			comp->FixedUpdate();
 		}
 	}

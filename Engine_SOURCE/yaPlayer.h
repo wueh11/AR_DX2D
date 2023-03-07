@@ -3,11 +3,11 @@
 
 namespace ya
 {
-	class Monster : public GameObject
+	class Player : public GameObject
 	{
 	public:
-		Monster();
-		virtual ~Monster();
+		Player();
+		virtual ~Player();
 
 		virtual void Initialize();
 		virtual void Update();
@@ -15,5 +15,7 @@ namespace ya
 		virtual void Render();
 
 	private:
+
 	};
 }
+

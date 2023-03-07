@@ -33,6 +33,8 @@ namespace ya
 		Vector3 Right() { return mRight; }
 		Vector3 Up() { return mUp; }
 
+		Matrix GetWorldMatrix() { return mWorld; }
+
 	private:
 		Transform* mParent;
 

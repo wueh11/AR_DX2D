@@ -8,7 +8,7 @@ namespace ya
 	public:
 		DebugObject();
 		~DebugObject();
-
+		
 		virtual void FixedUpdate();
 
 	private:

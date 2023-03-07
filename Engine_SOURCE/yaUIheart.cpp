@@ -1,49 +1,48 @@
-#include "yaIsaac.h"
+#include "yaUIheart.h"
+
 #include "yaMeshRenderer.h"
 #include "yaMaterial.h"
 #include "yaMesh.h"
 #include "yaResources.h"
-#include "yaPlayerScript.h"
 #include "yaTransform.h"
 
 namespace ya
 {
-	Isaac::Isaac()
+	UIheart::UIheart()
 		: GameObject()
 		, mMr(nullptr)
 	{
-		SetName(L"Isaac");
+		SetName(L"UIheart");
 	}
 
-	Isaac::~Isaac()
+	UIheart::~UIheart()
 	{
 	}
 
-	void Isaac::Initialize()
+	void UIheart::Initialize()
 	{
 		GameObject::Initialize();
 
 		mMr = AddComponent<MeshRenderer>();
 		mMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-		std::shared_ptr<Material> material = Resources::Find<Material>(L"IsaacMaterial");
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"UIheartMaterial");
 		mMr->SetMaterial(material);
 
-		AddComponent<PlayerScript>();
 		Transform* tr = GetComponent<Transform>();
 		tr->SetPosition(Vector3(0.0f, 1.0f, 5.0f));
 	}
 
-	void Isaac::Update()
+	void UIheart::Update()
 	{
 		GameObject::Update();
 	}
 
-	void Isaac::FixedUpdate()
+	void UIheart::FixedUpdate()
 	{
 		GameObject::FixedUpdate();
 	}
 
-	void Isaac::Render()
+	void UIheart::Render()
 	{
 		GameObject::Render();
 	}

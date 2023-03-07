@@ -1,24 +1,29 @@
 #include "yaTitleScene.h"
 
-#include "yaRenderer.h"
+#include "yaInput.h"
+
 #include "yaObject.h"
+#include "yaRenderer.h"
+#include "yaResources.h"
 
 #include "yaTransform.h"
-#include "yaMeshRenderer.h"
 
-#include "yaResources.h"
 #include "yaTexture.h"
 #include "yaMaterial.h"
 
-#include "yaPlayerScript.h"
+#include "yaMeshRenderer.h"
+#include "yaSpriteRenderer.h"
 #include "yaCamera.h"
 #include "yaCameraScript.h"
-#include "yaSpriteRenderer.h"
+#include "yaPlayerScript.h"
 #include "yaGridScript.h"
 #include "yaFadeScript.h"
 
-#include "yaInput.h"
 #include "yaCollider2D.h"
+#include "yaCollisionManager.h"
+
+#include "yaPlayer.h"
+#include "yaIsaac.h"
 
 namespace ya
 {
@@ -39,16 +44,16 @@ namespace ya
 		cameraObj->AddComponent<CameraScript>();
 		mainCamera = cameraComp;
 
-		{ //Camera UI
-			GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
-			Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
-			cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
-			cameraUIComp->DisableLayerMasks();
-			cameraUIComp->TurnLayerMask(eLayerType::UI, true);	/// 모든 Layer을 끄고 UI만 표시한다.
-		}
+		//{ //Camera UI
+		//	GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
+		//	Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
+		//	cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
+		//	cameraUIComp->DisableLayerMasks();
+		//	cameraUIComp->TurnLayerMask(eLayerType::UI, true);	/// 모든 Layer을 끄고 UI만 표시한다.
+		//}
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
-		
+
 		{ // Light Object
 			GameObject* spriteObj = object::Instantiate<GameObject>(eLayerType::Player);
 			spriteObj->SetName(L"LIGHT");
@@ -66,37 +71,53 @@ namespace ya
 		}
 
 		{ //SMILE RECT
-			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Player);
+			Player* obj = object::Instantiate<Player>(eLayerType::Player);
 			obj->SetName(L"IMAGE");
 			Transform* tr = obj->GetComponent<Transform>();
 			tr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
-			//tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2));
+			tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2 / 2.0f));
 			//tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 
 			Collider2D* collider = obj->AddComponent<Collider2D>();
-			collider->SetType(eColliderType::Rect);
+			collider->SetType(eColliderType::Circle);
+			//collider->SetSize(Vector2(1.5f, 1.5f));
 
-			MeshRenderer* mr = obj->AddComponent<MeshRenderer>();
+			SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
 			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
 			mr->SetMaterial(mateiral);
-			//Vector2 vec2(1.0f, 1.0f);
-			//mateiral->SetData(eGPUParam::Vector2, &vec2);
 			mr->SetMesh(mesh);
 			obj->AddComponent<PlayerScript>();
 			object::DontDestroyOnLoad(obj);
 
-			{ //SMILE RECT Child
-				GameObject* child = object::Instantiate<GameObject>(eLayerType::Player, tr);
-				child->SetName(L"IMAGE2");
-				Transform* childTr = child->GetComponent<Transform>();
-				childTr->SetPosition(Vector3(2.0f, 0.0f, 0.0f));
-				childTr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+			//{ //SMILE RECT Child
+			//	GameObject* child = object::Instantiate<GameObject>(eLayerType::Player, tr);
+			//	child->SetName(L"IMAGE2");
+			//	Transform* childTr = child->GetComponent<Transform>();
+			//	childTr->SetPosition(Vector3(2.0f, 0.0f, 0.0f));
+			//	childTr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 
-				MeshRenderer* childMr = child->AddComponent<MeshRenderer>();
-				std::shared_ptr<Material> childMateiral = Resources::Find<Material>(L"RectMaterial");
-				childMr->SetMaterial(childMateiral);
-				childMr->SetMesh(mesh);
-			}
+			//	MeshRenderer* childMr = child->AddComponent<MeshRenderer>();
+			//	std::shared_ptr<Material> childMateiral = Resources::Find<Material>(L"RectMaterial");
+			//	childMr->SetMaterial(childMateiral);
+			//	childMr->SetMesh(mesh);
+			//}
+		}
+
+		{ // Monster
+			Player* obj = object::Instantiate<Player>(eLayerType::Monster);
+			obj->SetName(L"IMAGE2");
+			Transform* tr = obj->GetComponent<Transform>();
+			tr->SetPosition(Vector3(1.5f, 0.0f, 5.0f));
+			//tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2 / 2.0f));
+
+			Collider2D* collider = obj->AddComponent<Collider2D>();
+			collider->SetType(eColliderType::Circle);
+
+			SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
+			mr->SetMaterial(mateiral);
+			mr->SetMesh(mesh);
+			//object::DontDestroyOnLoad(obj);
 		}
 
 		{ //HP BAR
@@ -123,8 +144,11 @@ namespace ya
 			FadeScript* fadeScript = fadeObject->AddComponent<FadeScript>();
 		}
 
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
+
 		Scene::Initialize();
 	}
+
 	void TitleScene::Update()
 	{
 		if (Input::GetKeyDown(eKeyCode::N))

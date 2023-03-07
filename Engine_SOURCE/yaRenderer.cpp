@@ -22,19 +22,19 @@ namespace ya::renderer
 
 	void LoadMesh() 
 	{
-		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.5f, 1.0f);
+		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.0f, 1.0f);
 		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
 		vertexes[0].uv = Vector2(0.f, 0.f);
 
-		vertexes[1].pos = Vector4(0.5f, 0.5f, 0.5f, 1.0f);
+		vertexes[1].pos = Vector4(0.5f, 0.5f, 0.0f, 1.0f);
 		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
 		vertexes[1].uv = Vector2(1.0f, 0.0f);
 
-		vertexes[2].pos = Vector4(0.5f, -0.5f, 0.5f, 1.0f);
+		vertexes[2].pos = Vector4(0.5f, -0.5f, 0.0f, 1.0f);
 		vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
 		vertexes[2].uv = Vector2(1.0f, 1.0f);
 
-		vertexes[3].pos = Vector4(-0.5f, -0.5f, 0.5f, 1.0f);
+		vertexes[3].pos = Vector4(-0.5f, -0.5f, 0.0f, 1.0f);
 		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
 		vertexes[3].uv = Vector2(0.0f, 1.0f);
 
@@ -50,10 +50,32 @@ namespace ya::renderer
 		indexes = { 0, 1, 2, 0, 2, 3, 0 };
 		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
+		//Debug Rect
+		vertexes[0].pos = Vector4(-0.5f, 0.5f, -0.00001f, 1.0f);
+		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		vertexes[0].uv = Vector2(0.f, 0.f);
+
+		vertexes[1].pos = Vector4(0.5f, 0.5f, -0.00001, 1.0f);
+		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		vertexes[1].uv = Vector2(1.0f, 0.0f);
+
+		vertexes[2].pos = Vector4(0.5f, -0.5f, -0.00001, 1.0f);
+		vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		vertexes[2].uv = Vector2(1.0f, 1.0f);
+
+		vertexes[3].pos = Vector4(-0.5f, -0.5f, -0.00001, 1.0f);
+		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		vertexes[3].uv = Vector2(0.0f, 1.0f);
+
+		std::shared_ptr<Mesh> debugMesh = std::make_shared<Mesh>();
+		Resources::Insert<Mesh>(L"DebugRectMesh", debugMesh);
+		debugMesh->CreateVertexBuffer(vertexes, 4);
+		debugMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+
 		// Circle Mesh
 		std::vector<Vertex> circleVtxes;
 		Vertex center = {};
-		center.pos = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+		center.pos = Vector4(0.0f, 0.0f, -0.00001f, 1.0f);
 		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 		center.uv = Vector2::Zero;
 
@@ -69,13 +91,13 @@ namespace ya::renderer
 			vtx.pos = Vector4(
 				fRadius * cosf(fTheta * (float)i)
 				, fRadius * sinf(fTheta * (float)i)
-				, 0.5f, 1.0f
+				, -0.00001f, 1.0f
 			);
 			vtx.color = center.color;
 
 			circleVtxes.push_back(vtx);
 		}
-		
+
 		indexes.clear();
 		for (size_t i = 0; i < iSlice - 2; i++)
 		{
@@ -206,7 +228,7 @@ namespace ya::renderer
 
 	void SetUpState()
 	{
-		#pragma region Sampler State
+#pragma region Sampler State
 		{ // Sampler State
 			D3D11_SAMPLER_DESC samplerDesc = {};
 			samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_MIRROR;
@@ -226,9 +248,9 @@ namespace ya::renderer
 			GetDevice()->BindsSamplers((UINT)eSamplerType::Linear, 1, samplerStates[(UINT)eSamplerType::Linear].GetAddressOf());
 			GetDevice()->BindsSamplers((UINT)eSamplerType::Anisotropic, 1, samplerStates[(UINT)eSamplerType::Anisotropic].GetAddressOf());
 		}
-		#pragma endregion
+#pragma endregion
 
-		#pragma region Rasterizer State
+#pragma region Rasterizer State
 		{
 			D3D11_RASTERIZER_DESC rsDesc = {};
 			rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
@@ -246,9 +268,9 @@ namespace ya::renderer
 			rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 			GetDevice()->CreateRasterizerState(&rsDesc, rasterizerStates[(UINT)eRSType::WireframeNone].GetAddressOf());
 		}
-		#pragma endregion
+#pragma endregion
 
-		#pragma region Depth Stencil State
+#pragma region Depth Stencil State
 		{
 			D3D11_DEPTH_STENCIL_DESC dsDesc = {};
 			dsDesc.DepthEnable = true;
@@ -272,9 +294,9 @@ namespace ya::renderer
 
 			GetDevice()->CreateDepthStencilState(&dsDesc, depthstencilStates[(UINT)eDSType::None].GetAddressOf());
 		}
-		#pragma endregion
+#pragma endregion
 
-		#pragma region Blend State
+#pragma region Blend State
 		{
 			blendStates[(UINT)eBSType::Default] = nullptr;
 
@@ -289,7 +311,7 @@ namespace ya::renderer
 			bsDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 			bsDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 			bsDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-			
+
 			GetDevice()->CreateBlendState(&bsDesc, blendStates[(UINT)eBSType::AlphaBlend].GetAddressOf());
 
 			bsDesc.AlphaToCoverageEnable = false;
@@ -301,7 +323,7 @@ namespace ya::renderer
 
 			GetDevice()->CreateBlendState(&bsDesc, blendStates[(UINT)eBSType::OneOne].GetAddressOf());
 		}
-		#pragma endregion
+#pragma endregion
 	}
 
 	void LoadBuffer()
@@ -322,10 +344,14 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"image", L"image.jpg");
 		Resources::Load<Texture>(L"Light", L"Light.png");
 		Resources::Load<Texture>(L"HPBar", L"HPBar.png");
+
+
+		Resources::Load<Texture>(L"Isaac", L"Issac\\character_001_isaac.png");
+		Resources::Load<Texture>(L"BG_basement", L"Issac\\01_basement.png");
 	}
 
 	void LoadMaterial()
-	{ 
+	{
 		{ // Image
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"image");
 			std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"SpriteShader");
@@ -375,6 +401,26 @@ namespace ya::renderer
 			debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
 			debugMaterial->SetShader(debugShader);
 			Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
+		}
+
+		std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
+
+		////////////////
+		{ // Issac
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"Isaac");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"IsaacMaterial", material);
+		}
+
+		{//BG_basement
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"BG_basement");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"BasementBackgroundMaterial", material);
 		}
 	}
 
