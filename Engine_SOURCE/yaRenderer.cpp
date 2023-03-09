@@ -348,6 +348,8 @@ namespace ya::renderer
 
 		Resources::Load<Texture>(L"Isaac", L"Issac\\character_001_isaac.png");
 		Resources::Load<Texture>(L"BG_basement", L"Issac\\01_basement.png");
+		Resources::Load<Texture>(L"titlemenu", L"Issac\\titlemenu.png");
+		Resources::Load<Texture>(L"gamemenu", L"Issac\\gamemenu.png");
 	}
 
 	void LoadMaterial()
@@ -422,6 +424,23 @@ namespace ya::renderer
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"BasementBackgroundMaterial", material);
 		}
+
+		//{ //titleBG
+		//	std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"titlemenu");
+		//	std::shared_ptr<Material> material = std::make_shared<Material>();
+		//	material->SetShader(spriteShader);
+		//	material->SetTexture(texture);
+		//	Resources::Insert<Material>(L"titlemenu", material);
+		//}
+		//
+		//{ //gamemenu
+		//	std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"gamemenu");
+		//	std::shared_ptr<Material> material = std::make_shared<Material>();
+		//	material->SetShader(spriteShader);
+		//	material->SetTexture(texture);
+		//	Resources::Insert<Material>(L"gamemenu", material);
+		//}
+		
 	}
 
 	void Initialize()

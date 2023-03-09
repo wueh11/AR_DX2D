@@ -29,6 +29,7 @@ namespace ya::enums
 		Collider,
 		MeshRenderer,
 		SpriteRenderer,
+		Animator,
 		UI,
 		Script,
 		End,

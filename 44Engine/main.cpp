@@ -80,7 +80,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             editor.Run();
             application.Present();
 
-
             /*
             // 라이브러리
             // 하나이상의 서브루틴이나 함수의 집합파일
@@ -159,15 +158,18 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      0, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
+   /*HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+      0, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);*/
+
+   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_SYSMENU,
+       0, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
       return FALSE;
    }
 
-   application.SetWindow(hWnd, 1600, 900);
+   application.SetWindow(hWnd, 961, 541);
    application.Initialize();
    editor.Initialize();
 

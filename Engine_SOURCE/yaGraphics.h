@@ -19,6 +19,7 @@
 #define CBSLOT_TRANSFORM 0
 #define CBSLOT_MATERIAL 1
 #define CBSLOT_GRID 2
+#define CBSLOT_ANIMATOR 3
 
 namespace ya::graphics
 {
@@ -60,7 +61,7 @@ namespace ya::graphics
 	enum class eDSType // Depth Stencil 깊이 비교
 	{
 		Less, /// 작앗을때 그리는것
-		Greater, 
+		Greater,
 		NoWrite, ///깊이버퍼사용X (무조건 레이어순서대로 그려준다)
 		None,
 		End,
@@ -103,6 +104,7 @@ namespace ya::graphics
 		Transform,
 		Material,
 		Grid,
+		Animation,
 		End,
 	};
 

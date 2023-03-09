@@ -79,7 +79,7 @@ namespace ya
 			//tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 
 			Collider2D* collider = obj->AddComponent<Collider2D>();
-			collider->SetType(eColliderType::Circle);
+			collider->SetType(eColliderType::Rect);
 			//collider->SetSize(Vector2(1.5f, 1.5f));
 
 			SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
@@ -87,7 +87,7 @@ namespace ya
 			mr->SetMaterial(mateiral);
 			mr->SetMesh(mesh);
 			obj->AddComponent<PlayerScript>();
-			object::DontDestroyOnLoad(obj);
+			//object::DontDestroyOnLoad(obj);
 
 			//{ //SMILE RECT Child
 			//	GameObject* child = object::Instantiate<GameObject>(eLayerType::Player, tr);
@@ -111,7 +111,7 @@ namespace ya
 			//tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2 / 2.0f));
 
 			Collider2D* collider = obj->AddComponent<Collider2D>();
-			collider->SetType(eColliderType::Circle);
+			collider->SetType(eColliderType::Rect);
 
 			SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
 			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
@@ -143,6 +143,31 @@ namespace ya
 			fadeMr->SetMaterial(Resources::Find<Material>(L"FadeMaterial"));
 			FadeScript* fadeScript = fadeObject->AddComponent<FadeScript>();
 		}
+
+		//{ // title Background
+		//	GameObject* titleBg = object::Instantiate<GameObject>(eLayerType::None);
+		//	Transform* titleBGTr = titleBg->GetComponent<Transform>();
+		//	//titleBGTr->SetPosition(Vector3(1.0f, -1.2f, 1.4f));
+		//	titleBGTr->SetPosition(Vector3(1.0f, -1.2f, 5.0f));
+		//	titleBGTr->SetScale(Vector3(8.5f, 9.5f, 1.0f));
+
+		//	MeshRenderer* titleBgMr = titleBg->AddComponent<MeshRenderer>();
+		//	titleBgMr->SetMesh(mesh);
+		//	titleBgMr->SetMaterial(Resources::Find<Material>(L"titlemenu"));
+		//}
+
+		//{ // gamemenu Background
+		//	GameObject* gamemenu = object::Instantiate<GameObject>(eLayerType::None);
+		//	Transform* gamemenuTr = gamemenu->GetComponent<Transform>();
+		//	//titleBGTr->SetPosition(Vector3(1.0f, -1.2f, 1.4f));
+		//	gamemenuTr->SetPosition(Vector3(1.0f, -1.2f, 5.0f));
+		//	gamemenuTr->SetScale(Vector3(8.5f, 19.0f, 1.0f));
+
+		//	MeshRenderer* gamemenuMr = gamemenu->AddComponent<MeshRenderer>();
+		//	gamemenuMr->SetMesh(mesh);
+		//	gamemenuMr->SetMaterial(Resources::Find<Material>(L"gamemenu"));
+		//}
+		
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 

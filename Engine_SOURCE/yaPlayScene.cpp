@@ -27,7 +27,7 @@ namespace ya
 	void PlayScene::Initialize()
 	{
 		{ //Main Camera Game Object
-			GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
+			GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera);
 			Camera* cameraComp = cameraObj->AddComponent<Camera>();
 			cameraComp->RegisterCameraInRenderer();
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
@@ -35,18 +35,16 @@ namespace ya
 		}
 
 		{ //Camera UI
-			GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
+			GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
 			Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
 			cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
 			cameraUIComp->DisableLayerMasks();
 			cameraUIComp->TurnLayerMask(eLayerType::UI, true);	/// 모든 Layer을 끄고 UI만 표시한다.
 		}
 
-		Isaac* obj = object::Instantiate<Isaac>(eLayerType::Player, this);
-		//Isaac* obj = new Isaac();
-		//GetLayer(eLayerType::Player).AddGameObject(obj);
+		Isaac* obj = object::Instantiate<Isaac>(eLayerType::Player);
 
-		/*{
+		{
 			GameObject* background = new GameObject();
 			GetLayer(eLayerType::None).AddGameObject(background);
 			MeshRenderer* mr = background->AddComponent<MeshRenderer>();
@@ -57,10 +55,10 @@ namespace ya
 			Transform* tr = background->GetComponent<Transform>();
 			tr->SetScale(Vector3(10.0f, 10.0f, 3.0f));
 			tr->SetPosition(Vector3(2.0f, 1.0f, 5.0f));
-		}*/
+		}
 
 		{ //HP BAR
-			GameObject* hpBar = object::Instantiate<GameObject>(eLayerType::UI, this);
+			GameObject* hpBar = object::Instantiate<GameObject>(eLayerType::UI);
 			hpBar->SetName(L"HPBAR");
 			Transform* hpBarTR = hpBar->GetComponent<Transform>();
 			hpBarTR->SetPosition(Vector3(-5.0f, 2.0f, 5.0f));
@@ -74,7 +72,6 @@ namespace ya
 			hpsr->SetMaterial(hpspriteMaterial);
 		}
 
-		int a = 0;
 		Scene::Initialize();
 	}
 

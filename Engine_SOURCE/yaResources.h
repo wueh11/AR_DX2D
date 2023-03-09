@@ -38,6 +38,7 @@ namespace ya
 			if (FAILED(resource->Load(path)))
 			{
 				MessageBox(nullptr, L"Image Load Failed!", L"Error", MB_OK);
+				assert(false);
 				return nullptr;
 			}
 
