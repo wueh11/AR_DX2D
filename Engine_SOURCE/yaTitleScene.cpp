@@ -18,9 +18,12 @@
 #include "yaPlayerScript.h"
 #include "yaGridScript.h"
 #include "yaFadeScript.h"
+#include "yaTitleScript.h"
 
 #include "yaCollider2D.h"
 #include "yaCollisionManager.h"
+
+#include "yaAnimator.h"
 
 #include "yaPlayer.h"
 #include "yaIsaac.h"
@@ -40,133 +43,68 @@ namespace ya
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera);
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
 		//cameraComp->RegisterCameraInRenderer();
+		Transform* titleBGTr = cameraObj->GetComponent<Transform>();
+		titleBGTr->SetPosition(Vector3::Zero);
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
 		cameraObj->AddComponent<CameraScript>();
+		cameraObj->AddComponent<TitleScript>();
+		
 		mainCamera = cameraComp;
 
-		//{ //Camera UI
-		//	GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
-		//	Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
-		//	cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
-		//	cameraUIComp->DisableLayerMasks();
-		//	cameraUIComp->TurnLayerMask(eLayerType::UI, true);	/// 모든 Layer을 끄고 UI만 표시한다.
-		//}
+		{ //Camera UI
+			GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
+			Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
+			cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
+			cameraUIComp->DisableLayerMasks();
+			cameraUIComp->TurnLayerMask(eLayerType::UI, true);	/// 모든 Layer을 끄고 UI만 표시한다.
+		}
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 
-		{ // Light Object
-			GameObject* spriteObj = object::Instantiate<GameObject>(eLayerType::Player);
-			spriteObj->SetName(L"LIGHT");
-
-			Transform* spriteTr = spriteObj->GetComponent<Transform>();
-			spriteTr->SetPosition(Vector3(0.0f, 0.0f, 10.0f));
-			spriteTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
-
-			SpriteRenderer* sr = spriteObj->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> spriteMaterial = Resources::Find<Material>(L"SpriteMaterial");
-			sr->SetMaterial(spriteMaterial);
-			sr->SetMesh(mesh);
-
-			//spriteObj->Pause();
-		}
-
-		{ //SMILE RECT
-			Player* obj = object::Instantiate<Player>(eLayerType::Player);
-			obj->SetName(L"IMAGE");
-			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
-			tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2 / 2.0f));
-			//tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-
-			Collider2D* collider = obj->AddComponent<Collider2D>();
-			collider->SetType(eColliderType::Rect);
-			//collider->SetSize(Vector2(1.5f, 1.5f));
-
-			SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
-			mr->SetMaterial(mateiral);
-			mr->SetMesh(mesh);
-			obj->AddComponent<PlayerScript>();
-			//object::DontDestroyOnLoad(obj);
-
-			//{ //SMILE RECT Child
-			//	GameObject* child = object::Instantiate<GameObject>(eLayerType::Player, tr);
-			//	child->SetName(L"IMAGE2");
-			//	Transform* childTr = child->GetComponent<Transform>();
-			//	childTr->SetPosition(Vector3(2.0f, 0.0f, 0.0f));
-			//	childTr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-
-			//	MeshRenderer* childMr = child->AddComponent<MeshRenderer>();
-			//	std::shared_ptr<Material> childMateiral = Resources::Find<Material>(L"RectMaterial");
-			//	childMr->SetMaterial(childMateiral);
-			//	childMr->SetMesh(mesh);
-			//}
-		}
-
-		{ // Monster
-			Player* obj = object::Instantiate<Player>(eLayerType::Monster);
-			obj->SetName(L"IMAGE2");
-			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetPosition(Vector3(1.5f, 0.0f, 5.0f));
-			//tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2 / 2.0f));
-
-			Collider2D* collider = obj->AddComponent<Collider2D>();
-			collider->SetType(eColliderType::Rect);
-
-			SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
-			mr->SetMaterial(mateiral);
-			mr->SetMesh(mesh);
-			//object::DontDestroyOnLoad(obj);
-		}
-
-		{ //HP BAR
-			GameObject* hpBar = object::Instantiate<GameObject>(eLayerType::UI);
-			hpBar->SetName(L"HPBAR");
-			Transform* hpBarTR = hpBar->GetComponent<Transform>();
-			hpBarTR->SetPosition(Vector3(-5.0f, 3.0f, 12.0f));
-			hpBarTR->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-
-			SpriteRenderer* hpsr = hpBar->AddComponent<SpriteRenderer>();
-
-			std::shared_ptr<Material> hpspriteMaterial = Resources::Find<Material>(L"UIMaterial");
-			hpsr->SetMesh(mesh);
-			hpsr->SetMaterial(hpspriteMaterial);
-
-			//hpBar->Pause();
-		}
-
 		{ // Fade Object
-			GameObject* fadeObject = object::Instantiate<GameObject>(eLayerType::UI);
+			GameObject* fadeObject = object::Instantiate<GameObject>(eLayerType::Monster);
 			MeshRenderer* fadeMr = fadeObject->AddComponent<MeshRenderer>();
 			fadeMr->SetMesh(mesh);
 			fadeMr->SetMaterial(Resources::Find<Material>(L"FadeMaterial"));
 			FadeScript* fadeScript = fadeObject->AddComponent<FadeScript>();
 		}
 
-		//{ // title Background
-		//	GameObject* titleBg = object::Instantiate<GameObject>(eLayerType::None);
-		//	Transform* titleBGTr = titleBg->GetComponent<Transform>();
-		//	//titleBGTr->SetPosition(Vector3(1.0f, -1.2f, 1.4f));
-		//	titleBGTr->SetPosition(Vector3(1.0f, -1.2f, 5.0f));
-		//	titleBGTr->SetScale(Vector3(8.5f, 9.5f, 1.0f));
+		{ // title Background
+			GameObject* titleBg = object::Instantiate<GameObject>(eLayerType::None);
+			Transform* titleBGTr = titleBg->GetComponent<Transform>();
+			titleBGTr->SetPosition(Vector3(0.0f, -0.57f, 1.0001f));
+			titleBGTr->SetScale(Vector3(2.05f, 2.3f, 1.0f));
 
-		//	MeshRenderer* titleBgMr = titleBg->AddComponent<MeshRenderer>();
-		//	titleBgMr->SetMesh(mesh);
-		//	titleBgMr->SetMaterial(Resources::Find<Material>(L"titlemenu"));
-		//}
+			MeshRenderer* titleBgMr = titleBg->AddComponent<MeshRenderer>();
+			titleBgMr->SetMesh(mesh);
+			std::shared_ptr<Material> titlemenuMaterial = Resources::Find<Material>(L"titlemenuMaterial");
+			titleBgMr->SetMaterial(titlemenuMaterial);
+			/*Animator* animator = titleBg->AddComponent<Animator>();
+			animator->SetMaterial(titlemenuMaterial);
+			animator->Create(L"titlemenu", Resources::Find<Texture>(L"titlemenu"), Vector2::Zero, Vector2(50.0f, 50.0f), Vector2::Zero, 1, 1, 0.0f);*/
+		}
 
-		//{ // gamemenu Background
-		//	GameObject* gamemenu = object::Instantiate<GameObject>(eLayerType::None);
-		//	Transform* gamemenuTr = gamemenu->GetComponent<Transform>();
-		//	//titleBGTr->SetPosition(Vector3(1.0f, -1.2f, 1.4f));
-		//	gamemenuTr->SetPosition(Vector3(1.0f, -1.2f, 5.0f));
-		//	gamemenuTr->SetScale(Vector3(8.5f, 19.0f, 1.0f));
+		{ // gamemenu Background
+			GameObject* gamemenu = object::Instantiate<GameObject>(eLayerType::None);
+			Transform* gamemenuTr = gamemenu->GetComponent<Transform>();
+			gamemenuTr->SetPosition(Vector3(0.0f, -1.7f, 1.0001f));
+			gamemenuTr->SetScale(Vector3(2.05f, 2.3f, 1.0f));
 
-		//	MeshRenderer* gamemenuMr = gamemenu->AddComponent<MeshRenderer>();
-		//	gamemenuMr->SetMesh(mesh);
-		//	gamemenuMr->SetMaterial(Resources::Find<Material>(L"gamemenu"));
-		//}
+			MeshRenderer* gamemenuMr = gamemenu->AddComponent<MeshRenderer>();
+			gamemenuMr->SetMesh(mesh);
+			gamemenuMr->SetMaterial(Resources::Find<Material>(L"gamemenuMaterial"));
+		}
+
+		{ // charactermenu Background
+			GameObject* charactermenu = object::Instantiate<GameObject>(eLayerType::None);
+			Transform* charactermenuTr = charactermenu->GetComponent<Transform>();
+			charactermenuTr->SetPosition(Vector3(0.0f, -3.2f, 1.0001f));
+			charactermenuTr->SetScale(Vector3(2.05f, 3.0f, 1.0f));
+
+			MeshRenderer* charactermenuMr = charactermenu->AddComponent<MeshRenderer>();
+			charactermenuMr->SetMesh(mesh);
+			charactermenuMr->SetMaterial(Resources::Find<Material>(L"charactermenuMaterial"));
+		}
 		
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);

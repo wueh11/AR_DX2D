@@ -198,6 +198,7 @@
     <ClInclude Include="yaTexture.h" />
     <ClInclude Include="yaTime.h" />
     <ClInclude Include="yaTitleScene.h" />
+    <ClInclude Include="yaTitleScript.h" />
     <ClInclude Include="yaTransform.h" />
     <ClInclude Include="yaUIheart.h" />
   </ItemGroup>
@@ -242,6 +243,7 @@
     <ClCompile Include="yaTexture.cpp" />
     <ClCompile Include="yaTime.cpp" />
     <ClCompile Include="yaTitleScene.cpp" />
+    <ClCompile Include="yaTitleScript.cpp" />
     <ClCompile Include="yaTransform.cpp" />
     <ClCompile Include="yaUIheart.cpp" />
   </ItemGroup>

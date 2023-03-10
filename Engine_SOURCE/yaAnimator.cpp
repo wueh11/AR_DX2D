@@ -8,6 +8,7 @@ namespace ya
 		, mEvents{}
 		, mActiveAnimation(nullptr)
 		, mbLoop(false)
+		, mMaterial(nullptr)
 
 	{
 	}

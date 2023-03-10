@@ -24,27 +24,27 @@ namespace ya
 
 		float speed = 2.0f;
 
-		if (Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
+		if (Input::GetKeyState(eKeyCode::I) == eKeyState::PRESSED)
 		{
 			pos += speed * tr->Up() * Time::DeltaTime();
 		}
-		else if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
+		else if (Input::GetKeyState(eKeyCode::K) == eKeyState::PRESSED)
 		{
 			pos -= speed * tr->Up() * Time::DeltaTime();
 		}
-		else if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
+		else if (Input::GetKeyState(eKeyCode::J) == eKeyState::PRESSED)
 		{
 			pos -= speed * tr->Right() * Time::DeltaTime();
 		}
-		else if (Input::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
+		else if (Input::GetKeyState(eKeyCode::L) == eKeyState::PRESSED)
 		{
 			pos += speed * tr->Right() * Time::DeltaTime();
 		}
-		else if (Input::GetKeyState(eKeyCode::Q) == eKeyState::PRESSED)
+		else if (Input::GetKeyState(eKeyCode::U) == eKeyState::PRESSED)
 		{
 			pos -= speed * tr->Forward() * Time::DeltaTime();
 		}
-		else if (Input::GetKeyState(eKeyCode::E) == eKeyState::PRESSED)
+		else if (Input::GetKeyState(eKeyCode::O) == eKeyState::PRESSED)
 		{
 			pos += speed * tr->Forward() * Time::DeltaTime();
 		}

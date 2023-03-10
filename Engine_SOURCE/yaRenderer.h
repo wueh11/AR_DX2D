@@ -44,6 +44,16 @@ namespace ya::renderer
 		Vector2 resolution;
 	};
 
+	CBUFFER(AnimationCB, CBSLOT_ANIMATOR)
+	{
+		Vector2 leftTop;
+		Vector2 size;
+		Vector2 offset;
+		Vector2 atlasSize;
+
+		UINT used;
+	};
+
 	//정점 데이터
 	extern Vertex vertexes[4];
 

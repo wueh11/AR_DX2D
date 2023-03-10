@@ -45,13 +45,15 @@ namespace ya
 		
 		std::wstring& AnimationName() { return mName; }
 
+
 	private:
-		class Animator* mAnimatior;
+		class Animator* mAnimator;
 		std::wstring mName;
 		std::shared_ptr<Texture> mAtlas;
 		std::vector<Sprite> mSpriteSheet;
 		int mIndex;
 		float mTime;
 		bool mbComplete;
+
 	};
 }

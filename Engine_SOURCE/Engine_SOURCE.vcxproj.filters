@@ -227,6 +227,9 @@
     <ClCompile Include="yaAnimation.cpp">
       <Filter>Component\Animator</Filter>
     </ClCompile>
+    <ClCompile Include="yaTitleScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -365,6 +368,9 @@
     </ClInclude>
     <ClInclude Include="yaAnimator.h">
       <Filter>Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTitleScript.h">
+      <Filter>Component\Script\Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

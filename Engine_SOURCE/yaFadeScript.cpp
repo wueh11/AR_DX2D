@@ -67,7 +67,7 @@ namespace ya
 		// material constant buffer setting
 		MeshRenderer* mr = GetOwner()->GetComponent<MeshRenderer>();
 		Material* fadeMaterial = mr->GetMaterial().get();
-		//fadeMaterial->SetData(eGPUParam::Float, &mAlpha);
+		fadeMaterial->SetData(eGPUParam::Float, &mAlpha);
 	}
 
 	void FadeScript::FixedUpdate()

@@ -1,6 +1,7 @@
 #pragma once
 #include "yaComponent.h"
 #include "yaAnimation.h"
+#include "yaMaterial.h"
 
 namespace ya
 {
@@ -53,12 +54,16 @@ namespace ya
 		std::function<void()>& GetCompleteEvent(const std::wstring& name);
 		std::function<void()>& GetEndEvent(const std::wstring& name);
 
+		std::shared_ptr<Material> GetMaterial() { return mMaterial; }
+		void SetMaterial(std::shared_ptr<Material> material) { mMaterial = material; }
+
 	private:
 		std::map<std::wstring, Animation*> mAnimations;
 		std::map<std::wstring, Events*> mEvents;
 		Animation* mActiveAnimation;
 
 		bool mbLoop;
+		std::shared_ptr<Material> mMaterial;
 	};
 }
 

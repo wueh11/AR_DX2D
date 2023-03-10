@@ -350,6 +350,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"BG_basement", L"Issac\\01_basement.png");
 		Resources::Load<Texture>(L"titlemenu", L"Issac\\titlemenu.png");
 		Resources::Load<Texture>(L"gamemenu", L"Issac\\gamemenu.png");
+		Resources::Load<Texture>(L"charactermenu", L"Issac\\charactermenu.png");
 	}
 
 	void LoadMaterial()
@@ -420,26 +421,36 @@ namespace ya::renderer
 		{//BG_basement
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"BG_basement");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
 			material->SetShader(spriteShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"BasementBackgroundMaterial", material);
 		}
 
-		//{ //titleBG
-		//	std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"titlemenu");
-		//	std::shared_ptr<Material> material = std::make_shared<Material>();
-		//	material->SetShader(spriteShader);
-		//	material->SetTexture(texture);
-		//	Resources::Insert<Material>(L"titlemenu", material);
-		//}
-		//
-		//{ //gamemenu
-		//	std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"gamemenu");
-		//	std::shared_ptr<Material> material = std::make_shared<Material>();
-		//	material->SetShader(spriteShader);
-		//	material->SetTexture(texture);
-		//	Resources::Insert<Material>(L"gamemenu", material);
-		//}
+		{ //titleBG
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"titlemenu");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"titlemenuMaterial", material);
+		}
+		
+		{ //gamemenu
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"gamemenu");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"gamemenuMaterial", material);
+		}
+		
+		{ //charactermenu
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"charactermenu");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"charactermenuMaterial", material);
+		}
 		
 	}
 
