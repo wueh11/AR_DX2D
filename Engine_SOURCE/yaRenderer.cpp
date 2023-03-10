@@ -351,6 +351,9 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"titlemenu", L"Issac\\titlemenu.png");
 		Resources::Load<Texture>(L"gamemenu", L"Issac\\gamemenu.png");
 		Resources::Load<Texture>(L"charactermenu", L"Issac\\charactermenu.png");
+		Resources::Load<Texture>(L"menuoverlay", L"Issac\\menuoverlay.png");
+		Resources::Load<Texture>(L"menushadow", L"Issac\\menushadow.png");
+		Resources::Load<Texture>(L"splashes", L"Issac\\splashes.png");
 	}
 
 	void LoadMaterial()
@@ -452,6 +455,29 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"charactermenuMaterial", material);
 		}
 		
+		{ //menuoverlay
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"menuoverlay");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"menuoverlayMaterial", material);
+		}
+		
+		{ //menushadow
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"menushadow");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"menushadowMaterial", material);
+		}
+		
+		{ //splashes
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"splashes");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"splashesMaterial", material);
+		}
 	}
 
 	void Initialize()

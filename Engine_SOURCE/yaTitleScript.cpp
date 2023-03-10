@@ -12,8 +12,7 @@ namespace ya
 		: Script()
 		, mState(eState::None)
 		, mPage(ePage::Titlemenu)
-		, mSpeed(6.0f)
-		, mFriction(0.0f)
+		, mSpeed(10.0f)
 	{
 	}
 	TitleScript::~TitleScript()
@@ -58,6 +57,11 @@ namespace ya
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Vector3 pos = tr->GetPosition();
 
+		if (mSpeed < 1.0f)
+			mSpeed = 1.0f;
+		else
+			mSpeed -= 50.0f * Time::DeltaTime();
+
 		pos += mSpeed * tr->Up() * Time::DeltaTime();
 
 		switch (mPage)
@@ -70,7 +74,7 @@ namespace ya
 			{
 				mState = eState::None;
 				mPage = ePage::Titlemenu;
-				mFriction = 0.0f;
+				mSpeed = 10.0f;
 			}
 		}
 		break;
@@ -80,6 +84,7 @@ namespace ya
 			{
 				mState = eState::None;
 				mPage = ePage::Gamemenu;
+				mSpeed = 10.0f;
 			}
 		}
 			break;
@@ -95,10 +100,10 @@ namespace ya
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Vector3 pos = tr->GetPosition();
 
-		if (mSpeed < 0.2f)
-			mSpeed = 0.2f;
+		if (mSpeed < 1.0f)
+			mSpeed = 1.0f;
 		else
-			mSpeed -= 20.0f * Time::DeltaTime();
+			mSpeed -= 50.0f * Time::DeltaTime();
 
 		pos -= mSpeed * tr->Up() * Time::DeltaTime();
 
@@ -110,7 +115,7 @@ namespace ya
 			{
 				mState = eState::None;
 				mPage = ePage::Gamemenu;
-				mSpeed = 6.0f;
+				mSpeed = 10.0f;
 			}
 		}
 			break;
@@ -120,7 +125,7 @@ namespace ya
 			{
 				mState = eState::None;
 				mPage = ePage::Charactermenu;
-				mSpeed = 6.0f;
+				mSpeed = 10.0f;
 			}
 		}
 			break;
