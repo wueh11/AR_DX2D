@@ -30,7 +30,7 @@ namespace ya
 			GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera);
 			Camera* cameraComp = cameraObj->AddComponent<Camera>();
 			cameraComp->RegisterCameraInRenderer();
-			cameraComp->TurnLayerMask(eLayerType::UI, false);
+			cameraComp->TurnLayerMask(eLayerType::Camera, false);
 			cameraObj->AddComponent<CameraScript>();
 		}
 
@@ -39,7 +39,7 @@ namespace ya
 			Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
 			cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
 			cameraUIComp->DisableLayerMasks();
-			cameraUIComp->TurnLayerMask(eLayerType::UI, true);	/// 모든 Layer을 끄고 UI만 표시한다.
+			cameraUIComp->TurnLayerMask(eLayerType::Camera, true);	/// 모든 Layer을 끄고 UI만 표시한다.
 		}
 
 		Isaac* obj = object::Instantiate<Isaac>(eLayerType::Player);

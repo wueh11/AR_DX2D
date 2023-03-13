@@ -17,7 +17,26 @@ struct VSOut  /// 내보내줄 데이터
 float4 main(VSOut In) : SV_Target
 {
     float4 color = (float) 0.0f;
-    color = defaultTexture.Sample(pointSampler, In.UV);
+    
+    if (animationType == 1) // 2D
+    {
+        float2 diff = (atlasSize - spriteSize) / 2.0f;
+        float2 UV = (leftTop - diff - offset) + (atlasSize * In.UV);
+        
+        if (UV.x < leftTop.x || UV.y < leftTop.y 
+            || UV.x > leftTop.x + spriteSize.x 
+            || UV.y > leftTop.y + spriteSize.y)
+            discard;
+        
+        color = atlasTexture.Sample(anisotropicSampler, UV);
+    }
+    else if (animationType == 2)
+    {
+    }
+    else
+    {
+        color = atlasTexture.Sample(anisotropicSampler, In.UV);
+    }
     
     return color;
 }

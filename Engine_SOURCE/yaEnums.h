@@ -13,6 +13,7 @@ namespace ya::enums
 	{
 		None = 0,
 		Grid,
+		Background,
 		Camera,
 		Monster,
 		Player,
@@ -62,6 +63,14 @@ namespace ya::enums
 		Box,		
 		Sphere,
 
+		End,
+	};
+
+	enum class eAnimationType
+	{
+		None,
+		SecondDimension,
+		ThirdDimension,
 		End,
 	};
 

@@ -22,7 +22,7 @@ namespace ya
 
 		Vector3 pos = tr->GetPosition();
 
-		float speed = 2.0f;
+		float speed = 4.0f;
 
 		if (Input::GetKeyState(eKeyCode::I) == eKeyState::PRESSED)
 		{

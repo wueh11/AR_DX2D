@@ -50,16 +50,24 @@ namespace ya
     }
 
     void Animation::Create(const std::wstring& name, std::shared_ptr<Texture> atlas
-                                , Vector2 leftTop, Vector2 size, Vector2 offset
-                                , UINT columnLength, UINT spriteLength, float duration)
+						, Vector2 leftTop, Vector2 size, Vector2 offset
+						, UINT spriteLength, float duration)
     {
+        mAnimationName = name;
+        mAtlas = atlas;
+        // 텍스쳐 이미지 크기
+        float width = (float)atlas->GetWidth();
+        float height = (float)atlas->GetHeight();
+
         for (size_t i = 0; i < spriteLength; i++)
         {
-            Sprite sprite;
-            sprite.leftTop = leftTop + (i * size);
-            sprite.size = size / columnLength;
+            // API와는 다르게 0~1 사이의 비율좌표로 위치를 표현해야한다.
+            Sprite sprite = {};
+            sprite.leftTop = Vector2((leftTop.x + (size.x * (float)i)) / width, (leftTop.y) / height);
+            sprite.size = Vector2(size.x / width, size.y / height);
             sprite.offset = offset;
             sprite.duration = duration;
+            sprite.atlasSize = Vector2(200.0f / width, 200.0f / height);
 
             mSpriteSheet.push_back(sprite);
         }
@@ -67,23 +75,18 @@ namespace ya
 
     void Animation::BindShader()
     {
-        std::shared_ptr<Material> material = mAnimator->GetMaterial();
-        if (material == nullptr)
-            return;
-        
-        Sprite sprite = mSpriteSheet[mIndex];
+        mAtlas->BindShader(eShaderStage::PS, 12);
 
-        //constant buffer
         ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animation];
-        renderer::AnimationCB data;
-        data.atlasSize = sprite.size;
-        data.leftTop = sprite.leftTop;
-        data.offset = sprite.offset;
-        data.size = sprite.size;
-        data.used = true;
 
-        cb->Bind(&data);
-        cb->SetPipeline(eShaderStage::VS);
+        renderer::AnimationCB info = {};
+        info.type = (UINT)eAnimationType::SecondDimension;
+        info.leftTop = mSpriteSheet[mIndex].leftTop;
+        info.offset = mSpriteSheet[mIndex].offset;
+        info.size = mSpriteSheet[mIndex].size;
+        info.atlasSize = mSpriteSheet[mIndex].atlasSize;
+
+        cb->Bind(&info);
         cb->SetPipeline(eShaderStage::PS);
     }
 

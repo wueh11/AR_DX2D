@@ -147,6 +147,18 @@ namespace ya::renderer
 			std::shared_ptr<Shader> shader = std::make_shared<Shader>();
 			shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
 			shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
+			Resources::Insert<Shader>(L"TriangleShader", shader);
+
+			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+				, shader->GetVSBlobBufferPointer()
+				, shader->GetVSBlobBufferSize()
+				, shader->GetInputLayoutAddressOf());
+		}
+
+		{ // Default
+			std::shared_ptr<Shader> shader = std::make_shared<Shader>();
+			shader->Create(eShaderStage::VS, L"RectVS.hlsl", "main");
+			shader->Create(eShaderStage::PS, L"RectPS.hlsl", "main");
 			Resources::Insert<Shader>(L"RectShader", shader);
 
 			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
@@ -337,6 +349,9 @@ namespace ya::renderer
 
 		constantBuffers[(UINT)eCBType::Grid] = new ConstantBuffer(eCBType::Grid);
 		constantBuffers[(UINT)eCBType::Grid]->Create(sizeof(GridCB));
+
+		constantBuffers[(UINT)eCBType::Animation] = new ConstantBuffer(eCBType::Animation);
+		constantBuffers[(UINT)eCBType::Animation]->Create(sizeof(AnimationCB));
 	}
 
 	void LoadTexture()
@@ -360,7 +375,7 @@ namespace ya::renderer
 	{
 		{ // Image
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"image");
-			std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"SpriteShader");
+			std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"RectShader");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
 			material->SetShader(shader);
 			material->SetTexture(texture);
@@ -368,7 +383,7 @@ namespace ya::renderer
 		}
 
 		{ // Sprite
-			std::shared_ptr<Texture> spriteTexture = Resources::Find<Texture>(L"Light");
+			std::shared_ptr<Texture> spriteTexture = Resources::Find<Texture>(L"image");
 			std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
 			std::shared_ptr<Material> spriteMaterial = std::make_shared<Material>();
 			spriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -409,6 +424,7 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
 		}
 
+		std::shared_ptr<Shader> rectShader = Resources::Find<Shader>(L"RectShader");
 		std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
 
 		////////////////
@@ -416,7 +432,7 @@ namespace ya::renderer
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"Isaac");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
 			material->SetRenderingMode(eRenderingMode::Transparent);
-			material->SetShader(spriteShader);
+			material->SetShader(rectShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"IsaacMaterial", material);
 		}
@@ -425,7 +441,7 @@ namespace ya::renderer
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"BG_basement");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
 			material->SetRenderingMode(eRenderingMode::Transparent);
-			material->SetShader(spriteShader);
+			material->SetShader(rectShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"BasementBackgroundMaterial", material);
 		}
@@ -434,7 +450,7 @@ namespace ya::renderer
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"titlemenu");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
 			material->SetRenderingMode(eRenderingMode::Transparent);
-			material->SetShader(spriteShader);
+			material->SetShader(rectShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"titlemenuMaterial", material);
 		}
@@ -442,7 +458,7 @@ namespace ya::renderer
 		{ //gamemenu
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"gamemenu");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetShader(spriteShader);
+			material->SetShader(rectShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"gamemenuMaterial", material);
 		}
@@ -450,7 +466,7 @@ namespace ya::renderer
 		{ //charactermenu
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"charactermenu");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetShader(spriteShader);
+			material->SetShader(rectShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"charactermenuMaterial", material);
 		}
@@ -458,15 +474,16 @@ namespace ya::renderer
 		{ //menuoverlay
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"menuoverlay");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetShader(spriteShader);
+			material->SetShader(rectShader);
 			material->SetTexture(texture);
+			material->SetRenderingMode(eRenderingMode::Transparent);
 			Resources::Insert<Material>(L"menuoverlayMaterial", material);
 		}
 		
 		{ //menushadow
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"menushadow");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetShader(spriteShader);
+			material->SetShader(rectShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"menushadowMaterial", material);
 		}
@@ -474,7 +491,7 @@ namespace ya::renderer
 		{ //splashes
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"splashes");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetShader(spriteShader);
+			material->SetShader(rectShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"splashesMaterial", material);
 		}

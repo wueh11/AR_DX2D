@@ -24,22 +24,22 @@ namespace ya
 		virtual void OnTriggerStay(Collider2D* collider);
 		virtual void OnTriggerExit(Collider2D* collider);
 
-		void SetType(eColliderType type) { mType = type; }
+		eColliderType GetColliderType() { return mType; }
+		void SetColliderType(eColliderType type) { mType = type; }
 
 		void SetSize(Vector2 size) { mSize = size; }
 		Vector2 GetSize() { return mSize; }
 
-		void SetRadius(float radius) { mRadius = radius; }
+		void SetPosition(Vector3 position) { mPosition = position; }
+		Vector3 GetPosition() { return mPosition; }
 
 		void SetCenter(Vector2 center) { mCenter = center; }
 		Vector2 GetCenter() { return mCenter; }
 
+		void SetRadius(float radius) { mRadius = radius; }
+
 		bool IsTrigger() { return mbTrigger; }
-
 		UINT GetID() { return mID; }
-		Vector3 GetPosition() { return mPosition; }
-
-		eColliderType GetColliderType() { return mType; }
 
 	private:
 		static UINT mColliderNumber; /// 같은 레이어간의 충돌 상태를 방지하기위해

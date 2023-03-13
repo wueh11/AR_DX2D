@@ -24,11 +24,7 @@ VSOut main(VSIn In)
     
     Out.Pos = projPosition;
     Out.Color = In.Color;
-    
-    if (used == true)
-        Out.UV = In.UV * (size / atlasSize) + leftTop;
-    else
-        Out.UV = In.UV;
+    Out.UV = In.UV;
     
     return Out;
 }

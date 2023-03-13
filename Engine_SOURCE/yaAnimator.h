@@ -41,11 +41,11 @@ namespace ya
 
 		bool Create(const std::wstring& name, std::shared_ptr<Texture> atlas
 			, Vector2 leftTop, Vector2 size, Vector2 offset
-			, UINT columnLength, UINT spriteLength, float duration);
+			, UINT spriteLength, float duration);
 
 		Animation* FindAnimation(const std::wstring& name);
 		Events* FindEvents(const std::wstring& name);
-		void Play(std::wstring& name, bool loop = true);
+		void Play(const std::wstring& name, bool loop = true);
 
 		void Binds();
 		void Clear();
