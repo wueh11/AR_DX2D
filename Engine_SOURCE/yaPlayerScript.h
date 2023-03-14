@@ -22,6 +22,10 @@ namespace ya
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
+		void Start();
+		void Action();
+		void End();
+
 	private:
 	};
 }

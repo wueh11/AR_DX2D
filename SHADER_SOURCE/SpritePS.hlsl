@@ -28,14 +28,14 @@ float4 main(VSOut In) : SV_Target
             || UV.y > leftTop.y + spriteSize.y)
             discard;
         
-        color = atlasTexture.Sample(anisotropicSampler, UV);
+        color = atlasTexture.Sample(pointSampler, UV);
     }
     else if (animationType == 2)
     {
     }
     else
     {
-        color = atlasTexture.Sample(anisotropicSampler, In.UV);
+        color = atlasTexture.Sample(pointSampler, In.UV);
     }
     
     return color;

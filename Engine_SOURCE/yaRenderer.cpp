@@ -450,7 +450,7 @@ namespace ya::renderer
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"titlemenu");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
 			material->SetRenderingMode(eRenderingMode::Transparent);
-			material->SetShader(rectShader);
+			material->SetShader(spriteShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"titlemenuMaterial", material);
 		}

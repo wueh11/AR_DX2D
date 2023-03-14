@@ -28,6 +28,8 @@ namespace ya
 			Event mStartEvent;
 			Event mCompleteEvent;
 			Event mEndEvent;
+
+			std::vector<Event> mEvents;
 		};
 
 	public:
@@ -53,6 +55,7 @@ namespace ya
 		std::function<void()>& GetStartEvent(const std::wstring& name);
 		std::function<void()>& GetCompleteEvent(const std::wstring& name);
 		std::function<void()>& GetEndEvent(const std::wstring& name);
+		std::function<void()>& GetEvent(const std::wstring& name, UINT index);
 
 		std::shared_ptr<Material> GetMaterial() { return mMaterial; }
 		void SetMaterial(std::shared_ptr<Material> material) { mMaterial = material; }
