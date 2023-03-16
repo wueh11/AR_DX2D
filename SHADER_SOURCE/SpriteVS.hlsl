@@ -10,6 +10,7 @@ struct VSIn   ///들어올 데이터
 struct VSOut  /// 내보내줄 데이터
 {
     float4 Pos : SV_Position;
+    float3 WorldPos : POSITION;
     float4 Color : COLOR;
     float2 UV : TEXCOORD;
 };
@@ -22,6 +23,7 @@ VSOut main(VSIn In)
     float4 viewPosition = mul(worldPosition, view);
     float4 projPosition = mul(viewPosition, projection);
     
+    Out.WorldPos = worldPosition;
     Out.Pos = projPosition;
     Out.Color = In.Color;
     Out.UV = In.UV;

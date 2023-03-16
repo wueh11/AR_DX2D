@@ -54,5 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)globals.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)Light.hlsli" />
   </ItemGroup>
 </Project>

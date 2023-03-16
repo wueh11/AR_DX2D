@@ -1,4 +1,4 @@
-
+#include "Light.hlsli"
 
 cbuffer Transform : register(b0) /// 슬롯 번호. 그래픽카드에서 사용할 수잇는 상수버퍼 슬롯
 {
@@ -35,12 +35,45 @@ cbuffer Animation : register(b3)
     uint animationType;
 }
 
+cbuffer NumberOfLight : register(b4)
+{
+    uint numberOfLight;
+}
+
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);
+
+StructuredBuffer<LightAttribute> lightAttributes : register(t13);
 
 Texture2D defaultTexture : register(t0);
 //Texture2D defaultTexture2 : register(t1);
 //Texture2D defaultTexture3 : register(t2);
 
 Texture2D atlasTexture : register(t12);
+
+/// 빛의 색깔 계산
+void CalculateLight(in out LightColor pLightColor, float3 position, int idx) /// in out -> 포인터처럼 참조로 사용. 읽,쓰기 가능(in->읽기전용)
+{
+    if (0 == lightAttributes[idx].type) /// 0 : Directional
+    {
+        pLightColor.diffuse += lightAttributes[idx].color.diffuse; /// 누적해서 색더함
+    }
+    else if (1 == lightAttributes[idx].type) /// 1 : Point
+    {
+        float length = distance(lightAttributes[idx].position.xy, position.xy); /// 빛과의 거리
+        if (length < lightAttributes[idx].radius)
+        {
+            float ratio = 1.0f - (length / lightAttributes[idx].radius);
+            pLightColor.diffuse += lightAttributes[idx].color.diffuse * ratio; // cos(time) -> 크기가 커졋다작아졌다.. /// 거리에 따른 빛의 세기
+        }
+    }
+    else if (2 == lightAttributes[idx].type) /// 2 : Spotlight
+    {
+        
+    }
+    else
+    {
+        pLightColor.diffuse += lightAttributes[idx].color.diffuse;
+    }
+};

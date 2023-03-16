@@ -20,7 +20,9 @@
 #define CBSLOT_MATERIAL 1
 #define CBSLOT_GRID 2
 #define CBSLOT_ANIMATOR 3
+#define CBSLOT_NUMBEROFLIGHT 4
 
+using namespace ya::math;
 namespace ya::graphics
 {
 	enum class ValidationMode
@@ -105,6 +107,7 @@ namespace ya::graphics
 		Material,
 		Grid,
 		Animation,
+		Light,
 		End,
 	};
 
@@ -116,7 +119,12 @@ namespace ya::graphics
 		Vector3,
 		Vector4,
 		Matrix,
+	};
 
+	enum class eSRVType
+	{
+		None,
+		End,
 	};
 
 	struct DebugMesh
@@ -128,5 +136,20 @@ namespace ya::graphics
 		float radius;
 		float duration;
 		float time;
+	};
+
+	struct LightAttribute
+	{
+		Vector4 diffuse;	/// ºÐ»ê±¤ »ö±ò
+		Vector4 specular;	/// ¹Ý»ç±¤
+		Vector4 ambient;	/// ÁÖº¯±¤
+		//Vector4 emissive;	/// ¹ß±¤Ã¼
+		Vector4 position;
+		Vector4 direction;
+
+		enums::eLightType type;
+		float radius;		/// ºûÀÇ ¿µÇâÀ» ¹Þ´Â ¹üÀ§
+		float angle;		/// spot light °¢µµ
+		int padding;	///16byte ¸ÂÃçÁÖ±â À§ÇÑ padding
 	};
 }

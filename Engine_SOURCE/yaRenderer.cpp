@@ -10,6 +10,7 @@ namespace ya::renderer
 	
 	//상수 버퍼
 	ConstantBuffer* constantBuffers[(UINT)eCBType::End] = {};
+	StructedBuffer* lightsBuffer = nullptr;
 
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)eSamplerType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerStates[(UINT)eRSType::End] = {};
@@ -19,6 +20,7 @@ namespace ya::renderer
 	Camera* mainCamera = nullptr;
 	std::vector<Camera*> cameras[(UINT)eSceneType::End]; /// 씬마다 사용하는 카메라 설정
 	std::vector<DebugMesh> debugMeshes;
+	std::vector<LightAttribute> lights;
 
 	void LoadMesh() 
 	{
@@ -352,6 +354,13 @@ namespace ya::renderer
 
 		constantBuffers[(UINT)eCBType::Animation] = new ConstantBuffer(eCBType::Animation);
 		constantBuffers[(UINT)eCBType::Animation]->Create(sizeof(AnimationCB));
+
+		constantBuffers[(UINT)eCBType::Light] = new ConstantBuffer(eCBType::Light);
+		constantBuffers[(UINT)eCBType::Light]->Create(sizeof(LightCB));
+
+		//Structed buffer
+		lightsBuffer = new StructedBuffer();
+		lightsBuffer->Create(sizeof(LightAttribute), 128, eSRVType::None, nullptr);
 	}
 
 	void LoadTexture()
@@ -458,7 +467,7 @@ namespace ya::renderer
 		{ //gamemenu
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"gamemenu");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetShader(rectShader);
+			material->SetShader(spriteShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"gamemenuMaterial", material);
 		}
@@ -466,7 +475,7 @@ namespace ya::renderer
 		{ //charactermenu
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"charactermenu");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetShader(rectShader);
+			material->SetShader(spriteShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"charactermenuMaterial", material);
 		}
@@ -509,6 +518,8 @@ namespace ya::renderer
 
 	void Render()
 	{
+		BindLights();
+
 		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
 		for (Camera* cam : cameras[(UINT)type])
 		{
@@ -519,6 +530,7 @@ namespace ya::renderer
 		}
 
 		cameras[(UINT)type].clear();
+		renderer::lights.clear();
 	}
 
 	void Release()
@@ -528,6 +540,28 @@ namespace ya::renderer
 			delete constantBuffers[i];
 			constantBuffers[i] = nullptr;
 		}
+
+		delete lightsBuffer;
+		lightsBuffer = nullptr;
 	}
 
+	void PushLightAttribute(LightAttribute lightAttribute)
+	{
+		lights.push_back(lightAttribute);
+	}
+
+	void BindLights()
+	{ /// 실시간으로 빛이 계속 추가될 수 있으므로 push 생성
+		lightsBuffer->Bind(lights.data(), lights.size());
+		lightsBuffer->SetPipeline(eShaderStage::VS, 13);
+		lightsBuffer->SetPipeline(eShaderStage::PS, 13);
+
+		renderer::LightCB trCb = {};
+		trCb.numberOfLight = lights.size(); /// 빛의 전체 개수를 저장한다
+
+		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Light];
+		cb->Bind(&trCb);
+		cb->SetPipeline(eShaderStage::VS);
+		cb->SetPipeline(eShaderStage::PS);
+	}
 }

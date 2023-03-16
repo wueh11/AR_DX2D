@@ -29,8 +29,10 @@ namespace ya::enums
 		Mesh,
 		Collider,
 		MeshRenderer,
+		ImageRenderer,
 		SpriteRenderer,
 		Animator,
+		Light,
 		UI,
 		Script,
 		End,
@@ -71,6 +73,14 @@ namespace ya::enums
 		None,
 		SecondDimension,
 		ThirdDimension,
+		End,
+	};
+
+	enum class eLightType
+	{
+		Directional,	/// ºÐ»ê±¤
+		Point,			/// ¿µ¿ª
+		Spot,
 		End,
 	};
 

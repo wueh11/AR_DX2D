@@ -7,6 +7,8 @@
 
 #include "yaConstantBuffer.h"
 #include "yaCamera.h"
+#include "yaLight.h"
+#include "yaStructedBuffer.h"
 
 using namespace ya::math;
 using namespace ya::graphics;
@@ -54,6 +56,12 @@ namespace ya::renderer
 		UINT type;
 	};
 
+	//CBSLOT_NUMBEROFLIGHT
+	CBUFFER(LightCB, CBSLOT_NUMBEROFLIGHT)
+	{
+		UINT numberOfLight;
+	};
+
 	//정점 데이터
 	extern Vertex vertexes[4];
 
@@ -65,12 +73,22 @@ namespace ya::renderer
 	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthstencilStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[];
 
+	// 카메라
 	extern Camera* mainCamera;
 	extern std::vector<Camera*> cameras[];
+
+	//빛
+	extern std::vector<LightAttribute> lights;
+	extern StructedBuffer* lightsBuffer;
+
+	// 디버그
 	extern std::vector<DebugMesh> debugMeshes;
 
 	void Initialize();
 	void Render();
 	void Release();
 	
+	//Renderer
+	void PushLightAttribute(LightAttribute lightAttribute);
+	void BindLights();
 }

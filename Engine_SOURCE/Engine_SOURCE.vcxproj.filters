@@ -103,6 +103,15 @@
     <Filter Include="Component\Animator">
       <UniqueIdentifier>{23770c29-de01-48ad-93b3-b15e7119a111}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Renderer\Base">
+      <UniqueIdentifier>{c7352d5c-ca9a-4563-ae7e-bfe9a794bf8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Buffer">
+      <UniqueIdentifier>{34eabd16-b916-4c90-86e0-0764079c3dc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Light">
+      <UniqueIdentifier>{46aad257-bec9-4f4f-8935-be9f7eafe0f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -144,7 +153,6 @@
     <ClCompile Include="yaComponent.cpp">
       <Filter>Component\Base</Filter>
     </ClCompile>
-    <ClCompile Include="yaConstantBuffer.cpp" />
     <ClCompile Include="yaTexture.cpp">
       <Filter>Resource\Texture</Filter>
     </ClCompile>
@@ -170,9 +178,6 @@
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
     <ClCompile Include="yaSpriteRenderer.cpp">
-      <Filter>Component\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="yaBaseRenderer.cpp">
       <Filter>Component\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="yaGridScript.cpp">
@@ -230,6 +235,21 @@
     <ClCompile Include="yaTitleScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="yaImageRenderer.cpp">
+      <Filter>Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBaseRenderer.cpp">
+      <Filter>Component\Renderer\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaConstantBuffer.cpp">
+      <Filter>Graphics\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaStructedBuffer.cpp">
+      <Filter>Graphics\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLight.cpp">
+      <Filter>Component\Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -283,7 +303,6 @@
     <ClInclude Include="yaComponent.h">
       <Filter>Component\Base</Filter>
     </ClInclude>
-    <ClInclude Include="yaConstantBuffer.h" />
     <ClInclude Include="yaTexture.h">
       <Filter>Resource\Texture</Filter>
     </ClInclude>
@@ -309,9 +328,6 @@
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
     <ClInclude Include="yaSpriteRenderer.h">
-      <Filter>Component\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="yaBaseRenderer.h">
       <Filter>Component\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="yaGridScript.h">
@@ -371,6 +387,21 @@
     </ClInclude>
     <ClInclude Include="yaTitleScript.h">
       <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaImageRenderer.h">
+      <Filter>Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBaseRenderer.h">
+      <Filter>Component\Renderer\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaConstantBuffer.h">
+      <Filter>Graphics\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaStructedBuffer.h">
+      <Filter>Graphics\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLight.h">
+      <Filter>Component\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

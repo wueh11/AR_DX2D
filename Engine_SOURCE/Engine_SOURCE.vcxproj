@@ -164,6 +164,8 @@
     <ClInclude Include="yaCollider2D.h" />
     <ClInclude Include="yaCollider3D.h" />
     <ClInclude Include="yaCollisionManager.h" />
+    <ClInclude Include="yaImageRenderer.h" />
+    <ClInclude Include="yaLight.h" />
     <ClInclude Include="yaMonster.h" />
     <ClInclude Include="yaComponent.h" />
     <ClInclude Include="yaConstantBuffer.h" />
@@ -195,6 +197,7 @@
     <ClInclude Include="yaScript.h" />
     <ClInclude Include="yaShader.h" />
     <ClInclude Include="yaSpriteRenderer.h" />
+    <ClInclude Include="yaStructedBuffer.h" />
     <ClInclude Include="yaTexture.h" />
     <ClInclude Include="yaTime.h" />
     <ClInclude Include="yaTitleScene.h" />
@@ -213,6 +216,8 @@
     <ClCompile Include="yaCollider2D.cpp" />
     <ClCompile Include="yaCollider3D.cpp" />
     <ClCompile Include="yaCollisionManager.cpp" />
+    <ClCompile Include="yaImageRenderer.cpp" />
+    <ClCompile Include="yaLight.cpp" />
     <ClCompile Include="yaMonster.cpp" />
     <ClCompile Include="yaComponent.cpp" />
     <ClCompile Include="yaConstantBuffer.cpp" />
@@ -240,6 +245,7 @@
     <ClCompile Include="yaScript.cpp" />
     <ClCompile Include="yaShader.cpp" />
     <ClCompile Include="yaSpriteRenderer.cpp" />
+    <ClCompile Include="yaStructedBuffer.cpp" />
     <ClCompile Include="yaTexture.cpp" />
     <ClCompile Include="yaTime.cpp" />
     <ClCompile Include="yaTitleScene.cpp" />
