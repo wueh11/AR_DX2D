@@ -112,6 +112,21 @@
     <Filter Include="Component\Light">
       <UniqueIdentifier>{46aad257-bec9-4f4f-8935-be9f7eafe0f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Projectile">
+      <UniqueIdentifier>{58f239d4-365e-403e-9b85-8ff407215930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Projectile">
+      <UniqueIdentifier>{40d6ffd5-d304-45f2-8b6d-5b27f34f59f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\System">
+      <UniqueIdentifier>{5e701ae9-1f7b-4660-809b-84a09fc001a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\Object">
+      <UniqueIdentifier>{0b2a4b92-0457-4f38-9c38-26c6d41aa4e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\Scene">
+      <UniqueIdentifier>{1dc5c247-6d6d-415c-8f78-4b64b8412612}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -165,26 +180,14 @@
     <ClCompile Include="yaScript.cpp">
       <Filter>Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="yaPlayerScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
     <ClCompile Include="yaMeshRenderer.cpp">
       <Filter>Component\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="yaCamera.cpp">
       <Filter>Component\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="yaCameraScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
     <ClCompile Include="yaSpriteRenderer.cpp">
       <Filter>Component\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="yaGridScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="yaFadeScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
     </ClCompile>
     <ClCompile Include="yaMonster.cpp">
       <Filter>GameObject\Player</Filter>
@@ -220,9 +223,6 @@
     <ClCompile Include="yaCollisionManager.cpp">
       <Filter>Component\Collider\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="yaPlayer.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
     <ClCompile Include="yaUIheart.cpp">
       <Filter>GameObject\UI</Filter>
     </ClCompile>
@@ -231,9 +231,6 @@
     </ClCompile>
     <ClCompile Include="yaAnimation.cpp">
       <Filter>Component\Animator</Filter>
-    </ClCompile>
-    <ClCompile Include="yaTitleScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
     </ClCompile>
     <ClCompile Include="yaImageRenderer.cpp">
       <Filter>Component\Renderer</Filter>
@@ -249,6 +246,36 @@
     </ClCompile>
     <ClCompile Include="yaLight.cpp">
       <Filter>Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayer.cpp">
+      <Filter>GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTear.cpp">
+      <Filter>GameObject\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBomb.cpp">
+      <Filter>GameObject\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayerScript.cpp">
+      <Filter>Component\Script\Contents\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTearScript.cpp">
+      <Filter>Component\Script\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTitleScript.cpp">
+      <Filter>Component\Script\Contents\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGridScript.cpp">
+      <Filter>Component\Script\Contents\System</Filter>
+    </ClCompile>
+    <ClCompile Include="yaFadeScript.cpp">
+      <Filter>Component\Script\Contents\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCameraScript.cpp">
+      <Filter>Component\Script\Contents\System</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBombScript.cpp">
+      <Filter>Component\Script\Projectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -315,29 +342,17 @@
     <ClInclude Include="yaScript.h">
       <Filter>Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="yaPlayerScript.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
     <ClInclude Include="yaMeshRenderer.h">
       <Filter>Component\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="yaCamera.h">
       <Filter>Component\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="yaCameraScript.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
     <ClInclude Include="yaSpriteRenderer.h">
       <Filter>Component\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="yaGridScript.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
     <ClInclude Include="yaObject.h">
       <Filter>GameObject\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="yaFadeScript.h">
-      <Filter>Component\Script\Contents</Filter>
     </ClInclude>
     <ClInclude Include="yaMonster.h">
       <Filter>GameObject\Player</Filter>
@@ -373,9 +388,6 @@
     <ClInclude Include="yaCollisionManager.h">
       <Filter>Component\Collider\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="yaPlayer.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
     <ClInclude Include="yaUIheart.h">
       <Filter>GameObject\UI</Filter>
     </ClInclude>
@@ -384,9 +396,6 @@
     </ClInclude>
     <ClInclude Include="yaAnimator.h">
       <Filter>Component\Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="yaTitleScript.h">
-      <Filter>Component\Script\Contents</Filter>
     </ClInclude>
     <ClInclude Include="yaImageRenderer.h">
       <Filter>Component\Renderer</Filter>
@@ -402,6 +411,36 @@
     </ClInclude>
     <ClInclude Include="yaLight.h">
       <Filter>Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPlayer.h">
+      <Filter>GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTear.h">
+      <Filter>GameObject\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBomb.h">
+      <Filter>GameObject\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPlayerScript.h">
+      <Filter>Component\Script\Contents\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTearScript.h">
+      <Filter>Component\Script\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTitleScript.h">
+      <Filter>Component\Script\Contents\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGridScript.h">
+      <Filter>Component\Script\Contents\System</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFadeScript.h">
+      <Filter>Component\Script\Contents\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCameraScript.h">
+      <Filter>Component\Script\Contents\System</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBombScript.h">
+      <Filter>Component\Script\Projectile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

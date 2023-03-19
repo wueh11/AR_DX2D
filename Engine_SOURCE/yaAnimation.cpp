@@ -53,7 +53,7 @@ namespace ya
 
     void Animation::Create(const std::wstring& name, std::shared_ptr<Texture> atlas
 						, Vector2 leftTop, Vector2 size, Vector2 offset
-						, UINT spriteLength, float duration)
+						, UINT spriteLength, float duration, UINT spriteRow, UINT spriteColumn)
     {
         mAnimationName = name;
         mAtlas = atlas;
@@ -62,11 +62,20 @@ namespace ya
         float width = (float)atlas->GetWidth();
         float height = (float)atlas->GetHeight();
 
-        for (size_t i = 0; i < spriteLength; i++)
+        if (spriteRow == 1)
+            spriteColumn = spriteLength;
+
+        for (size_t i = 0, row = 0, col = 0; i < spriteLength; i++, col++)
         {
+            if (col > spriteColumn)
+            {
+                row++;
+                col = 0;
+            }
+
             // API와는 다르게 0~1 사이의 비율좌표로 위치를 표현해야한다.
             Sprite sprite = {};
-            sprite.leftTop = Vector2((leftTop.x + (size.x * (float)i)) / width, (leftTop.y) / height);
+            sprite.leftTop = Vector2((leftTop.x + (size.x * (float)col)) / width, (leftTop.y + (size.x * (float)row)) / height);
             sprite.size = Vector2(size.x / width, size.y / height);
             sprite.offset = offset;
             sprite.duration = duration;

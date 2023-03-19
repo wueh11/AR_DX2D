@@ -25,7 +25,7 @@ namespace ya
 
 		mMr = AddComponent<MeshRenderer>();
 		mMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-		std::shared_ptr<Material> material = Resources::Find<Material>(L"IsaacMaterial");
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"isaacMaterial");
 		mMr->SetMaterial(material);
 
 		AddComponent<PlayerScript>();

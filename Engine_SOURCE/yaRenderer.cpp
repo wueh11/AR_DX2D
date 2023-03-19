@@ -180,6 +180,19 @@ namespace ya::renderer
 				, spriteShader->GetVSBlobBufferSize()
 				, spriteShader->GetInputLayoutAddressOf());
 		}
+
+		{ // nosolidNone
+			std::shared_ptr<Shader> spriteSolidNoneShader = std::make_shared<Shader>();
+			spriteSolidNoneShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+			spriteSolidNoneShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
+			spriteSolidNoneShader->SetRSState(eRSType::SolidNone);
+			Resources::Insert<Shader>(L"SpriteSolidNoneShader", spriteSolidNoneShader);
+
+			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+				, spriteSolidNoneShader->GetVSBlobBufferPointer()
+				, spriteSolidNoneShader->GetVSBlobBufferSize()
+				, spriteSolidNoneShader->GetInputLayoutAddressOf());
+		}
 		
 		{ // UI
 			std::shared_ptr<Shader> UIshader = std::make_shared<Shader>();
@@ -366,18 +379,33 @@ namespace ya::renderer
 	void LoadTexture()
 	{
 		Resources::Load<Texture>(L"image", L"image.jpg");
-		Resources::Load<Texture>(L"Light", L"Light.png");
 		Resources::Load<Texture>(L"HPBar", L"HPBar.png");
 
+		{
+			Resources::Load<Texture>(L"isaac", L"Issac\\character_001_isaac.png");
+			Resources::Load<Texture>(L"tearpoofa", L"Issac\\effect_015_tearpoofa.png");
+			Resources::Load<Texture>(L"bomb", L"Issac\\pickup_016_bomb.png");
+			Resources::Load<Texture>(L"explosion", L"Issac\\effect_029_explosion.png");
+		}
 
-		Resources::Load<Texture>(L"Isaac", L"Issac\\character_001_isaac.png");
-		Resources::Load<Texture>(L"BG_basement", L"Issac\\01_basement.png");
-		Resources::Load<Texture>(L"titlemenu", L"Issac\\titlemenu.png");
-		Resources::Load<Texture>(L"gamemenu", L"Issac\\gamemenu.png");
-		Resources::Load<Texture>(L"charactermenu", L"Issac\\charactermenu.png");
-		Resources::Load<Texture>(L"menuoverlay", L"Issac\\menuoverlay.png");
-		Resources::Load<Texture>(L"menushadow", L"Issac\\menushadow.png");
-		Resources::Load<Texture>(L"splashes", L"Issac\\splashes.png");
+		{ // title
+			Resources::Load<Texture>(L"titlemenu", L"Issac\\titlemenu.png");
+			Resources::Load<Texture>(L"gamemenu", L"Issac\\gamemenu.png");
+			Resources::Load<Texture>(L"charactermenu", L"Issac\\charactermenu.png");
+			Resources::Load<Texture>(L"menuoverlay", L"Issac\\menuoverlay.png");
+			Resources::Load<Texture>(L"menushadow", L"Issac\\menushadow.png");
+			Resources::Load<Texture>(L"splashes", L"Issac\\splashes.png");
+		}
+
+		{ // room
+			Resources::Load<Texture>(L"bgblack", L"Issac\\bgblack.png");
+			Resources::Load<Texture>(L"shading", L"Issac\\shading.png");
+		}
+
+		{ //basement
+			Resources::Load<Texture>(L"basement", L"Issac\\01_basement.png");
+			Resources::Load<Texture>(L"controls", L"Issac\\controls.png");
+		}
 	}
 
 	void LoadMaterial()
@@ -399,16 +427,6 @@ namespace ya::renderer
 			spriteMaterial->SetShader(spriteShader);
 			spriteMaterial->SetTexture(spriteTexture);
 			Resources::Insert<Material>(L"SpriteMaterial", spriteMaterial);
-		}
-
-		{ // UI
-			std::shared_ptr<Texture> UITexture = Resources::Find<Texture>(L"HPBar");
-			std::shared_ptr<Shader> UIShader = Resources::Find<Shader>(L"UIShader");
-			std::shared_ptr<Material> UIMaterial = std::make_shared<Material>();
-			UIMaterial->SetRenderingMode(eRenderingMode::Transparent);
-			UIMaterial->SetShader(UIShader);
-			UIMaterial->SetTexture(UITexture);
-			Resources::Insert<Material>(L"UIMaterial", UIMaterial);
 		}
 
 		{ // grid
@@ -435,75 +453,132 @@ namespace ya::renderer
 
 		std::shared_ptr<Shader> rectShader = Resources::Find<Shader>(L"RectShader");
 		std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
+		std::shared_ptr<Shader> spriteSolidNoneShader = Resources::Find<Shader>(L"SpriteSolidNoneShader");
 
 		////////////////
 		{ // Issac
-			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"Isaac");
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"isaac");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
 			material->SetRenderingMode(eRenderingMode::Transparent);
-			material->SetShader(rectShader);
+			material->SetShader(spriteSolidNoneShader);
 			material->SetTexture(texture);
-			Resources::Insert<Material>(L"IsaacMaterial", material);
+			Resources::Insert<Material>(L"isaacMaterial", material);
 		}
 
-		{//BG_basement
-			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"BG_basement");
+		{ // tearpoofa
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"tearpoofa");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
 			material->SetRenderingMode(eRenderingMode::Transparent);
-			material->SetShader(rectShader);
+			material->SetShader(spriteShader);
 			material->SetTexture(texture);
-			Resources::Insert<Material>(L"BasementBackgroundMaterial", material);
+			Resources::Insert<Material>(L"tearpoofaMaterial", material);
 		}
 
-		{ //titleBG
-			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"titlemenu");
-			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetRenderingMode(eRenderingMode::Transparent);
-			material->SetShader(spriteShader);
-			material->SetTexture(texture);
-			Resources::Insert<Material>(L"titlemenuMaterial", material);
-		}
-		
-		{ //gamemenu
-			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"gamemenu");
+		{ // bomb
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bomb");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
 			material->SetShader(spriteShader);
 			material->SetTexture(texture);
-			Resources::Insert<Material>(L"gamemenuMaterial", material);
+			Resources::Insert<Material>(L"bombMaterial", material);
 		}
 		
-		{ //charactermenu
-			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"charactermenu");
+		{ // bomb
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"explosion");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
 			material->SetShader(spriteShader);
 			material->SetTexture(texture);
-			Resources::Insert<Material>(L"charactermenuMaterial", material);
+			Resources::Insert<Material>(L"explosionMaterial", material);
 		}
-		
-		{ //menuoverlay
-			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"menuoverlay");
-			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetShader(rectShader);
-			material->SetTexture(texture);
-			material->SetRenderingMode(eRenderingMode::Transparent);
-			Resources::Insert<Material>(L"menuoverlayMaterial", material);
+
+		{ // title
+			{ //titleBG
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"titlemenu");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"titlemenuMaterial", material);
+			}
+
+			{ //gamemenu
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"gamemenu");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"gamemenuMaterial", material);
+			}
+
+			{ //charactermenu
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"charactermenu");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"charactermenuMaterial", material);
+			}
+
+			{ //menuoverlay
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"menuoverlay");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				Resources::Insert<Material>(L"menuoverlayMaterial", material);
+			}
+
+			{ //menushadow
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"menushadow");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"menushadowMaterial", material);
+			}
+
+			{ //splashes
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"splashes");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"splashesMaterial", material);
+			}
 		}
-		
-		{ //menushadow
-			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"menushadow");
-			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetShader(rectShader);
-			material->SetTexture(texture);
-			Resources::Insert<Material>(L"menushadowMaterial", material);
+
+		{ // rooms
+			{ //bgblack
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bgblack");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bgblackMaterial", material);
+			}
+			{ //shading
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"shading");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"shadingMaterial", material);
+			}
 		}
-		
-		{ //splashes
-			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"splashes");
-			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetShader(rectShader);
-			material->SetTexture(texture);
-			Resources::Insert<Material>(L"splashesMaterial", material);
+
+		{ // basement
+			{ //BG_basement
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"basement");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetShader(spriteSolidNoneShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"basementMaterial", material);
+			}
+			{ //controls
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"controls");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"controlsMaterial", material);
+			}
 		}
+
 	}
 
 	void Initialize()

@@ -41,5 +41,6 @@ namespace ya
 		eState mState;
 		ePage mPage;
 		float mSpeed;
+		float mFriction;
 	};
 }

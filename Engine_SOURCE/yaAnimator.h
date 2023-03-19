@@ -43,7 +43,7 @@ namespace ya
 
 		bool Create(const std::wstring& name, std::shared_ptr<Texture> atlas
 			, Vector2 leftTop, Vector2 size, Vector2 offset
-			, UINT spriteLength, float duration);
+			, UINT spriteLength, float duration, UINT spriteRow = 1, UINT spriteColumn = 1);
 
 		Animation* FindAnimation(const std::wstring& name);
 		Events* FindEvents(const std::wstring& name);

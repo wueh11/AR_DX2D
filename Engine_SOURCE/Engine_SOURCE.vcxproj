@@ -158,6 +158,8 @@
     <ClInclude Include="yaAnimator.h" />
     <ClInclude Include="yaApplication.h" />
     <ClInclude Include="yaBaseRenderer.h" />
+    <ClInclude Include="yaBomb.h" />
+    <ClInclude Include="yaBombScript.h" />
     <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaCameraScript.h" />
     <ClInclude Include="yaCollider.h" />
@@ -198,6 +200,8 @@
     <ClInclude Include="yaShader.h" />
     <ClInclude Include="yaSpriteRenderer.h" />
     <ClInclude Include="yaStructedBuffer.h" />
+    <ClInclude Include="yaTear.h" />
+    <ClInclude Include="yaTearScript.h" />
     <ClInclude Include="yaTexture.h" />
     <ClInclude Include="yaTime.h" />
     <ClInclude Include="yaTitleScene.h" />
@@ -210,6 +214,8 @@
     <ClCompile Include="yaAnimator.cpp" />
     <ClCompile Include="yaApplication.cpp" />
     <ClCompile Include="yaBaseRenderer.cpp" />
+    <ClCompile Include="yaBomb.cpp" />
+    <ClCompile Include="yaBombScript.cpp" />
     <ClCompile Include="yaCamera.cpp" />
     <ClCompile Include="yaCameraScript.cpp" />
     <ClCompile Include="yaCollider.cpp" />
@@ -246,6 +252,8 @@
     <ClCompile Include="yaShader.cpp" />
     <ClCompile Include="yaSpriteRenderer.cpp" />
     <ClCompile Include="yaStructedBuffer.cpp" />
+    <ClCompile Include="yaTear.cpp" />
+    <ClCompile Include="yaTearScript.cpp" />
     <ClCompile Include="yaTexture.cpp" />
     <ClCompile Include="yaTime.cpp" />
     <ClCompile Include="yaTitleScene.cpp" />

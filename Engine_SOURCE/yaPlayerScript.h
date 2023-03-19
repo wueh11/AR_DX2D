@@ -3,6 +3,8 @@
 
 namespace ya
 {
+	class Transform;
+	class Animator;
 	class PlayerScript : public Script
 	{
 	public:
@@ -22,10 +24,12 @@ namespace ya
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
-		void Start();
-		void Action();
-		void End();
+		void Attack(Vector3 direction);
 
 	private:
+		Transform* mTransform;
+
+		GameObject* mHead;
+		GameObject* mBody;
 	};
 }

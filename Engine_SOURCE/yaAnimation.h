@@ -36,7 +36,7 @@ namespace ya
 
 		void Create(const std::wstring& name, std::shared_ptr<Texture> atlas
 						, Vector2 leftTop, Vector2 size, Vector2 offset
-						, UINT spriteLength, float duration);
+						, UINT spriteLength, float duration, UINT spriteRow, UINT spriteColumn);
 
 		void BindShader();	//쉐이더에 셋팅
 		void Clear();

@@ -15,8 +15,10 @@ namespace ya::enums
 		Grid,
 		Background,
 		Camera,
+		Effect,
 		Monster,
 		Player,
+		Projectile,
 		UI,
 		End = 16,
 	};
