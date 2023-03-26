@@ -30,6 +30,8 @@
 #include "yaIsaac.h"
 #include "yaLight.h"
 
+#include "yaPaintShader.h"
+
 namespace ya
 {
 	TitleScene::TitleScene()
@@ -68,14 +70,6 @@ namespace ya
 		}
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
-
-		{ // Fade Object
-			GameObject* fadeObject = object::Instantiate<GameObject>(eLayerType::Monster);
-			MeshRenderer* fadeMr = fadeObject->AddComponent<MeshRenderer>();
-			fadeMr->SetMesh(mesh);
-			fadeMr->SetMaterial(Resources::Find<Material>(L"FadeMaterial"));
-			FadeScript* fadeScript = fadeObject->AddComponent<FadeScript>();
-		}
 
 		{ // titlemenu
 			{ // title Background
@@ -168,33 +162,6 @@ namespace ya
 			menuoverlayMr->SetMaterial(menuoverlayMaterial);
 		}
 		
-		//{ //SMILE RECT
-		//	Player* obj = object::Instantiate<Player>(eLayerType::Player);
-		//	obj->SetName(L"Zelda");
-		//	Transform* tr = obj->GetComponent<Transform>();
-		//	tr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
-		//	//tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2 / 2.0f));
-		//	//tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-
-		//	Collider2D* collider = obj->AddComponent<Collider2D>();
-		//	collider->SetColliderType(eColliderType::Rect);
-		//	//collider->SetSize(Vector2(1.5f, 1.5f));
-
-		//	Animator* animator = obj->AddComponent<Animator>();
-		//	std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"Zelda", L"Zelda.png");
-
-		//	animator->Create(L"Idle", texture, Vector2(0.0f, 0.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 3, 0.1f);
-		//	animator->Create(L"MoveDown", texture, Vector2(0.0f, 520.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 8, 0.1f);
-		//	animator->Play(L"Idle", true);
-
-		//	SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
-		//	std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"SpriteMaterial");
-		//	mr->SetMaterial(mateiral);
-		//	mr->SetMesh(mesh);
-		//	obj->AddComponent<PlayerScript>();
-		//	object::DontDestroyOnLoad(obj);
-		//}
-
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 
 		Scene::Initialize();
@@ -205,6 +172,11 @@ namespace ya
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
 			SceneManager::LoadScene(eSceneType::Play);
+		}
+
+		if (Input::GetKeyDown(eKeyCode::N_0))
+		{
+			SceneManager::LoadScene(eSceneType::Work);
 		}
 
 		Scene::Update();

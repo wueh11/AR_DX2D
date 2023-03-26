@@ -39,13 +39,13 @@ namespace ya
 		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 
 		mAnimator = GetOwner()->AddComponent<Animator>();
-		std::shared_ptr<Texture> texture = material.get()->GetTexture();
+		std::shared_ptr<Texture> texture = material->GetTexture();
 
 		mAnimator->Create(L"Default", texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 1, 0.1f);
 		mAnimator->Create(L"Destroy", texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 16, 0.05f, 4, 4);
 		mAnimator->Play(L"Default", true);
 
-		mAnimator->GetEndEvent(L"Destroy") = std::bind(&TearScript::Destroy, this);
+		mAnimator->GetCompleteEvent(L"Destroy") = std::bind(&TearScript::Destroy, this);
 	}
 	void TearScript::Update()
 	{

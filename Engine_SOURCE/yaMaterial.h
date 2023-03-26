@@ -23,15 +23,19 @@ namespace ya::graphics
 		void SetShader(std::shared_ptr<Shader> shader) { mShader = shader; }
 		std::shared_ptr<Shader> GetShader() { return mShader; }
 
-		void SetTexture(std::shared_ptr<Texture> texture) { mTexture = texture; }
-		std::shared_ptr<Texture> GetTexture() { return mTexture; }
+		//void SetTexture(std::shared_ptr<Texture> texture) { mTexture = texture; }
+		void SetTexture(std::shared_ptr<Texture> texture, UINT slot = 0);
+		//std::shared_ptr<Texture> GetTexture() { return mTexture; }
+		std::shared_ptr<Texture> GetTexture(UINT slot = 0) { return mTextures[slot]; }
 
 		eRenderingMode GetRenderingMode() { return mMode;  }
 		void SetRenderingMode(eRenderingMode mode) { mMode = mode; }
 
 	private:
 		std::shared_ptr<Shader> mShader;
-		std::shared_ptr<Texture> mTexture;
+		//std::shared_ptr<Texture> mTexture;
+
+		std::vector<std::shared_ptr<Texture>> mTextures;
 
 		MaterialCB mCB;
 

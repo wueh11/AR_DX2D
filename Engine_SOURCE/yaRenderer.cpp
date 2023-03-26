@@ -2,6 +2,7 @@
 #include "yaResources.h"
 #include "yaMaterial.h"
 #include "yaSceneManager.h"
+#include "yaPaintShader.h"
 
 namespace ya::renderer
 {
@@ -251,6 +252,12 @@ namespace ya::renderer
 				, debugShader->GetVSBlobBufferSize()
 				, debugShader->GetInputLayoutAddressOf());
 		}
+
+		{ // PaintShader
+			std::shared_ptr<PaintShader> paintShader = std::make_shared<PaintShader>();
+			paintShader->Create(L"PaintCS.hlsl", "main");
+			Resources::Insert<PaintShader>(L"PaintShader", paintShader);
+		}
 	}
 
 	void SetUpState()
@@ -380,6 +387,13 @@ namespace ya::renderer
 	{
 		Resources::Load<Texture>(L"image", L"image.jpg");
 		Resources::Load<Texture>(L"HPBar", L"HPBar.png");
+		Resources::Load<Texture>(L"noise", L"noise2.png");
+
+		{ //Create
+			std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
+			uavTexture->Create(1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
+			Resources::Insert<Texture>(L"PaintTexture", uavTexture);
+		}
 
 		{
 			Resources::Load<Texture>(L"isaac", L"Issac\\character_001_isaac.png");
@@ -410,6 +424,15 @@ namespace ya::renderer
 
 	void LoadMaterial()
 	{
+		{ // computeshader
+			std::shared_ptr <Texture> texture = Resources::Find<Texture>(L"PaintTexture");
+			std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"RectShader");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetShader(shader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"CSMaterial", material);
+		}
+
 		{ // Image
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"image");
 			std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"RectShader");

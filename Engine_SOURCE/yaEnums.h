@@ -4,6 +4,7 @@ namespace ya::enums
 {
 	enum class eSceneType
 	{
+		Work,
 		Title,
 		Play,
 		End,

@@ -2,6 +2,7 @@
 
 #include "yaPlayScene.h"
 #include "yaTitleScene.h"
+#include "yaWorkScene.h"
 
 namespace ya
 {
@@ -12,6 +13,7 @@ namespace ya
 	{
 		mScenes.resize((UINT)eSceneType::End);
 
+		mScenes[(UINT)eSceneType::Work] = new WorkScene();
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Play] = new PlayScene();
 

@@ -60,6 +60,7 @@ namespace ya
 
 	void Application::Destroy()
 	{
+		SceneManager::Destroy();
 	}
 
 	// Running main engine loop

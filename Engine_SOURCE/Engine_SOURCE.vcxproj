@@ -166,6 +166,7 @@
     <ClInclude Include="yaCollider2D.h" />
     <ClInclude Include="yaCollider3D.h" />
     <ClInclude Include="yaCollisionManager.h" />
+    <ClInclude Include="yaComputeShader.h" />
     <ClInclude Include="yaImageRenderer.h" />
     <ClInclude Include="yaLight.h" />
     <ClInclude Include="yaMonster.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="yaMesh.h" />
     <ClInclude Include="yaMeshRenderer.h" />
     <ClInclude Include="yaObject.h" />
+    <ClInclude Include="yaPaintShader.h" />
     <ClInclude Include="yaPlayer.h" />
     <ClInclude Include="yaPlayerScript.h" />
     <ClInclude Include="yaPlayScene.h" />
@@ -208,6 +210,7 @@
     <ClInclude Include="yaTitleScript.h" />
     <ClInclude Include="yaTransform.h" />
     <ClInclude Include="yaUIheart.h" />
+    <ClInclude Include="yaWorkScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaAnimation.cpp" />
@@ -222,6 +225,7 @@
     <ClCompile Include="yaCollider2D.cpp" />
     <ClCompile Include="yaCollider3D.cpp" />
     <ClCompile Include="yaCollisionManager.cpp" />
+    <ClCompile Include="yaComputeShader.cpp" />
     <ClCompile Include="yaImageRenderer.cpp" />
     <ClCompile Include="yaLight.cpp" />
     <ClCompile Include="yaMonster.cpp" />
@@ -239,6 +243,7 @@
     <ClCompile Include="yaMath.cpp" />
     <ClCompile Include="yaMesh.cpp" />
     <ClCompile Include="yaMeshRenderer.cpp" />
+    <ClCompile Include="yaPaintShader.cpp" />
     <ClCompile Include="yaPlayer.cpp" />
     <ClCompile Include="yaPlayerScript.cpp" />
     <ClCompile Include="yaPlayScene.cpp" />
@@ -260,6 +265,7 @@
     <ClCompile Include="yaTitleScript.cpp" />
     <ClCompile Include="yaTransform.cpp" />
     <ClCompile Include="yaUIheart.cpp" />
+    <ClCompile Include="yaWorkScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl" />

@@ -76,6 +76,10 @@ namespace ya
 			mTransform->SetPosition(mTransform->GetPosition() + Vector3(0.0f, 0.22f, 0.0f));
 			Explosion();
 			break;
+		case ya::BombScript::eState::Imprint:
+			mAnimator->Play(L"Imprint");
+			mState = eState::None;
+			break;
 		case ya::BombScript::eState::None:
 			break;
 		default:
@@ -115,7 +119,6 @@ namespace ya
 
 	void BombScript::Imprint()
 	{
-		//mAnimator->Play(L"Imprint");
-		mState = eState::None;
+		mState = eState::Imprint;
 	}
 }

@@ -62,6 +62,6 @@ namespace ya::graphics
 
 	void StructedBuffer::SetPipeline(eShaderStage stage, UINT slot)
 	{
-		GetDevice()->SetShaderResource(stage, slot, mSRV.GetAddressOf());
+		GetDevice()->BindShaderResource(stage, slot, mSRV.GetAddressOf());
 	}
 }

@@ -38,9 +38,8 @@ namespace ya
 			return;
 
 		Events* events = FindEvents(mActiveAnimation->AnimationName());
-		if (mActiveAnimation->IsComplete() && mbLoop)
+		if (mActiveAnimation->IsComplete())
 		{
-
 			if (events)
 				events->mCompleteEvent();
 

@@ -18,17 +18,32 @@ namespace ya::graphics
 		Texture();
 		virtual ~Texture();
 
+		bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
+		bool Create(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture);
 		virtual HRESULT Load(const std::wstring& path) override;
 		void BindShader(eShaderStage stage, UINT slot);
+
+		void BindUnorderedAccessView(UINT startSlot);
+		void ClearUnorderedAccessView(UINT startSlot);
+
 		void Clear();
 		static void Clear(UINT startSlot);
 
-		size_t GetHeight() { return mImage.GetMetadata().height; }
-		size_t GetWidth() { return mImage.GetMetadata().width; }
+		size_t GetHeight() { return mDesc.Height; }
+		size_t GetWidth() { return mDesc.Width; }
+
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> GetTexture() { return mTexture; }
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> GetDSV() { return mDSV; }
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> GetRTV() { return mRTV; }
+		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> GetUAV() { return mUAV; }
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetSRV() { return mSRV; }
 
 	private:
 		ScratchImage mImage;
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> mTexture;
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> mDSV; /// 뎁스스텐실에 접근하기위한 view
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> mRTV;
+		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> mUAV; /// 텍스쳐 만들때 사용하는 뷰. 쓰기가 가능해짐
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> mSRV;
 
 		D3D11_TEXTURE2D_DESC mDesc;
