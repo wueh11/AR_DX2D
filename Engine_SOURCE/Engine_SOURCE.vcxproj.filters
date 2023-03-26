@@ -292,6 +292,9 @@
     <ClCompile Include="yaWorkScene.cpp">
       <Filter>Scene\Issac</Filter>
     </ClCompile>
+    <ClCompile Include="yaUIScript.cpp">
+      <Filter>Component\Script\Contents\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -465,6 +468,9 @@
     </ClInclude>
     <ClInclude Include="yaWorkScene.h">
       <Filter>Scene\Issac</Filter>
+    </ClInclude>
+    <ClInclude Include="yaUIScript.h">
+      <Filter>Component\Script\Contents\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -83,7 +83,7 @@ namespace ya::graphics
 		depthBuffer.MiscFlags = 0;
 
 		mDepthStencilBufferTexture = std::make_shared<Texture>();
-		mDepthStencilBufferTexture->Create(1600, 900, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+		mDepthStencilBufferTexture->Create(depthBuffer.Width, depthBuffer.Height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
 
 		// Depth Stencil Buffer
 		if (!CreateTexture(&depthBuffer, mDepthStencilBufferTexture->GetTexture().GetAddressOf()))

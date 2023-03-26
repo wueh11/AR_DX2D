@@ -389,17 +389,26 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"HPBar", L"HPBar.png");
 		Resources::Load<Texture>(L"noise", L"noise2.png");
 
-		{ //Create
+		{ // uavTexture
 			std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
 			uavTexture->Create(1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
 			Resources::Insert<Texture>(L"PaintTexture", uavTexture);
 		}
 
-		{
+		{ //character
 			Resources::Load<Texture>(L"isaac", L"Issac\\character_001_isaac.png");
 			Resources::Load<Texture>(L"tearpoofa", L"Issac\\effect_015_tearpoofa.png");
 			Resources::Load<Texture>(L"bomb", L"Issac\\pickup_016_bomb.png");
 			Resources::Load<Texture>(L"explosion", L"Issac\\effect_029_explosion.png");
+		}
+
+		{ // uis
+			Resources::Load<Texture>(L"hudpickups", L"Issac\\hudpickups.png");
+			Resources::Load<Texture>(L"ui_hearts", L"Issac\\ui_hearts.png");
+			Resources::Load<Texture>(L"ui_chargebar", L"Issac\\ui_chargebar.png");
+			Resources::Load<Texture>(L"ui_cardspills", L"Issac\\ui_cardspills.png");
+			Resources::Load<Texture>(L"ui_cardfronts", L"Issac\\ui_cardfronts.png");
+			Resources::Load<Texture>(L"minimap1", L"Issac\\minimap1.png");
 		}
 
 		{ // title
@@ -523,6 +532,15 @@ namespace ya::renderer
 				Resources::Insert<Material>(L"titlemenuMaterial", material);
 			}
 
+			{ //splashes
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"splashes");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"splashesMaterial", material);
+			}
+
 			{ //gamemenu
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"gamemenu");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -555,14 +573,63 @@ namespace ya::renderer
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"menushadowMaterial", material);
 			}
+		}
 
-			{ //splashes
-				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"splashes");
+		{ // uis
+			{ //hudpickups
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"hudpickups");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
-				material->SetShader(rectShader);
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
 				material->SetTexture(texture);
-				Resources::Insert<Material>(L"splashesMaterial", material);
+				Resources::Insert<Material>(L"hudpickupsMaterial", material);
 			}
+
+			{ //ui_hearts
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"ui_hearts");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"ui_heartsMaterial", material);
+			}
+
+			{ //ui_chargebar
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"ui_chargebar");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"ui_chargebarMaterial", material);
+			}
+
+			{ //ui_cardspills
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"ui_cardspills");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"ui_cardspillsMaterial", material);
+			}
+
+			{ //ui_cardfronts
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"ui_cardfronts");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"ui_cardfrontsMaterial", material);
+			}
+
+			{ //minimap1
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"minimap1");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"minimap1Material", material);
+			}
+
 		}
 
 		{ // rooms

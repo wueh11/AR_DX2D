@@ -15,7 +15,7 @@ namespace ya::graphics
 
 	bool Texture::Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag)
 	{
-		// Depth stencil texture
+		//Depth stencil texture
 		mDesc.BindFlags = bindFlag;
 		mDesc.Usage = D3D11_USAGE_DEFAULT;
 		mDesc.CPUAccessFlags = 0;
@@ -27,7 +27,7 @@ namespace ya::graphics
 		mDesc.SampleDesc.Count = 1;
 		mDesc.SampleDesc.Quality = 0;
 
-		mDesc.MipLevels = 1;
+		mDesc.MipLevels = 0;
 		mDesc.MiscFlags = 0;
 
 		if (!GetDevice()->CreateTexture(&mDesc, mTexture.GetAddressOf()))

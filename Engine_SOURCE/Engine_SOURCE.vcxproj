@@ -210,6 +210,7 @@
     <ClInclude Include="yaTitleScript.h" />
     <ClInclude Include="yaTransform.h" />
     <ClInclude Include="yaUIheart.h" />
+    <ClInclude Include="yaUIScript.h" />
     <ClInclude Include="yaWorkScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +266,7 @@
     <ClCompile Include="yaTitleScript.cpp" />
     <ClCompile Include="yaTransform.cpp" />
     <ClCompile Include="yaUIheart.cpp" />
+    <ClCompile Include="yaUIScript.cpp" />
     <ClCompile Include="yaWorkScene.cpp" />
   </ItemGroup>
   <ItemGroup>

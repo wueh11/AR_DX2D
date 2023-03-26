@@ -17,12 +17,8 @@
 #include "yaCameraScript.h"
 #include "yaPlayerScript.h"
 #include "yaGridScript.h"
-#include "yaFadeScript.h"
 #include "yaImageRenderer.h"
 #include "yaTitleScript.h"
-
-#include "yaCollider2D.h"
-#include "yaCollisionManager.h"
 
 #include "yaAnimator.h"
 
@@ -83,8 +79,23 @@ namespace ya
 				std::shared_ptr<Material> titlemenuMaterial = Resources::Find<Material>(L"titlemenuMaterial");
 				titleBgMr->SetMaterial(titlemenuMaterial);
 
-				std::shared_ptr<Texture> titleBgTexture = titlemenuMaterial.get()->GetTexture();
+				std::shared_ptr<Texture> titleBgTexture = titlemenuMaterial->GetTexture();
 				titleBgMr->SetImageSize(titleBgTexture, Vector2::Zero, Vector2(480.0f, 272.0f));
+			}
+
+			{ // splashes Background
+				GameObject* splashes = object::Instantiate<GameObject>(eLayerType::Background);
+				Transform* splashesTr = splashes->GetComponent<Transform>();
+				splashesTr->SetPosition(Vector3(0.04f, 1.38f, 1.0f));
+				splashesTr->SetScale(Vector3(10.24f, 6.80f, 1.0f));
+
+				ImageRenderer* splashesMr = splashes->AddComponent<ImageRenderer>();
+				splashesMr->SetMesh(mesh);
+				std::shared_ptr<Material> splashesMaterial = Resources::Find<Material>(L"splashesMaterial");
+				splashesMr->SetMaterial(splashesMaterial);
+
+				std::shared_ptr<Texture> splasheTexture = splashesMaterial->GetTexture();
+				splashesMr->SetImageSize(splasheTexture, Vector2(0.0f, 0.0f), Vector2(512.0f, 345.0f));
 			}
 
 			{ // press start
@@ -97,7 +108,7 @@ namespace ya
 				pressStartMr->SetMesh(mesh);
 				std::shared_ptr<Material> titlemenuMaterial = Resources::Find<Material>(L"titlemenuMaterial");
 				pressStartMr->SetMaterial(titlemenuMaterial);
-				std::shared_ptr<Texture> titleBgTexture = titlemenuMaterial.get()->GetTexture();
+				std::shared_ptr<Texture> titleBgTexture = titlemenuMaterial->GetTexture();
 
 				Animator* animator = pressStart->AddComponent<Animator>();
 				animator->Create(L"Default", titleBgTexture, Vector2(15.0f, 372.0f), Vector2(160.0f, 160.0f), Vector2::Zero, 2, 0.13f);
@@ -115,7 +126,7 @@ namespace ya
 				std::shared_ptr<Material> logoMaterial = Resources::Find<Material>(L"titlemenuMaterial");
 				logoMr->SetMaterial(logoMaterial);
 
-				std::shared_ptr<Texture> logoTexture = logoMaterial.get()->GetTexture();
+				std::shared_ptr<Texture> logoTexture = logoMaterial->GetTexture();
 				logoMr->SetImageSize(logoTexture, Vector2(106.0f, 286.0f), Vector2(265.0f, 82.0f));
 			}
 		}
@@ -131,7 +142,7 @@ namespace ya
 			std::shared_ptr<Material> gamemenuMaterial = Resources::Find<Material>(L"gamemenuMaterial");
 			gamemenuMr->SetMaterial(gamemenuMaterial);
 
-			std::shared_ptr<Texture> gamemenuTexture = gamemenuMaterial.get()->GetTexture();
+			std::shared_ptr<Texture> gamemenuTexture = gamemenuMaterial->GetTexture();
 			gamemenuMr->SetImageSize(gamemenuTexture, Vector2::Zero, Vector2(480.0f, 272.0f));
 		}
 
@@ -146,7 +157,7 @@ namespace ya
 			std::shared_ptr<Material> charactermenuMaterial = Resources::Find<Material>(L"charactermenuMaterial");
 			charactermenuMr->SetMaterial(charactermenuMaterial);
 
-			std::shared_ptr<Texture> charactermenuTexture = charactermenuMaterial.get()->GetTexture();
+			std::shared_ptr<Texture> charactermenuTexture = charactermenuMaterial->GetTexture();
 			charactermenuMr->SetImageSize(charactermenuTexture, Vector2::Zero, Vector2(480.0f, 270.0f));
 		}
 
@@ -162,7 +173,17 @@ namespace ya
 			menuoverlayMr->SetMaterial(menuoverlayMaterial);
 		}
 		
-		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
+		{ // menushadow Background
+			GameObject* menushadow = object::Instantiate<GameObject>(eLayerType::UI);
+			Transform* menushadowTr = menushadow->GetComponent<Transform>();
+			menushadowTr->SetPosition(Vector3(-2.0f, -1.0f, 1.0f));
+			menushadowTr->SetScale(Vector3(5.6f, 4.0f, 1.0f));
+
+			MeshRenderer* menushadowMr = menushadow->AddComponent<MeshRenderer>();
+			menushadowMr->SetMesh(mesh);
+			std::shared_ptr<Material> menushadowMaterial = Resources::Find<Material>(L"menushadowMaterial");
+			menushadowMr->SetMaterial(menushadowMaterial);
+		}
 
 		Scene::Initialize();
 	}

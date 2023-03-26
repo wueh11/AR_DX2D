@@ -15,6 +15,8 @@
 #include "yaImageRenderer.h"
 #include "yaSpriteRenderer.h"
 
+#include "yaUIScript.h"
+
 namespace ya
 {
 	PlayScene::PlayScene()
@@ -28,24 +30,6 @@ namespace ya
 
 	void PlayScene::Initialize()
 	{
-		////light
-		//{
-		//	GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
-		//	directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
-		//	Light* lightComp = directionalLight->AddComponent<Light>();
-		//	lightComp->SetLightType(eLightType::Directional);
-		//	lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-		//}
-		////light
-		//{
-		//	GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
-		//	directionalLight->GetComponent<Transform>()->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
-		//	Light* lightComp = directionalLight->AddComponent<Light>();
-		//	lightComp->SetLightType(eLightType::Point);
-		//	lightComp->SetRadius(3.0f);
-		//	lightComp->SetDiffuse(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
-		//}
-
 		//Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
 		cameraObj->AddComponent<CameraScript>();
@@ -100,7 +84,7 @@ namespace ya
 					std::shared_ptr<Material> gamemenuMaterial = Resources::Find<Material>(L"basementMaterial");
 					gamemenuMr->SetMaterial(gamemenuMaterial);
 
-					std::shared_ptr<Texture> gamemenuTexture = gamemenuMaterial.get()->GetTexture();
+					std::shared_ptr<Texture> gamemenuTexture = gamemenuMaterial->GetTexture();
 					gamemenuMr->SetImageSize(gamemenuTexture, Vector2::Zero, Vector2(220.5f, 142.0f));
 				}
 			}
@@ -133,6 +117,15 @@ namespace ya
 		{ // Player
 			Player* player = object::Instantiate<Player>(eLayerType::Player);
 			player->AddComponent<PlayerScript>();
+
+			{ // UI
+				GameObject* ui = object::Instantiate<GameObject>(eLayerType::Background);
+				/*Transform* uiTr = ui->GetComponent<Transform>();
+				uiTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+				uiTr->SetScale(Vector3(1.0f, 1.0f, 1.0f));*/
+				UIScript* uiScript = ui->AddComponent<UIScript>();
+				uiScript->SetPlayer(player);
+			}
 		}
 
 		

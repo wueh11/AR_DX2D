@@ -56,6 +56,24 @@ namespace ya
 			paintShader->OnExcute();
 		}
 
+		////light
+		//{
+		//	GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
+		//	directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
+		//	Light* lightComp = directionalLight->AddComponent<Light>();
+		//	lightComp->SetLightType(eLightType::Directional);
+		//	lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+		//}
+		////light
+		//{
+		//	GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
+		//	directionalLight->GetComponent<Transform>()->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
+		//	Light* lightComp = directionalLight->AddComponent<Light>();
+		//	lightComp->SetLightType(eLightType::Point);
+		//	lightComp->SetRadius(3.0f);
+		//	lightComp->SetDiffuse(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
+		//}
+
 		//Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera);
 		cameraObj->AddComponent<CameraScript>();

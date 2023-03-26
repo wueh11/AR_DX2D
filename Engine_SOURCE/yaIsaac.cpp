@@ -22,15 +22,6 @@ namespace ya
 	void Isaac::Initialize()
 	{
 		GameObject::Initialize();
-
-		mMr = AddComponent<MeshRenderer>();
-		mMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-		std::shared_ptr<Material> material = Resources::Find<Material>(L"isaacMaterial");
-		mMr->SetMaterial(material);
-
-		AddComponent<PlayerScript>();
-		Transform* tr = GetComponent<Transform>();
-		tr->SetPosition(Vector3(0.0f, 1.0f, 5.0f));
 	}
 
 	void Isaac::Update()

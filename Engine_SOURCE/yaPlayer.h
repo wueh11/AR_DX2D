@@ -14,7 +14,7 @@ namespace ya
 
 			Info()
 				: heartMax(6)
-				, heart(6)
+				, heart(3)
 				, soulHeart(0)
 			{}
 		};
