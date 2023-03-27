@@ -11,8 +11,8 @@ namespace ya::graphics
 		virtual ~ConstantBuffer();
 
 		bool Create(size_t size);
-		void Bind(void* data);
-		void SetPipeline(eShaderStage stage);
+		void SetData(void* data);
+		void Bind(eShaderStage stage);
 
 		//void SetType(eCBType type) { mType = type; }
 

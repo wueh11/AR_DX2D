@@ -20,6 +20,7 @@ namespace ya::enums
 		Monster,
 		Player,
 		Projectile,
+		Particle,
 		UI,
 		End = 16,
 	};
@@ -35,6 +36,7 @@ namespace ya::enums
 		ImageRenderer,
 		SpriteRenderer,
 		Animator,
+		ParticleSystem,
 		Light,
 		UI,
 		Script,

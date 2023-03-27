@@ -1,28 +1,22 @@
 #include "yaWorkScene.h"
 
-
-#include "yaWorkScene.h"
-
 #include "yaInput.h"
-
-#include "yaObject.h"
-#include "yaRenderer.h"
 #include "yaResources.h"
 
-#include "yaTransform.h"
+#include "yaObject.h"
 
+#include "yaRenderer.h"
 #include "yaTexture.h"
 #include "yaMaterial.h"
+
+#include "yaTransform.h"
 
 #include "yaMeshRenderer.h"
 #include "yaSpriteRenderer.h"
 #include "yaCamera.h"
 #include "yaCameraScript.h"
-#include "yaPlayerScript.h"
 #include "yaGridScript.h"
 #include "yaFadeScript.h"
-#include "yaImageRenderer.h"
-#include "yaTitleScript.h"
 
 #include "yaCollider2D.h"
 #include "yaCollisionManager.h"
@@ -30,10 +24,12 @@
 #include "yaAnimator.h"
 
 #include "yaPlayer.h"
-#include "yaIsaac.h"
 #include "yaLight.h"
 
 #include "yaPaintShader.h"
+
+#include "yaPaintShader.h"
+#include "yaParticleSystem.h"
 
 namespace ya
 {
@@ -77,7 +73,6 @@ namespace ya
 		//Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera);
 		cameraObj->AddComponent<CameraScript>();
-		cameraObj->AddComponent<TitleScript>();
 
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
 		cameraComp->SetProjectionType(Camera::eProjectionType::Perspective);
@@ -151,6 +146,15 @@ namespace ya
 			fadeMr->SetMesh(mesh);
 			fadeMr->SetMaterial(Resources::Find<Material>(L"FadeMaterial"));
 			FadeScript* fadeScript = fadeObject->AddComponent<FadeScript>();
+		}
+
+		//Particle
+		{
+			Player* obj = object::Instantiate<Player>(eLayerType::Particle);
+			obj->SetName(L"PARTICLE");
+			Transform* tr = obj->GetComponent<Transform>();
+			tr->SetPosition(Vector3(0.0f, 0.0f, 1000.0f));
+			obj->AddComponent<ParticleSystem>();
 		}
 
 		Scene::Initialize();

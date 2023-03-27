@@ -434,6 +434,11 @@ namespace ya::graphics
 		mContext->DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
 	}
 
+	void GraphicDevice_DX11::DrawIndexedInstanced(UINT IndexCountPerInstance, UINT InstanceCount, UINT StartIndexLocation, INT BaseVertexLocation, UINT StartInstanceLocation)
+	{
+		mContext->DrawIndexedInstanced(IndexCountPerInstance, InstanceCount, StartIndexLocation, BaseVertexLocation, StartInstanceLocation);
+	}
+
 	void GraphicDevice_DX11::Present()
 	{
 		// 백버퍼에 그려준다

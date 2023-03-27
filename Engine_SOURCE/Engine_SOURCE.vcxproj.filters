@@ -295,6 +295,7 @@
     <ClCompile Include="yaUIScript.cpp">
       <Filter>Component\Script\Contents\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="yaParticleSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -472,6 +473,7 @@
     <ClInclude Include="yaUIScript.h">
       <Filter>Component\Script\Contents\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="yaParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

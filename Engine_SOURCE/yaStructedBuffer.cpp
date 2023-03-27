@@ -52,7 +52,7 @@ namespace ya::graphics
 		return true;
 	}
 
-	void StructedBuffer::Bind(void* data, UINT bufferCount)
+	void StructedBuffer::SetData(void* data, UINT bufferCount)
 	{
 		if (mStride < bufferCount) /// 버퍼의 크기가 더 클 경우에 버퍼의크기로 생성
 			Create(mSize, bufferCount, eSRVType::None, data);
@@ -60,7 +60,7 @@ namespace ya::graphics
 			GetDevice()->BindBuffer(buffer.Get(), data, mSize * bufferCount);
 	}
 
-	void StructedBuffer::SetPipeline(eShaderStage stage, UINT slot)
+	void StructedBuffer::Bind(eShaderStage stage, UINT slot)
 	{
 		GetDevice()->BindShaderResource(stage, slot, mSRV.GetAddressOf());
 	}

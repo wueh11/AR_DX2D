@@ -98,8 +98,8 @@ namespace ya
         info.size = mSpriteSheet[mIndex].size;
         info.atlasSize = mSpriteSheet[mIndex].atlasSize;
 
-        cb->Bind(&info);
-        cb->SetPipeline(eShaderStage::PS);
+        cb->SetData(&info);
+        cb->Bind(eShaderStage::PS);
     }
 
     void Animation::Clear()

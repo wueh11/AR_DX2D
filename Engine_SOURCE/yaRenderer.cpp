@@ -25,93 +25,108 @@ namespace ya::renderer
 
 	void LoadMesh() 
 	{
-		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.0f, 1.0f);
-		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
-		vertexes[0].uv = Vector2(0.f, 0.f);
+		{ // PointMesh
+			std::shared_ptr<Mesh> pointMesh = std::make_shared<Mesh>();
+			Resources::Insert<Mesh>(L"PointMesh", pointMesh);
 
-		vertexes[1].pos = Vector4(0.5f, 0.5f, 0.0f, 1.0f);
-		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
-		vertexes[1].uv = Vector2(1.0f, 0.0f);
+			Vertex v = {};
+			pointMesh->CreateVertexBuffer(&v, 1);
 
-		vertexes[2].pos = Vector4(0.5f, -0.5f, 0.0f, 1.0f);
-		vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		vertexes[2].uv = Vector2(1.0f, 1.0f);
-
-		vertexes[3].pos = Vector4(-0.5f, -0.5f, 0.0f, 1.0f);
-		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
-		vertexes[3].uv = Vector2(0.0f, 1.0f);
-
-		// Create Mesh
-		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
-		Resources::Insert<Mesh>(L"RectMesh", mesh);
-
-		// Vertex Buffer
-		mesh->CreateVertexBuffer(vertexes, 4);
-
-		// Index Buffer
-		std::vector<UINT> indexes;
-		indexes = { 0, 1, 2, 0, 2, 3, 0 };
-		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
-
-		//Debug Rect
-		vertexes[0].pos = Vector4(-0.5f, 0.5f, -0.00001f, 1.0f);
-		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
-		vertexes[0].uv = Vector2(0.f, 0.f);
-
-		vertexes[1].pos = Vector4(0.5f, 0.5f, -0.00001, 1.0f);
-		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
-		vertexes[1].uv = Vector2(1.0f, 0.0f);
-
-		vertexes[2].pos = Vector4(0.5f, -0.5f, -0.00001, 1.0f);
-		vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		vertexes[2].uv = Vector2(1.0f, 1.0f);
-
-		vertexes[3].pos = Vector4(-0.5f, -0.5f, -0.00001, 1.0f);
-		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
-		vertexes[3].uv = Vector2(0.0f, 1.0f);
-
-		std::shared_ptr<Mesh> debugMesh = std::make_shared<Mesh>();
-		Resources::Insert<Mesh>(L"DebugRectMesh", debugMesh);
-		debugMesh->CreateVertexBuffer(vertexes, 4);
-		debugMesh->CreateIndexBuffer(indexes.data(), indexes.size());
-
-		// Circle Mesh
-		std::vector<Vertex> circleVtxes;
-		Vertex center = {};
-		center.pos = Vector4(0.0f, 0.0f, -0.00001f, 1.0f);
-		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
-		center.uv = Vector2::Zero;
-
-		circleVtxes.push_back(center);
-
-		int iSlice = 60; /// 원을 구성할 점을 몇개로 구성할지(center 점으로부터 정점);
-		float fRadius = 0.5f;
-		float fTheta = XM_2PI / (float)iSlice;	/// 점과 점 사이 각도
-
-		for (size_t i = 0; i < iSlice; i++)
-		{
-			Vertex vtx = {};
-			vtx.pos = Vector4(
-				fRadius * cosf(fTheta * (float)i)
-				, fRadius * sinf(fTheta * (float)i)
-				, -0.00001f, 1.0f
-			);
-			vtx.color = center.color;
-
-			circleVtxes.push_back(vtx);
+			UINT pointIndex = 0;
+			pointMesh->CreateIndexBuffer(&pointIndex, 1);
 		}
 
-		indexes.clear();
-		for (size_t i = 0; i < iSlice - 2; i++)
-		{
-			indexes.push_back(i + 1); /// 중앙center 제외하고 원테두리부터 시작
-		}
-		indexes.push_back(1); /// 원에서 원으로 끝나도록
+		{ // RectMesh
+			vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.0f, 1.0f);
+			vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
+			vertexes[0].uv = Vector2(0.f, 0.f);
 
-		std::shared_ptr<Mesh> circleMesh = std::make_shared<Mesh>();
-		Resources::Insert<Mesh>(L"CircleMesh", circleMesh);
-		circleMesh->CreateVertexBuffer(circleVtxes.data(), circleVtxes.size());
-		circleMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+			vertexes[1].pos = Vector4(0.5f, 0.5f, 0.0f, 1.0f);
+			vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+			vertexes[1].uv = Vector2(1.0f, 0.0f);
+
+			vertexes[2].pos = Vector4(0.5f, -0.5f, 0.0f, 1.0f);
+			vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
+			vertexes[2].uv = Vector2(1.0f, 1.0f);
+
+			vertexes[3].pos = Vector4(-0.5f, -0.5f, 0.0f, 1.0f);
+			vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
+			vertexes[3].uv = Vector2(0.0f, 1.0f);
+
+			// Create Mesh
+			std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
+			Resources::Insert<Mesh>(L"RectMesh", mesh);
+
+			// Vertex Buffer
+			mesh->CreateVertexBuffer(vertexes, 4);
+
+			// Index Buffer
+			std::vector<UINT> indexes;
+			indexes = { 0, 1, 2, 0, 2, 3, 0 };
+			mesh->CreateIndexBuffer(indexes.data(), indexes.size());
+
+			//Debug Rect
+			vertexes[0].pos = Vector4(-0.5f, 0.5f, -0.00001f, 1.0f);
+			vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
+			vertexes[0].uv = Vector2(0.f, 0.f);
+
+			vertexes[1].pos = Vector4(0.5f, 0.5f, -0.00001, 1.0f);
+			vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+			vertexes[1].uv = Vector2(1.0f, 0.0f);
+
+			vertexes[2].pos = Vector4(0.5f, -0.5f, -0.00001, 1.0f);
+			vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
+			vertexes[2].uv = Vector2(1.0f, 1.0f);
+
+			vertexes[3].pos = Vector4(-0.5f, -0.5f, -0.00001, 1.0f);
+			vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
+			vertexes[3].uv = Vector2(0.0f, 1.0f);
+
+			std::shared_ptr<Mesh> debugMesh = std::make_shared<Mesh>();
+			Resources::Insert<Mesh>(L"DebugRectMesh", debugMesh);
+			debugMesh->CreateVertexBuffer(vertexes, 4);
+			debugMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		}
+
+		{ // Circle Mesh
+			std::vector<Vertex> circleVtxes;
+			Vertex center = {};
+			center.pos = Vector4(0.0f, 0.0f, -0.00001f, 1.0f);
+			center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+			center.uv = Vector2::Zero;
+
+			circleVtxes.push_back(center);
+
+			int iSlice = 60; /// 원을 구성할 점을 몇개로 구성할지(center 점으로부터 정점);
+			float fRadius = 0.5f;
+			float fTheta = XM_2PI / (float)iSlice;	/// 점과 점 사이 각도
+
+			for (size_t i = 0; i < iSlice; i++)
+			{
+				Vertex vtx = {};
+				vtx.pos = Vector4(
+					fRadius * cosf(fTheta * (float)i)
+					, fRadius * sinf(fTheta * (float)i)
+					, -0.00001f, 1.0f
+				);
+				vtx.color = center.color;
+
+				circleVtxes.push_back(vtx);
+			}
+
+			std::vector<UINT> indexes;
+			indexes.clear();
+			for (size_t i = 0; i < iSlice - 2; i++)
+			{
+				indexes.push_back(i + 1); /// 중앙center 제외하고 원테두리부터 시작
+			}
+			indexes.push_back(1); /// 원에서 원으로 끝나도록
+
+			std::shared_ptr<Mesh> circleMesh = std::make_shared<Mesh>();
+			Resources::Insert<Mesh>(L"CircleMesh", circleMesh);
+			circleMesh->CreateVertexBuffer(circleVtxes.data(), circleVtxes.size());
+			circleMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		}
 	}
 
 	void LoadShader()
@@ -258,6 +273,21 @@ namespace ya::renderer
 			paintShader->Create(L"PaintCS.hlsl", "main");
 			Resources::Insert<PaintShader>(L"PaintShader", paintShader);
 		}
+
+		{ // particleShader
+			std::shared_ptr<Shader> particleShader = std::make_shared<Shader>();
+			particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
+			particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
+			particleShader->SetRSState(eRSType::SolidNone);
+			particleShader->SetDSState(eDSType::NoWrite);
+			particleShader->SetBSState(eBSType::AlphaBlend);
+			Resources::Insert<Shader>(L"ParticleShader", particleShader);
+
+			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+				, particleShader->GetVSBlobBufferPointer()
+				, particleShader->GetVSBlobBufferSize()
+				, particleShader->GetInputLayoutAddressOf());
+		}
 	}
 
 	void SetUpState()
@@ -378,6 +408,9 @@ namespace ya::renderer
 		constantBuffers[(UINT)eCBType::Light] = new ConstantBuffer(eCBType::Light);
 		constantBuffers[(UINT)eCBType::Light]->Create(sizeof(LightCB));
 
+		constantBuffers[(UINT)eCBType::ParticleSystem] = new ConstantBuffer(eCBType::ParticleSystem);
+		constantBuffers[(UINT)eCBType::ParticleSystem]->Create(sizeof(ParticleSystemCB));
+
 		//Structed buffer
 		lightsBuffer = new StructedBuffer();
 		lightsBuffer->Create(sizeof(LightAttribute), 128, eSRVType::None, nullptr);
@@ -483,6 +516,14 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
 		}
 
+		{ // Particle Shader
+			std::shared_ptr<Shader> particleShader = Resources::Find<Shader>(L"ParticleShader");
+			std::shared_ptr<Material> particleMaterial = std::make_shared<Material>();
+			particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
+			particleMaterial->SetShader(particleShader);
+			Resources::Insert<Material>(L"ParticleMaterial", particleMaterial);
+		}
+
 		std::shared_ptr<Shader> rectShader = Resources::Find<Shader>(L"RectShader");
 		std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
 		std::shared_ptr<Shader> spriteSolidNoneShader = Resources::Find<Shader>(L"SpriteSolidNoneShader");
@@ -514,7 +555,7 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"bombMaterial", material);
 		}
 		
-		{ // bomb
+		{ // bomb explosion
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"explosion");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
 			material->SetShader(spriteShader);
@@ -717,16 +758,16 @@ namespace ya::renderer
 
 	void BindLights()
 	{ /// 실시간으로 빛이 계속 추가될 수 있으므로 push 생성
-		lightsBuffer->Bind(lights.data(), lights.size());
-		lightsBuffer->SetPipeline(eShaderStage::VS, 13);
-		lightsBuffer->SetPipeline(eShaderStage::PS, 13);
+		lightsBuffer->SetData(lights.data(), lights.size());
+		lightsBuffer->Bind(eShaderStage::VS, 13);
+		lightsBuffer->Bind(eShaderStage::PS, 13);
 
 		renderer::LightCB trCb = {};
 		trCb.numberOfLight = lights.size(); /// 빛의 전체 개수를 저장한다
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Light];
-		cb->Bind(&trCb);
-		cb->SetPipeline(eShaderStage::VS);
-		cb->SetPipeline(eShaderStage::PS);
+		cb->SetData(&trCb);
+		cb->Bind(eShaderStage::VS);
+		cb->Bind(eShaderStage::PS);
 	}
 }

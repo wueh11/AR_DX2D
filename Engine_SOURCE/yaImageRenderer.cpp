@@ -60,8 +60,8 @@ namespace ya
 		info.atlasSize = mImage.atlasSize;
 		info.type = (UINT)eAnimationType::SecondDimension;
 
-		cb->Bind(&info);
-		cb->SetPipeline(eShaderStage::PS);
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::PS);
 	}
 
 	void ImageRenderer::SetImageSize(std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size)
