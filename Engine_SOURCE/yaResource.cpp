@@ -8,6 +8,5 @@ namespace ya
 	}
 	Resource::~Resource()
 	{
-		int a = 0;
 	}
 }

@@ -2,6 +2,7 @@
 #include "yaComponent.h"
 #include "yaScript.h"
 #include "yaEntity.h"
+#include "yaAnimator.h"
 
 namespace ya 
 {
@@ -29,18 +30,20 @@ namespace ya
 		{
 			T* comp = new T();
 
-			eComponentType order = comp->GetType();
+			eComponentType type = comp->GetType();
 
-			if (order != eComponentType::Script)
+			if (type != eComponentType::Script)
 			{
-				mComponents[(UINT)order] = comp;
-				mComponents[(UINT)order]->SetOwner(this);
+				mComponents[(UINT)type] = comp;
+				mComponents[(UINT)type]->SetOwner(this);
 			}
 			else
 			{
 				mScripts.push_back(dynamic_cast<Script*>(comp));
 				comp->SetOwner(this);
 			}
+
+			comp->Initialize();
 
 			return comp;
 		}

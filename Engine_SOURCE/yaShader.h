@@ -53,4 +53,3 @@ namespace ya
 		Microsoft::WRL::ComPtr<ID3DBlob> mErrorBlob;
 	};
 }
-

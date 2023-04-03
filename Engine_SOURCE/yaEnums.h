@@ -19,6 +19,7 @@ namespace ya::enums
 		Effect,
 		Monster,
 		Player,
+		Item,
 		Projectile,
 		Particle,
 		UI,

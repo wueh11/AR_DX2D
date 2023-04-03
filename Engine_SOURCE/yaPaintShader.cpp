@@ -18,7 +18,7 @@ namespace ya::graphics
 		mTarget->BindUnorderedAccessView(0);
 
 		if(mTexture != nullptr)
-			mTexture->BindShader(eShaderStage::CS, 0);
+			mTexture->BindShaderResource(eShaderStage::CS, 0);
 
 		mGroupX = mTarget->GetWidth() / mThreadGroupCountX + 1;
 		mGroupY = mTarget->GetHeight() / mThreadGroupCountY + 1;

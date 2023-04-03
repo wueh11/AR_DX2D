@@ -30,10 +30,10 @@ namespace ya::graphics
 
 		ID3D11Device* pDevice = nullptr;
 		HRESULT hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, DeviceFlag, nullptr, 0
-			, D3D11_SDK_VERSION
-			, mDevice.GetAddressOf()
-			, &FeatureLevel
-			, mContext.GetAddressOf());
+										, D3D11_SDK_VERSION
+										, mDevice.GetAddressOf()
+										, &FeatureLevel
+										, mContext.GetAddressOf());
 
 		// SwapChain
 		DXGI_SWAP_CHAIN_DESC swapChainDesc = {}; /// swap chain을 만드는데 필요한 description 
@@ -62,9 +62,7 @@ namespace ya::graphics
 
 		// Get rendertarget for swapchain
 		hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)renderTarget.GetAddressOf());
-
 		mRenderTargetTexture->Create(renderTarget);
-
 
 		D3D11_TEXTURE2D_DESC depthBuffer = {};
 		depthBuffer.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
@@ -83,15 +81,7 @@ namespace ya::graphics
 		depthBuffer.MiscFlags = 0;
 
 		mDepthStencilBufferTexture = std::make_shared<Texture>();
-		mDepthStencilBufferTexture->Create(depthBuffer.Width, depthBuffer.Height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
-
-		// Depth Stencil Buffer
-		if (!CreateTexture(&depthBuffer, mDepthStencilBufferTexture->GetTexture().GetAddressOf()))
-			return;
-
-		// Depth Stencil Buffer View
-		if (FAILED(mDevice->CreateDepthStencilView(mDepthStencilBufferTexture->GetTexture().Get(), nullptr, mDepthStencilBufferTexture->GetDSV().GetAddressOf())))
-			return;
+		mDepthStencilBufferTexture->Create(1600, 900, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
 
 		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
@@ -107,10 +97,10 @@ namespace ya::graphics
 
 	bool GraphicDevice_DX11::CreateSwapChain(DXGI_SWAP_CHAIN_DESC* desc)
 	{
-		Microsoft::WRL::ComPtr<IDXGIDevice> pDXGIDevice = nullptr;
-		Microsoft::WRL::ComPtr<IDXGIAdapter> pDXGIAdapter = nullptr;
+		Microsoft::WRL::ComPtr<IDXGIDevice> pDXGIDevice = nullptr;  
+		Microsoft::WRL::ComPtr<IDXGIAdapter> pDXGIAdapter = nullptr; 
 		Microsoft::WRL::ComPtr<IDXGIFactory> pDXGIFactory = nullptr;
-
+		
 		if (FAILED(mDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)pDXGIDevice.GetAddressOf())))
 			return false;
 
@@ -191,10 +181,25 @@ namespace ya::graphics
 		return true;
 	}
 
-	bool GraphicDevice_DX11::CreatePixelShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11PixelShader** ppPixelShader)
+	bool GraphicDevice_DX11::CreateHullShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11HullShader** ppHullShader)
 	{
+		if (FAILED(mDevice->CreateHullShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppHullShader)))
+			return false;
 
-		if (FAILED(mDevice->CreatePixelShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppPixelShader)))
+		return true;
+	}
+
+	bool GraphicDevice_DX11::CreateDomainShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11DomainShader** ppDmainShader)
+	{
+		if (FAILED(mDevice->CreateDomainShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppDmainShader)))
+			return false;
+
+		return true;
+	}
+
+	bool GraphicDevice_DX11::CreateGeometryShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11GeometryShader** ppGeometryShader)
+	{
+		if (FAILED(mDevice->CreateGeometryShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppGeometryShader)))
 			return false;
 
 		return true;
@@ -203,6 +208,14 @@ namespace ya::graphics
 	bool GraphicDevice_DX11::CreateComputeShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11ComputeShader** ppComputeShader)
 	{ /// GPGPU
 		if (FAILED(mDevice->CreateComputeShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppComputeShader)))
+			return false;
+
+		return true;
+	}
+
+	bool GraphicDevice_DX11::CreatePixelShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11PixelShader** ppPixelShader)
+	{
+		if (FAILED(mDevice->CreatePixelShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppPixelShader)))
 			return false;
 
 		return true;
@@ -261,6 +274,21 @@ namespace ya::graphics
 		mContext->VSSetShader(pVertexShader, ppClassInstances, NumClassInstances);
 	}
 
+	void GraphicDevice_DX11::BindHullShader(ID3D11HullShader* pHullShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
+	{
+		mContext->HSSetShader(pHullShader, ppClassInstances, NumClassInstances);
+	}
+
+	void GraphicDevice_DX11::BindDomainShader(ID3D11DomainShader* pDomainShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
+	{
+		mContext->DSSetShader(pDomainShader, ppClassInstances, NumClassInstances);
+	}
+
+	void GraphicDevice_DX11::BindGeometryShader(ID3D11GeometryShader* pGeometryShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
+	{
+		mContext->GSSetShader(pGeometryShader, ppClassInstances, NumClassInstances);
+	}
+
 	void GraphicDevice_DX11::BindPixelShader(ID3D11PixelShader* pPixelShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
 	{
 		mContext->PSSetShader(pPixelShader, ppClassInstances, NumClassInstances);
@@ -285,7 +313,7 @@ namespace ya::graphics
 	{
 		mContext->CSSetUnorderedAccessViews(startSlot, NumUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
 	}
-
+	
 	void GraphicDevice_DX11::BindShaderResource(eShaderStage stage, UINT slot, ID3D11ShaderResourceView* const* ppShaderResourceViews)
 	{
 		switch (stage)
@@ -313,7 +341,7 @@ namespace ya::graphics
 		}
 	}
 
-	void GraphicDevice_DX11::BindBuffer(ID3D11Buffer* buffer, void* data, UINT size)
+	void GraphicDevice_DX11::SetData(ID3D11Buffer* buffer, void* data, UINT size)
 	{
 		/// 상수버퍼에 데이터를 묶어두는 역할
 		D3D11_MAPPED_SUBRESOURCE sub = {};
@@ -400,6 +428,11 @@ namespace ya::graphics
 	void GraphicDevice_DX11::BindBlendState(ID3D11BlendState* pBlendState)
 	{
 		mContext->OMSetBlendState(pBlendState, nullptr, 0xffffffff);
+	}
+
+	void GraphicDevice_DX11::CopyResource(ID3D11Resource* pDstResource, ID3D11Resource* pSrcResource)
+	{
+		mContext->CopyResource(pDstResource, pSrcResource);
 	}
 
 	void GraphicDevice_DX11::Clear()

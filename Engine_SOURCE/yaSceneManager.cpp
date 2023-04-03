@@ -19,11 +19,14 @@ namespace ya
 
 		for (Scene* scene : mScenes)
 		{
+			if (scene == nullptr) continue;
+
 			mActiveScene = scene;
 			scene->Initialize();
 		}
 
 		mActiveScene = mScenes[(UINT)eSceneType::Title];
+		//mActiveScene = mScenes[(UINT)eSceneType::Work];
 	}
 
 	void SceneManager::Update()

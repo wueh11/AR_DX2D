@@ -3,6 +3,7 @@
 #include "yaMaterial.h"
 #include "yaSceneManager.h"
 #include "yaPaintShader.h"
+#include "yaParticleShader.h"
 
 namespace ya::renderer
 {
@@ -277,11 +278,17 @@ namespace ya::renderer
 		{ // particleShader
 			std::shared_ptr<Shader> particleShader = std::make_shared<Shader>();
 			particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
+			particleShader->Create(eShaderStage::GS, L"ParticleGS.hlsl", "main");
 			particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
 			particleShader->SetRSState(eRSType::SolidNone);
 			particleShader->SetDSState(eDSType::NoWrite);
 			particleShader->SetBSState(eBSType::AlphaBlend);
+			particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 			Resources::Insert<Shader>(L"ParticleShader", particleShader);
+
+			std::shared_ptr<ParticleShader> particleCS = std::make_shared<ParticleShader>();
+			Resources::Insert<ParticleShader>(L"ParticleCS", particleCS);
+			particleCS->Create(L"ParticleCS.hlsl", "main");
 
 			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
 				, particleShader->GetVSBlobBufferPointer()
@@ -413,7 +420,7 @@ namespace ya::renderer
 
 		//Structed buffer
 		lightsBuffer = new StructedBuffer();
-		lightsBuffer->Create(sizeof(LightAttribute), 128, eSRVType::None, nullptr);
+		lightsBuffer->Create(sizeof(LightAttribute), 128, eSRVType::SRV, nullptr, true);
 	}
 
 	void LoadTexture()
@@ -421,6 +428,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"image", L"image.jpg");
 		Resources::Load<Texture>(L"HPBar", L"HPBar.png");
 		Resources::Load<Texture>(L"noise", L"noise2.png");
+		Resources::Load<Texture>(L"CartoonSmoke", L"particle\\CartoonSmoke.png");
 
 		{ // uavTexture
 			std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -430,18 +438,29 @@ namespace ya::renderer
 
 		{ //character
 			Resources::Load<Texture>(L"isaac", L"Issac\\character_001_isaac.png");
+		}
+
+		{ // effect
 			Resources::Load<Texture>(L"tearpoofa", L"Issac\\effect_015_tearpoofa.png");
-			Resources::Load<Texture>(L"bomb", L"Issac\\pickup_016_bomb.png");
 			Resources::Load<Texture>(L"explosion", L"Issac\\effect_029_explosion.png");
 		}
 
-		{ // uis
+		{ // ui
 			Resources::Load<Texture>(L"hudpickups", L"Issac\\hudpickups.png");
 			Resources::Load<Texture>(L"ui_hearts", L"Issac\\ui_hearts.png");
 			Resources::Load<Texture>(L"ui_chargebar", L"Issac\\ui_chargebar.png");
 			Resources::Load<Texture>(L"ui_cardspills", L"Issac\\ui_cardspills.png");
 			Resources::Load<Texture>(L"ui_cardfronts", L"Issac\\ui_cardfronts.png");
-			Resources::Load<Texture>(L"minimap1", L"Issac\\minimap1.png");
+		}
+
+		{ //items
+			Resources::Load<Texture>(L"heart", L"Issac\\pickup_001_heart.png");
+			Resources::Load<Texture>(L"coin", L"Issac\\pickup_002_coin.png");
+			Resources::Load<Texture>(L"key", L"Issac\\pickup_003_key.png");
+			Resources::Load<Texture>(L"pill", L"Issac\\pickup_007_pill.png");
+			Resources::Load<Texture>(L"bomb", L"Issac\\pickup_016_bomb.png");
+			Resources::Load<Texture>(L"card", L"Issac\\pickup_017_card.png");
+			Resources::Load<Texture>(L"littlebattery", L"Issac\\pickup_018_littlebattery.png");
 		}
 
 		{ // title
@@ -475,7 +494,7 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"CSMaterial", material);
 		}
 
-		{ // Image
+		{ // Rect
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"image");
 			std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"RectShader");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -516,7 +535,7 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
 		}
 
-		{ // Particle Shader
+		{ // Particle
 			std::shared_ptr<Shader> particleShader = Resources::Find<Shader>(L"ParticleShader");
 			std::shared_ptr<Material> particleMaterial = std::make_shared<Material>();
 			particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -547,20 +566,78 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"tearpoofaMaterial", material);
 		}
 
-		{ // bomb
-			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bomb");
-			std::shared_ptr<Material> material = std::make_shared<Material>();
-			material->SetShader(spriteShader);
-			material->SetTexture(texture);
-			Resources::Insert<Material>(L"bombMaterial", material);
-		}
-		
 		{ // bomb explosion
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"explosion");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
 			material->SetShader(spriteShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"explosionMaterial", material);
+		}
+
+		{ // Items
+			{ // heart
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"heart");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"heartMaterial", material);
+			}
+			
+			{ // Coin
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"coin");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"coinMaterial", material);
+			}
+			
+			{ // key
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"key");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"keyMaterial", material);
+			}
+			
+			{ // pill
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"pill");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"pillMaterial", material);
+			}
+			
+			{ // bomb
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bomb");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bombMaterial", material);
+			}
+
+			{ // card
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"card");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"cardMaterial", material);
+			}
+			
+			{ // little battery
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"littlebattery");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"littlebatteryMaterial", material);
+			}
 		}
 
 		{ // title
@@ -759,8 +836,8 @@ namespace ya::renderer
 	void BindLights()
 	{ /// 실시간으로 빛이 계속 추가될 수 있으므로 push 생성
 		lightsBuffer->SetData(lights.data(), lights.size());
-		lightsBuffer->Bind(eShaderStage::VS, 13);
-		lightsBuffer->Bind(eShaderStage::PS, 13);
+		lightsBuffer->BindSRV(eShaderStage::VS, 13);
+		lightsBuffer->BindSRV(eShaderStage::PS, 13);
 
 		renderer::LightCB trCb = {};
 		trCb.numberOfLight = lights.size(); /// 빛의 전체 개수를 저장한다

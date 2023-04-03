@@ -7,8 +7,9 @@ namespace ya::graphics
 	class ComputeShader : public Resource
 	{
 	public:
+		ComputeShader(UINT threadGroupX, UINT threadGroupY, UINT threadGroupZ);
 		ComputeShader();
-		~ComputeShader();
+		virtual ~ComputeShader();
 
 		virtual HRESULT Load(const std::wstring& path) override;
 

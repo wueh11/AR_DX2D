@@ -47,19 +47,23 @@ namespace ya::graphics
 
 	void Material::Bind()
 	{
-		/*if(mTexture)
-			mTexture->BindShader(eShaderStage::PS, 0);*/
-
-		for (size_t i = 0; i < mTextures.size(); i++)
+		for (size_t i = 0; i < (UINT)eTextureSlot::End; i++)
 		{
-			if (mTextures[i])
-				mTextures[i]->BindShader(eShaderStage::PS, i);
-		}
+			if (mTexture[i] == nullptr)
+				continue;
 
+			mTexture[i]->BindShaderResource(eShaderStage::VS, i);
+			mTexture[i]->BindShaderResource(eShaderStage::HS, i);
+			mTexture[i]->BindShaderResource(eShaderStage::DS, i);
+			mTexture[i]->BindShaderResource(eShaderStage::GS, i);
+			mTexture[i]->BindShaderResource(eShaderStage::PS, i);
+			mTexture[i]->BindShaderResource(eShaderStage::CS, i);
+		}
 
 		ConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::Material];
 		pCB->SetData(&mCB);
 		pCB->Bind(eShaderStage::VS);
+		pCB->Bind(eShaderStage::GS);
 		pCB->Bind(eShaderStage::PS);
 		
 		mShader->Binds();
@@ -68,23 +72,13 @@ namespace ya::graphics
 	void Material::Clear()
 	{
 		/// 그림을 그려준후 버퍼에 남아있는 텍스쳐를 비워준다.
-		//mTexture->Clear();
-
-		for (size_t i = 0; i < mTextures.size(); i++)
+		for (size_t i = 0; i < (UINT)eTextureSlot::End; i++)
 		{
-			if (mTextures[i])
-				mTextures[i]->Clear();
+			if (mTexture[i] == nullptr)
+				continue;
+
+			mTexture[i]->Clear();
 		}
-
-		//mTextures.clear();
-	}
-
-	void Material::SetTexture(std::shared_ptr<Texture> texture, UINT slot)
-	{
-		if (mTextures.size() < slot + 1)
-			mTextures.resize(slot + 1);
-
-		mTextures[slot] = texture;
 	}
 
 }

@@ -46,7 +46,7 @@ namespace ya::renderer
 		Vector2 resolution;
 	};
 
-	CBUFFER(AnimationCB, CBSLOT_ANIMATOR)
+	CBUFFER(AnimationCB, CBSLOT_ANIMATION)
 	{
 		Vector2 leftTop;
 		Vector2 size;
@@ -65,6 +65,8 @@ namespace ya::renderer
 	CBUFFER(ParticleSystemCB, CBSLOT_PARTICLESYSTEM)
 	{
 		Vector4 color;
+		UINT elementCount;
+		float deltaTime;
 	};
 
 	//정점 데이터

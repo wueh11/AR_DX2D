@@ -2,6 +2,7 @@
 #include "yaComponent.h"
 #include "yaMesh.h"
 #include "yaMaterial.h"
+#include "yaTexture.h"
 
 namespace ya 
 {

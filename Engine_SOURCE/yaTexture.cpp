@@ -15,7 +15,7 @@ namespace ya::graphics
 
 	bool Texture::Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag)
 	{
-		//Depth stencil texture
+		// Depth stencil texture
 		mDesc.BindFlags = bindFlag;
 		mDesc.Usage = D3D11_USAGE_DEFAULT;
 		mDesc.CPUAccessFlags = 0;
@@ -27,7 +27,7 @@ namespace ya::graphics
 		mDesc.SampleDesc.Count = 1;
 		mDesc.SampleDesc.Quality = 0;
 
-		mDesc.MipLevels = 0;
+		mDesc.MipLevels = 1;
 		mDesc.MiscFlags = 0;
 
 		if (!GetDevice()->CreateTexture(&mDesc, mTexture.GetAddressOf()))
@@ -81,7 +81,7 @@ namespace ya::graphics
 			if (!GetDevice()->CreateRenderTargetView(mTexture.Get(), nullptr, mRTV.GetAddressOf()))
 				return false;
 		}
-
+		
 		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
 		{
 			D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
@@ -114,27 +114,38 @@ namespace ya::graphics
 		std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
 		std::wstring fullPath = parentPath.wstring() + L"\\Resources\\" + path;
 
+		LoadFile(fullPath);
+		InitializeResource();
+
+		return S_OK;
+	}
+
+	void Texture::LoadFile(const std::wstring& path)
+	{
 		wchar_t szExtension[256] = {};
-		_wsplitpath_s(path.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExtension, 256); /// °æ·Î¿¡¼­ È®ÀåÀÚ¸¸ È¹µæ
+		_wsplitpath_s(path.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExtension, 256);
 
 		std::wstring extension(szExtension);
 
 		if (extension == L".dds" || extension == L".DDS")
 		{
-			if (FAILED(LoadFromDDSFile(fullPath.c_str(), DDS_FLAGS::DDS_FLAGS_NONE, nullptr, mImage)))
-				return S_FALSE;
+			if (FAILED(LoadFromDDSFile(path.c_str(), DDS_FLAGS::DDS_FLAGS_NONE, nullptr, mImage)))
+				return;
 		}
 		else if (extension == L".tga" || extension == L".TGA")
 		{
-			if (FAILED(LoadFromTGAFile(fullPath.c_str(), nullptr, mImage)))
-				return S_FALSE;
+			if (FAILED(LoadFromTGAFile(path.c_str(), nullptr, mImage)))
+				return;
 		}
 		else // WIC (png, jpg, jpeg, bmp )
 		{
-			if (FAILED(LoadFromWICFile(fullPath.c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, mImage)))
-				return S_FALSE;
+			if (FAILED(LoadFromWICFile(path.c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, mImage)))
+				return;
 		}
+	}
 
+	void Texture::InitializeResource()
+	{
 		CreateShaderResourceView
 		(
 			GetDevice()->GetID3D11Device(),
@@ -146,11 +157,9 @@ namespace ya::graphics
 
 		mSRV->GetResource((ID3D11Resource**)mTexture.GetAddressOf());
 		mTexture->GetDesc(&mDesc);
-
-		return S_OK;
 	}
 
-	void Texture::BindShader(eShaderStage stage, UINT slot)
+	void Texture::BindShaderResource(eShaderStage stage, UINT slot)
 	{
 		GetDevice()->BindShaderResource(stage, slot, mSRV.GetAddressOf());
 	}

@@ -33,13 +33,13 @@ namespace ya
 
 	void Layer::Initialize()
 	{
-		for (GameObject* gameObject : mGameObjects)
+		/*for (GameObject* gameObject : mGameObjects)
 		{
 			if (gameObject == nullptr)
 				continue;
 
 			gameObject->Initialize();
-		}
+		}*/
 	}
 
 	void Layer::Update()
@@ -50,7 +50,6 @@ namespace ya
 				continue;
 			if (gameObject->GetState() != GameObject::eState::Active)
 			{
-				int a = 0;
 				continue;
 			}
 

@@ -35,7 +35,7 @@ namespace ya
 
 	void GameObject::Initialize()
 	{
-		for (Component* comp : mComponents)
+		/*for (Component* comp : mComponents)
 		{
 			if (comp == nullptr)
 				continue;
@@ -49,7 +49,7 @@ namespace ya
 				continue;
 
 			script->Initialize();
-		}
+		}*/
 	}
 
 	void GameObject::Update()

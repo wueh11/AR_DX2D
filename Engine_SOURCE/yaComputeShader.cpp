@@ -3,6 +3,19 @@
 
 namespace ya::graphics
 {
+    ComputeShader::ComputeShader(UINT threadGroupX, UINT threadGroupY, UINT threadGroupZ)
+        : Resource(eResourceType::ComputeShader)
+        , mCSBlob(nullptr)
+        , mCS(nullptr)
+        , mThreadGroupCountX(threadGroupX)
+        , mThreadGroupCountY(threadGroupY)
+        , mThreadGroupCountZ(threadGroupZ)
+        , mGroupX(0)
+        , mGroupY(0)
+        , mGroupZ(0)
+    {
+    }
+
     ComputeShader::ComputeShader()
         : Resource(eResourceType::ComputeShader)
         , mCSBlob(nullptr)
