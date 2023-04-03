@@ -66,8 +66,11 @@ namespace ya
 		}
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		std::shared_ptr<Material> spriteMaterial = Resources::Find<Material>(L"SpriteMaterial");
 
 		{ // titlemenu
+			std::shared_ptr<Texture> titlemenuTexture = Resources::Find<Texture>(L"titlemenu");
+
 			{ // title Background
 				GameObject* titleBg = object::Instantiate<GameObject>(eLayerType::Background);
 				Transform* titleBGTr = titleBg->GetComponent<Transform>();
@@ -76,14 +79,11 @@ namespace ya
 
 				ImageRenderer* titleBgMr = titleBg->AddComponent<ImageRenderer>();
 				titleBgMr->SetMesh(mesh);
-				std::shared_ptr<Material> titlemenuMaterial = Resources::Find<Material>(L"titlemenuMaterial");
-				titleBgMr->SetMaterial(titlemenuMaterial);
-
-				std::shared_ptr<Texture> titleBgTexture = titlemenuMaterial->GetTexture();
-				titleBgMr->SetImageSize(titleBgTexture, Vector2::Zero, Vector2(480.0f, 272.0f));
+				titleBgMr->SetMaterial(spriteMaterial);
+				titleBgMr->SetImageSize(titlemenuTexture, Vector2::Zero, Vector2(480.0f, 272.0f));
 			}
 
-			{ // splashes Background
+			{ // splashes 
 				GameObject* splashes = object::Instantiate<GameObject>(eLayerType::Background);
 				Transform* splashesTr = splashes->GetComponent<Transform>();
 				splashesTr->SetPosition(Vector3(0.04f, 1.38f, 1.0f));
@@ -91,10 +91,9 @@ namespace ya
 
 				ImageRenderer* splashesMr = splashes->AddComponent<ImageRenderer>();
 				splashesMr->SetMesh(mesh);
-				std::shared_ptr<Material> splashesMaterial = Resources::Find<Material>(L"splashesMaterial");
-				splashesMr->SetMaterial(splashesMaterial);
+				splashesMr->SetMaterial(spriteMaterial);
 
-				std::shared_ptr<Texture> splasheTexture = splashesMaterial->GetTexture();
+				std::shared_ptr<Texture> splasheTexture = Resources::Find<Texture>(L"splashes");
 				splashesMr->SetImageSize(splasheTexture, Vector2(0.0f, 0.0f), Vector2(512.0f, 345.0f));
 			}
 
@@ -106,12 +105,10 @@ namespace ya
 
 				SpriteRenderer* pressStartMr = pressStart->AddComponent<SpriteRenderer>();
 				pressStartMr->SetMesh(mesh);
-				std::shared_ptr<Material> titlemenuMaterial = Resources::Find<Material>(L"titlemenuMaterial");
-				pressStartMr->SetMaterial(titlemenuMaterial);
-				std::shared_ptr<Texture> titleBgTexture = titlemenuMaterial->GetTexture();
+				pressStartMr->SetMaterial(spriteMaterial);
 
 				Animator* animator = pressStart->AddComponent<Animator>();
-				animator->Create(L"Default", titleBgTexture, Vector2(15.0f, 372.0f), Vector2(160.0f, 160.0f), Vector2::Zero, 2, 0.13f);
+				animator->Create(L"Default", titlemenuTexture, Vector2(15.0f, 372.0f), Vector2(160.0f, 160.0f), Vector2::Zero, 2, 0.13f);
 				animator->Play(L"Default", true);
 			}
 
@@ -123,11 +120,8 @@ namespace ya
 
 				ImageRenderer* logoMr = logo->AddComponent<ImageRenderer>();
 				logoMr->SetMesh(mesh);
-				std::shared_ptr<Material> logoMaterial = Resources::Find<Material>(L"titlemenuMaterial");
-				logoMr->SetMaterial(logoMaterial);
-
-				std::shared_ptr<Texture> logoTexture = logoMaterial->GetTexture();
-				logoMr->SetImageSize(logoTexture, Vector2(106.0f, 286.0f), Vector2(265.0f, 82.0f));
+				logoMr->SetMaterial(spriteMaterial);
+				logoMr->SetImageSize(titlemenuTexture, Vector2(106.0f, 286.0f), Vector2(265.0f, 82.0f));
 			}
 		}
 
@@ -137,12 +131,11 @@ namespace ya
 			gamemenuTr->SetPosition(Vector3(0.0f, -5.3f, 1.0f));
 			gamemenuTr->SetScale(Vector3(9.61f, 5.5f, 1.0f));
 
+			std::shared_ptr<Texture> gamemenuTexture = Resources::Find<Texture>(L"gamemenu");
+
 			ImageRenderer* gamemenuMr = gamemenu->AddComponent<ImageRenderer>();
 			gamemenuMr->SetMesh(mesh);
-			std::shared_ptr<Material> gamemenuMaterial = Resources::Find<Material>(L"gamemenuMaterial");
-			gamemenuMr->SetMaterial(gamemenuMaterial);
-
-			std::shared_ptr<Texture> gamemenuTexture = gamemenuMaterial->GetTexture();
+			gamemenuMr->SetMaterial(spriteMaterial);
 			gamemenuMr->SetImageSize(gamemenuTexture, Vector2::Zero, Vector2(480.0f, 272.0f));
 		}
 
@@ -152,12 +145,11 @@ namespace ya
 			charactermenuTr->SetPosition(Vector3(0.0f, -10.7f, 1.0f));
 			charactermenuTr->SetScale(Vector3(9.61f, 5.5f, 1.0f));
 
+			std::shared_ptr<Texture> charactermenuTexture = Resources::Find<Texture>(L"charactermenu");
+
 			ImageRenderer* charactermenuMr = charactermenu->AddComponent<ImageRenderer>();
 			charactermenuMr->SetMesh(mesh);
-			std::shared_ptr<Material> charactermenuMaterial = Resources::Find<Material>(L"charactermenuMaterial");
-			charactermenuMr->SetMaterial(charactermenuMaterial);
-
-			std::shared_ptr<Texture> charactermenuTexture = charactermenuMaterial->GetTexture();
+			charactermenuMr->SetMaterial(spriteMaterial);
 			charactermenuMr->SetImageSize(charactermenuTexture, Vector2::Zero, Vector2(480.0f, 270.0f));
 		}
 

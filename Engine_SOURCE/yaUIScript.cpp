@@ -27,12 +27,12 @@ namespace ya
 	void UIScript::Initialize()
 	{
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"SpriteMaterial");
 
 		{ // ui_hearts
-			std::shared_ptr<Material> ui_heartsMaterial = Resources::Find<Material>(L"ui_heartsMaterial");
-			std::shared_ptr<Texture> ui_heartsTexture = ui_heartsMaterial->GetTexture();
+			std::shared_ptr<Texture> ui_heartsTexture = Resources::Find<Texture>(L"ui_hearts");
 
-			for (size_t i = 0; i < 8; i++)
+			for (size_t i = 0; i < 10; i++)
 			{
 				GameObject* ui_hearts = object::Instantiate<GameObject>(eLayerType::Background);
 				Transform* ui_heartsTr = ui_hearts->GetComponent<Transform>();
@@ -41,7 +41,7 @@ namespace ya
 
 				SpriteRenderer* ui_heartsMr = ui_hearts->AddComponent<SpriteRenderer>();
 				ui_heartsMr->SetMesh(mesh);
-				ui_heartsMr->SetMaterial(ui_heartsMaterial);
+				ui_heartsMr->SetMaterial(material);
 
 				Animator* bodyAnimator = ui_hearts->AddComponent<Animator>();
 
@@ -57,6 +57,8 @@ namespace ya
 			}
 		}
 
+		std::shared_ptr<Texture> hudpickupsTexture = Resources::Find<Texture>(L"hudpickups");
+
 		{ // coin
 			GameObject* coin = object::Instantiate<GameObject>(eLayerType::UI);
 			Transform* coinTr = coin->GetComponent<Transform>();
@@ -65,10 +67,8 @@ namespace ya
 
 			ImageRenderer* coinMr = coin->AddComponent<ImageRenderer>();
 			coinMr->SetMesh(mesh);
-			std::shared_ptr<Material> coinMaterial = Resources::Find<Material>(L"hudpickupsMaterial");
-			coinMr->SetMaterial(coinMaterial);
-			std::shared_ptr<Texture> coinTexture = coinMaterial->GetTexture();
-			coinMr->SetImageSize(coinTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 16.0f));
+			coinMr->SetMaterial(material);
+			coinMr->SetImageSize(hudpickupsTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 16.0f));
 		}
 
 		{ // bomb
@@ -79,10 +79,8 @@ namespace ya
 
 			ImageRenderer* bombMr = bomb->AddComponent<ImageRenderer>();
 			bombMr->SetMesh(mesh);
-			std::shared_ptr<Material> bombMaterial = Resources::Find<Material>(L"hudpickupsMaterial");
-			bombMr->SetMaterial(bombMaterial);
-			std::shared_ptr<Texture> bombTexture = bombMaterial->GetTexture();
-			bombMr->SetImageSize(bombTexture, Vector2(0.0f, 16.0f), Vector2(16.0f, 16.0f));
+			bombMr->SetMaterial(material);
+			bombMr->SetImageSize(hudpickupsTexture, Vector2(0.0f, 16.0f), Vector2(16.0f, 16.0f));
 		}
 
 		{ // key
@@ -93,10 +91,8 @@ namespace ya
 
 			ImageRenderer* keyMr = key->AddComponent<ImageRenderer>();
 			keyMr->SetMesh(mesh);
-			std::shared_ptr<Material> keyMaterial = Resources::Find<Material>(L"hudpickupsMaterial");
-			keyMr->SetMaterial(keyMaterial);
-			std::shared_ptr<Texture> keyTexture = keyMaterial->GetTexture();
-			keyMr->SetImageSize(keyTexture, Vector2(16.0f, 0.0f), Vector2(16.0f, 16.0f));
+			keyMr->SetMaterial(material);
+			keyMr->SetImageSize(hudpickupsTexture, Vector2(16.0f, 0.0f), Vector2(16.0f, 16.0f));
 		}
 	}
 
@@ -121,12 +117,18 @@ namespace ya
 			{
 				if(hearthalf == 1)
 					anim->Play(L"heartHalf");
+				else if(heartmax == i)
+					anim->Play(L"None");
 				else
 					anim->Play(L"heartEmpty");
 			}
 			else if (i < heartmax)
 			{
 				anim->Play(L"heartEmpty");
+			}
+			else
+			{
+				anim->Play(L"None");
 			}
 		}
 	}

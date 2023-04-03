@@ -1,14 +1,16 @@
 #include "yaBomb.h"
 #include "yaBombScript.h"
+#include "yaTransform.h"
 
 namespace ya
 {
 	Bomb::Bomb(Vector3 pos)
 		: GameObject()
 	{
+		Transform* tr = GetComponent<Transform>();
+		tr->SetPosition(pos + Vector3(0.0f, -0.1f, 0.0f));
+
 		BombScript* bombScript = AddComponent<BombScript>();
-		bombScript->SetOwnerPos(pos);
-		bombScript->Initialize();
 	}
 	Bomb::~Bomb()
 	{

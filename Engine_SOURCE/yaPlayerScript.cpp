@@ -19,6 +19,8 @@ namespace ya
 		, mTransform(nullptr)
 		, mHead(nullptr)
 		, mBody(nullptr)
+		, invincibleTime(0.0f)
+		, mbInvincible(false)
 	{
 	}
 	PlayerScript::~PlayerScript()
@@ -26,31 +28,31 @@ namespace ya
 	}
 	void PlayerScript::Initialize()
 	{
+		mTransform = GetOwner()->AddComponent<Transform>();
+
 		SpriteRenderer* rd = GetOwner()->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 		rd->SetMesh(mesh);
 		std::shared_ptr<Material> material = Resources::Find<Material>(L"isaacMaterial");
 		rd->SetMaterial(material);
+		std::shared_ptr<Texture> texture = material->GetTexture();
 
-		mTransform = GetOwner()->GetComponent<Transform>();
-		mTransform->SetPosition(Vector3(0.0f, -1.0f, -99.0f));
-		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+		Animator* animator = GetOwner()->AddComponent<Animator>();
+		animator->Create(L"None", texture, Vector2(0.0f, 480.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		animator->Create(L"hurt", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 2, 0.1f);
+		animator->Play(L"None", true);
+
+		//animator->GetCompleteEvent(L"hurt") = std::bind(&PlayerScript::Idle, this);
 
 		{ // body
-			mBody = object::Instantiate<GameObject>(eLayerType::Player);
+			mBody = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
 
 			SpriteRenderer* mMr = mBody->AddComponent<SpriteRenderer>();
 			mMr->SetMesh(mesh);
-			std::shared_ptr<Material> bodyMaterial = material;
-			mMr->SetMaterial(bodyMaterial);
-
-			Transform* bodyTr = mBody->GetComponent<Transform>();
-			bodyTr->SetPosition(mTransform->GetPosition());
-			bodyTr->SetScale(mTransform->GetScale());
+			mMr->SetMaterial(material);
 
 			Animator* bodyAnimator = mBody->AddComponent<Animator>();
-			std::shared_ptr<Texture> texture = material.get()->GetTexture();
-
+			bodyAnimator->Create(L"None", texture, Vector2(0.0f, 480.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			bodyAnimator->Create(L"FrontIdle", texture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			bodyAnimator->Create(L"FrontWalk", texture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 8, 0.1f);
 			bodyAnimator->Create(L"SideIdle", texture, Vector2(0.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
@@ -59,20 +61,14 @@ namespace ya
 		}
 
 		{ // head
-			mHead = object::Instantiate<GameObject>(eLayerType::Player);
+			mHead = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
 
 			SpriteRenderer* mMr = mHead->AddComponent<SpriteRenderer>();
 			mMr->SetMesh(mesh);
-			std::shared_ptr<Material> headMaterial = material;
-			mMr->SetMaterial(headMaterial);
-
-			Transform* headTr = mHead->GetComponent<Transform>();
-			headTr->SetPosition(mTransform->GetPosition());
-			headTr->SetScale(mTransform->GetScale());
+			mMr->SetMaterial(material);
 
 			Animator* headAnimator = mHead->AddComponent<Animator>();
-			std::shared_ptr<Texture> texture = material.get()->GetTexture();
-
+			headAnimator->Create(L"None", texture, Vector2(0.0f, 480.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			headAnimator->Create(L"FrontIdle", texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			headAnimator->Create(L"FrontAttack", texture, Vector2(32.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			headAnimator->Create(L"SideIdle", texture, Vector2(64.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
@@ -90,7 +86,13 @@ namespace ya
 	}
 	void PlayerScript::Update()
 	{
-		Player::Status status = dynamic_cast<Player*>(GetOwner())->GetStatus();
+		Player* player = dynamic_cast<Player*>(GetOwner());
+		
+		Player::Info info = player->GetInfo();
+		if (info.heart < 0)
+			player->SetHeart(0);
+
+		Player::Status status = player->GetStatus();
 		float speed = 1.0f + status.speed;
 
 		Vector3 pos = mTransform->GetPosition();
@@ -118,49 +120,79 @@ namespace ya
 		Animator* headAnimator = mHead->GetComponent<Animator>();
 		Animator* bodyAnimator = mBody->GetComponent<Animator>();
 
-		// 애니메이션
-		if (Input::GetKeyDown(eKeyCode::W))
+		if (mbInvincible)
 		{
-			headAnimator->Play(L"BackIdle", true);
-			bodyAnimator->Play(L"FrontWalk", true);
+			if (invincibleTime > 0.0f)
+			{
+				invincibleTime -= Time::DeltaTime();
+			}
+			else
+			{
+				mbInvincible = false;
+				Idle();
+			}
 		}
-		else if (Input::GetKeyDown(eKeyCode::S))
+		else
 		{
-			headAnimator->Play(L"FrontIdle", true);
-			bodyAnimator->Play(L"FrontWalk", true);
-		}
-		else if (Input::GetKeyDown(eKeyCode::A))
-		{
-			headAnimator->Play(L"SideIdle", true);
-			bodyAnimator->Play(L"SideWalk", true);
-		}
-		else if (Input::GetKeyDown(eKeyCode::D))
-		{
-			headAnimator->Play(L"SideIdle", true);
-			bodyAnimator->Play(L"SideWalk", true);
-		}
+			// 애니메이션
+			if (Input::GetKeyDown(eKeyCode::W))
+			{
+				headAnimator->Play(L"BackIdle", true);
+				bodyAnimator->Play(L"FrontWalk", true);
+			}
+			else if (Input::GetKeyDown(eKeyCode::S))
+			{
+				headAnimator->Play(L"FrontIdle", true);
+				bodyAnimator->Play(L"FrontWalk", true);
+			}
+			else if (Input::GetKeyDown(eKeyCode::A))
+			{
+				headAnimator->Play(L"SideIdle", true);
+				bodyAnimator->Play(L"SideWalk", true);
+			}
+			else if (Input::GetKeyDown(eKeyCode::D))
+			{
+				headAnimator->Play(L"SideIdle", true);
+				bodyAnimator->Play(L"SideWalk", true);
+			}
 
-		if (Input::GetKeyUp(eKeyCode::W))
-		{
-			bodyAnimator->Play(L"FrontIdle", true);
-		}
-		else if (Input::GetKeyUp(eKeyCode::S))
-		{
-			bodyAnimator->Play(L"FrontIdle", true);
-		}
-		else if (Input::GetKeyUp(eKeyCode::A))
-		{
-			bodyAnimator->Play(L"SideIdle", true);
-		}
-		else if (Input::GetKeyUp(eKeyCode::D))
-		{
-			bodyAnimator->Play(L"SideIdle", true);
-		}
+			if (Input::GetKeyUp(eKeyCode::W))
+			{
+				headAnimator->Play(L"FrontIdle", true);
+				bodyAnimator->Play(L"FrontIdle", true);
+			}
+			else if (Input::GetKeyUp(eKeyCode::S))
+			{
+				headAnimator->Play(L"FrontIdle", true);
+				bodyAnimator->Play(L"FrontIdle", true);
+			}
+			else if (Input::GetKeyUp(eKeyCode::A))
+			{
+				headAnimator->Play(L"FrontIdle", true);
+				bodyAnimator->Play(L"FrontIdle", true);
+			}
+			else if (Input::GetKeyUp(eKeyCode::D))
+			{
+				headAnimator->Play(L"FrontIdle", true);
+				bodyAnimator->Play(L"FrontIdle", true);
+			}
 
-		Transform* headTr =  mHead->GetComponent<Transform>();
-		headTr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, 0.1f, 0.0f));
-		Transform* bodyTr =  mBody->GetComponent<Transform>();
-		bodyTr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.1f, 0.0f));
+			Transform* headTr = mHead->GetComponent<Transform>();
+			headTr->SetPosition(Vector3(0.0f, 0.15f, 0.0f));
+			Transform* bodyTr = mBody->GetComponent<Transform>();
+			bodyTr->SetPosition(Vector3(0.0f, -0.15f, 0.0f));
+
+			if (Input::GetKeyDown(eKeyCode::LEFT) || Input::GetKeyDown(eKeyCode::A))
+			{
+				headTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
+				bodyTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
+			}
+			else if (Input::GetKeyDown(eKeyCode::RIGHT) || Input::GetKeyDown(eKeyCode::D))
+			{
+				headTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+				bodyTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+			}
+		}
 
 
 		// 눈물 발사
@@ -215,24 +247,19 @@ namespace ya
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 		{
 		}
-		
+
 		// 픽업 아이템 사용 
 		if (Input::GetKeyDown(eKeyCode::Q))
 		{
 		}
-		
 
-		if (Input::GetKeyDown(eKeyCode::LEFT) || Input::GetKeyDown(eKeyCode::A))
+		if (Input::GetKeyDown(eKeyCode::H))
 		{
-			headTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
-			bodyTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
+			Hurt();
 		}
-		else if (Input::GetKeyDown(eKeyCode::RIGHT) || Input::GetKeyDown(eKeyCode::D))
-		{
-			headTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
-			bodyTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
-		}
+		
 	}
+
 	void PlayerScript::FixedUpdate()
 	{
 	}
@@ -259,11 +286,50 @@ namespace ya
 	{
 	}
 
+	void PlayerScript::Idle()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		Animator* headAnimator = mHead->GetComponent<Animator>();
+		Animator* bodyAnimator = mBody->GetComponent<Animator>();
+
+		animator->Play(L"None", false);
+		headAnimator->Play(L"FrontIdle", false);
+		bodyAnimator->Play(L"FrontIdle", false);
+		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+	}
+
 	void PlayerScript::Attack(Vector3 direction)
 	{
 		Tear* tear = new Tear(GetOwner(), direction);
 		Scene* scene = SceneManager::GetActiveScene();
 		Layer& layer = scene->GetLayer(eLayerType::Projectile);
 		layer.AddGameObject(tear);
+	}
+
+	void PlayerScript::Hurt()
+	{
+		if (mbInvincible)
+			return;
+
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		Animator* headAnimator = mHead->GetComponent<Animator>();
+		Animator* bodyAnimator = mBody->GetComponent<Animator>();
+
+		headAnimator->Play(L"None", false);
+		bodyAnimator->Play(L"None", false);
+		animator->Play(L"hurt", false);
+
+		mTransform->SetScale(Vector3(1.32f, 1.32f, 1.0f));
+
+		Player* player = dynamic_cast<Player*>(GetOwner());
+		player->AddHeart(-1);
+
+		Invincible();
+	}
+
+	void PlayerScript::Invincible()
+	{
+		invincibleTime = 0.8f;
+		mbInvincible = true;
 	}
 }

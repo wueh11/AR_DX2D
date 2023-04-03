@@ -15,9 +15,10 @@ namespace ya
 		virtual void Render();
 
 		Vector3 GetDirection() { return mDirection;}
+		GameObject* GetProjectileOwner() { return mProjectileOwner; }
 
 	private:
-		GameObject* mOwner;
+		GameObject* mProjectileOwner;
 		Vector3 mDirection;
 	};
 }

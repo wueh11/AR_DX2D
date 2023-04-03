@@ -17,7 +17,7 @@ namespace ya
 		mDebugObjects.resize((UINT)eColliderType::End);
 
 		std::shared_ptr<Material> material = Resources::Find<Material>(L"DebugMaterial");
-			
+
 		{ /// rect
 			std::shared_ptr<Mesh> rectMesh = Resources::Find<Mesh>(L"DebugRectMesh");
 
@@ -46,7 +46,7 @@ namespace ya
 			gridMr->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
 			GridScript* gridScript = gridObject->AddComponent<GridScript>();
 			gridScript->SetCamera(mainCamera);
-			
+
 			mEditorObjects.push_back(gridObject);
 		}
 	}
@@ -112,7 +112,7 @@ namespace ya
 		Transform* tr = debugObj->GetComponent<Transform>();
 		tr->SetPosition(mesh.position);
 		tr->SetRotation(mesh.rotation);
-		
+
 		if (mesh.type == eColliderType::Rect)
 			tr->SetScale(mesh.scale);
 		else

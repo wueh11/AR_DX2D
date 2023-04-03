@@ -19,7 +19,7 @@
 #define CBSLOT_TRANSFORM 0
 #define CBSLOT_MATERIAL 1
 #define CBSLOT_GRID 2
-#define CBSLOT_ANIMATOR 3
+#define CBSLOT_ANIMATION 3
 #define CBSLOT_NUMBEROFLIGHT 4
 #define CBSLOT_PARTICLESYSTEM 5
 
@@ -125,7 +125,16 @@ namespace ya::graphics
 
 	enum class eSRVType
 	{
-		None,
+		SRV,
+		UAV,
+		End,
+	};
+
+	enum class eTextureSlot
+	{
+		T0, T1, T2, T3, T4, T5, T6, T7,
+		CubeT8, CubeT9,
+		Array2DT10, Array2DT11,
 		End,
 	};
 
@@ -164,5 +173,10 @@ namespace ya::graphics
 		float time;
 		float speed;
 		UINT active;
+	};
+
+	struct ParticleShared
+	{
+		UINT activeCount;
 	};
 }

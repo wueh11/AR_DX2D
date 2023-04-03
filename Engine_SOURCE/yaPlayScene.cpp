@@ -7,6 +7,8 @@
 #include "yaCameraScript.h"
 #include "yaRenderer.h"
 
+#include "yaCollisionManager.h"
+
 #include "yaMeshRenderer.h"
 #include "yaPlayerScript.h"
 #include "yaResources.h"
@@ -16,6 +18,11 @@
 #include "yaSpriteRenderer.h"
 
 #include "yaUIScript.h"
+
+#include "yaHeartFull.h"
+#include "yaKey.h"
+#include "yaCoin.h"
+#include "yaBomb.h"
 
 namespace ya
 {
@@ -38,9 +45,6 @@ namespace ya
 		cameraComp->SetProjectionType(Camera::eProjectionType::Orthographic);
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
 
-		Transform* cameraTr = cameraObj->GetComponent<Transform>();
-		cameraTr->SetPosition(Vector3::Zero);
-
 		mainCamera = cameraComp;
 
 		{ //Camera UI
@@ -49,9 +53,6 @@ namespace ya
 			cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
 			cameraUIComp->DisableLayerMasks();
 			cameraUIComp->TurnLayerMask(eLayerType::UI, true);	/// 모든 Layer을 끄고 UI만 표시한다.
-
-			Transform* cameraUITr = cameraUIObj->GetComponent<Transform>();
-			cameraUITr->SetPosition(Vector3::Zero);
 		}
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
@@ -60,7 +61,7 @@ namespace ya
 			{ // bgblack
 				GameObject* bgblack = object::Instantiate<GameObject>(eLayerType::Background);
 				Transform* bgblackTr = bgblack->GetComponent<Transform>();
-				bgblackTr->SetPosition(Vector3(0.0f, 0.0f, 100.0f));
+				bgblackTr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
 				bgblackTr->SetScale(Vector3(10.0f, 8.0f, 1.0f));
 
 				MeshRenderer* bgblackMr = bgblack->AddComponent<MeshRenderer>();
@@ -75,7 +76,7 @@ namespace ya
 				{
 					GameObject* gamemenu = object::Instantiate<GameObject>(eLayerType::Background);
 					Transform* gamemenuTr = gamemenu->GetComponent<Transform>();
-					gamemenuTr->SetPosition(Vector3(-2.1f + (4.2f * i), 1.45f + (-2.9f * j), 1.0f));
+					gamemenuTr->SetPosition(Vector3(-2.1f + (4.2f * i), 1.45f + (-2.9f * j), 10.0f));
 					gamemenuTr->SetRotation(Vector3(XM_PI * j, XM_PI * i, 0.0f));
 					gamemenuTr->SetScale(Vector3(4.4f, 2.9f, 1.0f));
 
@@ -117,6 +118,13 @@ namespace ya
 		{ // Player
 			Player* player = object::Instantiate<Player>(eLayerType::Player);
 			player->AddComponent<PlayerScript>();
+			Transform* playerTr = player->GetComponent<Transform>();
+			//playerTr->SetPosition(Vector3(0.0f, -1.0f, -0.0f));
+			playerTr->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+			Collider2D* collider = player->AddComponent<Collider2D>();
+			collider->SetSize(Vector2(0.5f, 0.5f));
+			collider->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			collider->SetColliderType(eColliderType::Rect);
 
 			{ // UI
 				GameObject* ui = object::Instantiate<GameObject>(eLayerType::Background);
@@ -128,6 +136,45 @@ namespace ya
 			}
 		}
 
+		{
+			HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item);
+			Transform* heartTr = heart->GetComponent<Transform>();
+			heartTr->SetPosition(Vector3(-1.0f, 1.0f, -10.0f));
+			Collider2D* collider = heart->AddComponent<Collider2D>();
+			collider->SetSize(Vector2(0.5f, 0.5f));
+			collider->SetColliderType(eColliderType::Rect);
+		}
+
+		{
+			HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item);
+			Transform* heartTr = heart->GetComponent<Transform>();
+			heartTr->SetPosition(Vector3(-1.0f, 1.3f, -10.0f));
+			Collider2D* collider = heart->AddComponent<Collider2D>();
+			collider->SetSize(Vector2(0.5f, 0.5f));
+			collider->SetColliderType(eColliderType::Rect);
+		}
+
+		{
+			Coin* coin = object::Instantiate<Coin>(eLayerType::Item);
+			Transform* coinTr = coin->GetComponent<Transform>();
+			coinTr->SetPosition(Vector3(0.0f, 1.0f, -10.0f));
+			Collider2D* collider = coin->AddComponent<Collider2D>();
+			collider->SetSize(Vector2(0.5f, 0.5f));
+			collider->SetColliderType(eColliderType::Rect);
+		}
+		
+		{
+			Key* key = object::Instantiate<Key>(eLayerType::Item);
+			Transform* keyTr = key->GetComponent<Transform>();
+			keyTr->SetPosition(Vector3(1.0f, 1.0f, -10.0f));
+			Collider2D* collider = key->AddComponent<Collider2D>();
+			collider->SetSize(Vector2(0.5f, 0.5f));
+			collider->SetColliderType(eColliderType::Rect);
+		}
+
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Item, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Projectile, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Item, eLayerType::Item, true);
 		
 		Scene::Initialize();
 	}

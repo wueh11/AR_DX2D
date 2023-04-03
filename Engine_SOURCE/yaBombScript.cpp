@@ -7,16 +7,15 @@
 #include "yaAnimator.h"
 #include "yaResources.h"
 #include "yaSpriteRenderer.h"
+#include "yaImageRenderer.h"
 #include "yaObject.h"
 
-#include "yaTear.h"
-#include "yaPlayer.h"
+#include "yaExplosionScript.h"
 
 namespace ya
 {
 	BombScript::BombScript()
 		: Script()
-		, mEffect(nullptr)
 		, mTransform(nullptr)
 		, mAnimator(nullptr)
 		, mOwnerPos(Vector3::Zero)
@@ -37,7 +36,6 @@ namespace ya
 		rd->SetMaterial(material);
 
 		mTransform = GetOwner()->GetComponent<Transform>();
-		mTransform->SetPosition(mOwnerPos);
 		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 
 		mAnimator = GetOwner()->AddComponent<Animator>();
@@ -46,19 +44,16 @@ namespace ya
 			std::shared_ptr<Texture> texture = material.get()->GetTexture();
 			mAnimator->Create(L"Default", texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 		}
-		
+
 		{
 			std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"explosion", L"explosion.png");
-
 			mAnimator->Create(L"Explosion", texture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 12, 0.05f, 2, 3);
-			mAnimator->Create(L"Imprint", texture, Vector2(288.0f, 288.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 1, 0.1f);
-
-			mAnimator->GetEndEvent(L"Explosion") = std::bind(&BombScript::Imprint, this);
+			mAnimator->GetEvent(L"Explosion", 1) = std::bind(&BombScript::Explosion, this);
+			mAnimator->GetEvent(L"Explosion", 2) = std::bind(&BombScript::Imprint, this);
+			mAnimator->GetCompleteEvent(L"Explosion") = std::bind(&BombScript::Death, this);
 		}
 
 		mAnimator->Play(L"Default", false);
-
-		//mAnimator->GetStartEvent(L"Default") = std::bind(&BombScript::Destroy, this); // TODO:scale로 폭탄 커졌다작아졌다하는 효과 추가
 	}
 
 	void BombScript::Update()
@@ -66,20 +61,22 @@ namespace ya
 		switch (mState)
 		{
 		case ya::BombScript::eState::Bomb:
+		{
 			if (mAliveTime < 0.0f)
 				mState = eState::Explosion;
 			else
 				mAliveTime -= Time::DeltaTime();
-			break;
+		}
+		break;
 		case ya::BombScript::eState::Explosion:
+		{
 			mTransform->SetScale(Vector3(1.5f, 1.5f, 1.0f));
-			mTransform->SetPosition(mTransform->GetPosition() + Vector3(0.0f, 0.22f, 0.0f));
-			Explosion();
-			break;
-		case ya::BombScript::eState::Imprint:
-			mAnimator->Play(L"Imprint");
+			mTransform->SetPosition(mTransform->GetPosition() + Vector3(0.0f, 0.4f, 0.0f));
+
+			mAnimator->Play(L"Explosion", false);
 			mState = eState::None;
-			break;
+		}
+		break;
 		case ya::BombScript::eState::None:
 			break;
 		default:
@@ -112,13 +109,28 @@ namespace ya
 	{
 	}
 
-	void BombScript::Explosion()
-	{
-		mAnimator->Play(L"Explosion", false);
-	}
-
 	void BombScript::Imprint()
 	{
-		mState = eState::Imprint;
+		GameObject* imprint = object::Instantiate<GameObject>(eLayerType::Background);
+
+		ImageRenderer* rd = imprint->AddComponent<ImageRenderer>();
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		rd->SetMesh(mesh);
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"bombMaterial");
+		rd->SetMaterial(material);
+		std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"explosion", L"explosion.png");
+		rd->SetImageSize(texture, Vector2(288.0f, 288.0f), Vector2(96.0f, 96.0f));
+
+		Transform* tr = imprint->GetComponent<Transform>();
+		tr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.2f, 1.0f));
+	}
+	void BombScript::Explosion()
+	{
+		GameObject* explosion = object::Instantiate<GameObject>(eLayerType::Projectile);
+		explosion->AddComponent<ExplosionScript>();
+	}
+	void BombScript::Death()
+	{
+		GetOwner()->Death();
 	}
 }

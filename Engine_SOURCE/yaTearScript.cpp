@@ -35,7 +35,11 @@ namespace ya
 		rd->SetMaterial(material);
 
 		mTransform = GetOwner()->GetComponent<Transform>();
-		mTransform->SetPosition(mProjectileOwner->GetComponent<Transform>()->GetPosition());
+		Tear* tear = dynamic_cast<Tear*>(GetOwner());
+		mProjectileOwner = tear->GetProjectileOwner();
+
+		Transform* ownerTr = mProjectileOwner->GetComponent<Transform>();
+		mTransform->SetPosition(ownerTr->GetPosition());
 		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 
 		mAnimator = GetOwner()->AddComponent<Animator>();
@@ -49,8 +53,10 @@ namespace ya
 	}
 	void TearScript::Update()
 	{
-		Player* player = dynamic_cast<Player*>(mProjectileOwner);
+		if (mProjectileOwner == nullptr)
+			return;
 
+		Player* player = dynamic_cast<Player*>(mProjectileOwner);
 		Player::Status status = player->GetStatus();
 		//float range = status.range;
 		float range = 2.0f;

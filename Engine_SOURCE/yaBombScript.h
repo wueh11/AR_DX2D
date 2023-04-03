@@ -12,7 +12,6 @@ namespace ya
 		{
 			Bomb,
 			Explosion,
-			Imprint,
 			None,
 		};
 
@@ -33,8 +32,9 @@ namespace ya
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
-		void Explosion();
 		void Imprint();
+		void Explosion();
+		void Death();
 
 	public:
 		Vector3 GetOwnerPos() { return mOwnerPos; }
@@ -45,8 +45,6 @@ namespace ya
 
 		Transform* mTransform;
 		Animator* mAnimator;
-
-		GameObject* mEffect;
 
 		float mAliveTime;
 		eState mState;

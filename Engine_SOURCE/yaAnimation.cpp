@@ -67,7 +67,7 @@ namespace ya
 
         for (size_t i = 0, row = 0, col = 0; i < spriteLength; i++, col++)
         {
-            if (col > spriteColumn)
+            if (col >= spriteColumn)
             {
                 row++;
                 col = 0;
@@ -75,7 +75,7 @@ namespace ya
 
             // API와는 다르게 0~1 사이의 비율좌표로 위치를 표현해야한다.
             Sprite sprite = {};
-            sprite.leftTop = Vector2((leftTop.x + (size.x * (float)col)) / width, (leftTop.y + (size.x * (float)row)) / height);
+            sprite.leftTop = Vector2((leftTop.x + (size.x * (float)col)) / width, (leftTop.y + (size.y * (float)row)) / height);
             sprite.size = Vector2(size.x / width, size.y / height);
             sprite.offset = offset;
             sprite.duration = duration;
@@ -87,7 +87,7 @@ namespace ya
 
     void Animation::BindShader()
     {
-        mAtlas->BindShader(eShaderStage::PS, 12);
+        mAtlas->BindShaderResource(eShaderStage::PS, 12);
 
         ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animation];
 

@@ -1,16 +1,15 @@
 #include "yaTear.h"
 #include "yaTearScript.h"
+#include "yaTransform.h"
 
 namespace ya
 {
 	Tear::Tear(GameObject* owner, Vector3 direction)
 		: GameObject()
-		, mOwner(owner)
+		, mProjectileOwner(owner)
 		, mDirection(direction)
 	{
 		TearScript* tearScript = AddComponent<TearScript>();
-		tearScript->SetProjectileOwner(owner);
-		tearScript->Initialize();
 	}
 	Tear::~Tear()
 	{

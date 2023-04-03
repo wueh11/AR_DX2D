@@ -153,7 +153,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Engine\Engine_SOURCE\yaParticleShader.h" />
     <ClInclude Include="CommonInclude.h" />
+    <ClInclude Include="IsaacItems.h" />
     <ClInclude Include="yaAnimation.h" />
     <ClInclude Include="yaAnimator.h" />
     <ClInclude Include="yaApplication.h" />
@@ -162,12 +164,21 @@
     <ClInclude Include="yaBombScript.h" />
     <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaCameraScript.h" />
+    <ClInclude Include="yaCoin.h" />
+    <ClInclude Include="yaCoinScript.h" />
     <ClInclude Include="yaCollider.h" />
     <ClInclude Include="yaCollider2D.h" />
     <ClInclude Include="yaCollider3D.h" />
     <ClInclude Include="yaCollisionManager.h" />
     <ClInclude Include="yaComputeShader.h" />
+    <ClInclude Include="yaExplosionScript.h" />
+    <ClInclude Include="yaHeartFull.h" />
+    <ClInclude Include="yaHeartScript.h" />
     <ClInclude Include="yaImageRenderer.h" />
+    <ClInclude Include="yaItem.h" />
+    <ClInclude Include="yaItemScript.h" />
+    <ClInclude Include="yaKey.h" />
+    <ClInclude Include="yaKeyScript.h" />
     <ClInclude Include="yaLight.h" />
     <ClInclude Include="yaMonster.h" />
     <ClInclude Include="yaComponent.h" />
@@ -181,7 +192,6 @@
     <ClInclude Include="yaGraphics.h" />
     <ClInclude Include="yaGridScript.h" />
     <ClInclude Include="yaInput.h" />
-    <ClInclude Include="yaIsaac.h" />
     <ClInclude Include="yaLayer.h" />
     <ClInclude Include="yaMaterial.h" />
     <ClInclude Include="yaMath.h" />
@@ -215,6 +225,7 @@
     <ClInclude Include="yaWorkScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Engine\Engine_SOURCE\yaParticleShader.cpp" />
     <ClCompile Include="yaAnimation.cpp" />
     <ClCompile Include="yaAnimator.cpp" />
     <ClCompile Include="yaApplication.cpp" />
@@ -223,12 +234,21 @@
     <ClCompile Include="yaBombScript.cpp" />
     <ClCompile Include="yaCamera.cpp" />
     <ClCompile Include="yaCameraScript.cpp" />
+    <ClCompile Include="yaCoin.cpp" />
+    <ClCompile Include="yaCoinScript.cpp" />
     <ClCompile Include="yaCollider.cpp" />
     <ClCompile Include="yaCollider2D.cpp" />
     <ClCompile Include="yaCollider3D.cpp" />
     <ClCompile Include="yaCollisionManager.cpp" />
     <ClCompile Include="yaComputeShader.cpp" />
+    <ClCompile Include="yaExplosionScript.cpp" />
+    <ClCompile Include="yaHeartFull.cpp" />
+    <ClCompile Include="yaHeartScript.cpp" />
     <ClCompile Include="yaImageRenderer.cpp" />
+    <ClCompile Include="yaItem.cpp" />
+    <ClCompile Include="yaItemScript.cpp" />
+    <ClCompile Include="yaKey.cpp" />
+    <ClCompile Include="yaKeyScript.cpp" />
     <ClCompile Include="yaLight.cpp" />
     <ClCompile Include="yaMonster.cpp" />
     <ClCompile Include="yaComponent.cpp" />
@@ -239,7 +259,6 @@
     <ClCompile Include="yaGraphicDevice_DX11.cpp" />
     <ClCompile Include="yaGridScript.cpp" />
     <ClCompile Include="yaInput.cpp" />
-    <ClCompile Include="yaIsaac.cpp" />
     <ClCompile Include="yaLayer.cpp" />
     <ClCompile Include="yaMaterial.cpp" />
     <ClCompile Include="yaMath.cpp" />

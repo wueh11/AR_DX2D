@@ -38,7 +38,20 @@ namespace ya
 			{}
 		};
 
-		struct Item
+		struct Pickup
+		{
+			int coin;
+			int bomb;
+			int key;
+
+			Pickup()
+				: coin(0)
+				, bomb(1)
+				, key(0)
+			{}
+		};
+
+		struct Items
 		{
 			std::vector<int> collectibles; // 패시브 아이템
 			int pickups; //알약,카드
@@ -57,12 +70,28 @@ namespace ya
 	public:
 		Info GetInfo() { return mInfo; }
 		Status GetStatus() { return mStatus; }
-		Item GetItem() { return mItem; }
+		Items GetItem() { return mItem; }
+		Pickup GetPickup() { return mPickup; }
+
+		void SetHeart(int heart) { mInfo.heart = heart; }
+		void AddHeart(int heart) 
+		{ 
+			mInfo.heart += heart; 
+			if (mInfo.heartMax < mInfo.heart) 
+				mInfo.heart = mInfo.heartMax; 
+		}
+
+		void AddSoulHeart(int heart) { mInfo.soulHeart += heart; }
+
+		void AddCoin(int coin) { mPickup.coin += coin; }
+		void AddBomb(int bomb) { mPickup.bomb += bomb; }
+		void AddKey(int key) { mPickup.key += key; }
 
 	private:
 		Info mInfo;
 		Status mStatus;
-		Item mItem;
+		Items mItem;
+		Pickup mPickup;
 	};
 }
 

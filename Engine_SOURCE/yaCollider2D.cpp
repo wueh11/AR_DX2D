@@ -83,7 +83,7 @@ namespace ya
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
 		for (Script* script : scripts)
 		{
-			script->OnCollisionEnter(collider);
+			script->OnCollisionStay(collider);
 		}
 	}
 
