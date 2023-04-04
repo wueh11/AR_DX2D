@@ -29,7 +29,7 @@ namespace ya
 		Collider2D* collider = GetOwner()->AddComponent<Collider2D>();
 		collider->SetColliderType(eColliderType::Rect);
 		Transform* tr = GetOwner()->GetComponent<Transform>();
-		tr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+		tr->SetScale(Vector3(1.5f, 1.5f, 1.5f));
 		collider->SetPosition(tr->GetPosition());
 		//collider->SetSize(Vector2(1.0f, 1.0f));
 	}

@@ -4,7 +4,7 @@
 namespace ya
 {
 	class Transform;
-	class Animator;
+	class Rigidbody;
 	class PlayerScript : public Script
 	{
 	public:
@@ -32,6 +32,7 @@ namespace ya
 
 	private:
 		Transform* mTransform;
+		Rigidbody* mRigidbody;
 
 		GameObject* mHead;
 		GameObject* mBody;

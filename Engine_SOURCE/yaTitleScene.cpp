@@ -171,9 +171,16 @@ namespace ya
 			menushadowTr->SetPosition(Vector3(-2.0f, -1.0f, 1.0f));
 			menushadowTr->SetScale(Vector3(5.6f, 4.0f, 1.0f));
 
-			MeshRenderer* menushadowMr = menushadow->AddComponent<MeshRenderer>();
+			/*MeshRenderer* menushadowMr = menushadow->AddComponent<MeshRenderer>();
 			menushadowMr->SetMesh(mesh);
 			std::shared_ptr<Material> menushadowMaterial = Resources::Find<Material>(L"menushadowMaterial");
+			menushadowMr->SetMaterial(menushadowMaterial);*/
+
+			MeshRenderer* menushadowMr = menushadow->AddComponent<MeshRenderer>();
+			menushadowMr->SetMesh(mesh);
+			std::shared_ptr<Material> menushadowMaterial = Resources::Find<Material>(L"menuoverlayMaterial");
+			std::shared_ptr<Texture> tex = Resources::Find<Texture>(L"menushadow");
+			menushadowMaterial->SetTexture(tex);
 			menushadowMr->SetMaterial(menushadowMaterial);
 		}
 

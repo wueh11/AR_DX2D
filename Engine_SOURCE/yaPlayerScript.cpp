@@ -4,6 +4,7 @@
 #include "yaInput.h"
 #include "yaTime.h"
 #include "yaAnimator.h"
+#include "yaRigidbody.h"
 #include "yaResources.h"
 #include "yaSpriteRenderer.h"
 #include "yaObject.h"
@@ -17,6 +18,7 @@ namespace ya
 	PlayerScript::PlayerScript()
 		: Script()
 		, mTransform(nullptr)
+		, mRigidbody(nullptr)
 		, mHead(nullptr)
 		, mBody(nullptr)
 		, invincibleTime(0.0f)
@@ -28,7 +30,8 @@ namespace ya
 	}
 	void PlayerScript::Initialize()
 	{
-		mTransform = GetOwner()->AddComponent<Transform>();
+		mTransform = GetOwner()->GetComponent<Transform>();
+		mRigidbody = GetOwner()->AddComponent<Rigidbody>();
 
 		SpriteRenderer* rd = GetOwner()->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
@@ -93,29 +96,27 @@ namespace ya
 			player->SetHeart(0);
 
 		Player::Status status = player->GetStatus();
-		float speed = 1.0f + status.speed;
+		float speed = 20.0f * status.speed;
 
 		Vector3 pos = mTransform->GetPosition();
 
 		/// ÀÌµ¿
 		if (Input::GetKey(eKeyCode::W))
 		{
-			pos.y += speed * Time::DeltaTime();
+			mRigidbody->AddForce(Vector3(0.0f, speed, 0.0f));
 		}
 		else if (Input::GetKey(eKeyCode::S))
 		{
-			pos.y -= speed * Time::DeltaTime();
+			mRigidbody->AddForce(Vector3(0.0f, -speed, 0.0f));
 		}
 		else if (Input::GetKey(eKeyCode::A))
 		{
-			pos.x -= speed * Time::DeltaTime();
+			mRigidbody->AddForce(Vector3(-speed, 0.0f, 0.0f));
 		}
 		else if (Input::GetKey(eKeyCode::D))
 		{
-			pos.x += speed * Time::DeltaTime();
+			mRigidbody->AddForce(Vector3(speed, 0.0f, 0.0f));
 		}
-		mTransform->SetPosition(pos);
-
 
 		Animator* headAnimator = mHead->GetComponent<Animator>();
 		Animator* bodyAnimator = mBody->GetComponent<Animator>();

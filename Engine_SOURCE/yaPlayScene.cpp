@@ -148,7 +148,7 @@ namespace ya
 		{
 			HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item);
 			Transform* heartTr = heart->GetComponent<Transform>();
-			heartTr->SetPosition(Vector3(-1.0f, 1.3f, -10.0f));
+			heartTr->SetPosition(Vector3(-1.0f, 1.6f, -10.0f));
 			Collider2D* collider = heart->AddComponent<Collider2D>();
 			collider->SetSize(Vector2(0.5f, 0.5f));
 			collider->SetColliderType(eColliderType::Rect);

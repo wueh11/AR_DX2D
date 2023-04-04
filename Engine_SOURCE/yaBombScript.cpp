@@ -127,6 +127,8 @@ namespace ya
 	void BombScript::Explosion()
 	{
 		GameObject* explosion = object::Instantiate<GameObject>(eLayerType::Projectile);
+		Transform* tr = explosion->GetComponent<Transform>();
+		tr->SetPosition(mTransform->GetPosition());
 		explosion->AddComponent<ExplosionScript>();
 	}
 	void BombScript::Death()

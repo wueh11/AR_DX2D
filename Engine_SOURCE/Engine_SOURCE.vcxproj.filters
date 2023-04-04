@@ -151,6 +151,9 @@
     <Filter Include="GameObject\Imprint">
       <UniqueIdentifier>{e717c1ee-cfb8-4630-83fc-50fd54630053}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Rigidbody">
+      <UniqueIdentifier>{2fe796ae-7712-4053-a7b6-bf2d3b5ccee9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -338,6 +341,9 @@
     </ClCompile>
     <ClCompile Include="yaUIScript.cpp">
       <Filter>Component\Script\Contents\System</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRigidbody.cpp">
+      <Filter>Component\Rigidbody</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -544,6 +550,9 @@
     </ClInclude>
     <ClInclude Include="yaUIScript.h">
       <Filter>Component\Script\Contents\System</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRigidbody.h">
+      <Filter>Component\Rigidbody</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
