@@ -197,6 +197,7 @@
     <ClInclude Include="yaMath.h" />
     <ClInclude Include="yaMesh.h" />
     <ClInclude Include="yaMeshRenderer.h" />
+    <ClInclude Include="yaNumberScript.h" />
     <ClInclude Include="yaObject.h" />
     <ClInclude Include="yaPaintShader.h" />
     <ClInclude Include="yaParticleSystem.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="yaMath.cpp" />
     <ClCompile Include="yaMesh.cpp" />
     <ClCompile Include="yaMeshRenderer.cpp" />
+    <ClCompile Include="yaNumberScript.cpp" />
     <ClCompile Include="yaPaintShader.cpp" />
     <ClCompile Include="yaParticleSystem.cpp" />
     <ClCompile Include="yaPlayer.cpp" />

@@ -5,6 +5,7 @@ namespace ya
 {
 	class GameObject;
 	class Player;
+	class NumberScript;
 	class UIScript : public Script
 	{
 	public:
@@ -22,8 +23,9 @@ namespace ya
 	private:
 		Player* mPlayer;
 		std::vector<GameObject*> mHearts;
-		GameObject* mKey;
-		GameObject* mBomb;
-		GameObject* mCoin;
+
+		NumberScript* mCoinCount;
+		NumberScript* mBombCount;
+		NumberScript* mKeyCount;
 	};
 }

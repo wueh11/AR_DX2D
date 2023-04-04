@@ -238,10 +238,15 @@ namespace ya
 		// 폭탄
 		if (Input::GetKeyDown(eKeyCode::E))
 		{
-			Bomb* tear = new Bomb(pos);
-			Scene* scene = SceneManager::GetActiveScene();
-			Layer& layer = scene->GetLayer(eLayerType::Projectile);
-			layer.AddGameObject(tear);
+			if (player->GetPickup().bomb > 0)
+			{
+				Bomb* bomb = new Bomb(pos);
+				Scene* scene = SceneManager::GetActiveScene();
+				Layer& layer = scene->GetLayer(eLayerType::Projectile);
+				layer.AddGameObject(bomb);
+
+				player->AddBomb(-1);
+			}
 		}
 
 		// 액티브 아이템 사용

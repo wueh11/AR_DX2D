@@ -345,6 +345,9 @@
     <ClCompile Include="yaRigidbody.cpp">
       <Filter>Component\Rigidbody</Filter>
     </ClCompile>
+    <ClCompile Include="yaNumberScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -553,6 +556,9 @@
     </ClInclude>
     <ClInclude Include="yaRigidbody.h">
       <Filter>Component\Rigidbody</Filter>
+    </ClInclude>
+    <ClInclude Include="yaNumberScript.h">
+      <Filter>Component\Script\Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

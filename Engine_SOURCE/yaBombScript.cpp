@@ -48,7 +48,7 @@ namespace ya
 		{
 			std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"explosion", L"explosion.png");
 			mAnimator->Create(L"Explosion", texture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 12, 0.05f, 2, 3);
-			mAnimator->GetEvent(L"Explosion", 1) = std::bind(&BombScript::Explosion, this);
+			//mAnimator->GetEvent(L"Explosion", 1) = std::bind(&BombScript::Explosion, this);
 			mAnimator->GetEvent(L"Explosion", 2) = std::bind(&BombScript::Imprint, this);
 			mAnimator->GetCompleteEvent(L"Explosion") = std::bind(&BombScript::Death, this);
 		}
@@ -73,6 +73,7 @@ namespace ya
 			mTransform->SetScale(Vector3(1.5f, 1.5f, 1.0f));
 			mTransform->SetPosition(mTransform->GetPosition() + Vector3(0.0f, 0.4f, 0.0f));
 
+			Explosion();
 			mAnimator->Play(L"Explosion", false);
 			mState = eState::None;
 		}

@@ -65,6 +65,10 @@ namespace ya
 	void CoinScript::OnCollisionEnter(Collider2D* collider)
 	{
 		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+
+		Player* player = dynamic_cast<Player*>(collider->GetOwner());
+		player->AddCoin(1);
+
 		mAnimator->Play(L"Effect", false);
 	}
 	void CoinScript::OnCollisionStay(Collider2D* collider)

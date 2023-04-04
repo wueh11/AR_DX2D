@@ -451,6 +451,7 @@ namespace ya::renderer
 			Resources::Load<Texture>(L"ui_chargebar", L"Issac\\ui_chargebar.png");
 			Resources::Load<Texture>(L"ui_cardspills", L"Issac\\ui_cardspills.png");
 			Resources::Load<Texture>(L"ui_cardfronts", L"Issac\\ui_cardfronts.png");
+			Resources::Load<Texture>(L"fonts", L"Issac\\terminus_0.png");
 		}
 
 		{ //items
@@ -694,6 +695,15 @@ namespace ya::renderer
 		}
 
 		{ // uis
+			{ //fonts
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"fonts");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"fontsMaterial", material);
+			}
+
 			{ //hudpickups
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"hudpickups");
 				std::shared_ptr<Material> material = std::make_shared<Material>();

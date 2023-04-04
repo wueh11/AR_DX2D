@@ -49,9 +49,7 @@ namespace ya
 			if (gameObject == nullptr)
 				continue;
 			if (gameObject->GetState() != GameObject::eState::Active)
-			{
 				continue;
-			}
 
 			gameObject->Update();
 		}

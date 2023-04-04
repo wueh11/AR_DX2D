@@ -9,6 +9,7 @@
 #include "yaResources.h"
 #include "yaAnimator.h"
 #include "yaPlayer.h"
+#include "yaNumberScript.h"
 
 namespace ya
 {
@@ -16,9 +17,9 @@ namespace ya
 		: Script()
 		, mPlayer(nullptr)
 		, mHearts{}
-		, mKey(nullptr)
-		, mBomb(nullptr)
-		, mCoin(nullptr)
+		, mKeyCount(nullptr)
+		, mBombCount(nullptr)
+		, mCoinCount(nullptr)
 	{
 	}
 	UIScript::~UIScript()
@@ -43,15 +44,15 @@ namespace ya
 				ui_heartsMr->SetMesh(mesh);
 				ui_heartsMr->SetMaterial(material);
 
-				Animator* bodyAnimator = ui_hearts->AddComponent<Animator>();
+				Animator* animator = ui_hearts->AddComponent<Animator>();
 
-				bodyAnimator->Create(L"None", ui_heartsTexture, Vector2(96.0f, 48.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
-				bodyAnimator->Create(L"heartFull", ui_heartsTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
-				bodyAnimator->Create(L"heartHalf", ui_heartsTexture, Vector2(16.0f, 0.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
-				bodyAnimator->Create(L"heartEmpty", ui_heartsTexture, Vector2(32.0f, 0.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
-				bodyAnimator->Create(L"soulFull", ui_heartsTexture, Vector2(0.0f, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
-				bodyAnimator->Create(L"soulHalf", ui_heartsTexture, Vector2(16.0f, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
-				bodyAnimator->Play(L"None", false);
+				animator->Create(L"None", ui_heartsTexture, Vector2(96.0f, 48.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
+				animator->Create(L"heartFull", ui_heartsTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
+				animator->Create(L"heartHalf", ui_heartsTexture, Vector2(16.0f, 0.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
+				animator->Create(L"heartEmpty", ui_heartsTexture, Vector2(32.0f, 0.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
+				animator->Create(L"soulFull", ui_heartsTexture, Vector2(0.0f, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
+				animator->Create(L"soulHalf", ui_heartsTexture, Vector2(16.0f, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 1, 0.1f);
+				animator->Play(L"None", false);
 
 				mHearts.push_back(ui_hearts);
 			}
@@ -70,7 +71,7 @@ namespace ya
 			coinMr->SetMaterial(material);
 			coinMr->SetImageSize(hudpickupsTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 16.0f));
 		}
-
+		
 		{ // bomb
 			GameObject* bomb = object::Instantiate<GameObject>(eLayerType::UI);
 			Transform* bombTr = bomb->GetComponent<Transform>();
@@ -93,6 +94,41 @@ namespace ya
 			keyMr->SetMesh(mesh);
 			keyMr->SetMaterial(material);
 			keyMr->SetImageSize(hudpickupsTexture, Vector2(16.0f, 0.0f), Vector2(16.0f, 16.0f));
+		}
+
+		Scene* scene = SceneManager::GetActiveScene();
+		mPlayer = scene->GetPlayer();
+
+		if (mPlayer != nullptr)
+		{
+			Player::Pickup pickup = mPlayer->GetPickup();
+
+			{ // coin count
+				GameObject* coinCount = object::Instantiate<GameObject>(eLayerType::UI);
+				Transform* coinTr = coinCount->GetComponent<Transform>();
+				coinTr->SetPosition(Vector3(-4.42f, 1.9f, 0.0f));
+				coinTr->SetScale(Vector3(0.15f, 0.15f, 1.0f));
+				mCoinCount = coinCount->AddComponent<NumberScript>();
+				mCoinCount->SetNumber(pickup.coin);
+			}
+
+			{ // bomb count
+				GameObject* bombCount = object::Instantiate<GameObject>(eLayerType::UI);
+				Transform* bombTr = bombCount->GetComponent<Transform>();
+				bombTr->SetPosition(Vector3(-4.42f, 1.64f, 0.0f));
+				bombTr->SetScale(Vector3(0.15f, 0.15f, 1.0f));
+				mBombCount = bombCount->AddComponent<NumberScript>();
+				mBombCount->SetNumber(pickup.bomb);
+			}
+
+			{ // key count
+				GameObject* keyCount = object::Instantiate<GameObject>(eLayerType::UI);
+				Transform* keyTr = keyCount->GetComponent<Transform>();
+				keyTr->SetPosition(Vector3(-4.42f, 1.38f, 0.0f));
+				keyTr->SetScale(Vector3(0.15f, 0.15f, 1.0f));
+				mKeyCount = keyCount->AddComponent<NumberScript>();
+				mKeyCount->SetNumber(pickup.key);
+			}
 		}
 	}
 
@@ -131,6 +167,11 @@ namespace ya
 				anim->Play(L"None");
 			}
 		}
+
+		Player::Pickup pickup = mPlayer->GetPickup();
+		mCoinCount->SetNumber(pickup.coin);
+		mBombCount->SetNumber(pickup.bomb);
+		mKeyCount->SetNumber(pickup.key);
 	}
 
 	void UIScript::FixedUpdate()
