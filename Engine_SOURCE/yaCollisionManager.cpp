@@ -184,23 +184,32 @@ namespace ya
 			Matrix rightMat = rightTr->GetWorldMatrix();
 
 			// 분리축 벡터 4개 구하기 (투영벡터)
-			Vector3 Axis[4]{};
-			Axis[0] = Vector3::Transform(arrLocalPos[1], leftMat);
-			Axis[1] = Vector3::Transform(arrLocalPos[3], leftMat);
-			Axis[2] = Vector3::Transform(arrLocalPos[1], rightMat);
-			Axis[3] = Vector3::Transform(arrLocalPos[3], rightMat);
+			// 분리축 벡터 4개 구하기
+			Vector3 Axis[4] = {};
 
-			Axis[0] -= Vector3::Transform(arrLocalPos[0], leftMat);
-			Axis[1] -= Vector3::Transform(arrLocalPos[0], leftMat);
-			Axis[2] -= Vector3::Transform(arrLocalPos[0], rightMat);
-			Axis[3] -= Vector3::Transform(arrLocalPos[0], rightMat);
+			Vector3 leftScale = Vector3(left->GetSize().x, left->GetSize().y, 1.0f);
+
+			Matrix finalLeft = Matrix::CreateScale(leftScale);
+			finalLeft *= leftMat;
+
+			Vector3 rightScale = Vector3(right->GetSize().x, right->GetSize().y, 1.0f);
+			Matrix finalRight = Matrix::CreateScale(rightScale);
+			finalRight *= rightMat;
+
+			Axis[0] = Vector3::Transform(arrLocalPos[1], finalLeft);
+			Axis[1] = Vector3::Transform(arrLocalPos[3], finalLeft);
+			Axis[2] = Vector3::Transform(arrLocalPos[1], finalRight);
+			Axis[3] = Vector3::Transform(arrLocalPos[3], finalRight);
+
+			Axis[0] -= Vector3::Transform(arrLocalPos[0], finalLeft);
+			Axis[1] -= Vector3::Transform(arrLocalPos[0], finalLeft);
+			Axis[2] -= Vector3::Transform(arrLocalPos[0], finalRight);
+			Axis[3] -= Vector3::Transform(arrLocalPos[0], finalRight);
 
 			for (size_t i = 0; i < 4; i++)
-			{
 				Axis[i].z = 0.0f; /// 2D
-			}
 
-			Vector3 vc = left->GetPosition() - right->GetPosition();
+			Vector3 vc = leftTr->GetPosition() - rightTr->GetPosition();
 			vc.z = 0.0f;
 
 			Vector3 centerDir = vc; /// centerDir : 사각형 중심사이의 거리를 내적한 값
