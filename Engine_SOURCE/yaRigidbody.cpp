@@ -48,7 +48,6 @@ namespace ya
 			gravity.Normalize();
 
 			float dot = gravity.Dot(mVelocity);
-			//float dot = math::Dot(mVelocity, gravity); /// 방향에 따른 중력 크기 내적값
 			mVelocity -= gravity * dot;
 		}
 		else
@@ -60,7 +59,6 @@ namespace ya
 		Vector3 gravity = mGravity;
 		gravity.Normalize();
 		float dot = gravity.Dot(mVelocity);
-		//float dot = math::Dot(mVelocity, gravity);
 		gravity = gravity * dot;
 
 		Vector3 sideVelocity = mVelocity - gravity;
@@ -102,7 +100,7 @@ namespace ya
 
 		tr->SetPosition(pos);
 
-		mForce = Vector3::Zero; // clear
+		ClearForce();
 	}
 
 	void Rigidbody::Render()
@@ -113,5 +111,9 @@ namespace ya
 	{
 		mForce += force;
 		int a = 0;
+	}
+	void Rigidbody::ClearForce()
+	{
+		mForce = Vector3::Zero;
 	}
 }

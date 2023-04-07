@@ -15,12 +15,15 @@ namespace ya::enums
 		None = 0,
 		Grid,
 		Background,
+		Wall,
 		Camera,
+
 		Effect,
 		Monster,
 		Player,
 		Item,
 		Projectile,
+		
 		Particle,
 		UI,
 		End = 16,

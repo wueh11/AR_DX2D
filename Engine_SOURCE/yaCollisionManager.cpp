@@ -184,7 +184,6 @@ namespace ya
 			Matrix rightMat = rightTr->GetWorldMatrix();
 
 			// 분리축 벡터 4개 구하기 (투영벡터)
-			// 분리축 벡터 4개 구하기
 			Vector3 Axis[4] = {};
 
 			Vector3 leftScale = Vector3(left->GetSize().x, left->GetSize().y, 1.0f);

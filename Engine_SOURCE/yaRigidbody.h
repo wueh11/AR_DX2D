@@ -16,6 +16,7 @@ namespace ya
 		virtual void Render() override;
 
 		void AddForce(Vector3 force);
+		void ClearForce();
 		void SetMass(float mass) { mMass = mass; }
 		void SetGround(bool isGround) { mbGround = isGround; }
 		bool IsGround() { return mbGround; }

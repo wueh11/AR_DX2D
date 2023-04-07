@@ -18,6 +18,7 @@
 #include "yaSpriteRenderer.h"
 
 #include "yaUIScript.h"
+#include "yaWallScript.h"
 
 #include "yaHeartFull.h"
 #include "yaKey.h"
@@ -90,6 +91,38 @@ namespace ya
 				}
 			}
 			
+			// Wall Collider
+			{
+				for (size_t i = 0; i < 2; i++)
+				{
+					for (size_t j = 0; j < 2; j++)
+					{
+						GameObject* wall = object::Instantiate<GameObject>(eLayerType::Wall);
+						Transform* wallTr = wall->GetComponent<Transform>();
+						wallTr->SetPosition(Vector3(-2.0f + (4.0f * j), 2.0f + (-4.0f * i), 0.0f));
+						wall->AddComponent<WallScript>();
+						Collider2D* collider = wall->AddComponent<Collider2D>();
+						collider->SetSize(Vector2(3.2f, 0.2f));
+						collider->SetColliderType(eColliderType::Rect);
+					}
+				}
+				
+				for (size_t i = 0; i < 2; i++)
+				{
+					for (size_t j = 0; j < 2; j++)
+					{
+						GameObject* wall = object::Instantiate<GameObject>(eLayerType::Wall);
+						Transform* wallTr = wall->GetComponent<Transform>();
+						wallTr->SetPosition(Vector3(-3.4f + (6.8f * j), 1.3f + (-2.6f * i), 0.0f));
+						wall->AddComponent<WallScript>();
+						Collider2D* collider = wall->AddComponent<Collider2D>();
+						collider->SetSize(Vector2(0.2f, 1.8f));
+						collider->SetColliderType(eColliderType::Rect);
+					}
+				}
+
+			}
+
 			{ // controls
 				GameObject* controls = object::Instantiate<GameObject>(eLayerType::Background);
 				Transform* controlsTr = controls->GetComponent<Transform>();
@@ -173,9 +206,14 @@ namespace ya
 			collider->SetColliderType(eColliderType::Rect);
 		}
 
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Wall, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Projectile, eLayerType::Wall, true);
+
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Item, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Projectile, true);
+
 		CollisionManager::CollisionLayerCheck(eLayerType::Item, eLayerType::Item, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Item, eLayerType::Wall, true);
 		
 		Scene::Initialize();
 	}

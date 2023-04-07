@@ -115,9 +115,6 @@
     <Filter Include="GameObject\Projectile">
       <UniqueIdentifier>{58f239d4-365e-403e-9b85-8ff407215930}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Script\Projectile">
-      <UniqueIdentifier>{40d6ffd5-d304-45f2-8b6d-5b27f34f59f2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\Script\Contents\System">
       <UniqueIdentifier>{5e701ae9-1f7b-4660-809b-84a09fc001a2}</UniqueIdentifier>
     </Filter>
@@ -153,6 +150,9 @@
     </Filter>
     <Filter Include="Component\Rigidbody">
       <UniqueIdentifier>{2fe796ae-7712-4053-a7b6-bf2d3b5ccee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\Projectile">
+      <UniqueIdentifier>{40d6ffd5-d304-45f2-8b6d-5b27f34f59f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -281,7 +281,7 @@
       <Filter>Component\Script\Contents\Object</Filter>
     </ClCompile>
     <ClCompile Include="yaTearScript.cpp">
-      <Filter>Component\Script\Projectile</Filter>
+      <Filter>Component\Script\Contents\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="yaTitleScript.cpp">
       <Filter>Component\Script\Contents\Scene</Filter>
@@ -296,7 +296,7 @@
       <Filter>Component\Script\Contents\System</Filter>
     </ClCompile>
     <ClCompile Include="yaBombScript.cpp">
-      <Filter>Component\Script\Projectile</Filter>
+      <Filter>Component\Script\Contents\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="yaPaintShader.cpp">
       <Filter>Resource\Shader\CS</Filter>
@@ -337,7 +337,7 @@
       <Filter>Component\Script\Contents\Item\PickUp</Filter>
     </ClCompile>
     <ClCompile Include="yaExplosionScript.cpp">
-      <Filter>Component\Script\Projectile</Filter>
+      <Filter>Component\Script\Contents\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="yaUIScript.cpp">
       <Filter>Component\Script\Contents\System</Filter>
@@ -346,6 +346,9 @@
       <Filter>Component\Rigidbody</Filter>
     </ClCompile>
     <ClCompile Include="yaNumberScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaWallScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
   </ItemGroup>
@@ -490,7 +493,7 @@
       <Filter>Component\Script\Contents\Object</Filter>
     </ClInclude>
     <ClInclude Include="yaTearScript.h">
-      <Filter>Component\Script\Projectile</Filter>
+      <Filter>Component\Script\Contents\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="yaTitleScript.h">
       <Filter>Component\Script\Contents\Scene</Filter>
@@ -505,7 +508,7 @@
       <Filter>Component\Script\Contents\System</Filter>
     </ClInclude>
     <ClInclude Include="yaBombScript.h">
-      <Filter>Component\Script\Projectile</Filter>
+      <Filter>Component\Script\Contents\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="yaPaintShader.h">
       <Filter>Resource\Shader\CS</Filter>
@@ -549,7 +552,7 @@
       <Filter>Component\Script\Contents\Item\PickUp</Filter>
     </ClInclude>
     <ClInclude Include="yaExplosionScript.h">
-      <Filter>Component\Script\Projectile</Filter>
+      <Filter>Component\Script\Contents\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="yaUIScript.h">
       <Filter>Component\Script\Contents\System</Filter>
@@ -558,6 +561,9 @@
       <Filter>Component\Rigidbody</Filter>
     </ClInclude>
     <ClInclude Include="yaNumberScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaWallScript.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
   </ItemGroup>

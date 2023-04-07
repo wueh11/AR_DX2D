@@ -224,6 +224,7 @@
     <ClInclude Include="yaTransform.h" />
     <ClInclude Include="yaUIheart.h" />
     <ClInclude Include="yaUIScript.h" />
+    <ClInclude Include="yaWallScript.h" />
     <ClInclude Include="yaWorkScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +293,7 @@
     <ClCompile Include="yaTransform.cpp" />
     <ClCompile Include="yaUIheart.cpp" />
     <ClCompile Include="yaUIScript.cpp" />
+    <ClCompile Include="yaWallScript.cpp" />
     <ClCompile Include="yaWorkScene.cpp" />
   </ItemGroup>
   <ItemGroup>
