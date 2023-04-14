@@ -418,6 +418,9 @@ namespace ya::renderer
 		constantBuffers[(UINT)eCBType::ParticleSystem] = new ConstantBuffer(eCBType::ParticleSystem);
 		constantBuffers[(UINT)eCBType::ParticleSystem]->Create(sizeof(ParticleSystemCB));
 
+		constantBuffers[(UINT)eCBType::Noise] = new ConstantBuffer(eCBType::Noise);
+		constantBuffers[(UINT)eCBType::Noise]->Create(sizeof(NoiseCB));
+
 		//Structed buffer
 		lightsBuffer = new StructedBuffer();
 		lightsBuffer->Create(sizeof(LightAttribute), 128, eSRVType::SRV, nullptr, true);
@@ -429,6 +432,8 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"HPBar", L"HPBar.png");
 		Resources::Load<Texture>(L"noise", L"noise2.png");
 		Resources::Load<Texture>(L"CartoonSmoke", L"particle\\CartoonSmoke.png");
+		Resources::Load<Texture>(L"noise_01", L"noise\\noise_01.png");
+		Resources::Load<Texture>(L"noise_02", L"noise\\noise_02.png");
 
 		{ // uavTexture
 			std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -811,6 +816,7 @@ namespace ya::renderer
 
 	void Render()
 	{
+		BindNoiseTexture();
 		BindLights();
 
 		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
@@ -856,5 +862,29 @@ namespace ya::renderer
 		cb->SetData(&trCb);
 		cb->Bind(eShaderStage::VS);
 		cb->Bind(eShaderStage::PS);
+	}
+
+	void BindNoiseTexture()
+	{
+		std::shared_ptr<Texture> noise = Resources::Find<Texture>(L"noise_01");
+		noise->BindShaderResource(eShaderStage::VS, 16);
+		noise->BindShaderResource(eShaderStage::HS, 16);
+		noise->BindShaderResource(eShaderStage::DS, 16);
+		noise->BindShaderResource(eShaderStage::GS, 16);
+		noise->BindShaderResource(eShaderStage::PS, 16);
+		noise->BindShaderResource(eShaderStage::CS, 16);
+
+		NoiseCB info = {};
+		info.noiseSize.x = noise->GetWidth();
+		info.noiseSize.y = noise->GetHeight();
+
+		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Noise];
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::VS);
+		cb->Bind(eShaderStage::HS);
+		cb->Bind(eShaderStage::DS);
+		cb->Bind(eShaderStage::GS);
+		cb->Bind(eShaderStage::PS);
+		cb->Bind(eShaderStage::CS);
 	}
 }

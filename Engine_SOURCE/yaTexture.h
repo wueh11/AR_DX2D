@@ -24,15 +24,15 @@ namespace ya::graphics
 		void BindShaderResource(eShaderStage stage, UINT slot);
 		void LoadFile(const std::wstring& path);
 		void InitializeResource();
-		
+
 		void BindUnorderedAccessView(UINT startSlot);
 		void ClearUnorderedAccessView(UINT startSlot);
-		
+
 		void Clear();
 		static void Clear(UINT startSlot);
 
-		size_t GetHeight() { return mDesc.Height;  }
-		size_t GetWidth() { return mDesc.Width;  }
+		size_t GetHeight() { return mDesc.Height; }
+		size_t GetWidth() { return mDesc.Width; }
 
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> GetTexture() { return mTexture; }
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> GetDSV() { return mDSV; }
@@ -53,4 +53,3 @@ namespace ya::graphics
 		D3D11_TEXTURE2D_DESC mDesc;
 	};
 }
-

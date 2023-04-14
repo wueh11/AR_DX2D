@@ -1,10 +1,10 @@
 #pragma once
 #include "yaGameObject.h"
-#include "IsaacItems.h"
+#include "yaPickup.h"
 
 namespace ya
 {
-	class Coin : public GameObject
+	class Coin : public Pickup
 	{
 	public:
 		Coin();

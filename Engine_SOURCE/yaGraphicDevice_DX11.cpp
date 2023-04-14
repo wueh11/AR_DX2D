@@ -30,10 +30,10 @@ namespace ya::graphics
 
 		ID3D11Device* pDevice = nullptr;
 		HRESULT hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, DeviceFlag, nullptr, 0
-										, D3D11_SDK_VERSION
-										, mDevice.GetAddressOf()
-										, &FeatureLevel
-										, mContext.GetAddressOf());
+			, D3D11_SDK_VERSION
+			, mDevice.GetAddressOf()
+			, &FeatureLevel
+			, mContext.GetAddressOf());
 
 		// SwapChain
 		DXGI_SWAP_CHAIN_DESC swapChainDesc = {}; /// swap chain을 만드는데 필요한 description 
@@ -97,10 +97,10 @@ namespace ya::graphics
 
 	bool GraphicDevice_DX11::CreateSwapChain(DXGI_SWAP_CHAIN_DESC* desc)
 	{
-		Microsoft::WRL::ComPtr<IDXGIDevice> pDXGIDevice = nullptr;  
-		Microsoft::WRL::ComPtr<IDXGIAdapter> pDXGIAdapter = nullptr; 
+		Microsoft::WRL::ComPtr<IDXGIDevice> pDXGIDevice = nullptr;
+		Microsoft::WRL::ComPtr<IDXGIAdapter> pDXGIAdapter = nullptr;
 		Microsoft::WRL::ComPtr<IDXGIFactory> pDXGIFactory = nullptr;
-		
+
 		if (FAILED(mDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)pDXGIDevice.GetAddressOf())))
 			return false;
 
@@ -313,7 +313,7 @@ namespace ya::graphics
 	{
 		mContext->CSSetUnorderedAccessViews(startSlot, NumUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
 	}
-	
+
 	void GraphicDevice_DX11::BindShaderResource(eShaderStage stage, UINT slot, ID3D11ShaderResourceView* const* ppShaderResourceViews)
 	{
 		switch (stage)

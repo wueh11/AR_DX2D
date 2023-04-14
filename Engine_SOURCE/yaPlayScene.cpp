@@ -21,6 +21,9 @@
 #include "yaWallScript.h"
 
 #include "yaHeartFull.h"
+#include "yaHeartHalf.h"
+#include "yaSoulHeartFull.h"
+
 #include "yaKey.h"
 #include "yaCoin.h"
 #include "yaBomb.h"
@@ -174,36 +177,37 @@ namespace ya
 			HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item);
 			Transform* heartTr = heart->GetComponent<Transform>();
 			heartTr->SetPosition(Vector3(-1.0f, 1.0f, -10.0f));
-			Collider2D* collider = heart->AddComponent<Collider2D>();
-			collider->SetSize(Vector2(0.5f, 0.5f));
-			collider->SetColliderType(eColliderType::Rect);
 		}
 
 		{
-			HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item);
+			SoulHeartFull* heart = object::Instantiate<SoulHeartFull>(eLayerType::Item);
 			Transform* heartTr = heart->GetComponent<Transform>();
-			heartTr->SetPosition(Vector3(-1.0f, 1.6f, -10.0f));
-			Collider2D* collider = heart->AddComponent<Collider2D>();
-			collider->SetSize(Vector2(0.5f, 0.5f));
-			collider->SetColliderType(eColliderType::Rect);
+			heartTr->SetPosition(Vector3(-1.0f, -1.0f, -10.0f));
+		}
+
+
+		{
+			HeartHalf* heart = object::Instantiate<HeartHalf>(eLayerType::Item);
+			Transform* heartTr = heart->GetComponent<Transform>();
+			heartTr->SetPosition(Vector3(-1.0f, 0.0f, -10.0f));
 		}
 
 		{
 			Coin* coin = object::Instantiate<Coin>(eLayerType::Item);
 			Transform* coinTr = coin->GetComponent<Transform>();
 			coinTr->SetPosition(Vector3(0.0f, 1.0f, -10.0f));
-			Collider2D* collider = coin->AddComponent<Collider2D>();
-			collider->SetSize(Vector2(0.5f, 0.5f));
-			collider->SetColliderType(eColliderType::Rect);
 		}
 		
 		{
 			Key* key = object::Instantiate<Key>(eLayerType::Item);
 			Transform* keyTr = key->GetComponent<Transform>();
 			keyTr->SetPosition(Vector3(1.0f, 1.0f, -10.0f));
-			Collider2D* collider = key->AddComponent<Collider2D>();
-			collider->SetSize(Vector2(0.5f, 0.5f));
-			collider->SetColliderType(eColliderType::Rect);
+		}
+
+		{
+			Bomb* key = object::Instantiate<Bomb>(eLayerType::Item);
+			Transform* keyTr = key->GetComponent<Transform>();
+			keyTr->SetPosition(Vector3(2.0f, 1.0f, -10.0f));
 		}
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Wall, true);

@@ -14,8 +14,8 @@ namespace ya
 
 			Info()
 				: heartMax(6)
-				, heart(3)
-				, soulHeart(0)
+				, heart(6)
+				, soulHeart(2)
 			{}
 		};
 
@@ -54,7 +54,7 @@ namespace ya
 		struct Items
 		{
 			std::vector<int> collectibles; // 패시브 아이템
-			int pickups; //알약,카드
+			int consumable; //알약,카드
 			int trinkets; //장신구
 		};
 
@@ -82,6 +82,7 @@ namespace ya
 		}
 
 		void AddSoulHeart(int heart) { mInfo.soulHeart += heart; }
+		void AddMaxHeart(int heart) { mInfo.heartMax += heart; }
 
 		void AddCoin(int coin) { mPickup.coin += coin; }
 		void AddBomb(int bomb) { mPickup.bomb += bomb; }

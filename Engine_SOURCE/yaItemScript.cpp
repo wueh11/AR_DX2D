@@ -1,6 +1,6 @@
-#include "yaItemScript.h"
+#include "yaPickupScript.h"
 
-#include "yaItemScript.h"
+#include "yaPickupScript.h"
 #include "yaTransform.h"
 #include "yaGameObject.h"
 #include "yaInput.h"
@@ -22,7 +22,7 @@ namespace ya
 		: Script()
 		, mTransform(nullptr)
 		, mAnimator(nullptr)
-		, mItemType(eItemType::None)
+		, mItemType(ePickupType::None)
 	{
 	}
 	ItemScript::~ItemScript()

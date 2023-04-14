@@ -11,6 +11,8 @@
 #include "yaScene.h"
 #include "yaSceneManager.h"
 
+#include "yaRigidbody.h"
+
 namespace ya
 {
 	KeyScript::KeyScript()
@@ -18,6 +20,7 @@ namespace ya
 		, mTransform(nullptr)
 		, mbDeath(false)
 		, mTimer(0.1f)
+		, mCollideVelocity(Vector3::Zero)
 	{
 	}
 	KeyScript::~KeyScript()
@@ -57,19 +60,86 @@ namespace ya
 
 	void KeyScript::OnCollisionEnter(Collider2D* collider)
 	{
-		if(!mbDeath)
+		if (mbDeath)
+			return;
+
+		GameObject* other = collider->GetOwner();
+
+		Player* player = dynamic_cast<Player*>(other);
+		if (player != nullptr)
 		{
-			Player* player = dynamic_cast<Player*>(collider->GetOwner());
 			player->AddKey(1);
 			mbDeath = true;
+			
+			if(player->GetPickup().key >= 99)
+			{
+				Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
+				if (otherRigidbody == nullptr)
+					return;
+				mCollideVelocity = otherRigidbody->GetVelocity();
+			}
 		}
-
+		else
+		{
+			Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
+			if (rigidbody == nullptr)
+				return;
+			mCollideVelocity = rigidbody->GetVelocity();
+		}
 	}
 	void KeyScript::OnCollisionStay(Collider2D* collider)
 	{
+		GameObject* other = collider->GetOwner();
+		Player* player = dynamic_cast<Player*>(other);
+		if (player != nullptr)
+		{
+			if (player->GetPickup().key < 99)
+				return;
+
+			Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
+			Collider2D* ownerCollider = GetOwner()->GetComponent<Collider2D>();
+
+			rigidbody->AddForce(mCollideVelocity * 50.0f);
+		}
+		else
+		{
+			if (mCollideVelocity.x == 0.0f && mCollideVelocity.y == 0.0f)
+			{
+				Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
+				Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
+				if (otherRigidbody != nullptr)
+					rigidbody->AddForce(otherRigidbody->GetVelocity());
+			}
+			else
+			{
+				Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
+				Collider2D* ownerCollider = GetOwner()->GetComponent<Collider2D>();
+
+				Vector3 target = Vector3(0.0f, 0.0f, 0.0f);
+				if (ownerCollider->GetPosition().x > collider->GetPosition().x - (collider->GetSize().x / 2)
+					&& ownerCollider->GetPosition().x < collider->GetPosition().x + (collider->GetSize().x / 2))
+					target.x = 1.0f;
+
+				if (ownerCollider->GetPosition().y > collider->GetPosition().y - (collider->GetSize().y / 2)
+					&& ownerCollider->GetPosition().y < collider->GetPosition().y + (collider->GetSize().y / 2))
+					target.y = 1.0f;
+
+				Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
+				if (otherRigidbody != nullptr)
+				{
+					otherRigidbody->AddForce(mCollideVelocity * 200.0f);
+				}
+
+				Vector3 force = rigidbody->Bounce(mCollideVelocity, target);
+				rigidbody->ClearForce();
+				rigidbody->AddForce(force * 100.0f);
+			}
+		}
 	}
+
 	void KeyScript::OnCollisionExit(Collider2D* collider)
 	{
+		mCollideVelocity = Vector3::Zero;
 	}
 	void KeyScript::OnTriggerEnter(Collider2D* collider)
 	{

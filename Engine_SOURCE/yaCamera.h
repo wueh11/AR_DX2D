@@ -39,11 +39,11 @@ namespace ya
 		Matrix& GetProjectionMatrix() { return mProjection; }
 
 	private:
-		void SortGameObjects();
+		void sortGameObjects();
 		void renderOpaque();
 		void renderCutout();
 		void renderTransparent();
-		void PushGameObjectToRenderingModes(GameObject* gameObject);
+		void pushGameObjectToRenderingModes(GameObject* gameObject);
 
 	public:
 		float GetScale() { return mScale; }
@@ -57,7 +57,7 @@ namespace ya
 
 		eProjectionType mType;
 		float mAspectRatio; /// 종횡비
-		
+
 		float mNear;	/// 가까이 있는 값
 		float mFar;		/// 최대 멀리 있는 값
 		float mScale;	/// 확대

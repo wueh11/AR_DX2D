@@ -4,11 +4,9 @@
 namespace ya
 {
 	HeartFull::HeartFull()
-		: Item(isaac::eItemType::HeartFull)
+		: Pickup(isaac::ePickupType::HeartFull)
 	{
 		HeartScript* heartScript = AddComponent<HeartScript>();
-		heartScript->SetItemType(isaac::eItemType::HeartFull);
-		heartScript->Initialize();
 	}
 	HeartFull::~HeartFull()
 	{

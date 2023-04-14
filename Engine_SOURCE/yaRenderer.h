@@ -64,9 +64,24 @@ namespace ya::renderer
 
 	CBUFFER(ParticleSystemCB, CBSLOT_PARTICLESYSTEM)
 	{
-		Vector4 color;
-		UINT elementCount;
+		Vector4 worldPosition;
+		Vector4 startColor;
+		Vector4 startSize;
+
+		UINT maxParticles;
+		UINT simulationSpace;
+		float radius;
+		float startSpeed;
+
+		float startLifeTime;
 		float deltaTime;
+		float elapsedTime; //누적시간
+		int padding;
+	};
+
+	CBUFFER(NoiseCB, CBSLOT_NOISE)
+	{
+		Vector4 noiseSize;
 	};
 
 	//정점 데이터
@@ -98,4 +113,5 @@ namespace ya::renderer
 	//Renderer
 	void PushLightAttribute(LightAttribute lightAttribute);
 	void BindLights();
+	void BindNoiseTexture();
 }

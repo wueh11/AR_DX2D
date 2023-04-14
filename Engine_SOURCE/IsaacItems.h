@@ -2,7 +2,7 @@
 
 namespace ya::isaac
 {
-	enum class eItemType
+	enum class ePickupType
 	{
 		None,
 
@@ -12,11 +12,7 @@ namespace ya::isaac
 		HeartHalf,
 		HeartFull,
 		SoulHeartFull,
-
-		Passive,
-		Active,
-		Trinket,
-
+		
 		Pill,
 		Card,
 	};

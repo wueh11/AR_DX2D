@@ -16,7 +16,7 @@ extern ya::Application application;
 namespace ya
 {
 	Matrix Camera::View = Matrix::Identity; // 단위행렬
-	Matrix Camera::Projection = Matrix::Identity ;
+	Matrix Camera::Projection = Matrix::Identity;
 
 	Camera::Camera()
 		: Component(eComponentType::Camera)
@@ -55,7 +55,7 @@ namespace ya
 		View = mView;
 		Projection = mProjection;
 
-		SortGameObjects();
+		sortGameObjects();
 
 		renderOpaque();
 		renderCutout();
@@ -90,7 +90,7 @@ namespace ya
 		float width = (winRect.right - winRect.left) * mScale;
 		float height = (winRect.bottom - winRect.top) * mScale;
 		mAspectRatio = width / height;
-		
+
 		if (mType == eProjectionType::Perspective)
 		{
 			mProjection = Matrix::CreatePerspectiveFieldOfViewLH(
@@ -117,7 +117,7 @@ namespace ya
 		mLayerMasks.set((UINT)layer, enable);
 	}
 
-	void Camera::SortGameObjects()
+	void Camera::sortGameObjects()
 	{
 		mOpaqueGameObjects.clear();
 		mCutoutGameObjects.clear();
@@ -135,7 +135,7 @@ namespace ya
 
 				for (GameObject* obj : gameObjects)
 				{
-					PushGameObjectToRenderingModes(obj);
+					pushGameObjectToRenderingModes(obj);
 				}
 			}
 		}
@@ -173,7 +173,7 @@ namespace ya
 			obj->Render();
 		}
 	}
-	void Camera::PushGameObjectToRenderingModes(GameObject* gameObject)
+	void Camera::pushGameObjectToRenderingModes(GameObject* gameObject)
 	{
 		BaseRenderer* renderer = gameObject->GetComponent<BaseRenderer>();
 		if (renderer == nullptr)

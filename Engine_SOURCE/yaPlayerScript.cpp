@@ -10,7 +10,7 @@
 #include "yaObject.h"
 
 #include "yaTear.h"
-#include "yaBomb.h"
+#include "yaDropBomb.h"
 #include "yaPlayer.h"
 
 namespace ya
@@ -23,6 +23,8 @@ namespace ya
 		, mBody(nullptr)
 		, invincibleTime(0.0f)
 		, mbInvincible(false)
+		, mbDie(false)
+		, mbKeyInput(false)
 	{
 	}
 	PlayerScript::~PlayerScript()
@@ -33,6 +35,11 @@ namespace ya
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mRigidbody = GetOwner()->AddComponent<Rigidbody>();
 
+		Player* player = dynamic_cast<Player*>(GetOwner());
+		Player::Status status = player->GetStatus();
+
+		mRigidbody->SetLimitVelocity(Vector3(1.0f + status.speed, 1.0f + status.speed, 0.0f));
+
 		SpriteRenderer* rd = GetOwner()->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 		rd->SetMesh(mesh);
@@ -42,7 +49,10 @@ namespace ya
 
 		Animator* animator = GetOwner()->AddComponent<Animator>();
 		animator->Create(L"None", texture, Vector2(0.0f, 480.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		animator->Create(L"hurt", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 2, 0.1f);
+		animator->Create(L"Hurt", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.1f);
+		animator->Create(L"Die", texture, Vector2(0.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.2f);
+		animator->Add(L"Die", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.2f);
+		animator->Add(L"Die", texture, Vector2(192.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.3f);
 		animator->Play(L"None", true);
 
 		//animator->GetCompleteEvent(L"hurt") = std::bind(&PlayerScript::Idle, this);
@@ -81,12 +91,12 @@ namespace ya
 			headAnimator->Play(L"FrontIdle", true);
 		}
 
-		/*Animator* animator = GetOwner()->GetComponent<Animator>();
-		animator->GetStartEvent(L"MoveDown") = std::bind(&PlayerScript::Start, this);
-		animator->GetCompleteEvent(L"Idle") = std::bind(&PlayerScript::Action, this);
-		animator->GetEndEvent(L"Idle") = std::bind(&PlayerScript::End, this);
-		animator->GetEvent(L"Idle", 1) = std::bind(&PlayerScript::End, this);*/
+		Transform* headTr = mHead->GetComponent<Transform>();
+		headTr->SetPosition(Vector3(0.0f, 0.15f, 0.0f));
+		Transform* bodyTr = mBody->GetComponent<Transform>();
+		bodyTr->SetPosition(Vector3(0.0f, -0.15f, 0.0f));
 	}
+
 	void PlayerScript::Update()
 	{
 		Player* player = dynamic_cast<Player*>(GetOwner());
@@ -95,31 +105,7 @@ namespace ya
 		if (info.heart < 0)
 			player->SetHeart(0);
 
-		Player::Status status = player->GetStatus();
-		float speed = 20.0f * status.speed;
-
 		Vector3 pos = mTransform->GetPosition();
-
-		/// 이동
-		if (Input::GetKey(eKeyCode::W))
-		{
-			mRigidbody->AddForce(Vector3(0.0f, speed, 0.0f));
-		}
-		else if (Input::GetKey(eKeyCode::S))
-		{
-			mRigidbody->AddForce(Vector3(0.0f, -speed, 0.0f));
-		}
-		else if (Input::GetKey(eKeyCode::A))
-		{
-			mRigidbody->AddForce(Vector3(-speed, 0.0f, 0.0f));
-		}
-		else if (Input::GetKey(eKeyCode::D))
-		{
-			mRigidbody->AddForce(Vector3(speed, 0.0f, 0.0f));
-		}
-
-		Animator* headAnimator = mHead->GetComponent<Animator>();
-		Animator* bodyAnimator = mBody->GetComponent<Animator>();
 
 		if (mbInvincible)
 		{
@@ -133,119 +119,21 @@ namespace ya
 				Idle();
 			}
 		}
-		else
-		{
-			// 애니메이션
-			if (Input::GetKeyDown(eKeyCode::W))
-			{
-				headAnimator->Play(L"BackIdle", true);
-				bodyAnimator->Play(L"FrontWalk", true);
-			}
-			else if (Input::GetKeyDown(eKeyCode::S))
-			{
-				headAnimator->Play(L"FrontIdle", true);
-				bodyAnimator->Play(L"FrontWalk", true);
-			}
-			else if (Input::GetKeyDown(eKeyCode::A))
-			{
-				headAnimator->Play(L"SideIdle", true);
-				bodyAnimator->Play(L"SideWalk", true);
-			}
-			else if (Input::GetKeyDown(eKeyCode::D))
-			{
-				headAnimator->Play(L"SideIdle", true);
-				bodyAnimator->Play(L"SideWalk", true);
-			}
 
-			if (Input::GetKeyUp(eKeyCode::W))
-			{
-				headAnimator->Play(L"FrontIdle", true);
-				bodyAnimator->Play(L"FrontIdle", true);
-			}
-			else if (Input::GetKeyUp(eKeyCode::S))
-			{
-				headAnimator->Play(L"FrontIdle", true);
-				bodyAnimator->Play(L"FrontIdle", true);
-			}
-			else if (Input::GetKeyUp(eKeyCode::A))
-			{
-				headAnimator->Play(L"FrontIdle", true);
-				bodyAnimator->Play(L"FrontIdle", true);
-			}
-			else if (Input::GetKeyUp(eKeyCode::D))
-			{
-				headAnimator->Play(L"FrontIdle", true);
-				bodyAnimator->Play(L"FrontIdle", true);
-			}
-
-			Transform* headTr = mHead->GetComponent<Transform>();
-			headTr->SetPosition(Vector3(0.0f, 0.15f, 0.0f));
-			Transform* bodyTr = mBody->GetComponent<Transform>();
-			bodyTr->SetPosition(Vector3(0.0f, -0.15f, 0.0f));
-
-			if (Input::GetKeyDown(eKeyCode::LEFT) || Input::GetKeyDown(eKeyCode::A))
-			{
-				headTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
-				bodyTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
-			}
-			else if (Input::GetKeyDown(eKeyCode::RIGHT) || Input::GetKeyDown(eKeyCode::D))
-			{
-				headTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
-				bodyTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
-			}
-		}
-
-
-		// 눈물 발사
-		if (Input::GetKeyDown(eKeyCode::UP))
-		{
-			headAnimator->Play(L"BackAttack", true);
-			Attack(Vector3(0.0f, 1.0f, 0.0f));
-		}
-		else if (Input::GetKeyDown(eKeyCode::DOWN))
-		{
-			headAnimator->Play(L"FrontAttack", true);
-			Attack(Vector3(0.0f, -1.0f, 0.0f));
-		}
-		else if (Input::GetKeyDown(eKeyCode::LEFT))
-		{
-			headAnimator->Play(L"SideAttack", true);
-			Attack(Vector3(-1.0f, 0.0f, 0.0f));
-		}
-		else if (Input::GetKeyDown(eKeyCode::RIGHT))
-		{
-			headAnimator->Play(L"SideAttack", true);
-			Attack(Vector3(1.0f, 0.0f, 0.0f));
-		}
-
-		if (Input::GetKeyUp(eKeyCode::UP))
-		{
-			headAnimator->Play(L"BackIdle", true);
-		}
-		else if (Input::GetKeyUp(eKeyCode::DOWN))
-		{
-			headAnimator->Play(L"FrontIdle", true);
-		}
-		else if (Input::GetKeyUp(eKeyCode::LEFT))
-		{
-			headAnimator->Play(L"SideIdle", true);
-		}
-		else if (Input::GetKeyUp(eKeyCode::RIGHT))
-		{
-			headAnimator->Play(L"SideIdle", true);
-		}
+		Move();
+		Attack();
 
 		// 폭탄
 		if (Input::GetKeyDown(eKeyCode::E))
 		{
-			if (player->GetPickup().bomb > 0)
+			//if (player->GetPickup().bomb > 0)
 			{
-				Bomb* bomb = new Bomb(pos);
+				DropBomb* bomb = new DropBomb(pos);
 				Scene* scene = SceneManager::GetActiveScene();
-				Layer& layer = scene->GetLayer(eLayerType::Projectile);
+				Layer& layer = scene->GetLayer(eLayerType::Item);
 				layer.AddGameObject(bomb);
 
-				player->AddBomb(-1);
+				//player->AddBomb(-1);
 			}
 		}
 
@@ -259,9 +147,31 @@ namespace ya
 		{
 		}
 
-		if (Input::GetKeyDown(eKeyCode::H))
+		if (Input::GetKeyDown(eKeyCode::N_9))
 		{
 			Hurt();
+		}
+		if (Input::GetKeyDown(eKeyCode::N_0))
+		{
+			Die();
+		}
+
+
+		if (Input::GetKeyDown(eKeyCode::N_1))
+		{
+			player->AddHeart(1);
+		}
+		if (Input::GetKeyDown(eKeyCode::N_2))
+		{
+			player->AddSoulHeart(1);
+		}
+		if (Input::GetKeyDown(eKeyCode::N_3))
+		{
+			player->AddMaxHeart(2);
+		}
+		if (Input::GetKeyDown(eKeyCode::N_4))
+		{
+			player->AddMaxHeart(-2);
 		}
 		
 	}
@@ -304,7 +214,124 @@ namespace ya
 		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 	}
 
-	void PlayerScript::Attack(Vector3 direction)
+	void PlayerScript::Move()
+	{
+		Player* player = dynamic_cast<Player*>(GetOwner());
+		Player::Status status = player->GetStatus();
+		float speed = 10.0f * status.speed;
+
+		/// 이동
+		if (Input::GetKey(eKeyCode::W))
+			mRigidbody->AddForce(Vector3(0.0f, speed, 0.0f));
+		else if (Input::GetKey(eKeyCode::S))
+			mRigidbody->AddForce(Vector3(0.0f, -speed, 0.0f));
+		
+		if (Input::GetKey(eKeyCode::A))
+			mRigidbody->AddForce(Vector3(-speed, 0.0f, 0.0f));
+		else if (Input::GetKey(eKeyCode::D))
+			mRigidbody->AddForce(Vector3(speed, 0.0f, 0.0f));
+
+
+		Animator* headAnimator = mHead->GetComponent<Animator>();
+		Animator* bodyAnimator = mBody->GetComponent<Animator>();
+
+		if (!mbInvincible)
+		{
+			// 애니메이션
+			if (Input::GetKeyDown(eKeyCode::W))
+			{
+				headAnimator->Play(L"BackIdle", true);
+				bodyAnimator->Play(L"FrontWalk", true);
+			}
+			else if (Input::GetKeyDown(eKeyCode::S))
+			{
+				headAnimator->Play(L"FrontIdle", true);
+				bodyAnimator->Play(L"FrontWalk", true);
+			}
+			else if (Input::GetKeyDown(eKeyCode::A))
+			{
+				headAnimator->Play(L"SideIdle", true);
+				bodyAnimator->Play(L"SideWalk", true);
+			}
+			else if (Input::GetKeyDown(eKeyCode::D))
+			{
+				headAnimator->Play(L"SideIdle", true);
+				bodyAnimator->Play(L"SideWalk", true);
+			}
+
+			if (Input::GetKeyNone(eKeyCode::W) && Input::GetKeyNone(eKeyCode::A) && Input::GetKeyNone(eKeyCode::S) && Input::GetKeyNone(eKeyCode::D))
+			{
+				bodyAnimator->Play(L"FrontIdle", true);
+			}
+
+			Transform* headTr = mHead->GetComponent<Transform>();
+			Transform* bodyTr = mBody->GetComponent<Transform>();
+
+			if (Input::GetKeyDown(eKeyCode::LEFT) || Input::GetKeyDown(eKeyCode::A))
+			{
+				headTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
+				bodyTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
+			}
+			else if (Input::GetKeyDown(eKeyCode::RIGHT) || Input::GetKeyDown(eKeyCode::D))
+			{
+				headTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+				bodyTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+			}
+		}
+	}
+
+	void PlayerScript::Attack()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		Animator* headAnimator = mHead->GetComponent<Animator>();
+		Animator* bodyAnimator = mBody->GetComponent<Animator>();
+
+		// 눈물 발사
+		if (Input::GetKeyDown(eKeyCode::UP))
+		{
+			headAnimator->Play(L"BackAttack", true);
+			Tears(Vector3(0.0f, 1.0f, 0.0f));
+		}
+		else if (Input::GetKeyDown(eKeyCode::DOWN))
+		{
+			headAnimator->Play(L"FrontAttack", true);
+			Tears(Vector3(0.0f, -1.0f, 0.0f));
+		}
+		else if (Input::GetKeyDown(eKeyCode::LEFT))
+		{
+			headAnimator->Play(L"SideAttack", true);
+			Tears(Vector3(-1.0f, 0.0f, 0.0f));
+		}
+		else if (Input::GetKeyDown(eKeyCode::RIGHT))
+		{
+			headAnimator->Play(L"SideAttack", true);
+			Tears(Vector3(1.0f, 0.0f, 0.0f));
+		}
+
+		if (Input::GetKeyUp(eKeyCode::UP))
+		{
+			headAnimator->Play(L"BackIdle", true);
+		}
+		else if (Input::GetKeyUp(eKeyCode::DOWN))
+		{
+			headAnimator->Play(L"FrontIdle", true);
+		}
+		else if (Input::GetKeyUp(eKeyCode::LEFT))
+		{
+			headAnimator->Play(L"SideIdle", true);
+		}
+		else if (Input::GetKeyUp(eKeyCode::RIGHT))
+		{
+			headAnimator->Play(L"SideIdle", true);
+		}
+
+		/*if (Input::GetKeyNone(eKeyCode::UP) && Input::GetKeyNone(eKeyCode::DOWN) && Input::GetKeyNone(eKeyCode::LEFT) && Input::GetKeyNone(eKeyCode::RIGHT))
+		{
+			headAnimator->Play(L"FrontIdle", true);
+		}*/
+	}
+
+	void PlayerScript::Tears(Vector3 direction)
 	{
 		Tear* tear = new Tear(GetOwner(), direction);
 		Scene* scene = SceneManager::GetActiveScene();
@@ -323,19 +350,36 @@ namespace ya
 
 		headAnimator->Play(L"None", false);
 		bodyAnimator->Play(L"None", false);
-		animator->Play(L"hurt", false);
+		animator->Play(L"Hurt", false);
 
 		mTransform->SetScale(Vector3(1.32f, 1.32f, 1.0f));
 
 		Player* player = dynamic_cast<Player*>(GetOwner());
-		player->AddHeart(-1);
+		Player::Info info = player->GetInfo();
+		if (info.soulHeart > 0)
+			player->AddSoulHeart(-1);
+		else 
+			player->AddHeart(-1);
 
 		Invincible();
 	}
 
+	void PlayerScript::Die()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		Animator* headAnimator = mHead->GetComponent<Animator>();
+		Animator* bodyAnimator = mBody->GetComponent<Animator>();
+
+		headAnimator->Play(L"None", false);
+		bodyAnimator->Play(L"None", false);
+		animator->Play(L"Die", false);
+
+		mTransform->SetScale(Vector3(1.32f, 1.32f, 1.0f));
+	}
+
 	void PlayerScript::Invincible()
 	{
-		invincibleTime = 0.8f;
+		invincibleTime = 1.2f;
 		mbInvincible = true;
 	}
 }

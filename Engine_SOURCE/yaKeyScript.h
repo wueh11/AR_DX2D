@@ -35,5 +35,7 @@ namespace ya
 
 		float mTimer;
 		bool mbDeath;
+
+		Vector3 mCollideVelocity;
 	};
 }

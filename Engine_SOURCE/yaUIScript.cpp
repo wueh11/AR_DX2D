@@ -33,7 +33,7 @@ namespace ya
 		{ // ui_hearts
 			std::shared_ptr<Texture> ui_heartsTexture = Resources::Find<Texture>(L"ui_hearts");
 
-			for (size_t i = 0; i < 10; i++)
+			for (size_t i = 0; i < 12; i++)
 			{
 				GameObject* ui_hearts = object::Instantiate<GameObject>(eLayerType::Background);
 				Transform* ui_heartsTr = ui_hearts->GetComponent<Transform>();
@@ -139,33 +139,56 @@ namespace ya
 		int heartmax = info.heartMax / 2;
 		int heartfull = info.heart / 2;
 		int hearthalf = info.heart % 2;
+		int soulheart = info.soulHeart / 2;
+		int soulhearthalf = info.soulHeart % 2;
 
-		for (size_t i = 0; i < mHearts.size(); i++)
+		int pos = 0;
+
+		for (size_t i = 0; i < heartmax; i++, pos++)
 		{
-			GameObject* obj = mHearts[i];
+			GameObject* obj = mHearts[pos];
 			Animator* anim = obj->GetComponent<Animator>();
-			
+
 			if (i < heartfull)
 			{
 				anim->Play(L"heartFull");
 			}
 			else if (i == heartfull)
 			{
-				if(hearthalf == 1)
+				if (hearthalf == 1)
 					anim->Play(L"heartHalf");
-				else if(heartmax == i)
-					anim->Play(L"None");
 				else
 					anim->Play(L"heartEmpty");
 			}
-			else if (i < heartmax)
+			else
 			{
 				anim->Play(L"heartEmpty");
 			}
-			else
-			{
-				anim->Play(L"None");
-			}
+		}
+
+		for (size_t i = 0; i < soulheart; i++, pos++)
+		{
+			GameObject* obj = mHearts[pos];
+			Animator* anim = obj->GetComponent<Animator>();
+
+			anim->Play(L"soulFull");
+		}
+
+		if (soulhearthalf == 1)
+		{
+			GameObject* obj = mHearts[pos];
+			Animator* anim = obj->GetComponent<Animator>();
+
+			anim->Play(L"soulHalf");
+			pos++;
+		}
+
+		for (size_t i = pos; i < mHearts.size(); i++, pos++)
+		{
+			GameObject* obj = mHearts[pos];
+			Animator* anim = obj->GetComponent<Animator>();
+
+			anim->Play(L"None");
 		}
 
 		Player::Pickup pickup = mPlayer->GetPickup();

@@ -20,9 +20,12 @@ namespace ya
 		void SetMass(float mass) { mMass = mass; }
 		void SetGround(bool isGround) { mbGround = isGround; }
 		bool IsGround() { return mbGround; }
+		Vector3 Bounce(Vector3 v1, Vector3 v2);
 
 		void SetVelocity(Vector3 velocity) { mVelocity = velocity; }
 		Vector3 GetVelocity() { return mVelocity; }
+
+		void SetLimitVelocity(Vector3 limit) { mLimitVelocity = limit; }
 
 	private:
 		// 힘과 마찰력을 이용한 이동

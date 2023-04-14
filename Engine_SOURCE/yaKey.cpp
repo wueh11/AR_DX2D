@@ -4,10 +4,9 @@
 namespace ya
 {
 	Key::Key()
-		: GameObject()
+		: Pickup(ePickupType::Key)
 	{
 		KeyScript* keyScript = AddComponent<KeyScript>();
-		keyScript->Initialize();
 	}
 	Key::~Key()
 	{

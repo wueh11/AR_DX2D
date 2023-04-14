@@ -4,6 +4,12 @@
 
 namespace ya
 {
+	enum class eSimulationSpace
+	{
+		Local,
+		World,
+	};
+
 	class ParticleSystem : public BaseRenderer
 	{
 	public:
@@ -20,15 +26,19 @@ namespace ya
 		class StructedBuffer* mSharedBuffer;
 
 		std::shared_ptr<graphics::ParticleShader> mCS;
+		renderer::ParticleSystemCB mCBData;
 
-		UINT mCount;	/// 파티클 개수
 		Vector4 mStartSize;
-		Vector4 mEndSize;
 		Vector4 mStartColor;
-		Vector4 mEndColor;
-		float mStartLifeTime;
-		float mFrequency;		/// 몇초에 한번ㅁ ㅏㄴ들지
-		float mTime;		///현재 시간
-	};
 
+		eSimulationSpace mSimulationSpace;
+		UINT mMaxParticles;	/// 파티클 개수
+		float mStartLifeTime;
+		float mFrequency;	/// 몇초에 한번 만들지
+		float mRadius;
+
+		float mStartSpeed;
+		float mTime;		///현재 시간
+		float mElapsedTime; //누적시간
+	};
 }

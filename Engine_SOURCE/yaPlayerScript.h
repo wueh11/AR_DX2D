@@ -25,8 +25,11 @@ namespace ya
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
 		void Idle();
-		void Attack(Vector3 direction);
+		void Move();
+		void Attack();
+		void Tears(Vector3 direction);
 		void Hurt();
+		void Die();
 
 		void Invincible();
 
@@ -39,5 +42,8 @@ namespace ya
 
 		float invincibleTime;
 		bool mbInvincible;
+
+		bool mbDie;
+		bool mbKeyInput;
 	};
 }

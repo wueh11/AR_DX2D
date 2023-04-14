@@ -27,5 +27,6 @@ namespace ya
 		void Death();
 
 	private:
+		Vector3 mCollideVelocity;
 	};
 }

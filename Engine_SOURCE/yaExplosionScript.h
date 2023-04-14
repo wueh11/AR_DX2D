@@ -23,8 +23,6 @@ namespace ya
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
-		void Death();
-
 	private:
 		float mAliveTime;
 	};

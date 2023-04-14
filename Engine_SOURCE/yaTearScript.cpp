@@ -40,7 +40,11 @@ namespace ya
 
 		Transform* ownerTr = mProjectileOwner->GetComponent<Transform>();
 		mTransform->SetPosition(ownerTr->GetPosition());
-		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+		mTransform->SetScale(Vector3(0.8f, 0.8f, 1.0f));
+
+		Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
+		Vector3 scale = mTransform->GetScale();
+		collider->SetSize(Vector2(scale.x / 3.0f, scale.y / 3.0f));
 
 		mAnimator = GetOwner()->AddComponent<Animator>();
 		std::shared_ptr<Texture> texture = material->GetTexture();
@@ -58,8 +62,8 @@ namespace ya
 
 		Player* player = dynamic_cast<Player*>(mProjectileOwner);
 		Player::Status status = player->GetStatus();
-		//float range = status.range;
-		float range = 2.0f;
+		float range = status.range / 2.0f;
+		//float range = 2.0f;
 		float speed = 2.0f + status.tearSpeed;
 
 		Vector3 pos = mTransform->GetPosition();
@@ -105,6 +109,11 @@ namespace ya
 
 	void TearScript::OnCollisionEnter(Collider2D* collider)
 	{
+		Player* player = dynamic_cast<Player*>(collider->GetOwner());
+		if (player != nullptr)
+			return;
+
+		mState = eState::Death;
 	}
 	void TearScript::OnCollisionStay(Collider2D* collider)
 	{

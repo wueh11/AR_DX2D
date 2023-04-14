@@ -1,9 +1,10 @@
 #pragma once
 #include "yaGameObject.h"
+#include "yaPickup.h"
 
 namespace ya
 {
-	class Key : public GameObject
+	class Key : public Pickup
 	{
 	public:
 		Key();

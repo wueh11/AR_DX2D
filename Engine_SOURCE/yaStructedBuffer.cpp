@@ -40,7 +40,7 @@ namespace ya::graphics
 	void StructedBuffer::SetData(void* data, UINT bufferCount)
 	{
 		if (mStride < bufferCount) /// 버퍼의 크기가 더 클 경우에 버퍼의크기로 생성
-			Create(mSize, bufferCount, eSRVType::SRV, data); 
+			Create(mSize, bufferCount, eSRVType::SRV, data);
 		else
 			GetDevice()->SetData(mWriteBuffer.Get(), data, mSize * bufferCount); /// 데이터 셋팅을 mWriteBuffer에 한다
 

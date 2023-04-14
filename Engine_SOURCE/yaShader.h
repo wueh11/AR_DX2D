@@ -30,10 +30,10 @@ namespace ya
 	private:
 		//인풋 레이아웃(정점 정보)
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> mInputLayout = nullptr;
-		
+
 		D3D11_PRIMITIVE_TOPOLOGY mTopology;
 		eShaderStage mStage;
-		
+
 		Microsoft::WRL::ComPtr<ID3DBlob> mVSBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> mHSBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> mDSBlob;

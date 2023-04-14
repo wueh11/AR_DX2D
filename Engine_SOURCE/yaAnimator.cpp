@@ -80,6 +80,21 @@ namespace ya
 		mEvents.insert(std::make_pair(name, events));
 	}
 
+	bool Animator::Add(const std::wstring& name, std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 offset, UINT spriteLength, float duration, UINT spriteRow, UINT spriteColumn)
+	{
+		if (atlas == nullptr)
+			return false;
+
+		Animation* animation = FindAnimation(name);
+		if (animation == nullptr)
+			return false;
+
+		animation->Create(name, atlas, leftTop, size, offset, spriteLength, duration, spriteRow, spriteColumn);
+
+		Events* events = mEvents.find(name)->second;
+		events->mEvents.resize(events->mEvents.size() + spriteLength);
+	}
+
 	Animation* Animator::FindAnimation(const std::wstring& name)
 	{
 		std::map<std::wstring, Animation*>::iterator iter = mAnimations.find(name);

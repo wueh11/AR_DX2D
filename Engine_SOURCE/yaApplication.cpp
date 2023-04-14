@@ -52,7 +52,7 @@ namespace ya
 
 		graphicDevice->Clear();
 		graphicDevice->AdjustViewPorts();
-		
+
 		renderer::Render();
 
 		CollisionManager::Render();

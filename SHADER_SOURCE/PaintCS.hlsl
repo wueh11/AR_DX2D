@@ -16,8 +16,8 @@ void main( uint3 DTid : SV_DispatchThreadID ) /// SV_DispatchThreadID -> ÀÚµ¿À¸·
         return;
     }
     
-    //tex[DTid.xy] = float4(0.0f, 0.0f, 1.0f, 1.0f); 
+    tex[DTid.xy] = float4(0.0f, 0.0f, 1.0f, 1.0f); 
     
-    float4 px = defaultTexture.Load(DTid);
-    tex[DTid.xy] = float4(sin(px.x * DTid.x), sin(px.y * DTid.y), sin(px.z + (DTid.x * DTid.y)), 1.0f);
+   // float4 px = defaultTexture.Load(DTid);
+   // tex[DTid.xy] = float4(sin(px.x * DTid.x), sin(px.y * DTid.y), sin(px.z + (DTid.x * DTid.y)), 1.0f);
 }

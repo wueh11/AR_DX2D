@@ -162,6 +162,9 @@
     <ClInclude Include="yaBaseRenderer.h" />
     <ClInclude Include="yaBomb.h" />
     <ClInclude Include="yaBombScript.h" />
+    <ClInclude Include="yaCard.h" />
+    <ClInclude Include="yaDropBomb.h" />
+    <ClInclude Include="yaDropBombScript.h" />
     <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaCameraScript.h" />
     <ClInclude Include="yaCoin.h" />
@@ -173,10 +176,10 @@
     <ClInclude Include="yaComputeShader.h" />
     <ClInclude Include="yaExplosionScript.h" />
     <ClInclude Include="yaHeartFull.h" />
+    <ClInclude Include="yaHeartHalf.h" />
     <ClInclude Include="yaHeartScript.h" />
     <ClInclude Include="yaImageRenderer.h" />
-    <ClInclude Include="yaItem.h" />
-    <ClInclude Include="yaItemScript.h" />
+    <ClInclude Include="yaPickup.h" />
     <ClInclude Include="yaKey.h" />
     <ClInclude Include="yaKeyScript.h" />
     <ClInclude Include="yaLight.h" />
@@ -201,6 +204,7 @@
     <ClInclude Include="yaObject.h" />
     <ClInclude Include="yaPaintShader.h" />
     <ClInclude Include="yaParticleSystem.h" />
+    <ClInclude Include="yaPill.h" />
     <ClInclude Include="yaPlayer.h" />
     <ClInclude Include="yaPlayerScript.h" />
     <ClInclude Include="yaPlayScene.h" />
@@ -213,6 +217,7 @@
     <ClInclude Include="yaSceneManager.h" />
     <ClInclude Include="yaScript.h" />
     <ClInclude Include="yaShader.h" />
+    <ClInclude Include="yaSoulHeartFull.h" />
     <ClInclude Include="yaSpriteRenderer.h" />
     <ClInclude Include="yaStructedBuffer.h" />
     <ClInclude Include="yaTear.h" />
@@ -235,6 +240,9 @@
     <ClCompile Include="yaBaseRenderer.cpp" />
     <ClCompile Include="yaBomb.cpp" />
     <ClCompile Include="yaBombScript.cpp" />
+    <ClCompile Include="yaCard.cpp" />
+    <ClCompile Include="yaDropBomb.cpp" />
+    <ClCompile Include="yaDropBombScript.cpp" />
     <ClCompile Include="yaCamera.cpp" />
     <ClCompile Include="yaCameraScript.cpp" />
     <ClCompile Include="yaCoin.cpp" />
@@ -246,10 +254,10 @@
     <ClCompile Include="yaComputeShader.cpp" />
     <ClCompile Include="yaExplosionScript.cpp" />
     <ClCompile Include="yaHeartFull.cpp" />
+    <ClCompile Include="yaHeartHalf.cpp" />
     <ClCompile Include="yaHeartScript.cpp" />
     <ClCompile Include="yaImageRenderer.cpp" />
-    <ClCompile Include="yaItem.cpp" />
-    <ClCompile Include="yaItemScript.cpp" />
+    <ClCompile Include="yaPickup.cpp" />
     <ClCompile Include="yaKey.cpp" />
     <ClCompile Include="yaKeyScript.cpp" />
     <ClCompile Include="yaLight.cpp" />
@@ -270,6 +278,7 @@
     <ClCompile Include="yaNumberScript.cpp" />
     <ClCompile Include="yaPaintShader.cpp" />
     <ClCompile Include="yaParticleSystem.cpp" />
+    <ClCompile Include="yaPill.cpp" />
     <ClCompile Include="yaPlayer.cpp" />
     <ClCompile Include="yaPlayerScript.cpp" />
     <ClCompile Include="yaPlayScene.cpp" />
@@ -282,6 +291,7 @@
     <ClCompile Include="yaSceneManager.cpp" />
     <ClCompile Include="yaScript.cpp" />
     <ClCompile Include="yaShader.cpp" />
+    <ClCompile Include="yaSoulHeartFull.cpp" />
     <ClCompile Include="yaSpriteRenderer.cpp" />
     <ClCompile Include="yaStructedBuffer.cpp" />
     <ClCompile Include="yaTear.cpp" />

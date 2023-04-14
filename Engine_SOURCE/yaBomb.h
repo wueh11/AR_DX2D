@@ -1,12 +1,13 @@
 #pragma once
 #include "yaGameObject.h"
+#include "yaPickup.h"
 
 namespace ya
 {
-	class Bomb : public GameObject
+	class Bomb : public Pickup
 	{
 	public:
-		Bomb(Vector3 pos);
+		Bomb();
 		virtual ~Bomb();
 
 		virtual void Initialize();

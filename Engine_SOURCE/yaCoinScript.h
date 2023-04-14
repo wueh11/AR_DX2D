@@ -30,5 +30,7 @@ namespace ya
 	private:
 		Transform* mTransform;
 		Animator* mAnimator;
+
+		Vector3 mCollideVelocity;
 	};
 }

@@ -1,20 +1,19 @@
 #pragma once
-#include "yaGameObject.h"
-#include "IsaacItems.h"
+#include "yaPickup.h"
 
-using namespace ya::isaac;
 namespace ya
 {
-	class Item : public GameObject
+	class SoulHeartFull : public Pickup
 	{
 	public:
-		Item(eItemType itemType);
-		virtual ~Item();
+		SoulHeartFull();
+		virtual ~SoulHeartFull();
 
 		virtual void Initialize();
 		virtual void Update();
 		virtual void FixedUpdate();
 		virtual void Render();
 
+	private:
 	};
 }

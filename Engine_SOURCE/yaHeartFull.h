@@ -1,9 +1,10 @@
 #pragma once
-#include "yaItem.h"
+#include "yaPickup.h"
+#include "yaPickup.h"
 
 namespace ya
 {
-	class HeartFull : public Item
+	class HeartFull : public Pickup
 	{
 	public:
 		HeartFull();

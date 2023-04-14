@@ -4,10 +4,9 @@
 namespace ya
 {
 	Coin::Coin()
-		: GameObject()
+		: Pickup(ePickupType::Coin)
 	{
 		CoinScript* coinScript = AddComponent<CoinScript>();
-		coinScript->Initialize();
 	}
 	Coin::~Coin()
 	{

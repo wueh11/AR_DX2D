@@ -32,11 +32,11 @@ namespace ya
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
 	public:
-		void SetItemType(eItemType type) { mItemType = type; }
+		void SetItemType(ePickupType type) { mItemType = type; }
 
 	private:
 		Transform* mTransform;
 		Animator* mAnimator;
-		eItemType mItemType;
+		ePickupType mItemType;
 	};
 }

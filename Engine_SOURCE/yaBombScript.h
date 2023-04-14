@@ -1,20 +1,14 @@
 #pragma once
 #include "yaScript.h"
+#include "IsaacItems.h"
 
+using namespace ya::isaac;
 namespace ya
 {
 	class Transform;
 	class Animator;
-	class Player;
 	class BombScript : public Script
 	{
-		enum class eState
-		{
-			Bomb,
-			Explosion,
-			None,
-		};
-
 	public:
 		BombScript();
 		virtual ~BombScript();
@@ -32,22 +26,16 @@ namespace ya
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
-		void Imprint();
-		void Explosion();
+	private:
+		void Take();
 		void Death();
 
-	public:
-		Vector3 GetOwnerPos() { return mOwnerPos; }
-		void SetOwnerPos(Vector3 pos) { mOwnerPos = pos; }
-
 	private:
-		Vector3 mOwnerPos;
-
 		Transform* mTransform;
-		Animator* mAnimator;
 
-		float mAliveTime;
-		eState mState;
-		bool mbDead;
+		float mTimer;
+		bool mbDeath;
+
+		Vector3 mCollideVelocity;
 	};
 }

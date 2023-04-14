@@ -81,7 +81,7 @@ namespace ya::graphics
 			if (!GetDevice()->CreateRenderTargetView(mTexture.Get(), nullptr, mRTV.GetAddressOf()))
 				return false;
 		}
-		
+
 		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
 		{
 			D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};

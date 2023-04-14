@@ -80,9 +80,4 @@ namespace ya
 	void ExplosionScript::OnTriggerExit(Collider2D* collider)
 	{
 	}
-
-	void ExplosionScript::Death()
-	{
-		GetOwner()->Death();
-	}
 }

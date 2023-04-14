@@ -22,6 +22,7 @@
 #define CBSLOT_ANIMATION 3
 #define CBSLOT_NUMBEROFLIGHT 4
 #define CBSLOT_PARTICLESYSTEM 5
+#define CBSLOT_NOISE 6
 
 using namespace ya::math;
 namespace ya::graphics
@@ -42,6 +43,7 @@ namespace ya::graphics
 		PS,
 		CS,
 		Count,
+		ALL,
 	};
 
 	enum class eSamplerType
@@ -110,6 +112,7 @@ namespace ya::graphics
 		Animation,
 		Light,
 		ParticleSystem,
+		Noise,
 		End,
 	};
 
@@ -121,6 +124,7 @@ namespace ya::graphics
 		Vector3,
 		Vector4,
 		Matrix,
+
 	};
 
 	enum class eSRVType

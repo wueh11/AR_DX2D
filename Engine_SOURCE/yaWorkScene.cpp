@@ -44,56 +44,45 @@ namespace ya
 	}
 	void WorkScene::Initialize()
 	{
-		//{ //paint shader
-		//	std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
-		//	std::shared_ptr<Texture> paintTex = Resources::Find<Texture>(L"PaintTexture");
-		//	std::shared_ptr<Texture> noiseTex = Resources::Find<Texture>(L"noise");
-		//	paintShader->SetTarget(paintTex);
-		//	paintShader->SetTexture(noiseTex);
-		//	paintShader->OnExcute();
-		//}
+		//paint shader
+		std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
+		std::shared_ptr<Texture> paintTex = Resources::Find<Texture>(L"PaintTexture");
+		paintShader->SetTarget(paintTex);
+		paintShader->OnExcute();
 
-		////light
-		//{
-		//	GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
-		//	directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
-		//	Light* lightComp = directionalLight->AddComponent<Light>();
-		//	lightComp->SetLightType(eLightType::Directional);
-		//	lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-		//}
-		////light
-		//{
-		//	GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
-		//	directionalLight->GetComponent<Transform>()->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
-		//	Light* lightComp = directionalLight->AddComponent<Light>();
-		//	lightComp->SetLightType(eLightType::Point);
-		//	lightComp->SetRadius(3.0f);
-		//	lightComp->SetDiffuse(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
-		//}
+		//light
+		{
+			GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
+			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
+			Light* lightComp = directionalLight->AddComponent<Light>();
+			lightComp->SetLightType(eLightType::Directional);
+			lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+		}
+		//light
+		{
+			GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
+			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
+			Light* lightComp = directionalLight->AddComponent<Light>();
+			lightComp->SetLightType(eLightType::Point);
+			lightComp->SetRadius(5.0f);
+			lightComp->SetDiffuse(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
+		}
 
 		//Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera);
-		cameraObj->AddComponent<CameraScript>();
-
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
 		cameraComp->SetProjectionType(Camera::eProjectionType::Perspective);
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
-
-		Transform* cameraTr = cameraObj->GetComponent<Transform>();
-		cameraTr->SetPosition(Vector3(0.0f, 0.0f, 2.0f));
-
+		cameraObj->AddComponent<CameraScript>();
 		mainCamera = cameraComp;
 
-		//{ //Camera UI
-		//	GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
-		//	Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
-		//	cameraUIComp->SetProjectionType(Camera::eProjectionType::Perspective);
-		//	cameraUIComp->DisableLayerMasks();
-		//	cameraUIComp->TurnLayerMask(eLayerType::UI, true);	/// 모든 Layer을 끄고 UI만 표시한다.
-
-		//	Transform* cameraUITr = cameraUIObj->GetComponent<Transform>();
-		//	cameraUITr->SetPosition(Vector3::Zero);
-		//}
+		{ //Camera UI
+			GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
+			Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
+			cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
+			cameraUIComp->DisableLayerMasks();
+			cameraUIComp->TurnLayerMask(eLayerType::UI, true);	/// 모든 Layer을 끄고 UI만 표시한다.
+		}
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 		
@@ -152,7 +141,7 @@ namespace ya
 		//Particle
 		{
 			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Particle);
-			obj->SetName(L"PARTICLE");
+			obj->SetName(L"PARTICLE1");
 			Transform* tr = obj->GetComponent<Transform>();
 			tr->SetPosition(Vector3(0.0f, 0.0f, 100.0f));
 			obj->AddComponent<ParticleSystem>();

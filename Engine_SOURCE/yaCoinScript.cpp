@@ -16,6 +16,7 @@
 #include "yaPlayer.h"
 #include "yaScene.h"
 #include "yaSceneManager.h"
+#include "yaRigidbody.h"
 
 namespace ya
 {
@@ -23,6 +24,7 @@ namespace ya
 		: Script()
 		, mTransform(nullptr)
 		, mAnimator(nullptr)
+		, mCollideVelocity(Vector3::Zero)
 	{
 	}
 	CoinScript::~CoinScript()
@@ -64,18 +66,64 @@ namespace ya
 
 	void CoinScript::OnCollisionEnter(Collider2D* collider)
 	{
-		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+		GameObject* other = collider->GetOwner();
 
-		Player* player = dynamic_cast<Player*>(collider->GetOwner());
-		player->AddCoin(1);
-
-		mAnimator->Play(L"Effect", false);
+		Player* player = dynamic_cast<Player*>(other);
+		if (player != nullptr)
+		{
+			mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+			player->AddCoin(1);
+			mAnimator->Play(L"Effect", false);
+		}
+		else
+		{
+			Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
+			if (rigidbody == nullptr)
+				return;
+			mCollideVelocity = rigidbody->GetVelocity();
+		}
 	}
+
 	void CoinScript::OnCollisionStay(Collider2D* collider)
 	{
+		GameObject* other = collider->GetOwner();
+
+		if (mCollideVelocity.x == 0.0f && mCollideVelocity.y == 0.0f)
+		{
+			Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
+			Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
+			if (otherRigidbody != nullptr)
+				rigidbody->AddForce(otherRigidbody->GetVelocity());
+		}
+		else
+		{
+			Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
+			Collider2D* ownerCollider = GetOwner()->GetComponent<Collider2D>();
+
+			Vector3 target = Vector3(0.0f, 0.0f, 0.0f);
+			if (ownerCollider->GetPosition().x > collider->GetPosition().x - (collider->GetSize().x / 2)
+				&& ownerCollider->GetPosition().x < collider->GetPosition().x + (collider->GetSize().x / 2))
+				target.x = 1.0f;
+
+			if (ownerCollider->GetPosition().y > collider->GetPosition().y - (collider->GetSize().y / 2)
+				&& ownerCollider->GetPosition().y < collider->GetPosition().y + (collider->GetSize().y / 2))
+				target.y = 1.0f;
+
+			Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
+			if (otherRigidbody != nullptr)
+			{
+				otherRigidbody->AddForce(mCollideVelocity * 200.0f);
+			}
+
+			Vector3 force = rigidbody->Bounce(mCollideVelocity, target);
+			rigidbody->ClearForce();
+			rigidbody->AddForce(force * 100.0f);
+		}
 	}
+
 	void CoinScript::OnCollisionExit(Collider2D* collider)
 	{
+		mCollideVelocity = Vector3::Zero;
 	}
 	void CoinScript::OnTriggerEnter(Collider2D* collider)
 	{

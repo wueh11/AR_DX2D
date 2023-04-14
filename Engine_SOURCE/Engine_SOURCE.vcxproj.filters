@@ -145,14 +145,17 @@
     <Filter Include="Component\Script\Contents\Item\PickUp">
       <UniqueIdentifier>{338c47e0-16f9-4b1b-a575-240d3d502ef9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Imprint">
-      <UniqueIdentifier>{e717c1ee-cfb8-4630-83fc-50fd54630053}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\Rigidbody">
       <UniqueIdentifier>{2fe796ae-7712-4053-a7b6-bf2d3b5ccee9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Component\Script\Contents\Projectile">
       <UniqueIdentifier>{40d6ffd5-d304-45f2-8b6d-5b27f34f59f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Item\Trinket">
+      <UniqueIdentifier>{d2929d0a-7936-4bbf-94e3-fd9591bb3249}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Item\Item">
+      <UniqueIdentifier>{fd49549f-a591-4ad1-8168-1477472b96b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -274,9 +277,6 @@
     <ClCompile Include="yaTear.cpp">
       <Filter>GameObject\Projectile</Filter>
     </ClCompile>
-    <ClCompile Include="yaBomb.cpp">
-      <Filter>GameObject\Projectile</Filter>
-    </ClCompile>
     <ClCompile Include="yaPlayerScript.cpp">
       <Filter>Component\Script\Contents\Object</Filter>
     </ClCompile>
@@ -295,7 +295,7 @@
     <ClCompile Include="yaCameraScript.cpp">
       <Filter>Component\Script\Contents\System</Filter>
     </ClCompile>
-    <ClCompile Include="yaBombScript.cpp">
+    <ClCompile Include="yaDropBombScript.cpp">
       <Filter>Component\Script\Contents\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="yaPaintShader.cpp">
@@ -305,11 +305,8 @@
       <Filter>Resource\Shader\CS\Base</Filter>
     </ClCompile>
     <ClCompile Include="yaParticleSystem.cpp" />
-    <ClCompile Include="yaItem.cpp">
+    <ClCompile Include="yaPickup.cpp">
       <Filter>GameObject\Item\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="yaItemScript.cpp">
-      <Filter>Component\Script\Contents\Object</Filter>
     </ClCompile>
     <ClCompile Include="yaPlayer.cpp">
       <Filter>GameObject\Player</Filter>
@@ -350,6 +347,27 @@
     </ClCompile>
     <ClCompile Include="yaWallScript.cpp">
       <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBomb.cpp">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClCompile>
+    <ClCompile Include="yaDropBomb.cpp">
+      <Filter>GameObject\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBombScript.cpp">
+      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="yaHeartHalf.cpp">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSoulHeartFull.cpp">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPill.cpp">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCard.cpp">
+      <Filter>GameObject\Item\Pickup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -486,9 +504,6 @@
     <ClInclude Include="yaTear.h">
       <Filter>GameObject\Projectile</Filter>
     </ClInclude>
-    <ClInclude Include="yaBomb.h">
-      <Filter>GameObject\Projectile</Filter>
-    </ClInclude>
     <ClInclude Include="yaPlayerScript.h">
       <Filter>Component\Script\Contents\Object</Filter>
     </ClInclude>
@@ -507,7 +522,7 @@
     <ClInclude Include="yaCameraScript.h">
       <Filter>Component\Script\Contents\System</Filter>
     </ClInclude>
-    <ClInclude Include="yaBombScript.h">
+    <ClInclude Include="yaDropBombScript.h">
       <Filter>Component\Script\Contents\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="yaPaintShader.h">
@@ -517,11 +532,8 @@
       <Filter>Resource\Shader\CS\Base</Filter>
     </ClInclude>
     <ClInclude Include="yaParticleSystem.h" />
-    <ClInclude Include="yaItem.h">
+    <ClInclude Include="yaPickup.h">
       <Filter>GameObject\Item\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="yaItemScript.h">
-      <Filter>Component\Script\Contents\Object</Filter>
     </ClInclude>
     <ClInclude Include="yaPlayer.h">
       <Filter>GameObject\Player</Filter>
@@ -565,6 +577,27 @@
     </ClInclude>
     <ClInclude Include="yaWallScript.h">
       <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBomb.h">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClInclude>
+    <ClInclude Include="yaDropBomb.h">
+      <Filter>GameObject\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBombScript.h">
+      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="yaHeartHalf.h">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClInclude>
+    <ClInclude Include="yaSoulHeartFull.h">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPill.h">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCard.h">
+      <Filter>GameObject\Item\Pickup</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

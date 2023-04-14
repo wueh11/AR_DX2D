@@ -9,7 +9,9 @@ namespace ya
 		, mProjectileOwner(owner)
 		, mDirection(direction)
 	{
-		TearScript* tearScript = AddComponent<TearScript>();
+		Collider2D* collider = AddComponent<Collider2D>();
+		collider->SetColliderType(eColliderType::Rect);
+		AddComponent<TearScript>();
 	}
 	Tear::~Tear()
 	{

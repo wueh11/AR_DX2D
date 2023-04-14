@@ -4,12 +4,9 @@
 
 namespace ya
 {
-	Bomb::Bomb(Vector3 pos)
-		: GameObject()
+	Bomb::Bomb()
+		: Pickup(ePickupType::Bomb)
 	{
-		Transform* tr = GetComponent<Transform>();
-		tr->SetPosition(pos + Vector3(0.0f, -0.1f, 0.0f));
-
 		BombScript* bombScript = AddComponent<BombScript>();
 	}
 	Bomb::~Bomb()

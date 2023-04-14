@@ -26,9 +26,6 @@ namespace ya
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
-	public:
-		void SetItemType(eItemType type) { mItemType = type; }
-
 	private:
 		void Take();
 		void Death();
@@ -36,9 +33,10 @@ namespace ya
 	private:
 		Transform* mTransform;
 		Animator* mAnimator;
-		eItemType mItemType;
 
 		float mTimer;
 		bool mbDeath;
+
+		Vector3 mCollideVelocity;
 	};
 }

@@ -45,12 +45,12 @@ namespace ya::graphics
     {
         Microsoft::WRL::ComPtr<ID3DBlob> mErrorBlob = nullptr;
 
-		// Vertex Shader
-		std::filesystem::path path = std::filesystem::current_path().parent_path();
-		path += "\\SHADER_SOURCE\\";
+        // Vertex Shader
+        std::filesystem::path path = std::filesystem::current_path().parent_path();
+        path += "\\SHADER_SOURCE\\";
 
-		std::wstring shaderPath(path.c_str());
-		shaderPath += file;
+        std::wstring shaderPath(path.c_str());
+        shaderPath += file;
 
         D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
             , funcName.c_str(), "cs_5_0", 0, 0

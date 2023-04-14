@@ -8,15 +8,15 @@ struct VSOut /// VS에서 받아옴
 
 struct GSOutput
 {
-	float4 Pos : SV_POSITION;
+    float4 Pos : SV_POSITION;
     float2 UV : TEXCOORD;
 };
 
 
 [maxvertexcount(6)] /// 삼각형두개붙여서 사각형 만들거기 때문에..
 void main(
-    point VSOut input[1] : SV_POSITION,     /// point -> 삼각형이아니라 점으로 처리하기때문에 point input[1] 사용
-    inout TriangleStream<GSOutput> output 
+    point VSOut input[1] : SV_POSITION, /// point -> 삼각형이아니라 점으로 처리하기때문에 point input[1] 사용
+    inout TriangleStream<GSOutput> output
 )
 {
     GSOutput Out[4] = { (GSOutput) 0.0f, (GSOutput) 0.0f, (GSOutput) 0.0f, (GSOutput) 0.0f };
@@ -25,6 +25,12 @@ void main(
         return;
     
     float3 vWorldPos = input[0].Pos.xyz + particleBuffer[input[0].iInstance].position.xyz;
+    
+    if (simulationSpace)
+    {
+        vWorldPos += world._41_42_43;
+    }
+    
     float3 vViewPos = mul(float4(vWorldPos, 1.0f), view);
     
     /// point 점 좌표를 사각형모양으로 셋팅해줘야한다
@@ -60,3 +66,17 @@ void main(
     output.Append(Out[3]);
     output.RestartStrip();
 }
+
+//[maxvertexcount(3)]
+//void main(
+//	triangle float4 input[3] : SV_POSITION, 
+//	inout TriangleStream< GSOutput > output
+//)
+//{
+//	for (uint i = 0; i < 3; i++)
+//	{
+//		GSOutput element;
+//		element.pos = input[i];
+//		output.Append(element);
+//	}
+//}

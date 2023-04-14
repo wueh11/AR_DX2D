@@ -10,7 +10,7 @@ namespace ya
 		, mForce(Vector3::Zero)
 		, mVelocity(Vector3::Zero)
 		, mAccelation(Vector3::Zero)
-		, mFriction(10.0f)
+		, mFriction(5.0f)
 	{
 		mGravity = Vector3(0.0f, 0.0f, 0.0f);
 		mbGround = true;
@@ -110,10 +110,38 @@ namespace ya
 	void Rigidbody::AddForce(Vector3 force)
 	{
 		mForce += force;
-		int a = 0;
 	}
 	void Rigidbody::ClearForce()
 	{
 		mForce = Vector3::Zero;
+	}
+
+	Vector3 Rigidbody::Bounce(Vector3 v1, Vector3 v2)
+	{ /// v1 부딪혀오는 대상, v2 부딪히는 벽면
+		Vector3 newForce;
+		
+		// v2의 노말
+		Vector3 vl2 = Vector3(v2.y, -v2.x, 0.0f); 
+
+		// v1, v2 내적
+		float dot1 = v1.Dot(v2);
+
+		// v2 운동벡터 투영
+		Vector3 proj1 = dot1 * v2;
+
+		// v1, v2노말 내적
+		float dot2 = v1.Dot(vl2);
+
+		// 노말에 대한 운동벡터 투영
+		vl2.Normalize();
+		Vector3 proj2 = dot2 * vl2;
+
+		// 투영 반전
+		proj2 *= -1;
+
+		//새로운 벡터 구하기
+		newForce = proj1 + proj2;
+
+		return newForce;
 	}
 }
