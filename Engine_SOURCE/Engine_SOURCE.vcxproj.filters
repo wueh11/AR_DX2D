@@ -133,9 +133,6 @@
     <Filter Include="GameObject\Item">
       <UniqueIdentifier>{0ceb8911-d416-4548-8099-643a38911a99}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Item\Base">
-      <UniqueIdentifier>{a2d0787d-4d81-44c6-8bca-1ffcf750d69b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObject\Item\Pickup">
       <UniqueIdentifier>{787e0f04-26bd-43d6-8b66-8576b40ccbf9}</UniqueIdentifier>
     </Filter>
@@ -151,11 +148,17 @@
     <Filter Include="Component\Script\Contents\Projectile">
       <UniqueIdentifier>{40d6ffd5-d304-45f2-8b6d-5b27f34f59f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Item\Trinket">
-      <UniqueIdentifier>{d2929d0a-7936-4bbf-94e3-fd9591bb3249}</UniqueIdentifier>
+    <Filter Include="GameObject\Item\Pickup\Base">
+      <UniqueIdentifier>{a2d0787d-4d81-44c6-8bca-1ffcf750d69b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Item\Item">
+    <Filter Include="GameObject\Item\Items">
       <UniqueIdentifier>{fd49549f-a591-4ad1-8168-1477472b96b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Item\Items\Base">
+      <UniqueIdentifier>{c198f2df-9857-454c-929c-34a6d1fa334d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\land">
+      <UniqueIdentifier>{492f254a-fa07-4b69-958d-99744ec10859}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -306,7 +309,7 @@
     </ClCompile>
     <ClCompile Include="yaParticleSystem.cpp" />
     <ClCompile Include="yaPickup.cpp">
-      <Filter>GameObject\Item\Base</Filter>
+      <Filter>GameObject\Item\Pickup\Base</Filter>
     </ClCompile>
     <ClCompile Include="yaPlayer.cpp">
       <Filter>GameObject\Player</Filter>
@@ -368,6 +371,30 @@
     </ClCompile>
     <ClCompile Include="yaCard.cpp">
       <Filter>GameObject\Item\Pickup</Filter>
+    </ClCompile>
+    <ClCompile Include="yaItem.cpp">
+      <Filter>GameObject\Item\Items\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPassiveItem.cpp">
+      <Filter>GameObject\Item\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTrinket.cpp">
+      <Filter>GameObject\Item\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="yaActiveItem.cpp">
+      <Filter>GameObject\Item\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPit.cpp">
+      <Filter>GameObject\land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRock.cpp">
+      <Filter>GameObject\land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSpike.cpp">
+      <Filter>GameObject\land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaFireplace.cpp">
+      <Filter>GameObject\land</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -533,7 +560,7 @@
     </ClInclude>
     <ClInclude Include="yaParticleSystem.h" />
     <ClInclude Include="yaPickup.h">
-      <Filter>GameObject\Item\Base</Filter>
+      <Filter>GameObject\Item\Pickup\Base</Filter>
     </ClInclude>
     <ClInclude Include="yaPlayer.h">
       <Filter>GameObject\Player</Filter>
@@ -598,6 +625,30 @@
     </ClInclude>
     <ClInclude Include="yaCard.h">
       <Filter>GameObject\Item\Pickup</Filter>
+    </ClInclude>
+    <ClInclude Include="yaItem.h">
+      <Filter>GameObject\Item\Items\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPassiveItem.h">
+      <Filter>GameObject\Item\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTrinket.h">
+      <Filter>GameObject\Item\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="yaActiveItem.h">
+      <Filter>GameObject\Item\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPit.h">
+      <Filter>GameObject\land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRock.h">
+      <Filter>GameObject\land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaSpike.h">
+      <Filter>GameObject\land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFireplace.h">
+      <Filter>GameObject\land</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
