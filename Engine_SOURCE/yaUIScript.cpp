@@ -20,6 +20,9 @@ namespace ya
 		: Script()
 		, mPlayer(nullptr)
 		, mHearts{}
+		, mActiveItem(nullptr)
+		, mConsumable(nullptr)
+		, Trinket(nullptr)
 		, mKeyCount(nullptr)
 		, mBombCount(nullptr)
 		, mCoinCount(nullptr)
@@ -100,31 +103,41 @@ namespace ya
 		}
 
 		{ // pill
-			GameObject* ui_cardspills = object::Instantiate<GameObject>(eLayerType::UI);
-			Transform* ui_cardspillsTr = ui_cardspills->GetComponent<Transform>();
-			ui_cardspillsTr->SetPosition(Vector3(-4.64f, 1.38f, 0.0f));
-			ui_cardspillsTr->SetScale(Vector3(0.32f, 0.32f, 1.0f));
+			mConsumable = object::Instantiate<GameObject>(eLayerType::UI);
+			Transform* ui_cardspillsTr = mConsumable->GetComponent<Transform>();
+			ui_cardspillsTr->SetPosition(Vector3(4.5f, -2.5f, 0.0f));
+			ui_cardspillsTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
 			std::shared_ptr<Material> ui_cardspillsMaterial = Resources::Find<Material>(L"ui_cardspillsMaterial");
-			std::shared_ptr<Texture> ui_heartsTexture = ui_cardspillsMaterial->GetTexture();
+			std::shared_ptr<Texture> ui_cardspillsTexture = ui_cardspillsMaterial->GetTexture();
+			std::shared_ptr<Material> ui_cardfrontsMaterial = Resources::Find<Material>(L"ui_cardfrontsMaterial");
+			std::shared_ptr<Texture> ui_cardfrontsTexture = ui_cardfrontsMaterial->GetTexture();
 
-			SpriteRenderer* ui_heartsMr = ui_cardspills->AddComponent<SpriteRenderer>();
+			SpriteRenderer* ui_heartsMr = mConsumable->AddComponent<SpriteRenderer>();
 			ui_heartsMr->SetMesh(mesh);
 			ui_heartsMr->SetMaterial(material);
 
-			Animator* animator = ui_cardspills->AddComponent<Animator>();
+			Animator* animator = mConsumable->AddComponent<Animator>();
+			animator->Create(L"None", ui_cardspillsTexture, Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_1", ui_cardspillsTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_2", ui_cardspillsTexture, Vector2(32.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_3", ui_cardspillsTexture, Vector2(64.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_4", ui_cardspillsTexture, Vector2(160.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_5", ui_cardspillsTexture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_6", ui_cardspillsTexture, Vector2(32.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_7", ui_cardspillsTexture, Vector2(64.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_8", ui_cardspillsTexture, Vector2(160.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_9", ui_cardspillsTexture, Vector2(0.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_10", ui_cardspillsTexture, Vector2(32.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_11", ui_cardspillsTexture, Vector2(64.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_12", ui_cardspillsTexture, Vector2(160.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_13", ui_cardspillsTexture, Vector2(160.0f, 96.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 
-			animator->Create(L"None", ui_heartsTexture, Vector2(0.0f, 224.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"pill_1", ui_heartsTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"pill_2", ui_heartsTexture, Vector2(32.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"pill_3", ui_heartsTexture, Vector2(64.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"pill_4", ui_heartsTexture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"pill_5", ui_heartsTexture, Vector2(32.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"pill_6", ui_heartsTexture, Vector2(64.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"pill_7", ui_heartsTexture, Vector2(0.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"pill_8", ui_heartsTexture, Vector2(32.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"pill_9", ui_heartsTexture, Vector2(64.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"pill_10", ui_heartsTexture, Vector2(64.0f, 96.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"card_1", ui_cardfrontsTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"card_2", ui_cardfrontsTexture, Vector2(32.0f, 0.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"card_3", ui_cardfrontsTexture, Vector2(80.0f, 48.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"card_4", ui_cardfrontsTexture, Vector2(80.0f, 72.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"card_5", ui_cardfrontsTexture, Vector2(80.0f, 24.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
 			animator->Play(L"None", false);
 		}
 
@@ -227,6 +240,39 @@ namespace ya
 		mCoinCount->SetNumber(pickup.coin);
 		mBombCount->SetNumber(pickup.bomb);
 		mKeyCount->SetNumber(pickup.key);
+
+
+		// Consumble
+		{
+			Animator* animator = mConsumable->GetComponent<Animator>();
+			Transform* transform = mConsumable->GetComponent<Transform>();
+
+			Player::Items items = mPlayer->GetItem();
+			if (items.pill != ePills::None)
+			{
+				std::wstring name = L"pill_" + std::to_wstring((UINT)items.pill);
+				Animation* animation = animator->FindAnimation(name);
+				transform->SetScale(Vector3(0.64f, 0.64f, 1.0f));
+
+				if(animation != nullptr)
+					animator->Play(name);
+			}
+			else if (items.card != eCards::None)
+			{
+				std::wstring name = L"card_" + std::to_wstring((UINT)items.card);
+				Animation* animation = animator->FindAnimation(name);
+				transform->SetScale(Vector3(0.32f, 0.48f, 1.0f));
+
+				if (animation != nullptr)
+					animator->Play(name);
+			}
+			else
+			{
+				animator->Play(L"None");
+			}
+		}
+
+		// trinket
 	}
 
 	void UIScript::FixedUpdate()

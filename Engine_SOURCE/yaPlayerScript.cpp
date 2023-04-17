@@ -419,7 +419,7 @@ namespace ya
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		Player::Items item = player->GetItem();
 
-		if (item.ActiveItem != eActiveItem::None)
+		if (item.activeItem != eActiveItem::None)
 		{
 			// TODO: 아이템 교체
 		}
@@ -467,7 +467,7 @@ namespace ya
 	{
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		Player::Items item = player->GetItem();
-		ItemManager::GetEvent(eItemType::ActiveItem)[(UINT)item.pill]->mEvents();
+		ItemManager::GetItemObjects(eItemType::ActiveItem)[(UINT)item.activeItem]->PlayEvent();
 	}
 
 	void PlayerScript::UseConsumable()
@@ -477,13 +477,13 @@ namespace ya
 		
 		if (item.pill != ePills::None)
 		{
-			ItemManager::GetEvent(eItemType::Pill)[(UINT)item.pill]->mEvents();
-			item.pill = ePills::None;
+			ItemManager::GetItemObjects(eItemType::Pill)[(UINT)item.pill]->PlayEvent();
+			player->SetPill(ePills::None);
 		}
 		else if (item.card != eCards::None)
 		{
-			ItemManager::GetEvent(eItemType::Card)[(UINT)item.card]->mEvents();
-			item.card = eCards::None;
+			ItemManager::GetItemObjects(eItemType::Card)[(UINT)item.card]->PlayEvent();
+			player->SetCard(eCards::None);
 		}
 	}
 

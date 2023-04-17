@@ -2,56 +2,50 @@
 
 #include "yaSceneManager.h"
 #include "yaScene.h"
-
 #include "yaPlayer.h"
-
 #include "yaPill.h"
 #include "yaCard.h"
 
 namespace ya
 {
-	std::vector<ItemManager::Events*> ItemManager::mPillEvents = {};
-	std::vector<ItemManager::Events*> ItemManager::mCardEvents = {};
-	std::vector<ItemManager::Events*> ItemManager::mActiveEvents = {};
+
+	std::vector<ItemObject*> ItemManager::mPills = {};
+	std::vector<ItemObject*> ItemManager::mCards = {};
+	std::vector<ItemObject*> ItemManager::mActives = {};
 
 	void ItemManager::Initialize()
 	{
 		{ // Pills
-			mPillEvents.resize((UINT)ePills::End);
-
-			for (size_t i = 0; i < (UINT)ePills::End; i++)
-				mPillEvents[i] = new Events();
-
-			mPillEvents[(UINT)ePills::HealthUp]->mEvents = std::bind(&ItemManager::HealthUp);
-			mPillEvents[(UINT)ePills::HealthDown]->mEvents = std::bind(&ItemManager::HealthDown);
-			mPillEvents[(UINT)ePills::RangeUp]->mEvents = std::bind(&ItemManager::RangeUp);
-			mPillEvents[(UINT)ePills::RangeDown]->mEvents = std::bind(&ItemManager::RangeDown);
-			mPillEvents[(UINT)ePills::TearsUp]->mEvents = std::bind(&ItemManager::TearsUp);
-			mPillEvents[(UINT)ePills::TearsDown]->mEvents = std::bind(&ItemManager::TearsDown);
-			mPillEvents[(UINT)ePills::SpeedUp]->mEvents = std::bind(&ItemManager::SpeedUp);
-			mPillEvents[(UINT)ePills::SpeedDown]->mEvents = std::bind(&ItemManager::SpeedDown);
+			mPills.resize((UINT)ePills::End);
+			mPills[1] = new ItemObject(eItemType::Pill, (UINT)ePills::HealthUp, L"Health Up", std::bind(&ItemManager::HealthUp));
+			mPills[2] = new ItemObject(eItemType::Pill, (UINT)ePills::HealthDown, L"Health Down", std::bind(&ItemManager::HealthDown));
+			mPills[3] = new ItemObject(eItemType::Pill, (UINT)ePills::RangeUp, L"Range Up", std::bind(&ItemManager::RangeUp));
+			mPills[4] = new ItemObject(eItemType::Pill, (UINT)ePills::RangeDown, L"Range Down", std::bind(&ItemManager::RangeDown));
+			mPills[5] = new ItemObject(eItemType::Pill, (UINT)ePills::TearsUp, L"Tears Up", std::bind(&ItemManager::TearsUp));
+			mPills[6] = new ItemObject(eItemType::Pill, (UINT)ePills::TearsDown, L"Tears Down", std::bind(&ItemManager::TearsDown));
+			mPills[7] = new ItemObject(eItemType::Pill, (UINT)ePills::SpeedUp, L"Speed Up", std::bind(&ItemManager::SpeedUp));
+			mPills[8] = new ItemObject(eItemType::Pill, (UINT)ePills::SpeedDown, L"Speed Down", std::bind(&ItemManager::SpeedDown));
 		}
 
 		{ // Cards
-			mCardEvents.resize((UINT)eCards::End);
-
-			for (size_t i = 0; i < (UINT)eCards::End; i++)
-				mCardEvents[i] = new Events();
-
-			mCardEvents[(UINT)eCards::TheFool]->mEvents = std::bind(&ItemManager::TheFool);
-			mCardEvents[(UINT)eCards::TheLovers]->mEvents = std::bind(&ItemManager::TheLovers);
-			mCardEvents[(UINT)eCards::Club2]->mEvents = std::bind(&ItemManager::Club2);
-			mCardEvents[(UINT)eCards::Diamonds2]->mEvents = std::bind(&ItemManager::Diamonds2);
-			mCardEvents[(UINT)eCards::Spades2]->mEvents = std::bind(&ItemManager::Spades2);
+			mCards.resize((UINT)eCards::End);
+			mCards[1] = new ItemObject(eItemType::Card, (UINT)eCards::TheFool, L"The Fool", std::bind(&ItemManager::TheFool));
+			mCards[2] = new ItemObject(eItemType::Card, (UINT)eCards::TheLovers, L"The Lovers", std::bind(&ItemManager::TheLovers));
+			mCards[3] = new ItemObject(eItemType::Card, (UINT)eCards::Club2, L"2 of Clubs", std::bind(&ItemManager::Club2));
+			mCards[4] = new ItemObject(eItemType::Card, (UINT)eCards::Diamonds2, L"2 of Diamonds", std::bind(&ItemManager::Diamonds2));
+			mCards[5] = new ItemObject(eItemType::Card, (UINT)eCards::Spades2, L"2 of Spades", std::bind(&ItemManager::Spades2));
 		}
 
-		{ // ActiveItem
-			mActiveEvents.resize((UINT)eActiveItem::End);
-
-			for (size_t i = 0; i < (UINT)eActiveItem::End; i++)
-				mActiveEvents[i] = new Events();
-
+		{ // Trinket
+			
 		}
+
+		//{ // ActiveItem
+		//	mActiveEvents.resize((UINT)eActiveItem::End);
+
+		//	for (size_t i = 0; i < (UINT)eActiveItem::End; i++)
+		//		mActiveEvents[i] = new Events();
+		//}
 
 	}
 
@@ -75,7 +69,7 @@ namespace ya
 		return card;
 	}
 
-	std::vector<ItemManager::Events*> ItemManager::GetEvent(eItemType itemType)
+	/*std::vector<ItemManager::Events*> ItemManager::GetEvent(eItemType itemType)
 	{
 		if (itemType == eItemType::ActiveItem)
 		{ 
@@ -93,10 +87,26 @@ namespace ya
 		{
 			return mCardEvents;
 		}
-	}
+	}*/
 
-	void ItemManager::InitPill()
+	std::vector<ItemObject*> ItemManager::GetItemObjects(eItemType itemType)
 	{
+		if(itemType == eItemType::ActiveItem)
+		{
+			return mActives;
+		}
+		else if (itemType == eItemType::PassiveItem)
+		{
+
+		}
+		else if (itemType == eItemType::Pill)
+		{
+			return mPills;
+		}
+		else if (itemType == eItemType::Card)
+		{
+			return mCards;
+		}
 	}
 
 	void ItemManager::HealthUp()
@@ -179,14 +189,14 @@ namespace ya
 
 		player->AddSpeed(-0.12f);
 	}
-	void ItemManager::InitCard()
-	{
-	}
+
 	void ItemManager::TheFool()
 	{
+		// TODO : 시작 지점으로 텔레포트
 	}
 	void ItemManager::TheLovers()
 	{
+		// TODO: 빨간하트 2개 생성
 	}
 	/// <summary>
 	/// 현재폭탄 x2, 0개일때 +2

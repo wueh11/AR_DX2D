@@ -332,7 +332,6 @@
     <ClCompile Include="yaWorkScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Engine\Engine_SOURCE\yaParticleShader.cpp" />
     <ClCompile Include="yaKeyScript.cpp">
       <Filter>Component\Script\Contents\Item\PickUp</Filter>
     </ClCompile>
@@ -412,6 +411,7 @@
     <ClCompile Include="yaUIScript.cpp">
       <Filter>Component\Script\Contents\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="yaParticleShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -602,7 +602,6 @@
     <ClInclude Include="yaWorkScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Engine_SOURCE\yaParticleShader.h" />
     <ClInclude Include="yaKeyScript.h">
       <Filter>Component\Script\Contents\Item\PickUp</Filter>
     </ClInclude>
@@ -685,6 +684,8 @@
     <ClInclude Include="Commons.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="yaParticleShader.h" />
+    <ClInclude Include="yaItemObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

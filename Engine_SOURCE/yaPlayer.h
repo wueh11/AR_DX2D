@@ -55,7 +55,7 @@ namespace ya
 
 		struct Items
 		{
-			eActiveItem ActiveItem;
+			eActiveItem activeItem;
 			int gauge;
 			std::vector<int> passiveItems; // 패시브 아이템
 			ePills pill;
@@ -63,10 +63,10 @@ namespace ya
 			eTrinkets trinkets; //장신구
 
 			Items()
-				: ActiveItem(eActiveItem::None)
+				: activeItem(eActiveItem::None)
 				, passiveItems{}
-				, pill(ePills::HealthUp)
-				, card(eCards::None)
+				, pill(ePills::None)
+				, card(eCards::TheLovers)
 				, trinkets(eTrinkets::None)
 			{}
 		};
@@ -110,7 +110,7 @@ namespace ya
 
 		void SetPill(ePills pill) { mItem.pill = pill; }
 		void SetCard(eCards card) { mItem.card = card; }
-		void SetActiveItem(eActiveItem item) { mItem.ActiveItem = item; }
+		void SetActiveItem(eActiveItem item) { mItem.activeItem = item; }
 		void SetTrinket(eTrinkets trinket) { mItem.trinkets = trinket; }
 
 		void AddPassiveItem(ePassiveItem item) { mItem.passiveItems.push_back((UINT)item); }

@@ -10,10 +10,6 @@ namespace ya
 	{
 		PillScript* pillScript = AddComponent<PillScript>();
 		pillScript->SetPill(type);
-
-		Collider2D* collider = AddComponent<Collider2D>();
-		collider->SetColliderType(eColliderType::Rect);
-		collider->SetSize(Vector2(0.5f, 0.5f));
 	}
 	Pill::~Pill()
 	{

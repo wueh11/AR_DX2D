@@ -54,13 +54,16 @@ namespace ya
 		mAnimator->Create(L"pill_1", pillTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 		mAnimator->Create(L"pill_2", pillTexture, Vector2(32.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 		mAnimator->Create(L"pill_3", pillTexture, Vector2(64.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"pill_4", pillTexture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"pill_5", pillTexture, Vector2(32.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"pill_6", pillTexture, Vector2(64.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"pill_7", pillTexture, Vector2(0.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"pill_8", pillTexture, Vector2(32.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"pill_9", pillTexture, Vector2(64.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"pill_10", pillTexture, Vector2(64.0f, 96.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"pill_4", pillTexture, Vector2(96.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"pill_5", pillTexture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"pill_6", pillTexture, Vector2(32.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"pill_7", pillTexture, Vector2(64.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"pill_8", pillTexture, Vector2(96.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"pill_9", pillTexture, Vector2(0.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"pill_10", pillTexture, Vector2(32.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"pill_11", pillTexture, Vector2(64.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"pill_12", pillTexture, Vector2(96.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"pill_13", pillTexture, Vector2(96.0f, 96.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 		mAnimator->Play(L"None", false);
 	}
 

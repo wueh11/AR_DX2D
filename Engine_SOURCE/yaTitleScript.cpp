@@ -1,3 +1,4 @@
+
 #include "yaTitleScript.h"
 
 #include "yaTitleScript.h"
@@ -12,7 +13,7 @@ namespace ya
 		: Script()
 		, mState(eState::None)
 		, mPage(ePage::Titlemenu)
-		, mSpeed(50.0f)
+		, mSpeed(60.0f)
 		, mFriction(0.0f)
 	{
 	}
@@ -61,7 +62,7 @@ namespace ya
 		if (mFriction > mSpeed - 5.0f)
 			mFriction = mSpeed - 5.0f;
 		else
-			mFriction += 0.1f;
+			mFriction += 0.08f;
 
 		pos += (mSpeed - mFriction) * tr->Up() * Time::DeltaTime();
 
@@ -101,8 +102,8 @@ namespace ya
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Vector3 pos = tr->GetPosition();
 
-		if (mFriction > mSpeed - 1.0f)
-			mFriction = mSpeed - 1.0f;
+		if (mFriction > mSpeed - 5.0f)
+			mFriction = mSpeed - 5.0f;
 		else
 			mFriction += 0.08f;
 

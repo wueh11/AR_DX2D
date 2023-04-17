@@ -78,54 +78,55 @@ namespace ya::isaac
 		End,
 	};
 
-	struct Pill
+	/*struct PillInfo
 	{
 		std::wstring name;
 		ePills type;
 
-		Pill()
+		PillInfo()
 			:type(ePills::HealthUp)
 		{}
 	};
 	
-	struct Card
+	struct CardInfo
 	{
 		std::wstring name;
 		eCards type;
 
-		Card()
+		CardInfo()
 			:type(eCards::None)
 		{}
 	};
 		
-	struct Trinket
+	struct TrinketInfo
 	{
 		std::wstring name;
 		eTrinkets type;
 
-		Trinket()
+		TrinketInfo()
 			:type(eTrinkets::None)
 		{}
 	};
 
-	struct ActiveItem
+	struct ActiveItemInfo
 	{
 		std::wstring name;
 		eActiveItem type;
 		int maxGauge;
 
-		ActiveItem()
+		ActiveItemInfo()
 			: type(eActiveItem::None)
+			, maxGauge(1)
 		{}
 	};
 
-	struct PassiveItem
-	{
+	struct PassiveItemInfo
+	{  
 		std::wstring name;
 		ePassiveItem type;
 		
-		PassiveItem()
+		PassiveItemInfo()
 			:type(ePassiveItem::None)
 		{}
-	};
+	};*/
 }

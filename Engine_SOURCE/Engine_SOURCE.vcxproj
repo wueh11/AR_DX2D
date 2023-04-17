@@ -153,10 +153,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Engine\Engine_SOURCE\yaParticleShader.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="Commons.h" />
     <ClInclude Include="IsaacItems.h" />
+    <ClInclude Include="yaItemObject.h" />
     <ClInclude Include="yaActiveItem.h" />
     <ClInclude Include="yaActiveItemScript.h" />
     <ClInclude Include="yaAnimation.h" />
@@ -186,6 +186,7 @@
     <ClInclude Include="yaImageRenderer.h" />
     <ClInclude Include="yaItem.h" />
     <ClInclude Include="yaItemManager.h" />
+    <ClInclude Include="yaParticleShader.h" />
     <ClInclude Include="yaPassiveItem.h" />
     <ClInclude Include="yaPassiveItemScript.h" />
     <ClInclude Include="yaPickup.h" />
@@ -248,7 +249,6 @@
     <ClInclude Include="yaWorkScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Engine\Engine_SOURCE\yaParticleShader.cpp" />
     <ClCompile Include="yaActiveItem.cpp" />
     <ClCompile Include="yaActiveItemScript.cpp" />
     <ClCompile Include="yaCardScript.cpp" />
@@ -278,6 +278,7 @@
     <ClCompile Include="yaHeartScript.cpp" />
     <ClCompile Include="yaImageRenderer.cpp" />
     <ClCompile Include="yaItemManager.cpp" />
+    <ClCompile Include="yaParticleShader.cpp" />
     <ClCompile Include="yaPassiveItem.cpp" />
     <ClCompile Include="yaPassiveItemScript.cpp" />
     <ClCompile Include="yaPickup.cpp" />

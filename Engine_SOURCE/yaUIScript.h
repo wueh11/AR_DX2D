@@ -24,6 +24,10 @@ namespace ya
 		Player* mPlayer;
 		std::vector<GameObject*> mHearts;
 
+		GameObject* mActiveItem;
+		GameObject* mConsumable;
+		GameObject* Trinket;
+		
 		NumberScript* mCoinCount;
 		NumberScript* mBombCount;
 		NumberScript* mKeyCount;
