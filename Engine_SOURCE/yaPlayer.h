@@ -1,8 +1,10 @@
 #pragma once
 #include "yaGameObject.h"
+#include "IsaacItems.h"
 
 namespace ya
 {
+	using namespace isaac;
 	class Player : public GameObject
 	{
 	public:
@@ -14,7 +16,7 @@ namespace ya
 
 			Info()
 				: heartMax(6)
-				, heart(6)
+				, heart(3)
 				, soulHeart(2)
 			{}
 		};
@@ -53,9 +55,20 @@ namespace ya
 
 		struct Items
 		{
-			std::vector<int> collectibles; // 패시브 아이템
-			int consumable; //알약,카드
-			int trinkets; //장신구
+			eActiveItem ActiveItem;
+			int gauge;
+			std::vector<int> passiveItems; // 패시브 아이템
+			ePills pill;
+			eCards card;
+			eTrinkets trinkets; //장신구
+
+			Items()
+				: ActiveItem(eActiveItem::None)
+				, passiveItems{}
+				, pill(ePills::HealthUp)
+				, card(eCards::None)
+				, trinkets(eTrinkets::None)
+			{}
 		};
 
 	public:
@@ -87,6 +100,20 @@ namespace ya
 		void AddCoin(int coin) { mPickup.coin += coin; }
 		void AddBomb(int bomb) { mPickup.bomb += bomb; }
 		void AddKey(int key) { mPickup.key += key; }
+
+		void AddAttack(int attack) { mStatus.attack += attack; }
+		void AddAttackSpeed(int attack) { mStatus.attack += attack; }
+		void AddTearSpeed(int tearSpeed) { mStatus.tearSpeed += tearSpeed; }
+		void AddRange(int range) { mStatus.range += range; }
+		void AddSpeed(int speed) { mStatus.speed += speed; }
+		void AddLuck(int luck) { mStatus.luck += luck; }
+
+		void SetPill(ePills pill) { mItem.pill = pill; }
+		void SetCard(eCards card) { mItem.card = card; }
+		void SetActiveItem(eActiveItem item) { mItem.ActiveItem = item; }
+		void SetTrinket(eTrinkets trinket) { mItem.trinkets = trinket; }
+
+		void AddPassiveItem(ePassiveItem item) { mItem.passiveItems.push_back((UINT)item); }
 
 	private:
 		Info mInfo;

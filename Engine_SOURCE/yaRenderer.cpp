@@ -487,6 +487,10 @@ namespace ya::renderer
 			Resources::Load<Texture>(L"basement", L"Issac\\01_basement.png");
 			Resources::Load<Texture>(L"controls", L"Issac\\controls.png");
 		}
+
+		{ // land
+
+		}
 	}
 
 	void LoadMaterial()
@@ -609,15 +613,6 @@ namespace ya::renderer
 				Resources::Insert<Material>(L"keyMaterial", material);
 			}
 			
-			{ // pill
-				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"pill");
-				std::shared_ptr<Material> material = std::make_shared<Material>();
-				material->SetRenderingMode(eRenderingMode::Transparent);
-				material->SetShader(spriteShader);
-				material->SetTexture(texture);
-				Resources::Insert<Material>(L"pillMaterial", material);
-			}
-			
 			{ // bomb
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bomb");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -625,6 +620,15 @@ namespace ya::renderer
 				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"bombMaterial", material);
+			}
+
+			{ // pill
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"pill");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"pillMaterial", material);
 			}
 
 			{ // card

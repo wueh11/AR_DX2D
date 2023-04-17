@@ -11,6 +11,9 @@
 #include "yaPlayer.h"
 #include "yaNumberScript.h"
 
+#include "yaPill.h"
+#include "yaCard.h"
+
 namespace ya
 {
 	UIScript::UIScript()
@@ -94,6 +97,35 @@ namespace ya
 			keyMr->SetMesh(mesh);
 			keyMr->SetMaterial(material);
 			keyMr->SetImageSize(hudpickupsTexture, Vector2(16.0f, 0.0f), Vector2(16.0f, 16.0f));
+		}
+
+		{ // pill
+			GameObject* ui_cardspills = object::Instantiate<GameObject>(eLayerType::UI);
+			Transform* ui_cardspillsTr = ui_cardspills->GetComponent<Transform>();
+			ui_cardspillsTr->SetPosition(Vector3(-4.64f, 1.38f, 0.0f));
+			ui_cardspillsTr->SetScale(Vector3(0.32f, 0.32f, 1.0f));
+
+			std::shared_ptr<Material> ui_cardspillsMaterial = Resources::Find<Material>(L"ui_cardspillsMaterial");
+			std::shared_ptr<Texture> ui_heartsTexture = ui_cardspillsMaterial->GetTexture();
+
+			SpriteRenderer* ui_heartsMr = ui_cardspills->AddComponent<SpriteRenderer>();
+			ui_heartsMr->SetMesh(mesh);
+			ui_heartsMr->SetMaterial(material);
+
+			Animator* animator = ui_cardspills->AddComponent<Animator>();
+
+			animator->Create(L"None", ui_heartsTexture, Vector2(0.0f, 224.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_1", ui_heartsTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_2", ui_heartsTexture, Vector2(32.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_3", ui_heartsTexture, Vector2(64.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_4", ui_heartsTexture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_5", ui_heartsTexture, Vector2(32.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_6", ui_heartsTexture, Vector2(64.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_7", ui_heartsTexture, Vector2(0.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_8", ui_heartsTexture, Vector2(32.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_9", ui_heartsTexture, Vector2(64.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"pill_10", ui_heartsTexture, Vector2(64.0f, 96.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Play(L"None", false);
 		}
 
 		Scene* scene = SceneManager::GetActiveScene();

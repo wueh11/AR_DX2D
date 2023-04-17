@@ -17,9 +17,13 @@ namespace ya
 		virtual void Render();
 
 	public:
+		void Take();
+
+	public:
 		ePickupType GetItemType() { return mItemType; }
 
 	protected:
 		ePickupType mItemType;
+		float mTimer;
 	};
 }

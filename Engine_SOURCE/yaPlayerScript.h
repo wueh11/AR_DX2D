@@ -1,8 +1,10 @@
 #pragma once
 #include "yaScript.h"
+#include "IsaacItems.h"
 
 namespace ya
 {
+	using namespace isaac;
 	class Transform;
 	class Rigidbody;
 	class PlayerScript : public Script
@@ -32,6 +34,14 @@ namespace ya
 		void Die();
 
 		void Invincible();
+
+		void gainActiveItem(eActiveItem item);
+		void gainConsumable(eItemType type, UINT num);
+
+		void UseActiveItem();
+		void UseConsumable();
+
+		void ThrowItem();
 
 	private:
 		Transform* mTransform;

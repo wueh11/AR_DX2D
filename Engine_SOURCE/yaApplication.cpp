@@ -5,6 +5,7 @@
 #include "yaSceneManager.h"
 #include "yaResources.h"
 #include "yaCollisionManager.h"
+#include <ctime>
 
 namespace ya
 {
@@ -12,7 +13,7 @@ namespace ya
 
 	Application::Application()
 	{
-
+		srand((UINT)time(NULL));
 	}
 
 	Application::~Application()

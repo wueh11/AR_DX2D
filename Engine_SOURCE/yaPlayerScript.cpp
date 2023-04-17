@@ -9,9 +9,15 @@
 #include "yaSpriteRenderer.h"
 #include "yaObject.h"
 
+#include "yaItemManager.h"
 #include "yaTear.h"
 #include "yaDropBomb.h"
+#include "yaPickup.h"
 #include "yaPlayer.h"
+
+#include "yaItem.h"
+#include "yaPill.h"
+#include "yaCard.h"
 
 namespace ya
 {
@@ -145,6 +151,13 @@ namespace ya
 		// 픽업 아이템 사용 
 		if (Input::GetKeyDown(eKeyCode::Q))
 		{
+			UseConsumable();
+		}
+
+		// 장신구, 소모품 드랍
+		if (Input::GetKeyDown(eKeyCode::LCTRL))
+		{
+			//3초간 누르면 아이템 drop
 		}
 
 		if (Input::GetKeyDown(eKeyCode::N_9))
@@ -173,7 +186,10 @@ namespace ya
 		{
 			player->AddMaxHeart(-2);
 		}
-		
+		if (Input::GetKeyDown(eKeyCode::N_5))
+		{
+			UseConsumable();
+		}
 	}
 
 	void PlayerScript::FixedUpdate()
@@ -185,6 +201,18 @@ namespace ya
 
 	void PlayerScript::OnCollisionEnter(Collider2D* collider)
 	{
+		GameObject* other = collider->GetOwner();
+
+		Item* item = dynamic_cast<Item*>(other);
+		if (item != nullptr)
+		{
+		}
+
+		Pill* pill = dynamic_cast<Pill*>(other);
+		if (pill != nullptr)
+		{
+			//pill->GetItemType
+		}
 	}
 	void PlayerScript::OnCollisionStay(Collider2D* collider)
 	{
@@ -377,9 +405,109 @@ namespace ya
 		mTransform->SetScale(Vector3(1.32f, 1.32f, 1.0f));
 	}
 
+	/// <summary>
+	/// 무적 시간
+	/// </summary>
 	void PlayerScript::Invincible()
 	{
 		invincibleTime = 1.2f;
 		mbInvincible = true;
+	}
+
+	void PlayerScript::gainActiveItem(eActiveItem active)
+	{
+		Player* player = dynamic_cast<Player*>(GetOwner());
+		Player::Items item = player->GetItem();
+
+		if (item.ActiveItem != eActiveItem::None)
+		{
+			// TODO: 아이템 교체
+		}
+
+		player->SetActiveItem(active);
+	}
+
+	void PlayerScript::gainConsumable(eItemType type, UINT num)
+	{
+		Player* player = dynamic_cast<Player*>(GetOwner());
+		Player::Items item = player->GetItem();
+
+		if (type == eItemType::Pill)
+		{
+			if (item.pill != ePills::None)
+			{
+				// TODO: 아이템 교체
+			}
+			else if (item.card != eCards::None)
+			{
+				// TODO: 아이템 교체
+				player->SetCard(eCards::None);
+			}
+
+			player->SetPill((ePills)num);
+			
+		}
+		else if (type == eItemType::Card)
+		{
+			if (item.card != eCards::None)
+			{
+				// TODO: 아이템 교체
+			}
+			else if (item.pill != ePills::None)
+			{
+				// TODO: 아이템 교체
+				player->SetPill(ePills::None);
+			}
+
+			player->SetCard((eCards)num);
+		}
+	}
+
+	void PlayerScript::UseActiveItem()
+	{
+		Player* player = dynamic_cast<Player*>(GetOwner());
+		Player::Items item = player->GetItem();
+		ItemManager::GetEvent(eItemType::ActiveItem)[(UINT)item.pill]->mEvents();
+	}
+
+	void PlayerScript::UseConsumable()
+	{
+		Player* player = dynamic_cast<Player*>(GetOwner());
+		Player::Items item = player->GetItem();
+		
+		if (item.pill != ePills::None)
+		{
+			ItemManager::GetEvent(eItemType::Pill)[(UINT)item.pill]->mEvents();
+			item.pill = ePills::None;
+		}
+		else if (item.card != eCards::None)
+		{
+			ItemManager::GetEvent(eItemType::Card)[(UINT)item.card]->mEvents();
+			item.card = eCards::None;
+		}
+	}
+
+	void PlayerScript::ThrowItem()
+	{
+		Player* player = dynamic_cast<Player*>(GetOwner());
+		Player::Items item = player->GetItem();
+
+		if (item.trinkets != eTrinkets::None)
+		{
+			//TODO: trinket 아이템 생성
+			
+			player->SetTrinket(eTrinkets::None);
+		}
+
+		if (item.pill != ePills::None)
+		{
+			//TODO: consumable 아이템 생성
+			player->SetPill(ePills::None);
+		}
+
+		if (item.card != eCards::None)
+		{
+			player->SetCard(eCards::None);
+		}
 	}
 }

@@ -81,6 +81,21 @@ namespace ya
 			return components;
 		}
 
+		template <typename T>
+		T* GetScript()
+		{
+			T* script;
+			for (auto s : mScripts)
+			{
+				script = dynamic_cast<T*>(s);
+
+				if (s != nullptr)
+					return script;
+			}
+			
+			return nullptr;
+		}
+
 		std::vector<Script*>& GetScripts() { return mScripts; }
 
 		bool IsDead() { return (mState == eState::Dead); }

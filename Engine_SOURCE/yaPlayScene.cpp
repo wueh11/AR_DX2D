@@ -27,6 +27,10 @@
 #include "yaKey.h"
 #include "yaCoin.h"
 #include "yaBomb.h"
+#include "yaPill.h"
+#include "yaCard.h"
+
+#include "yaItemManager.h"
 
 namespace ya
 {
@@ -41,6 +45,8 @@ namespace ya
 
 	void PlayScene::Initialize()
 	{
+		ItemManager::Initialize();
+
 		//Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
 		cameraObj->AddComponent<CameraScript>();
@@ -208,6 +214,12 @@ namespace ya
 			Bomb* key = object::Instantiate<Bomb>(eLayerType::Item);
 			Transform* keyTr = key->GetComponent<Transform>();
 			keyTr->SetPosition(Vector3(2.0f, 1.0f, -10.0f));
+		}
+		
+		{
+			Pill* pill = ItemManager::CreatePill(ePills::HealthUp);
+			Transform* pillTr = pill->GetComponent<Transform>();
+			pillTr->SetPosition(Vector3(2.0f, 1.5f, -10.0f));
 		}
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Wall, true);

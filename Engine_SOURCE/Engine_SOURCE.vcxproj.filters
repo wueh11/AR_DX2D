@@ -339,9 +339,6 @@
     <ClCompile Include="yaExplosionScript.cpp">
       <Filter>Component\Script\Contents\Projectile</Filter>
     </ClCompile>
-    <ClCompile Include="yaUIScript.cpp">
-      <Filter>Component\Script\Contents\System</Filter>
-    </ClCompile>
     <ClCompile Include="yaRigidbody.cpp">
       <Filter>Component\Rigidbody</Filter>
     </ClCompile>
@@ -395,6 +392,25 @@
     </ClCompile>
     <ClCompile Include="yaFireplace.cpp">
       <Filter>GameObject\land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPassiveItemScript.cpp">
+      <Filter>Component\Script\Contents\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTrinketScript.cpp">
+      <Filter>Component\Script\Contents\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="yaActiveItemScript.cpp">
+      <Filter>Component\Script\Contents\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPillScript.cpp">
+      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCardScript.cpp">
+      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="yaItemManager.cpp" />
+    <ClCompile Include="yaUIScript.cpp">
+      <Filter>Component\Script\Contents\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -593,9 +609,6 @@
     <ClInclude Include="yaExplosionScript.h">
       <Filter>Component\Script\Contents\Projectile</Filter>
     </ClInclude>
-    <ClInclude Include="yaUIScript.h">
-      <Filter>Component\Script\Contents\System</Filter>
-    </ClInclude>
     <ClInclude Include="yaRigidbody.h">
       <Filter>Component\Rigidbody</Filter>
     </ClInclude>
@@ -649,6 +662,28 @@
     </ClInclude>
     <ClInclude Include="yaFireplace.h">
       <Filter>GameObject\land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPassiveItemScript.h">
+      <Filter>Component\Script\Contents\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTrinketScript.h">
+      <Filter>Component\Script\Contents\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="yaActiveItemScript.h">
+      <Filter>Component\Script\Contents\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPillScript.h">
+      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCardScript.h">
+      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="yaItemManager.h" />
+    <ClInclude Include="yaUIScript.h">
+      <Filter>Component\Script\Contents\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Commons.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

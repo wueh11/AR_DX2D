@@ -1,5 +1,6 @@
 #include "yaPickup.h"
 #include "yaRigidbody.h"
+#include "yaTime.h"
 
 namespace ya
 {
@@ -31,5 +32,15 @@ namespace ya
 	void Pickup::Render()
 	{
 		GameObject::Render();
+	}
+	void Pickup::Take()
+	{
+		Transform* tr = GetComponent<Transform>();
+		Vector3 scale = tr->GetScale();
+		scale.x -= 0.01f;
+		scale.y += 0.01f;
+		tr->SetScale(scale);
+
+		mTimer -= Time::DeltaTime();
 	}
 }

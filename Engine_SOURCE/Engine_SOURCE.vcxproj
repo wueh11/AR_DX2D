@@ -155,8 +155,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Engine_SOURCE\yaParticleShader.h" />
     <ClInclude Include="CommonInclude.h" />
+    <ClInclude Include="Commons.h" />
     <ClInclude Include="IsaacItems.h" />
     <ClInclude Include="yaActiveItem.h" />
+    <ClInclude Include="yaActiveItemScript.h" />
     <ClInclude Include="yaAnimation.h" />
     <ClInclude Include="yaAnimator.h" />
     <ClInclude Include="yaApplication.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="yaBomb.h" />
     <ClInclude Include="yaBombScript.h" />
     <ClInclude Include="yaCard.h" />
+    <ClInclude Include="yaCardScript.h" />
     <ClInclude Include="yaDropBomb.h" />
     <ClInclude Include="yaDropBombScript.h" />
     <ClInclude Include="yaCamera.h" />
@@ -182,7 +185,9 @@
     <ClInclude Include="yaHeartScript.h" />
     <ClInclude Include="yaImageRenderer.h" />
     <ClInclude Include="yaItem.h" />
+    <ClInclude Include="yaItemManager.h" />
     <ClInclude Include="yaPassiveItem.h" />
+    <ClInclude Include="yaPassiveItemScript.h" />
     <ClInclude Include="yaPickup.h" />
     <ClInclude Include="yaKey.h" />
     <ClInclude Include="yaKeyScript.h" />
@@ -209,6 +214,7 @@
     <ClInclude Include="yaPaintShader.h" />
     <ClInclude Include="yaParticleSystem.h" />
     <ClInclude Include="yaPill.h" />
+    <ClInclude Include="yaPillScript.h" />
     <ClInclude Include="yaPit.h" />
     <ClInclude Include="yaPlayer.h" />
     <ClInclude Include="yaPlayerScript.h" />
@@ -235,6 +241,7 @@
     <ClInclude Include="yaTitleScript.h" />
     <ClInclude Include="yaTransform.h" />
     <ClInclude Include="yaTrinket.h" />
+    <ClInclude Include="yaTrinketScript.h" />
     <ClInclude Include="yaUIheart.h" />
     <ClInclude Include="yaUIScript.h" />
     <ClInclude Include="yaWallScript.h" />
@@ -243,6 +250,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Engine_SOURCE\yaParticleShader.cpp" />
     <ClCompile Include="yaActiveItem.cpp" />
+    <ClCompile Include="yaActiveItemScript.cpp" />
+    <ClCompile Include="yaCardScript.cpp" />
     <ClCompile Include="yaFireplace.cpp" />
     <ClCompile Include="yaItem.cpp" />
     <ClCompile Include="yaAnimation.cpp" />
@@ -268,7 +277,9 @@
     <ClCompile Include="yaHeartHalf.cpp" />
     <ClCompile Include="yaHeartScript.cpp" />
     <ClCompile Include="yaImageRenderer.cpp" />
+    <ClCompile Include="yaItemManager.cpp" />
     <ClCompile Include="yaPassiveItem.cpp" />
+    <ClCompile Include="yaPassiveItemScript.cpp" />
     <ClCompile Include="yaPickup.cpp" />
     <ClCompile Include="yaKey.cpp" />
     <ClCompile Include="yaKeyScript.cpp" />
@@ -291,6 +302,7 @@
     <ClCompile Include="yaPaintShader.cpp" />
     <ClCompile Include="yaParticleSystem.cpp" />
     <ClCompile Include="yaPill.cpp" />
+    <ClCompile Include="yaPillScript.cpp" />
     <ClCompile Include="yaPit.cpp" />
     <ClCompile Include="yaPlayer.cpp" />
     <ClCompile Include="yaPlayerScript.cpp" />
@@ -317,6 +329,7 @@
     <ClCompile Include="yaTitleScript.cpp" />
     <ClCompile Include="yaTransform.cpp" />
     <ClCompile Include="yaTrinket.cpp" />
+    <ClCompile Include="yaTrinketScript.cpp" />
     <ClCompile Include="yaUIheart.cpp" />
     <ClCompile Include="yaUIScript.cpp" />
     <ClCompile Include="yaWallScript.cpp" />
