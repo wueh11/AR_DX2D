@@ -14,6 +14,8 @@
 #include "yaPill.h"
 #include "yaCard.h"
 
+#include "yaItemManager.h"
+
 namespace ya
 {
 	UIScript::UIScript()
@@ -21,6 +23,7 @@ namespace ya
 		, mPlayer(nullptr)
 		, mHearts{}
 		, mActiveItem(nullptr)
+		, mChargeBar(nullptr)
 		, mConsumable(nullptr)
 		, Trinket(nullptr)
 		, mKeyCount(nullptr)
@@ -72,7 +75,7 @@ namespace ya
 			coinTr->SetPosition(Vector3(-4.64f, 1.9f, 0.0f));
 			coinTr->SetScale(Vector3(0.32f, 0.32f, 1.0f));
 
-			ImageRenderer* coinMr = coin->AddComponent<ImageRenderer>();
+			 ImageRenderer* coinMr = coin->AddComponent<ImageRenderer>();
 			coinMr->SetMesh(mesh);
 			coinMr->SetMaterial(material);
 			coinMr->SetImageSize(hudpickupsTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 16.0f));
@@ -102,7 +105,7 @@ namespace ya
 			keyMr->SetImageSize(hudpickupsTexture, Vector2(16.0f, 0.0f), Vector2(16.0f, 16.0f));
 		}
 
-		{ // pill
+		{ // consumable
 			mConsumable = object::Instantiate<GameObject>(eLayerType::UI);
 			Transform* ui_cardspillsTr = mConsumable->GetComponent<Transform>();
 			ui_cardspillsTr->SetPosition(Vector3(4.5f, -2.5f, 0.0f));
@@ -133,12 +136,84 @@ namespace ya
 			animator->Create(L"pill_12", ui_cardspillsTexture, Vector2(160.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			animator->Create(L"pill_13", ui_cardspillsTexture, Vector2(160.0f, 96.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 
-			animator->Create(L"card_1", ui_cardfrontsTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"card_2", ui_cardfrontsTexture, Vector2(32.0f, 0.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"card_3", ui_cardfrontsTexture, Vector2(80.0f, 48.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"card_4", ui_cardfrontsTexture, Vector2(80.0f, 72.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
-			animator->Create(L"card_5", ui_cardfrontsTexture, Vector2(80.0f, 24.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"card_" + std::to_wstring((UINT)eCards::TheFool), ui_cardfrontsTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"card_" + std::to_wstring((UINT)eCards::TheLovers), ui_cardfrontsTexture, Vector2(32.0f, 0.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"card_" + std::to_wstring((UINT)eCards::Club2), ui_cardfrontsTexture, Vector2(64.0f, 48.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"card_" + std::to_wstring((UINT)eCards::Diamonds2), ui_cardfrontsTexture, Vector2(64.0f, 72.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"card_" + std::to_wstring((UINT)eCards::Spades2), ui_cardfrontsTexture, Vector2(64.0f, 24.0f), Vector2(16.0f, 24.0f), Vector2::Zero, 1, 0.1f);
 			animator->Play(L"None", false);
+		}
+
+		{ // ActiveItem
+			mActiveItem = object::Instantiate<GameObject>(eLayerType::UI);
+			Transform* activeitemTr = mActiveItem->GetComponent<Transform>();
+			activeitemTr->SetPosition(Vector3(-4.45f, 2.35f, 0.0f));
+			activeitemTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
+
+			SpriteRenderer* ui_heartsMr = mActiveItem->AddComponent<SpriteRenderer>();
+			ui_heartsMr->SetMesh(mesh);
+			ui_heartsMr->SetMaterial(material);
+
+			Animator* animator = mActiveItem->AddComponent<Animator>();
+			animator->Create(L"None", Resources::Find<Texture>(L"transparent"), Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"active_" + std::to_wstring((UINT)eActiveItem::TheBible), Resources::Find<Texture>(L"thebible"), Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"active_" + std::to_wstring((UINT)eActiveItem::TammysHead), Resources::Find<Texture>(L"tammyshead"), Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"active_" + std::to_wstring((UINT)eActiveItem::YumHeart), Resources::Find<Texture>(L"yumheart"), Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Play(L"None", false);
+		}
+
+		{ // active Charge
+			std::shared_ptr<Material> chargeBarMaterial = Resources::Find<Material>(L"ui_chargebarMaterial");
+			std::shared_ptr<Texture> chargeBarTexture = chargeBarMaterial->GetTexture();
+
+			{ // active gauge background
+				mChargeBarBackground = object::Instantiate<GameObject>(eLayerType::UI);
+				Transform* chargeBarBackgroundTr = mChargeBarBackground->GetComponent<Transform>();
+				chargeBarBackgroundTr->SetPosition(Vector3(-4.1f, 2.32f, 0.0f));
+				chargeBarBackgroundTr->SetScale(Vector3(0.32f, 0.60f, 1.0f));
+
+				ImageRenderer* chargeBarBackgroundRenderer = mChargeBarBackground->AddComponent<ImageRenderer>();
+				chargeBarBackgroundRenderer->SetMesh(mesh);
+				chargeBarBackgroundRenderer->SetMaterial(chargeBarMaterial);
+
+				chargeBarBackgroundRenderer->SetImageSize(chargeBarTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 32.0f));
+			}
+
+			{ // gauge color
+				mChargeGauge = object::Instantiate<GameObject>(eLayerType::UI);
+				Transform* chargeBarGaugeTr = mChargeGauge->GetComponent<Transform>();
+				chargeBarGaugeTr->SetPosition(Vector3(-4.1f, 2.32f, 0.0f));
+				chargeBarGaugeTr->SetScale(Vector3(0.32f, 0.60f, 1.0f));
+
+				ImageRenderer* chargeBarGaugeRenderer = mChargeGauge->AddComponent<ImageRenderer>();
+				chargeBarGaugeRenderer->SetMesh(mesh);
+				std::shared_ptr<Material> chargebar_gaugeMaterial = Resources::Find<Material>(L"ui_chargebar_gaugeMaterial");
+				chargeBarGaugeRenderer->SetMaterial(chargebar_gaugeMaterial);
+
+				chargeBarGaugeRenderer->SetImageSize(chargeBarTexture, Vector2(16.0f, 0.0f), Vector2(16.0f, 32.0f));
+			}
+
+			{	// charge row
+				mChargeBar = object::Instantiate<GameObject>(eLayerType::UI);
+
+				Transform* chargeBarTr = mChargeBar->GetComponent<Transform>();
+				chargeBarTr->SetPosition(Vector3(-4.1f, 2.32f, 0.0f));
+				chargeBarTr->SetScale(Vector3(0.32f, 0.60f, 1.0f));
+
+				SpriteRenderer* chargeBarRenderer = mChargeBar->AddComponent<SpriteRenderer>();
+				chargeBarRenderer->SetMesh(mesh);
+				chargeBarRenderer->SetMaterial(chargeBarMaterial);
+
+				Animator* animator = mChargeBar->AddComponent<Animator>();
+				animator->Create(L"None", chargeBarTexture, Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f), Vector2::Zero, 1, 0.1f);
+				animator->Create(L"charge_12", chargeBarTexture, Vector2(32.0f, 0.0f), Vector2(16.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+				animator->Create(L"charge_6", chargeBarTexture, Vector2(48.0f, 0.0f), Vector2(16.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+				animator->Create(L"charge_4", chargeBarTexture, Vector2(0.0f, 32.0f), Vector2(16.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+				animator->Create(L"charge_3", chargeBarTexture, Vector2(16.0f, 32.0f), Vector2(16.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+				animator->Create(L"charge_2", chargeBarTexture, Vector2(32.0f, 32.0f), Vector2(16.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+				animator->Create(L"charge_1", chargeBarTexture, Vector2(48.0f, 32.0f), Vector2(16.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+				animator->Play(L"None", false);
+			}
 		}
 
 		Scene* scene = SceneManager::GetActiveScene();
@@ -272,7 +347,52 @@ namespace ya
 			}
 		}
 
+		mConsumable->Pause();
+
 		// trinket
+
+		
+		
+		// active item
+		{
+			Player::Items item = mPlayer->GetItem();
+			eActiveItem activeItem = item.activeItem;
+
+			Animator* activeItemAnim = mActiveItem->GetComponent<Animator>();
+			Animator* chargeBarAnim = mChargeBar->GetComponent<Animator>();
+			if (activeItem != eActiveItem::None)
+			{
+				mActiveItem->SetActive();
+				mChargeGauge->SetActive();
+				mChargeBar->SetActive();
+				mChargeBarBackground->SetActive();
+
+				activeItemAnim->Play(L"active_" + std::to_wstring((UINT)activeItem));
+
+				ItemObject* obj = ItemManager::GetItemObjects(eItemType::ActiveItem)[(UINT)activeItem];
+				int gauge = obj->GetGauge();
+				int charge = obj->GetCharge();
+
+				Animation* an = chargeBarAnim->FindAnimation(L"charge_" + std::to_wstring(gauge));
+				if(an != nullptr)
+					chargeBarAnim->Play(L"charge_" + std::to_wstring(gauge));
+
+				ImageRenderer* mr = mChargeGauge->GetComponent<ImageRenderer>();
+				std::shared_ptr<Material> material = mr->GetMaterial();
+				Vector4 data = Vector4(0.0f, 0.85f - (0.8f * ((float)charge / (float)gauge)), 1.0f, 1.0f);
+				material->SetData(eGPUParam::Vector4, &data);
+			}
+			else
+			{
+				activeItemAnim->Play(L"None");
+				chargeBarAnim->Play(L"None");
+				mActiveItem->Pause();
+				mChargeGauge->Pause();
+				mChargeBar->Pause();
+				mChargeBarBackground->Pause();
+			}
+		}
+		
 	}
 
 	void UIScript::FixedUpdate()

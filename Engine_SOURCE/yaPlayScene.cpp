@@ -29,6 +29,7 @@
 #include "yaBomb.h"
 #include "yaPill.h"
 #include "yaCard.h"
+#include "yaActiveItem.h"
 
 #include "yaItemManager.h"
 
@@ -161,7 +162,7 @@ namespace ya
 			Player* player = object::Instantiate<Player>(eLayerType::Player);
 			player->AddComponent<PlayerScript>();
 			Transform* playerTr = player->GetComponent<Transform>();
-			//playerTr->SetPosition(Vector3(0.0f, -1.0f, -0.0f));
+			playerTr->SetPosition(Vector3(0.0f, -1.0f, -0.0f));
 			playerTr->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 			Collider2D* collider = player->AddComponent<Collider2D>();
 			collider->SetSize(Vector2(0.5f, 0.5f));
@@ -220,6 +221,24 @@ namespace ya
 			Pill* pill = ItemManager::CreatePill(ePills::HealthUp);
 			Transform* pillTr = pill->GetComponent<Transform>();
 			pillTr->SetPosition(Vector3(2.0f, 1.5f, -10.0f));
+		}
+
+		{
+			Card* card = ItemManager::CreateCard(eCards::TheLovers);
+			Transform* cardTr = card->GetComponent<Transform>();
+			cardTr->SetPosition(Vector3(2.0f, 0.6f, -10.0f));
+		}
+
+		{
+			Card* card = ItemManager::CreateCard(eCards::Club2);
+			Transform* cardTr = card->GetComponent<Transform>();
+			cardTr->SetPosition(Vector3(1.4f, 0.6f, -10.0f));
+		}
+
+		{
+			ActiveItem* active = ItemManager::CreateActiveItem(eActiveItem::YumHeart);
+			Transform* activeTr = active->GetComponent<Transform>();
+			activeTr->SetPosition(Vector3(-2.0f, -1.0f, -10.0f));
 		}
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Wall, true);

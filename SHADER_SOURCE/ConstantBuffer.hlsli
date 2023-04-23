@@ -12,6 +12,7 @@ cbuffer MaterialData : register(b1)
     float cbfData;
     float2 cbxy;
     float3 cbxyz;
+    int padding1;
     float4 cbxyzw;
     matrix cbmat;
 }

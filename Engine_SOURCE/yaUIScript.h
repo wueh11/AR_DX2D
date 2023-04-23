@@ -25,6 +25,9 @@ namespace ya
 		std::vector<GameObject*> mHearts;
 
 		GameObject* mActiveItem;
+		GameObject* mChargeBarBackground;
+		GameObject* mChargeBar;
+		GameObject* mChargeGauge;
 		GameObject* mConsumable;
 		GameObject* Trinket;
 		

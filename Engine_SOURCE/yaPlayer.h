@@ -1,6 +1,6 @@
 #pragma once
 #include "yaGameObject.h"
-#include "IsaacItems.h"
+#include "Isaac.h"
 
 namespace ya
 {
@@ -56,7 +56,6 @@ namespace ya
 		struct Items
 		{
 			eActiveItem activeItem;
-			int gauge;
 			std::vector<int> passiveItems; // 패시브 아이템
 			ePills pill;
 			eCards card;
@@ -90,12 +89,26 @@ namespace ya
 		void AddHeart(int heart) 
 		{ 
 			mInfo.heart += heart; 
+			if (mInfo.heart < 0)
+				mInfo.heart = 0;
+
 			if (mInfo.heartMax < mInfo.heart) 
 				mInfo.heart = mInfo.heartMax; 
 		}
 
-		void AddSoulHeart(int heart) { mInfo.soulHeart += heart; }
-		void AddMaxHeart(int heart) { mInfo.heartMax += heart; }
+		void AddSoulHeart(int heart)
+		{ 
+			mInfo.soulHeart += heart; 
+			if (mInfo.heartMax + mInfo.soulHeart > 24)
+				mInfo.soulHeart = 24 - mInfo.heartMax;
+		}
+
+		void AddMaxHeart(int heart)
+		{ 
+			mInfo.heartMax += heart; 
+			if (mInfo.heartMax > 24)
+				mInfo.heartMax = 24;
+		}
 
 		void AddCoin(int coin) { mPickup.coin += coin; }
 		void AddBomb(int bomb) { mPickup.bomb += bomb; }

@@ -15,6 +15,7 @@ namespace ya
 		, mRadius(0.0f)
 		, mbTrigger(false)
 		, mID(0)
+		, mbActive(true)
 	{
 		mID = mColliderNumber++;
 	}

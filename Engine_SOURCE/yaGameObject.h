@@ -99,6 +99,7 @@ namespace ya
 		std::vector<Script*>& GetScripts() { return mScripts; }
 
 		bool IsDead() { return (mState == eState::Dead); }
+		void SetActive() { mState = eState::Active; }
 		void Pause() { mState = eState::Paused; }
 		void Death() { mState = eState::Dead; }
 

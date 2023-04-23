@@ -38,68 +38,56 @@ namespace ya
 
 	void WallScript::OnCollisionEnter(Collider2D* collider)
 	{
-		GameObject* obj = collider->GetOwner();
-		Transform* objTr = obj->GetComponent<Transform>();
-		Vector3 objPos = objTr->GetPosition();
-
-		Player* player = dynamic_cast<Player*>(obj);
-		Pickup* pickup = dynamic_cast<Pickup*>(obj);
+		GameObject* other = collider->GetOwner();
+		Player* player = dynamic_cast<Player*>(other);
 
 		if (player != nullptr)
 		{
+			Transform* otherTr = other->GetComponent<Transform>();
+			Vector3 otherPos = collider->GetPosition();
+
 			Collider2D* ownerCollider = GetOwner()->GetComponent<Collider2D>();
+			Transform* ownerTr = GetOwner()->GetComponent<Transform>();
 
-			Vector2 fLen = Vector2(fabs(collider->GetPosition().x - ownerCollider->GetPosition().x)
-				, fabs(collider->GetPosition().y - ownerCollider->GetPosition().y));
-			Vector2 fSize = Vector2(collider->GetSize().x / 2.0f + ownerCollider->GetSize().x / 2.0f
-				, collider->GetSize().y / 2.0f + ownerCollider->GetSize().y / 2.0f);
+			Vector3 dist = Vector3(ownerCollider->GetSize().x * ownerTr->GetScale().x / 2.0f + collider->GetSize().x * otherTr->GetScale().x / 2.0f
+									, ownerCollider->GetSize().y * ownerTr->GetScale().y / 2.0f + collider->GetSize().y * otherTr->GetScale().y / 2.0f
+									, 0.0f);
 
-			if (objPos.x >= ownerCollider->GetPosition().x + ownerCollider->GetSize().x / 2.0f + collider->GetSize().x / 2.0f - 0.1f
-				|| objPos.x <= ownerCollider->GetPosition().x - ownerCollider->GetSize().x / 2.0f - collider->GetSize().x / 2.0f + 0.1f)
+			if (otherPos.x >= ownerCollider->GetPosition().x + dist.x - 0.1f
+				|| otherPos.x <= ownerCollider->GetPosition().x - dist.x + 0.1f)
 			{
-				if (fLen.x < fSize.x)
-				{
-					if (collider->GetPosition().x > ownerCollider->GetPosition().x)
-						objPos.x += (fSize.x - fLen.x) - 0.08f;
-					else
-						objPos.x -= (fSize.x - fLen.x) - 0.08f;
-				}
+				if (collider->GetPosition().x > ownerCollider->GetPosition().x)
+					otherPos.x = ownerCollider->GetPosition().x + dist.x + 0.001f;
+				else
+					otherPos.x = ownerCollider->GetPosition().x - dist.x - 0.001f;
 			}
 
-			if (objPos.y >= ownerCollider->GetPosition().y + ownerCollider->GetSize().y / 2.0f + collider->GetSize().y / 2.0f - 0.1f
-				|| objPos.y <= ownerCollider->GetPosition().y - ownerCollider->GetSize().y / 2.0f - collider->GetSize().y / 2.0f + 0.1f)
+			if (otherPos.y >= ownerCollider->GetPosition().y + dist.y - 0.1f
+				|| otherPos.y <= ownerCollider->GetPosition().y - dist.y + 0.1f)
 			{
-				if (fLen.y < fSize.y)
-				{
-					if (collider->GetPosition().y > ownerCollider->GetPosition().y)
-						objPos.y += (fSize.y - fLen.y) - 0.08f;
-					else
-						objPos.y -= (fSize.y - fLen.y) - 0.08f;
-				}
+				if (collider->GetPosition().y > ownerCollider->GetPosition().y)
+					otherPos.y = ownerCollider->GetPosition().y + dist.y + 0.001f;
+				else
+					otherPos.y = ownerCollider->GetPosition().y - dist.y - 0.001f;
 			}
 
-			objTr->SetPosition(objPos);
+			otherTr->SetPosition(otherPos);
 
-			Rigidbody* objRigidbody = obj->GetComponent<Rigidbody>();
+			Rigidbody* objRigidbody = other->GetComponent<Rigidbody>();
 			if (objRigidbody != nullptr)
 				objRigidbody->SetVelocity(Vector3::Zero);
-		}
-		else if(pickup != nullptr)
-		{
-			Rigidbody* objRigidbody = obj->GetComponent<Rigidbody>();
-			mCollideVelocity = objRigidbody->GetVelocity(); 
 		}
 	}
 
 	void WallScript::OnCollisionStay(Collider2D* collider)
 	{
-		GameObject* object = collider->GetOwner();
-		Rigidbody* objRigidbody = object->GetComponent<Rigidbody>(); 
+		GameObject* other = collider->GetOwner();
+		Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>(); 
 
-		if (objRigidbody == nullptr)
+		if (otherRigidbody == nullptr)
 			return;
 
-		Collider2D* ownerCollider = object->GetComponent<Collider2D>();
+		Collider2D* ownerCollider = other->GetComponent<Collider2D>();
 
 		Vector3 target = Vector3(0.0f, 0.0f, 0.0f);
 		if (collider->GetPosition().x > ownerCollider->GetPosition().x - (ownerCollider->GetSize().x / 2)
@@ -109,8 +97,8 @@ namespace ya
 			|| collider->GetPosition().y < ownerCollider->GetPosition().y + (ownerCollider->GetSize().y / 2))
 			target.x = 1.0f;
 
-		Vector3 force = objRigidbody->Bounce(-mCollideVelocity, target);
-		objRigidbody->AddForce(force * 100.0f);
+		Vector3 force = otherRigidbody->Bounce(-mCollideVelocity, target);
+		otherRigidbody->AddForce(force * 100.0f);
 	}
 	void WallScript::OnCollisionExit(Collider2D* collider)
 	{

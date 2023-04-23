@@ -35,8 +35,6 @@ namespace ya
 		GetMaterial()->Bind();
 		GetMesh()->BindBuffer();
 
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-		
 		if(mAtlas != nullptr)
 			Binds();
 

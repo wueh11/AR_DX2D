@@ -41,6 +41,9 @@ namespace ya
 		bool IsTrigger() { return mbTrigger; }
 		UINT GetID() { return mID; }
 
+		void Active(bool active) { mbActive = active; };
+		bool IsActive() { return mbActive; }
+
 	private:
 		static UINT mColliderNumber; /// 같은 레이어간의 충돌 상태를 방지하기위해
 		UINT mID;
@@ -54,6 +57,8 @@ namespace ya
 		float mRadius;
 
 		bool mbTrigger;
+
+		bool mbActive;
 	};
 }
 

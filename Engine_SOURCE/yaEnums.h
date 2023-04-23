@@ -16,6 +16,7 @@ namespace ya::enums
 		Grid,
 		Background,
 		Wall,
+		Land,
 		Camera,
 
 		Effect,

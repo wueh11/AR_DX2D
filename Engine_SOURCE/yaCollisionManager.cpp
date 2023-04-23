@@ -64,13 +64,16 @@ namespace ya
 				continue;
 			if (left->GetComponent<Collider2D>() == nullptr)
 				continue;
-
+			if (!left->GetComponent<Collider2D>()->IsActive())
+				continue;
 
 			for (GameObject* right : rights)
 			{
 				if (right->GetState() != GameObject::eState::Active)
 					continue;
 				if (right->GetComponent<Collider2D>() == nullptr)
+					continue;
+				if (!left->GetComponent<Collider2D>()->IsActive())
 					continue;
 				if (left == right)
 					continue;
@@ -187,7 +190,6 @@ namespace ya
 			Vector3 Axis[4] = {};
 
 			Vector3 leftScale = Vector3(left->GetSize().x, left->GetSize().y, 1.0f);
-
 			Matrix finalLeft = Matrix::CreateScale(leftScale);
 			finalLeft *= leftMat;
 
@@ -208,7 +210,11 @@ namespace ya
 			for (size_t i = 0; i < 4; i++)
 				Axis[i].z = 0.0f; /// 2D
 
-			Vector3 vc = leftTr->GetPosition() - rightTr->GetPosition();
+			Vector3 leftPos = left->GetPosition();
+			Vector3 rightPos = right->GetPosition();
+
+			//Vector3 vc = leftTr->GetPosition() - rightTr->GetPosition();
+			Vector3 vc = leftPos - rightPos;
 			vc.z = 0.0f;
 
 			Vector3 centerDir = vc; /// centerDir : 사각형 중심사이의 거리를 내적한 값

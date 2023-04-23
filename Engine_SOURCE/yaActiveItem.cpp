@@ -1,10 +1,14 @@
 #include "yaActiveItem.h"
+#include "yaActiveItemScript.h"
 
 namespace ya
 {
-	ActiveItem::ActiveItem()
+	ActiveItem::ActiveItem(isaac::eActiveItem type)
 		: Item()
+		, mType(type)
 	{
+		ActiveItemScript* activeItemScript = AddComponent<ActiveItemScript>();
+		activeItemScript->SetActiveItem(type);
 	}
 	ActiveItem::~ActiveItem()
 	{

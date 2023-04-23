@@ -36,7 +36,6 @@ namespace ya
 	void PillScript::Initialize()
 	{
 		mTransform = GetOwner()->GetComponent<Transform>();
-		//mTransform->SetPosition(Vector3(0.0f, 2.0f, 1.0f));
 		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 
 		mAnimator = GetOwner()->AddComponent<Animator>();
@@ -113,7 +112,6 @@ namespace ya
 				return;
 
 			Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
-			Collider2D* ownerCollider = GetOwner()->GetComponent<Collider2D>();
 
 			rigidbody->AddForce(mCollideVelocity * 50.0f);
 		}
@@ -171,7 +169,6 @@ namespace ya
 
 		if(mPill != ePills::None)
 			mAnimator->Play(L"pill_" + std::to_wstring((UINT)mPill), false);
-
 	}
 	void PillScript::Take()
 	{

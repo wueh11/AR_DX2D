@@ -17,5 +17,9 @@ namespace ya
 		return pos;
 	}
 
+	float GetZAxis(float y, float base = 5.0f)
+	{
+		return base + y * 0.1f;
+	}
 
 }

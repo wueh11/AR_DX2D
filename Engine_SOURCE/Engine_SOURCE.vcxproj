@@ -155,7 +155,9 @@
   <ItemGroup>
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="Commons.h" />
-    <ClInclude Include="IsaacItems.h" />
+    <ClInclude Include="Isaac.h" />
+    <ClInclude Include="yaCollectibleScript.h" />
+    <ClInclude Include="yaGaper.h" />
     <ClInclude Include="yaItemObject.h" />
     <ClInclude Include="yaActiveItem.h" />
     <ClInclude Include="yaActiveItemScript.h" />
@@ -186,6 +188,7 @@
     <ClInclude Include="yaImageRenderer.h" />
     <ClInclude Include="yaItem.h" />
     <ClInclude Include="yaItemManager.h" />
+    <ClInclude Include="yaPickupScript.h" />
     <ClInclude Include="yaParticleShader.h" />
     <ClInclude Include="yaPassiveItem.h" />
     <ClInclude Include="yaPassiveItemScript.h" />
@@ -252,7 +255,9 @@
     <ClCompile Include="yaActiveItem.cpp" />
     <ClCompile Include="yaActiveItemScript.cpp" />
     <ClCompile Include="yaCardScript.cpp" />
+    <ClCompile Include="yaCollectibleScript.cpp" />
     <ClCompile Include="yaFireplace.cpp" />
+    <ClCompile Include="yaGaper.cpp" />
     <ClCompile Include="yaItem.cpp" />
     <ClCompile Include="yaAnimation.cpp" />
     <ClCompile Include="yaAnimator.cpp" />
@@ -278,6 +283,7 @@
     <ClCompile Include="yaHeartScript.cpp" />
     <ClCompile Include="yaImageRenderer.cpp" />
     <ClCompile Include="yaItemManager.cpp" />
+    <ClCompile Include="yaPickupScript.cpp" />
     <ClCompile Include="yaParticleShader.cpp" />
     <ClCompile Include="yaPassiveItem.cpp" />
     <ClCompile Include="yaPassiveItemScript.cpp" />
@@ -338,6 +344,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="text.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

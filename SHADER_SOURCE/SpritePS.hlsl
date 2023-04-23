@@ -29,7 +29,7 @@ float4 main(VSOut In) : SV_Target
             || UV.x > leftTop.x + spriteSize.x 
             || UV.y > leftTop.y + spriteSize.y)
             discard;
-        
+
         color = atlasTexture.Sample(pointSampler, UV);
     }
     else if (animationType == 2)
@@ -51,6 +51,10 @@ float4 main(VSOut In) : SV_Target
     
         color *= lightColor.diffuse;
     }
+    
+    if ((cbxyzw.z > 0.0f && cbxyzw.w > 0.0f)
+        && (In.UV.x < cbxyzw.x || In.UV.x > cbxyzw.z || In.UV.y < cbxyzw.y || In.UV.y > cbxyzw.w))
+        discard;
     
     return color;
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "yaEngine.h"
 #include "yaScene.h"
-#include "IsaacItems.h"
+#include "Isaac.h"
 #include "yaItemObject.h"
 
 namespace ya
@@ -15,6 +15,7 @@ namespace ya
 	public:
 		static class Pill* CreatePill(ePills pillType);
 		static class Card* CreateCard(eCards cardType);
+		static class ActiveItem* CreateActiveItem(eActiveItem activeType);
 
 	public:
 		static std::vector<ItemObject*> GetItemObjects(eItemType itemType);
@@ -40,6 +41,9 @@ namespace ya
 		//Trinkets
 
 		//Actives
+		static void TheBible();
+		static void TammysHead();
+		static void YumHeart();
 
 		//Passives
 

@@ -1,0 +1,20 @@
+#pragma once
+#include "yaMonster.h"
+#include "Isaac.h"
+
+namespace ya
+{
+	class Gaper : public Monster
+	{
+	public:
+		Gaper();
+		virtual ~Gaper();
+
+		virtual void Initialize();
+		virtual void Update();
+		virtual void FixedUpdate();
+		virtual void Render();
+
+	private:
+	};
+}

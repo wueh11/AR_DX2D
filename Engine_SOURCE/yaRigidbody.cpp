@@ -10,7 +10,7 @@ namespace ya
 		, mForce(Vector3::Zero)
 		, mVelocity(Vector3::Zero)
 		, mAccelation(Vector3::Zero)
-		, mFriction(5.0f)
+		, mFriction(10.0f)
 	{
 		mGravity = Vector3(0.0f, 0.0f, 0.0f);
 		mbGround = true;

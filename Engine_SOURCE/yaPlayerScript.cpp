@@ -27,10 +27,13 @@ namespace ya
 		, mRigidbody(nullptr)
 		, mHead(nullptr)
 		, mBody(nullptr)
-		, invincibleTime(0.0f)
+
+		, mInvincibleTime(0.0f)
+		, mInvincibleTimeMax(1.5f)
 		, mbInvincible(false)
-		, mbDie(false)
-		, mbKeyInput(false)
+		, mItemActionTime(0.0f)
+		, mItemActionTimeMax(1.0f)
+		, mbItemAction(false)
 	{
 	}
 	PlayerScript::~PlayerScript()
@@ -73,9 +76,13 @@ namespace ya
 			Animator* bodyAnimator = mBody->AddComponent<Animator>();
 			bodyAnimator->Create(L"None", texture, Vector2(0.0f, 480.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			bodyAnimator->Create(L"FrontIdle", texture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-			bodyAnimator->Create(L"FrontWalk", texture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 8, 0.1f);
+			bodyAnimator->Create(L"FrontWalk", texture, Vector2(192.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 2, 0.1f);
+			bodyAnimator->Add(L"FrontWalk", texture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 8, 0.1f);
 			bodyAnimator->Create(L"SideIdle", texture, Vector2(0.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			bodyAnimator->Create(L"SideWalk", texture, Vector2(0.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 8, 0.1f);
+			bodyAnimator->Create(L"ItemIdle", texture, Vector2(448.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			bodyAnimator->Create(L"ItemWalk", texture, Vector2(448.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 2, 0.1f);
+			bodyAnimator->Add(L"ItemWalk", texture, Vector2(256.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 18, 0.1f, 8, 3);
 			bodyAnimator->Play(L"FrontIdle", true);
 		}
 
@@ -94,6 +101,8 @@ namespace ya
 			headAnimator->Create(L"SideAttack", texture, Vector2(96.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			headAnimator->Create(L"BackIdle", texture, Vector2(128.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			headAnimator->Create(L"BackAttack", texture, Vector2(160.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			headAnimator->Create(L"ItemIdle", texture, Vector2(256.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			
 			headAnimator->Play(L"FrontIdle", true);
 		}
 
@@ -111,17 +120,32 @@ namespace ya
 		if (info.heart < 0)
 			player->SetHeart(0);
 
+		Player::Items items = player->GetItem();
+
 		Vector3 pos = mTransform->GetPosition();
 
 		if (mbInvincible)
 		{
-			if (invincibleTime > 0.0f)
+			if (mInvincibleTime > 0.0f)
 			{
-				invincibleTime -= Time::DeltaTime();
+				mInvincibleTime -= Time::DeltaTime();
 			}
 			else
 			{
 				mbInvincible = false;
+				Idle();
+			}
+		}
+
+		if (mbItemAction)
+		{
+			if (mItemActionTime > 0.0f)
+			{
+				mItemActionTime -= Time::DeltaTime();
+			}
+			else
+			{
+				mbItemAction = false;
 				Idle();
 			}
 		}
@@ -146,12 +170,23 @@ namespace ya
 		// 액티브 아이템 사용
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 		{
+			if(items.activeItem != eActiveItem::None)
+			{
+				ItemObject* itemObject = ItemManager::GetItemObjects(eItemType::ActiveItem)[(UINT)items.activeItem];
+				if (itemObject->GetCharge() == itemObject->GetGauge())
+				{
+					itemObject->PlayEvent();
+					itemObject->resetCharge();
+				}
+			}
 		}
 
 		// 픽업 아이템 사용 
 		if (Input::GetKeyDown(eKeyCode::Q))
 		{
 			UseConsumable();
+			ItemAction();
+
 		}
 
 		// 장신구, 소모품 드랍
@@ -188,8 +223,25 @@ namespace ya
 		}
 		if (Input::GetKeyDown(eKeyCode::N_5))
 		{
-			UseConsumable();
+			player->SetActiveItem(eActiveItem::TheBible);
 		}
+		if (Input::GetKeyDown(eKeyCode::N_6))
+		{
+			player->SetActiveItem(eActiveItem::TammysHead);
+		}
+		if (Input::GetKeyDown(eKeyCode::N_7))
+		{
+			player->SetActiveItem(eActiveItem::YumHeart);
+		}
+		if (Input::GetKeyDown(eKeyCode::N_8))
+		{
+			if (items.activeItem != eActiveItem::None)
+			{
+				ItemObject* itemObject = ItemManager::GetItemObjects(eItemType::ActiveItem)[(UINT)items.activeItem];
+				itemObject->AddCharge(1);
+			}
+		}
+
 	}
 
 	void PlayerScript::FixedUpdate()
@@ -201,18 +253,7 @@ namespace ya
 
 	void PlayerScript::OnCollisionEnter(Collider2D* collider)
 	{
-		GameObject* other = collider->GetOwner();
-
-		Item* item = dynamic_cast<Item*>(other);
-		if (item != nullptr)
-		{
-		}
-
-		Pill* pill = dynamic_cast<Pill*>(other);
-		if (pill != nullptr)
-		{
-			//pill->GetItemType
-		}
+		//GameObject* other = collider->GetOwner();
 	}
 	void PlayerScript::OnCollisionStay(Collider2D* collider)
 	{
@@ -246,18 +287,22 @@ namespace ya
 	{
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		Player::Status status = player->GetStatus();
-		float speed = 10.0f * status.speed;
+		float speed = 2.0f + status.speed;
+		Rigidbody* rigidbody = player->GetComponent<Rigidbody>();
+		rigidbody->SetLimitVelocity(Vector3(speed, speed, 0.0f));
+
+		float s = 20.0f;
 
 		/// 이동
 		if (Input::GetKey(eKeyCode::W))
-			mRigidbody->AddForce(Vector3(0.0f, speed, 0.0f));
+			mRigidbody->AddForce(Vector3(0.0f, s, 0.0f));
 		else if (Input::GetKey(eKeyCode::S))
-			mRigidbody->AddForce(Vector3(0.0f, -speed, 0.0f));
+			mRigidbody->AddForce(Vector3(0.0f, -s, 0.0f));
 		
 		if (Input::GetKey(eKeyCode::A))
-			mRigidbody->AddForce(Vector3(-speed, 0.0f, 0.0f));
+			mRigidbody->AddForce(Vector3(-s, 0.0f, 0.0f));
 		else if (Input::GetKey(eKeyCode::D))
-			mRigidbody->AddForce(Vector3(speed, 0.0f, 0.0f));
+			mRigidbody->AddForce(Vector3(s, 0.0f, 0.0f));
 
 
 		Animator* headAnimator = mHead->GetComponent<Animator>();
@@ -266,44 +311,55 @@ namespace ya
 		if (!mbInvincible)
 		{
 			// 애니메이션
-			if (Input::GetKeyDown(eKeyCode::W))
+			if (!mbItemAction)
 			{
-				headAnimator->Play(L"BackIdle", true);
-				bodyAnimator->Play(L"FrontWalk", true);
-			}
-			else if (Input::GetKeyDown(eKeyCode::S))
-			{
-				headAnimator->Play(L"FrontIdle", true);
-				bodyAnimator->Play(L"FrontWalk", true);
-			}
-			else if (Input::GetKeyDown(eKeyCode::A))
-			{
-				headAnimator->Play(L"SideIdle", true);
-				bodyAnimator->Play(L"SideWalk", true);
-			}
-			else if (Input::GetKeyDown(eKeyCode::D))
-			{
-				headAnimator->Play(L"SideIdle", true);
-				bodyAnimator->Play(L"SideWalk", true);
-			}
+				if (Input::GetKeyDown(eKeyCode::W))
+				{
+					headAnimator->Play(L"BackIdle", true);
+					bodyAnimator->Play(L"FrontWalk", true);
+				}
+				else if (Input::GetKeyDown(eKeyCode::S))
+				{
+					headAnimator->Play(L"FrontIdle", true);
+					bodyAnimator->Play(L"FrontWalk", true);
+				}
+				else if (Input::GetKeyDown(eKeyCode::A))
+				{
+					headAnimator->Play(L"SideIdle", true);
+					bodyAnimator->Play(L"SideWalk", true);
+				}
+				else if (Input::GetKeyDown(eKeyCode::D))
+				{
+					headAnimator->Play(L"SideIdle", true);
+					bodyAnimator->Play(L"SideWalk", true);
+				}
 
-			if (Input::GetKeyNone(eKeyCode::W) && Input::GetKeyNone(eKeyCode::A) && Input::GetKeyNone(eKeyCode::S) && Input::GetKeyNone(eKeyCode::D))
-			{
-				bodyAnimator->Play(L"FrontIdle", true);
-			}
+				if (Input::GetKeyNone(eKeyCode::W) && Input::GetKeyNone(eKeyCode::A) && Input::GetKeyNone(eKeyCode::S) && Input::GetKeyNone(eKeyCode::D))
+				{
+					bodyAnimator->Play(L"FrontIdle", true);
+				}
 
-			Transform* headTr = mHead->GetComponent<Transform>();
-			Transform* bodyTr = mBody->GetComponent<Transform>();
+				Transform* headTr = mHead->GetComponent<Transform>();
+				Transform* bodyTr = mBody->GetComponent<Transform>();
 
-			if (Input::GetKeyDown(eKeyCode::LEFT) || Input::GetKeyDown(eKeyCode::A))
-			{
-				headTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
-				bodyTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
+				if (Input::GetKeyDown(eKeyCode::LEFT) || Input::GetKeyDown(eKeyCode::A))
+				{
+					headTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
+					bodyTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
+				}
+				else if (Input::GetKeyDown(eKeyCode::RIGHT) || Input::GetKeyDown(eKeyCode::D))
+				{
+					headTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+					bodyTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+				}
 			}
-			else if (Input::GetKeyDown(eKeyCode::RIGHT) || Input::GetKeyDown(eKeyCode::D))
+			else
 			{
-				headTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
-				bodyTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+				if (Input::GetKeyDown(eKeyCode::W) || Input::GetKeyDown(eKeyCode::S) || Input::GetKeyDown(eKeyCode::A) || Input::GetKeyDown(eKeyCode::D))
+					bodyAnimator->Play(L"ItemWalk", true);
+	
+				if (Input::GetKeyUp(eKeyCode::W) || Input::GetKeyUp(eKeyCode::S) || Input::GetKeyUp(eKeyCode::A) || Input::GetKeyUp(eKeyCode::D))
+					bodyAnimator->Play(L"ItemIdle", true);
 			}
 		}
 	}
@@ -359,6 +415,18 @@ namespace ya
 		}*/
 	}
 
+	void PlayerScript::ItemAction()
+	{
+		mItemActionTime = mItemActionTimeMax;
+		mbItemAction = true;
+
+		Animator* headAnimator = mHead->GetComponent<Animator>();
+		Animator* bodyAnimator = mBody->GetComponent<Animator>();
+
+		headAnimator->Play(L"ItemIdle", false);
+		bodyAnimator->Play(L"ItemIdle", false);
+	}
+
 	void PlayerScript::Tears(Vector3 direction)
 	{
 		Tear* tear = new Tear(GetOwner(), direction);
@@ -410,7 +478,7 @@ namespace ya
 	/// </summary>
 	void PlayerScript::Invincible()
 	{
-		invincibleTime = 1.2f;
+		mInvincibleTime = mInvincibleTimeMax;
 		mbInvincible = true;
 	}
 
@@ -419,12 +487,8 @@ namespace ya
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		Player::Items item = player->GetItem();
 
-		if (item.activeItem != eActiveItem::None)
-		{
-			// TODO: 아이템 교체
-		}
-
 		player->SetActiveItem(active);
+		ItemAction();
 	}
 
 	void PlayerScript::gainConsumable(eItemType type, UINT num)
@@ -461,6 +525,7 @@ namespace ya
 
 			player->SetCard((eCards)num);
 		}
+		ItemAction();
 	}
 
 	void PlayerScript::UseActiveItem()

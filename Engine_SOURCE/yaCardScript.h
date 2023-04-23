@@ -1,7 +1,7 @@
 #pragma once
 #include "yaEngine.h"
 #include "yaScript.h"
-#include "IsaacItems.h"
+#include "Isaac.h"
 
 namespace ya
 {
@@ -31,9 +31,19 @@ namespace ya
 		void SetCard(eCards type);
 
 	private:
+		void Take();
+		void Pause();
+		void Death();
+
+	private:
 		Transform* mTransform;
 		Animator* mAnimator;
 
 		eCards mCard;
+
+		float mTimer;
+		bool mbDeath;
+
+		Vector3 mCollideVelocity;
 	};
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "yaScript.h"
-#include "IsaacItems.h"
+#include "Isaac.h"
 
 namespace ya
 {
@@ -9,6 +9,20 @@ namespace ya
 	class Rigidbody;
 	class PlayerScript : public Script
 	{
+		/*enum class st
+		{
+			IDLE,
+			MOVE,
+			ATTACK,
+			ITEM,
+			HURT,
+			DIE,
+		};*/
+
+		struct state
+		{
+		};
+
 	public:
 		PlayerScript();
 		virtual ~PlayerScript();
@@ -29,10 +43,11 @@ namespace ya
 		void Idle();
 		void Move();
 		void Attack();
-		void Tears(Vector3 direction);
 		void Hurt();
+		void ItemAction();
 		void Die();
 
+		void Tears(Vector3 direction);
 		void Invincible();
 
 		void gainActiveItem(eActiveItem item);
@@ -43,6 +58,8 @@ namespace ya
 
 		void ThrowItem();
 
+		bool IsItemAction() { return mbItemAction; }
+
 	private:
 		Transform* mTransform;
 		Rigidbody* mRigidbody;
@@ -50,10 +67,14 @@ namespace ya
 		GameObject* mHead;
 		GameObject* mBody;
 
-		float invincibleTime;
+		float mInvincibleTime;
+		float mInvincibleTimeMax;
 		bool mbInvincible;
 
-		bool mbDie;
-		bool mbKeyInput;
+		float mItemActionTime;
+		float mItemActionTimeMax;
+		bool mbItemAction;
+
+		bool mbMove;
 	};
 }

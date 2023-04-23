@@ -157,8 +157,20 @@
     <Filter Include="GameObject\Item\Items\Base">
       <UniqueIdentifier>{c198f2df-9857-454c-929c-34a6d1fa334d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\land">
+    <Filter Include="Component\Script\Contents\Item\Collectible">
+      <UniqueIdentifier>{5d2da00f-dde9-4f7a-867a-7b7812213210}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\Item\Base">
+      <UniqueIdentifier>{5f584e8c-aa9d-4396-9a85-f130ae311ac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Monsters">
+      <UniqueIdentifier>{395b2549-4fdf-4acf-8e45-e9aef345ec6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Land">
       <UniqueIdentifier>{492f254a-fa07-4b69-958d-99744ec10859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Monsters\Base">
+      <UniqueIdentifier>{3ebf006f-57ad-49d8-a974-6d254e6a582a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -221,9 +233,6 @@
     </ClCompile>
     <ClCompile Include="yaSpriteRenderer.cpp">
       <Filter>Component\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="yaMonster.cpp">
-      <Filter>GameObject\Player</Filter>
     </ClCompile>
     <ClCompile Include="yaRoom.cpp" />
     <ClCompile Include="yaPlayScene.cpp">
@@ -381,25 +390,16 @@
       <Filter>GameObject\Item\Items</Filter>
     </ClCompile>
     <ClCompile Include="yaPit.cpp">
-      <Filter>GameObject\land</Filter>
+      <Filter>GameObject\Land</Filter>
     </ClCompile>
     <ClCompile Include="yaRock.cpp">
-      <Filter>GameObject\land</Filter>
+      <Filter>GameObject\Land</Filter>
     </ClCompile>
     <ClCompile Include="yaSpike.cpp">
-      <Filter>GameObject\land</Filter>
+      <Filter>GameObject\Land</Filter>
     </ClCompile>
     <ClCompile Include="yaFireplace.cpp">
-      <Filter>GameObject\land</Filter>
-    </ClCompile>
-    <ClCompile Include="yaPassiveItemScript.cpp">
-      <Filter>Component\Script\Contents\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="yaTrinketScript.cpp">
-      <Filter>Component\Script\Contents\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="yaActiveItemScript.cpp">
-      <Filter>Component\Script\Contents\Item</Filter>
+      <Filter>GameObject\Land</Filter>
     </ClCompile>
     <ClCompile Include="yaPillScript.cpp">
       <Filter>Component\Script\Contents\Item\PickUp</Filter>
@@ -412,6 +412,27 @@
       <Filter>Component\Script\Contents\Scene</Filter>
     </ClCompile>
     <ClCompile Include="yaParticleShader.cpp" />
+    <ClCompile Include="yaActiveItemScript.cpp">
+      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPassiveItemScript.cpp">
+      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTrinketScript.cpp">
+      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPickupScript.cpp">
+      <Filter>Component\Script\Contents\Item\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCollectibleScript.cpp">
+      <Filter>Component\Script\Contents\Item\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMonster.cpp">
+      <Filter>GameObject\Monsters\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGaper.cpp">
+      <Filter>GameObject\Monsters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -488,9 +509,6 @@
     </ClInclude>
     <ClInclude Include="yaObject.h">
       <Filter>GameObject\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="yaMonster.h">
-      <Filter>GameObject\Player</Filter>
     </ClInclude>
     <ClInclude Include="yaRoom.h" />
     <ClInclude Include="yaPlayScene.h">
@@ -581,7 +599,7 @@
     <ClInclude Include="yaPlayer.h">
       <Filter>GameObject\Player</Filter>
     </ClInclude>
-    <ClInclude Include="IsaacItems.h">
+    <ClInclude Include="Isaac.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="yaCoin.h">
@@ -651,25 +669,16 @@
       <Filter>GameObject\Item\Items</Filter>
     </ClInclude>
     <ClInclude Include="yaPit.h">
-      <Filter>GameObject\land</Filter>
+      <Filter>GameObject\Land</Filter>
     </ClInclude>
     <ClInclude Include="yaRock.h">
-      <Filter>GameObject\land</Filter>
+      <Filter>GameObject\Land</Filter>
     </ClInclude>
     <ClInclude Include="yaSpike.h">
-      <Filter>GameObject\land</Filter>
+      <Filter>GameObject\Land</Filter>
     </ClInclude>
     <ClInclude Include="yaFireplace.h">
-      <Filter>GameObject\land</Filter>
-    </ClInclude>
-    <ClInclude Include="yaPassiveItemScript.h">
-      <Filter>Component\Script\Contents\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="yaTrinketScript.h">
-      <Filter>Component\Script\Contents\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="yaActiveItemScript.h">
-      <Filter>Component\Script\Contents\Item</Filter>
+      <Filter>GameObject\Land</Filter>
     </ClInclude>
     <ClInclude Include="yaPillScript.h">
       <Filter>Component\Script\Contents\Item\PickUp</Filter>
@@ -686,10 +695,34 @@
     </ClInclude>
     <ClInclude Include="yaParticleShader.h" />
     <ClInclude Include="yaItemObject.h" />
+    <ClInclude Include="yaActiveItemScript.h">
+      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPassiveItemScript.h">
+      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTrinketScript.h">
+      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPickupScript.h">
+      <Filter>Component\Script\Contents\Item\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCollectibleScript.h">
+      <Filter>Component\Script\Contents\Item\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonster.h">
+      <Filter>GameObject\Monsters\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGaper.h">
+      <Filter>GameObject\Monsters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">
       <Filter>Common\Math</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="text.txt" />
   </ItemGroup>
 </Project>

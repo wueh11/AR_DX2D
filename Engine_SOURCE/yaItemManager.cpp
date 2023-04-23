@@ -5,6 +5,7 @@
 #include "yaPlayer.h"
 #include "yaPill.h"
 #include "yaCard.h"
+#include "yaActiveItem.h"
 
 namespace ya
 {
@@ -17,35 +18,36 @@ namespace ya
 	{
 		{ // Pills
 			mPills.resize((UINT)ePills::End);
-			mPills[1] = new ItemObject(eItemType::Pill, (UINT)ePills::HealthUp, L"Health Up", std::bind(&ItemManager::HealthUp));
-			mPills[2] = new ItemObject(eItemType::Pill, (UINT)ePills::HealthDown, L"Health Down", std::bind(&ItemManager::HealthDown));
-			mPills[3] = new ItemObject(eItemType::Pill, (UINT)ePills::RangeUp, L"Range Up", std::bind(&ItemManager::RangeUp));
-			mPills[4] = new ItemObject(eItemType::Pill, (UINT)ePills::RangeDown, L"Range Down", std::bind(&ItemManager::RangeDown));
-			mPills[5] = new ItemObject(eItemType::Pill, (UINT)ePills::TearsUp, L"Tears Up", std::bind(&ItemManager::TearsUp));
-			mPills[6] = new ItemObject(eItemType::Pill, (UINT)ePills::TearsDown, L"Tears Down", std::bind(&ItemManager::TearsDown));
-			mPills[7] = new ItemObject(eItemType::Pill, (UINT)ePills::SpeedUp, L"Speed Up", std::bind(&ItemManager::SpeedUp));
-			mPills[8] = new ItemObject(eItemType::Pill, (UINT)ePills::SpeedDown, L"Speed Down", std::bind(&ItemManager::SpeedDown));
+			mPills[(UINT)ePills::HealthUp] = new ItemObject(eItemType::Pill, (UINT)ePills::HealthUp, L"Health Up", std::bind(&ItemManager::HealthUp));
+			mPills[(UINT)ePills::HealthDown] = new ItemObject(eItemType::Pill, (UINT)ePills::HealthDown, L"Health Down", std::bind(&ItemManager::HealthDown));
+			mPills[(UINT)ePills::RangeUp] = new ItemObject(eItemType::Pill, (UINT)ePills::RangeUp, L"Range Up", std::bind(&ItemManager::RangeUp));
+			mPills[(UINT)ePills::RangeDown] = new ItemObject(eItemType::Pill, (UINT)ePills::RangeDown, L"Range Down", std::bind(&ItemManager::RangeDown));
+			mPills[(UINT)ePills::TearsUp] = new ItemObject(eItemType::Pill, (UINT)ePills::TearsUp, L"Tears Up", std::bind(&ItemManager::TearsUp));
+			mPills[(UINT)ePills::TearsDown] = new ItemObject(eItemType::Pill, (UINT)ePills::TearsDown, L"Tears Down", std::bind(&ItemManager::TearsDown));
+			mPills[(UINT)ePills::SpeedUp] = new ItemObject(eItemType::Pill, (UINT)ePills::SpeedUp, L"Speed Up", std::bind(&ItemManager::SpeedUp));
+			mPills[(UINT)ePills::SpeedDown] = new ItemObject(eItemType::Pill, (UINT)ePills::SpeedDown, L"Speed Down", std::bind(&ItemManager::SpeedDown));
 		}
 
 		{ // Cards
 			mCards.resize((UINT)eCards::End);
-			mCards[1] = new ItemObject(eItemType::Card, (UINT)eCards::TheFool, L"The Fool", std::bind(&ItemManager::TheFool));
-			mCards[2] = new ItemObject(eItemType::Card, (UINT)eCards::TheLovers, L"The Lovers", std::bind(&ItemManager::TheLovers));
-			mCards[3] = new ItemObject(eItemType::Card, (UINT)eCards::Club2, L"2 of Clubs", std::bind(&ItemManager::Club2));
-			mCards[4] = new ItemObject(eItemType::Card, (UINT)eCards::Diamonds2, L"2 of Diamonds", std::bind(&ItemManager::Diamonds2));
-			mCards[5] = new ItemObject(eItemType::Card, (UINT)eCards::Spades2, L"2 of Spades", std::bind(&ItemManager::Spades2));
+			mCards[(UINT)eCards::TheFool] = new ItemObject(eItemType::Card, (UINT)eCards::TheFool, L"The Fool", std::bind(&ItemManager::TheFool));
+			mCards[(UINT)eCards::TheLovers] = new ItemObject(eItemType::Card, (UINT)eCards::TheLovers, L"The Lovers", std::bind(&ItemManager::TheLovers));
+			mCards[(UINT)eCards::Club2] = new ItemObject(eItemType::Card, (UINT)eCards::Club2, L"2 of Clubs", std::bind(&ItemManager::Club2));
+			mCards[(UINT)eCards::Diamonds2] = new ItemObject(eItemType::Card, (UINT)eCards::Diamonds2, L"2 of Diamonds", std::bind(&ItemManager::Diamonds2));
+			mCards[(UINT)eCards::Spades2] = new ItemObject(eItemType::Card, (UINT)eCards::Spades2, L"2 of Spades", std::bind(&ItemManager::Spades2));
 		}
 
 		{ // Trinket
 			
 		}
 
-		//{ // ActiveItem
-		//	mActiveEvents.resize((UINT)eActiveItem::End);
+		{ // ActiveItem
+			mActives.resize((UINT)eActiveItem::End);
 
-		//	for (size_t i = 0; i < (UINT)eActiveItem::End; i++)
-		//		mActiveEvents[i] = new Events();
-		//}
+			mActives[(UINT)eActiveItem::TheBible] = new ItemObject(eItemType::ActiveItem, (UINT)eActiveItem::TheBible, L"The Bible", 4, std::bind(&ItemManager::TheBible));
+			mActives[(UINT)eActiveItem::TammysHead] = new ItemObject(eItemType::ActiveItem, (UINT)eActiveItem::TammysHead, L"Tammy's Head", 1, std::bind(&ItemManager::TammysHead));
+			mActives[(UINT)eActiveItem::YumHeart] = new ItemObject(eItemType::ActiveItem, (UINT)eActiveItem::YumHeart, L"Yum Heart", 4, std::bind(&ItemManager::YumHeart));
+		}
 
 	}
 
@@ -67,6 +69,16 @@ namespace ya
 		layer.AddGameObject(card);
 
 		return card;
+	}
+
+	ActiveItem* ItemManager::CreateActiveItem(eActiveItem activeType)
+	{
+		ActiveItem* active = new ActiveItem(activeType);
+		Scene * scene = SceneManager::GetActiveScene();
+		Layer& layer = scene->GetLayer(eLayerType::Item);
+		layer.AddGameObject(active);
+
+		return active;
 	}
 
 	/*std::vector<ItemManager::Events*> ItemManager::GetEvent(eItemType itemType)
@@ -248,5 +260,27 @@ namespace ya
 			player->AddKey(key);
 		else
 			player->AddKey(2);
+	}
+
+	void ItemManager::TheBible()
+	{
+	}
+
+	/// <summary>
+	/// ´«¹° ¿©´ü°¥·¡·Î ¹ß»ç
+	/// </summary>
+	void ItemManager::TammysHead()
+	{
+	}
+
+	void ItemManager::YumHeart()
+	{
+		Scene* scene = SceneManager::GetActiveScene();
+		Player* player = scene->GetPlayer();
+
+		if (player == nullptr)
+			return;
+
+		player->AddHeart(2);
 	}
 }

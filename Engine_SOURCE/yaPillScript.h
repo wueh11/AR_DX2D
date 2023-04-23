@@ -1,7 +1,7 @@
 #pragma once
 #include "yaEngine.h"
 #include "yaScript.h"
-#include "IsaacItems.h"
+#include "Isaac.h"
 #include <functional>
 
 namespace ya
@@ -11,26 +11,6 @@ namespace ya
 	class Animator;
 	class PillScript : public Script
 	{
-		struct Events
-		{
-			struct Event
-			{
-				void operator=(std::function<void()> func)
-				{
-					mEvent = std::move(func);
-				}
-				void operator()()
-				{
-					if (mEvent)
-						mEvent();
-				}
-
-				std::function<void()> mEvent;
-			};
-
-			std::vector<Event> mEvents;
-		};
-
 	public:
 		PillScript();
 		virtual ~PillScript();

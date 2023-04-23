@@ -2,7 +2,6 @@
 
 #include "yaTransform.h"
 #include "yaGameObject.h"
-#include "yaInput.h"
 #include "yaAnimator.h"
 #include "yaResources.h"
 #include "yaSpriteRenderer.h"
@@ -12,12 +11,22 @@
 #include "yaScene.h"
 #include "yaSceneManager.h"
 
+#include "yaItemManager.h"
+
+#include "yaRigidbody.h"
+#include "yaPlayerScript.h"
+#include "yaTime.h"
+
 namespace ya
 {
 	CardScript::CardScript()
 		: Script()
 		, mTransform(nullptr)
 		, mAnimator(nullptr)
+		, mCard(eCards::None)
+		, mbDeath(false)
+		, mTimer(0.1f)
+		, mCollideVelocity(Vector3::Zero)
 	{
 	}
 	CardScript::~CardScript()
@@ -26,8 +35,7 @@ namespace ya
 	void CardScript::Initialize()
 	{
 		mTransform = GetOwner()->GetComponent<Transform>();
-		mTransform->SetPosition(Vector3(0.0f, 2.0f, 1.0f));
-		mTransform->SetScale(Vector3(0.66f, 0.33f, 1.0f));
+		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 
 		mAnimator = GetOwner()->AddComponent<Animator>();
 
@@ -41,22 +49,18 @@ namespace ya
 		pillMr->SetMaterial(pillMaterial);
 
 		mAnimator->Create(L"None", pillTexture, Vector2(0.0f, 224.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"card_1", pillTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"card_2", pillTexture, Vector2(32.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"card_3", pillTexture, Vector2(64.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"card_4", pillTexture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"card_5", pillTexture, Vector2(32.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"card_6", pillTexture, Vector2(64.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"card_7", pillTexture, Vector2(0.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"card_8", pillTexture, Vector2(32.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"card_9", pillTexture, Vector2(64.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"card_10", pillTexture, Vector2(64.0f, 96.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"card_taro", pillTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"card_trump", pillTexture, Vector2(32.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 		mAnimator->Play(L"None", false);
-
 	}
 
 	void CardScript::Update()
 	{
+		if (mTimer < 0.0f)
+			Death();
+
+		if (mbDeath && mTimer > 0.0f)
+			Take();
 	}
 
 	void CardScript::FixedUpdate()
@@ -73,6 +77,17 @@ namespace ya
 		Player* player = dynamic_cast<Player*>(other);
 		if (player != nullptr)
 		{
+			PlayerScript* playerScript = player->GetScript<PlayerScript>();
+			playerScript->gainConsumable(eItemType::Card, (UINT)mCard);
+
+			mbDeath = true;
+		}
+		else
+		{
+			Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
+			if (rigidbody == nullptr)
+				return;
+			mCollideVelocity = rigidbody->GetVelocity();
 		}
 	}
 
@@ -96,7 +111,18 @@ namespace ya
 	{
 		mCard = type;
 
-		if (mCard != eCards::None)
-			mAnimator->Play(L"card_" + std::to_wstring((UINT)mCard), false);
+		if ((UINT)mCard > (UINT)eCards::Taro && (UINT)mCard < (UINT)eCards::Trump)
+			mAnimator->Play(L"card_taro", false);
+		else if ((UINT)mCard > (UINT)eCards::Trump && (UINT)mCard < (UINT)eCards::End)
+			mAnimator->Play(L"card_trump", false);
+	}
+	void CardScript::Take()
+	{
+	}
+	void CardScript::Pause()
+	{
+	}
+	void CardScript::Death()
+	{
 	}
 }

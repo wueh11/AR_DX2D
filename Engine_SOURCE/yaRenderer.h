@@ -35,6 +35,7 @@ namespace ya::renderer
 		float fData;
 		Vector2 xy;
 		Vector3 xyz;
+		int padding1;
 		Vector4 xyzw;
 		Matrix matrix;
 	};

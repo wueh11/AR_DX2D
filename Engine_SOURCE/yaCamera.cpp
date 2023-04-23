@@ -147,6 +147,8 @@ namespace ya
 		{
 			if (obj == nullptr)
 				continue;
+			if (obj->GetState() != GameObject::eState::Active)
+				continue;
 
 			obj->Render();
 		}
@@ -158,6 +160,8 @@ namespace ya
 		{
 			if (obj == nullptr)
 				continue;
+			if (obj->GetState() != GameObject::eState::Active)
+				continue;
 
 			obj->Render();
 		}
@@ -168,6 +172,8 @@ namespace ya
 		for (GameObject* obj : mTransparentGameObjects)
 		{
 			if (obj == nullptr)
+				continue;
+			if (obj->GetState() != GameObject::eState::Active)
 				continue;
 
 			obj->Render();
