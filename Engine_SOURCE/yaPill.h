@@ -15,6 +15,9 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
+	public:
+		ePills GetPillType() { return mPill; }
+
 	private:
 		ePills mPill;
 	};

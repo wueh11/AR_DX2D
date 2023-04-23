@@ -1,4 +1,5 @@
 #include "yaActiveItemScript.h"
+#include "yaActiveItem.h"
 
 #include "yaTransform.h"
 #include "yaGameObject.h"
@@ -79,7 +80,7 @@ namespace ya
 					Player::Items item = player->GetItem();
 					eActiveItem temp = item.activeItem;
 
-					playerScript->gainActiveItem(mActiveItem);
+					playerScript->gainActiveItem(dynamic_cast<ActiveItem*>(GetOwner()));
 					SetActiveItem(temp);
 				}
 			}

@@ -4,7 +4,7 @@
 namespace ya
 {
 	HeartHalf::HeartHalf()
-		: Pickup(isaac::ePickupType::HeartHalf)
+		: Pickup(isaac::eItemType::HeartHalf)
 	{
 		HeartScript* heartScript = AddComponent<HeartScript>();
 	}

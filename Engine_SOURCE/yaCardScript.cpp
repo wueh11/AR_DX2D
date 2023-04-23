@@ -16,6 +16,7 @@
 #include "yaRigidbody.h"
 #include "yaPlayerScript.h"
 #include "yaTime.h"
+#include "yaPickup.h"
 
 namespace ya
 {
@@ -78,7 +79,8 @@ namespace ya
 		if (player != nullptr)
 		{
 			PlayerScript* playerScript = player->GetScript<PlayerScript>();
-			playerScript->gainConsumable(eItemType::Card, (UINT)mCard);
+			//playerScript->gainConsumable(eItemType::Card, (UINT)mCard);
+			playerScript->gainConsumable(dynamic_cast<Pickup*>(GetOwner()));
 
 			mbDeath = true;
 		}
@@ -118,11 +120,19 @@ namespace ya
 	}
 	void CardScript::Take()
 	{
+		Vector3 scale = mTransform->GetScale();
+		scale.x -= 0.01f;
+		scale.y += 0.01f;
+		mTransform->SetScale(scale);
+
+		mTimer -= Time::DeltaTime();
 	}
 	void CardScript::Pause()
 	{
+		GetOwner()->Pause();
 	}
 	void CardScript::Death()
 	{
+		GetOwner()->Death();
 	}
 }

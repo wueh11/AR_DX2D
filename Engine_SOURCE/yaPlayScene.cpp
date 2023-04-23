@@ -33,6 +33,8 @@
 
 #include "yaItemManager.h"
 
+#include "yaGaper.h"
+
 namespace ya
 {
 	PlayScene::PlayScene()
@@ -166,7 +168,7 @@ namespace ya
 			playerTr->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 			Collider2D* collider = player->AddComponent<Collider2D>();
 			collider->SetSize(Vector2(0.5f, 0.5f));
-			collider->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			//collider->SetCenter(Vector2(0.0f, -0.1f));
 			collider->SetColliderType(eColliderType::Rect);
 
 			SetPlayer(player);
@@ -241,6 +243,13 @@ namespace ya
 			activeTr->SetPosition(Vector3(-2.0f, -1.0f, -10.0f));
 		}
 
+		{
+			Gaper* gaper = object::Instantiate<Gaper>(eLayerType::Monster);
+			Transform* gaperTr = gaper->GetComponent<Transform>();
+			gaperTr->SetPosition(Vector3(1.0f, -1.2f, -10.0f));
+		}
+
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Wall, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Projectile, eLayerType::Wall, true);
 

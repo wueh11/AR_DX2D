@@ -47,6 +47,8 @@ namespace ya
 		
 		std::wstring& AnimationName() { return mAnimationName; }
 
+		std::shared_ptr<Texture> GetAtlas() { return mAtlas; }
+		Sprite GetSprite() { return mSpriteSheet[mIndex]; }
 
 	private:
 		class Animator* mAnimator;

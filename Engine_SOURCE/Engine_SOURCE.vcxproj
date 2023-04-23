@@ -158,6 +158,7 @@
     <ClInclude Include="Isaac.h" />
     <ClInclude Include="yaCollectibleScript.h" />
     <ClInclude Include="yaGaper.h" />
+    <ClInclude Include="yaGaperScript.h" />
     <ClInclude Include="yaItemObject.h" />
     <ClInclude Include="yaActiveItem.h" />
     <ClInclude Include="yaActiveItemScript.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="yaImageRenderer.h" />
     <ClInclude Include="yaItem.h" />
     <ClInclude Include="yaItemManager.h" />
+    <ClInclude Include="yaMonsterScript.h" />
     <ClInclude Include="yaPickupScript.h" />
     <ClInclude Include="yaParticleShader.h" />
     <ClInclude Include="yaPassiveItem.h" />
@@ -258,6 +260,7 @@
     <ClCompile Include="yaCollectibleScript.cpp" />
     <ClCompile Include="yaFireplace.cpp" />
     <ClCompile Include="yaGaper.cpp" />
+    <ClCompile Include="yaGaperScript.cpp" />
     <ClCompile Include="yaItem.cpp" />
     <ClCompile Include="yaAnimation.cpp" />
     <ClCompile Include="yaAnimator.cpp" />
@@ -283,6 +286,7 @@
     <ClCompile Include="yaHeartScript.cpp" />
     <ClCompile Include="yaImageRenderer.cpp" />
     <ClCompile Include="yaItemManager.cpp" />
+    <ClCompile Include="yaMonsterScript.cpp" />
     <ClCompile Include="yaPickupScript.cpp" />
     <ClCompile Include="yaParticleShader.cpp" />
     <ClCompile Include="yaPassiveItem.cpp" />

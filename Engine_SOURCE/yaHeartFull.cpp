@@ -4,7 +4,7 @@
 namespace ya
 {
 	HeartFull::HeartFull()
-		: Pickup(isaac::ePickupType::HeartFull)
+		: Pickup(isaac::eItemType::HeartFull)
 	{
 		HeartScript* heartScript = AddComponent<HeartScript>();
 	}

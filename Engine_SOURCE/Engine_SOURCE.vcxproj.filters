@@ -172,6 +172,12 @@
     <Filter Include="GameObject\Monsters\Base">
       <UniqueIdentifier>{3ebf006f-57ad-49d8-a974-6d254e6a582a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Script\Contents\Monsters">
+      <UniqueIdentifier>{e57cbd25-a915-49cb-8ad8-56e2f32f8f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\Monsters\Base">
+      <UniqueIdentifier>{22a4f0ad-35a7-4a34-9b11-d63cd65a54c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -432,6 +438,12 @@
     </ClCompile>
     <ClCompile Include="yaGaper.cpp">
       <Filter>GameObject\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMonsterScript.cpp">
+      <Filter>Component\Script\Contents\Monsters\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGaperScript.cpp">
+      <Filter>Component\Script\Contents\Monsters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -715,6 +727,12 @@
     </ClInclude>
     <ClInclude Include="yaGaper.h">
       <Filter>GameObject\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonsterScript.h">
+      <Filter>Component\Script\Contents\Monsters\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGaperScript.h">
+      <Filter>Component\Script\Contents\Monsters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

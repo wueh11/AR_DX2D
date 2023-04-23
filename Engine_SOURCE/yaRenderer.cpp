@@ -448,6 +448,7 @@ namespace ya::renderer
 
 		{ // effect
 			Resources::Load<Texture>(L"tearpoofa", L"Issac\\effect_015_tearpoofa.png");
+			Resources::Load<Texture>(L"starflash", L"Issac\\effect_023_starflash.png");
 			Resources::Load<Texture>(L"explosion", L"Issac\\effect_029_explosion.png");
 		}
 
@@ -507,6 +508,11 @@ namespace ya::renderer
 
 		{ // land
 
+		}
+
+		{ // monster
+			Resources::Load<Texture>(L"monster_bodies01", L"Issac\\monsters\\monster_000_bodies01.png");
+			Resources::Load<Texture>(L"monster_gaper", L"Issac\\monsters\\monster_017_gaper.png");
 		}
 	}
 
@@ -584,6 +590,15 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"isaacMaterial", material);
 		}
 
+		{ // issac item
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"image");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"gainItemMaterial", material);
+		}
+
 		{ // tearpoofa
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"tearpoofa");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -591,6 +606,15 @@ namespace ya::renderer
 			material->SetShader(spriteShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"tearpoofaMaterial", material);
+		}
+
+		{ // starflash
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"starflash");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"starflashMaterial", material);
 		}
 
 		{ // bomb explosion
@@ -852,6 +876,7 @@ namespace ya::renderer
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"basementMaterial", material);
 			}
+
 			{ //controls
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"controls");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -862,6 +887,25 @@ namespace ya::renderer
 			}
 		}
 
+		{ // monsters
+			{ // body
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"monster_bodies01");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"monsterBodiesMaterial", material);
+			}
+
+			{ // gaper
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"monster_gaper");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"gaperMaterial", material);
+			}
+		}
 	}
 
 	void Initialize()

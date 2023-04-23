@@ -49,6 +49,7 @@ namespace ya
 			, Vector2 leftTop, Vector2 size, Vector2 offset
 			, UINT spriteLength, float duration, UINT spriteRow = 1, UINT spriteColumn = 1);
 
+		Animation* GetActiveAnimation() { return mActiveAnimation; }
 		Animation* FindAnimation(const std::wstring& name);
 		Events* FindEvents(const std::wstring& name);
 		void Play(const std::wstring& name, bool loop = true);
@@ -63,6 +64,7 @@ namespace ya
 
 		std::shared_ptr<Material> GetMaterial() { return mMaterial; }
 		void SetMaterial(std::shared_ptr<Material> material) { mMaterial = material; }
+
 
 	private:
 		std::map<std::wstring, Animation*> mAnimations;

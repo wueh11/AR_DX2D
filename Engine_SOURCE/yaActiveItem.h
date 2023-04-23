@@ -15,6 +15,9 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
+	public:
+		isaac::eActiveItem GetActveItemType() { return mType; }
+
 	private:
 		isaac::eActiveItem mType;
 	};

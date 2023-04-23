@@ -4,7 +4,7 @@
 
 namespace ya
 {
-	Pickup::Pickup(ePickupType pickupType)
+	Pickup::Pickup(eItemType pickupType)
 		: GameObject()
 		, mItemType(pickupType)
 	{

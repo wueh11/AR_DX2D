@@ -37,9 +37,11 @@ namespace ya
 
 		void Binds();
 		void SetImageSize(std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size);
+		void SetSprite(std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 atlasSize);
 		void Clear();
 
 		void SetImage(std::shared_ptr<Texture> atlas) { mAtlas = atlas; }
+		CutImage GetImage() { return mImage; }
 
 	private:
 		std::shared_ptr<Texture> mAtlas;

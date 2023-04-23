@@ -5,7 +5,7 @@
 namespace ya
 {
 	Pill::Pill(ePills type)
-		: Pickup(ePickupType::Pill)
+		: Pickup(eItemType::Pill)
 		, mPill(type)
 	{
 		PillScript* pillScript = AddComponent<PillScript>();

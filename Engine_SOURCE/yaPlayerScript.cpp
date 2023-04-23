@@ -1,21 +1,26 @@
 #include "yaPlayerScript.h"
-#include "yaTransform.h"
+#include "yaPlayer.h"
+
+#include "yaObject.h"
 #include "yaGameObject.h"
+
+#include "yaResources.h"
 #include "yaInput.h"
 #include "yaTime.h"
+
+#include "yaTransform.h"
 #include "yaAnimator.h"
 #include "yaRigidbody.h"
-#include "yaResources.h"
+
 #include "yaSpriteRenderer.h"
-#include "yaObject.h"
+#include "yaImageRenderer.h"
 
 #include "yaItemManager.h"
 #include "yaTear.h"
-#include "yaDropBomb.h"
-#include "yaPickup.h"
-#include "yaPlayer.h"
-
 #include "yaItem.h"
+#include "yaActiveItem.h"
+#include "yaPickup.h"
+#include "yaDropBomb.h"
 #include "yaPill.h"
 #include "yaCard.h"
 
@@ -27,6 +32,8 @@ namespace ya
 		, mRigidbody(nullptr)
 		, mHead(nullptr)
 		, mBody(nullptr)
+		, mStarflash(nullptr)
+		, mGainItem(nullptr)
 
 		, mInvincibleTime(0.0f)
 		, mInvincibleTimeMax(1.5f)
@@ -110,6 +117,39 @@ namespace ya
 		headTr->SetPosition(Vector3(0.0f, 0.15f, 0.0f));
 		Transform* bodyTr = mBody->GetComponent<Transform>();
 		bodyTr->SetPosition(Vector3(0.0f, -0.15f, 0.0f));
+
+		{ // starflash
+			mStarflash = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
+
+			std::shared_ptr<Material> starflashMaterial = Resources::Find<Material>(L"starflashMaterial");
+			std::shared_ptr<Texture> starflashTexture = starflashMaterial->GetTexture();
+			
+			SpriteRenderer* starflashMr = mStarflash->AddComponent<SpriteRenderer>();
+			starflashMr->SetMesh(mesh);
+			starflashMr->SetMaterial(starflashMaterial);
+
+			Animator* starflashAnimator = mStarflash->AddComponent<Animator>();
+			starflashAnimator->Create(L"starflash", starflashTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 12, 0.1f, 4, 3);
+			starflashAnimator->Play(L"starflash", true);
+
+			Transform* starflashTr = mStarflash->GetComponent<Transform>();
+			starflashTr->SetPosition(Vector3(0.0f, 0.7f, 1.0f));
+			//starflashTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
+			mStarflash->Pause();
+		}
+
+		{
+			mGainItem = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
+
+			std::shared_ptr<Material> gainItemMaterial = Resources::Find<Material>(L"gainItemMaterial");
+			ImageRenderer* gainItemMr = mGainItem->AddComponent<ImageRenderer>();
+			gainItemMr->SetMesh(mesh);
+			gainItemMr->SetMaterial(gainItemMaterial);
+
+			Transform* gainItemTr = mGainItem->GetComponent<Transform>();
+			gainItemTr->SetPosition(Vector3(0.0f, 0.7f, 1.0f));
+			mGainItem->Pause();
+		}
 	}
 
 	void PlayerScript::Update()
@@ -142,10 +182,14 @@ namespace ya
 			if (mItemActionTime > 0.0f)
 			{
 				mItemActionTime -= Time::DeltaTime();
+				mStarflash->SetActive();
+				mGainItem->SetActive();
 			}
 			else
 			{
 				mbItemAction = false;
+				mStarflash->Pause();
+				mGainItem->Pause();
 				Idle();
 			}
 		}
@@ -185,8 +229,6 @@ namespace ya
 		if (Input::GetKeyDown(eKeyCode::Q))
 		{
 			UseConsumable();
-			ItemAction();
-
 		}
 
 		// 장신구, 소모품 드랍
@@ -408,11 +450,6 @@ namespace ya
 		{
 			headAnimator->Play(L"SideIdle", true);
 		}
-
-		/*if (Input::GetKeyNone(eKeyCode::UP) && Input::GetKeyNone(eKeyCode::DOWN) && Input::GetKeyNone(eKeyCode::LEFT) && Input::GetKeyNone(eKeyCode::RIGHT))
-		{
-			headAnimator->Play(L"FrontIdle", true);
-		}*/
 	}
 
 	void PlayerScript::ItemAction()
@@ -482,22 +519,36 @@ namespace ya
 		mbInvincible = true;
 	}
 
-	void PlayerScript::gainActiveItem(eActiveItem active)
+	void PlayerScript::gainActiveItem(ActiveItem* item)
 	{
 		Player* player = dynamic_cast<Player*>(GetOwner());
-		Player::Items item = player->GetItem();
-
+		
+		eActiveItem active = item->GetActveItemType();
 		player->SetActiveItem(active);
 		ItemAction();
+
+		ImageRenderer* rd = mGainItem->GetComponent<ImageRenderer>();
+		Animator* objectAnimator = item->GetComponent<Animator>();
+		if (objectAnimator != nullptr)
+		{
+			std::shared_ptr<Texture> texture = objectAnimator->GetActiveAnimation()->GetAtlas();
+			Animation::Sprite sprite = objectAnimator->GetActiveAnimation()->GetSprite();
+			rd->SetSprite(texture, sprite.leftTop, sprite.size, sprite.atlasSize);
+		}
 	}
 
-	void PlayerScript::gainConsumable(eItemType type, UINT num)
+	void PlayerScript::gainConsumable(Pickup* pickup)
 	{
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		Player::Items item = player->GetItem();
+
+		eItemType type = pickup->GetItemType();
 
 		if (type == eItemType::Pill)
 		{
+			Pill* pill = dynamic_cast<Pill*>(pickup);
+			ePills type = pill->GetPillType();
+
 			if (item.pill != ePills::None)
 			{
 				// TODO: 아이템 교체
@@ -508,11 +559,14 @@ namespace ya
 				player->SetCard(eCards::None);
 			}
 
-			player->SetPill((ePills)num);
-			
+			player->SetPill(type);
+
 		}
 		else if (type == eItemType::Card)
 		{
+			Card* card = dynamic_cast<Card*>(pickup);
+			eCards type = card->GetCardType();
+
 			if (item.card != eCards::None)
 			{
 				// TODO: 아이템 교체
@@ -523,11 +577,20 @@ namespace ya
 				player->SetPill(ePills::None);
 			}
 
-			player->SetCard((eCards)num);
+			player->SetCard(type);
 		}
-		ItemAction();
-	}
 
+		ItemAction();
+		ImageRenderer* rd = mGainItem->GetComponent<ImageRenderer>();
+		Animator* objectAnimator = pickup->GetComponent<Animator>();
+		if (objectAnimator != nullptr)
+		{
+			std::shared_ptr<Texture> texture = objectAnimator->GetActiveAnimation()->GetAtlas();
+			Animation::Sprite sprite = objectAnimator->GetActiveAnimation()->GetSprite();
+			rd->SetSprite(texture, sprite.leftTop, sprite.size, sprite.atlasSize);
+		}
+	}
+	
 	void PlayerScript::UseActiveItem()
 	{
 		Player* player = dynamic_cast<Player*>(GetOwner());

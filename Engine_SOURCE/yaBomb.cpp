@@ -5,7 +5,7 @@
 namespace ya
 {
 	Bomb::Bomb()
-		: Pickup(ePickupType::Bomb)
+		: Pickup(eItemType::Bomb)
 	{
 		BombScript* bombScript = AddComponent<BombScript>();
 	}

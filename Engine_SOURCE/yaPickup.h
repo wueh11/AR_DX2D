@@ -8,7 +8,7 @@ namespace ya
 	class Pickup : public GameObject
 	{
 	public:
-		Pickup(ePickupType itemType);
+		Pickup(eItemType itemType);
 		virtual ~Pickup();
 
 		virtual void Initialize();
@@ -20,10 +20,10 @@ namespace ya
 		void Take();
 
 	public:
-		ePickupType GetItemType() { return mItemType; }
+		eItemType GetItemType() { return mItemType; }
 
 	protected:
-		ePickupType mItemType;
+		eItemType mItemType;
 		float mTimer;
 	};
 }

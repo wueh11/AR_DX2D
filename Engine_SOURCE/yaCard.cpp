@@ -5,7 +5,7 @@
 namespace ya
 {
 	Card::Card(eCards type)
-		: Pickup(ePickupType::Card)
+		: Pickup(eItemType::Card)
 		, mCard(type)
 	{
 		CardScript* cardScript = AddComponent<CardScript>();

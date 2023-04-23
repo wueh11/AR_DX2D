@@ -9,9 +9,9 @@
 
 namespace ya
 {
-
 	std::vector<ItemObject*> ItemManager::mPills = {};
 	std::vector<ItemObject*> ItemManager::mCards = {};
+	std::vector<ItemObject*> ItemManager::mTrinkets = {};
 	std::vector<ItemObject*> ItemManager::mActives = {};
 
 	void ItemManager::Initialize()
@@ -38,7 +38,9 @@ namespace ya
 		}
 
 		{ // Trinket
-			
+			mTrinkets.resize((UINT)eTrinkets::End);
+			mTrinkets[(UINT)eTrinkets::FishHead] = new ItemObject(eItemType::Trinket, (UINT)eTrinkets::FishHead, L"Fish Head", std::bind(&ItemManager::FishHead));
+			mTrinkets[(UINT)eTrinkets::PinkyEye] = new ItemObject(eItemType::Trinket, (UINT)eTrinkets::PinkyEye, L"Pinky Eye", std::bind(&ItemManager::PinkyEye));
 		}
 
 		{ // ActiveItem
@@ -260,6 +262,14 @@ namespace ya
 			player->AddKey(key);
 		else
 			player->AddKey(2);
+	}
+
+	void ItemManager::FishHead()
+	{
+	}
+
+	void ItemManager::PinkyEye()
+	{
 	}
 
 	void ItemManager::TheBible()

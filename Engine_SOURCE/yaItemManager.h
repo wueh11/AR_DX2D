@@ -39,7 +39,9 @@ namespace ya
 		static void Spades2();
 
 		//Trinkets
-
+		static void FishHead();
+		static void PinkyEye();
+		
 		//Actives
 		static void TheBible();
 		static void TammysHead();

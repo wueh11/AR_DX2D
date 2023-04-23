@@ -75,6 +75,19 @@ namespace ya
 		mImage.atlasSize = Vector2(size.x / mImage.atlasWidth, size.y / mImage.atlasHeight);
 	}
 
+	void ImageRenderer::SetSprite(std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 atlasSize)
+	{
+		mAtlas = atlas;
+
+		// 텍스쳐 이미지 크기
+		mImage.atlasWidth = (float)atlas->GetWidth();
+		mImage.atlasHeight = (float)atlas->GetHeight();
+
+		mImage.leftTop = leftTop;
+		mImage.size = size;
+		mImage.atlasSize = atlasSize;
+	}
+
 	void ImageRenderer::Clear()
 	{
 		// Texture clear

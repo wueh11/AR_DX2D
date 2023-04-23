@@ -1,9 +1,13 @@
 #include "yaGaper.h"
+#include "yaGaperScript.h"
 
 namespace ya
 {
 	Gaper::Gaper()
+		: Monster()
 	{
+		mType = eMonsterType::Gaper;
+		AddComponent<GaperScript>();
 	}
 	Gaper::~Gaper()
 	{

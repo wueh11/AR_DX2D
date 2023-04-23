@@ -1,9 +1,17 @@
 #include "yaMonster.h"
+#include "yaRigidbody.h"
+#include "yaCollider2D.h"
 
 namespace ya
 {
 	Monster::Monster()
+		: mType(eMonsterType::None)
+		, mHp(-1)
 	{
+		Collider2D* collider = AddComponent<Collider2D>();
+		collider->SetColliderType(eColliderType::Rect);
+		collider->SetSize(Vector2(0.5f, 0.5f));
+		AddComponent<Rigidbody>();
 	}
 	Monster::~Monster()
 	{

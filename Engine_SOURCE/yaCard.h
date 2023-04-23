@@ -15,6 +15,9 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
+	public:
+		eCards GetCardType() { return mCard; }
+
 	private:
 		eCards mCard;
 	};

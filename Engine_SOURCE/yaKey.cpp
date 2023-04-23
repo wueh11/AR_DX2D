@@ -4,7 +4,7 @@
 namespace ya
 {
 	Key::Key()
-		: Pickup(ePickupType::Key)
+		: Pickup(eItemType::Key)
 	{
 		KeyScript* keyScript = AddComponent<KeyScript>();
 	}

@@ -43,12 +43,12 @@ namespace ya
 		heartMr->SetMaterial(heartMaterial);
 
 		Pickup* item = dynamic_cast<Pickup*>(GetOwner());
-		isaac::ePickupType itemType = item->GetItemType();
-		if (itemType == ePickupType::HeartFull)
+		isaac::eItemType itemType = item->GetItemType();
+		if (itemType == eItemType::HeartFull)
 			heartMr->SetImageSize(heartTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f));
-		else if (itemType == ePickupType::HeartHalf)
+		else if (itemType == eItemType::HeartHalf)
 			heartMr->SetImageSize(heartTexture, Vector2(32.0f, 0.0f), Vector2(32.0f, 32.0f));
-		else if (itemType == ePickupType::SoulHeartFull)
+		else if (itemType == eItemType::SoulHeartFull)
 			heartMr->SetImageSize(heartTexture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f));
 
 	}
@@ -81,19 +81,19 @@ namespace ya
 		{
 			Player::Info info = player->GetInfo();
 			Pickup* item = dynamic_cast<Pickup*>(GetOwner());
-			isaac::ePickupType itemType = item->GetItemType();
+			isaac::eItemType itemType = item->GetItemType();
 
-			if (info.heartMax < 12 && itemType == ePickupType::SoulHeartFull)
+			if (info.heartMax < 12 && itemType == eItemType::SoulHeartFull)
 			{
 				player->AddSoulHeart(2);
 				mbDeath = true;
 			}
-			else if (info.heartMax > info.heart && itemType == ePickupType::HeartFull)
+			else if (info.heartMax > info.heart && itemType == eItemType::HeartFull)
 			{
 				player->AddHeart(2);
 				mbDeath = true;
 			}
-			else if (info.heartMax > info.heart && itemType == ePickupType::HeartHalf)
+			else if (info.heartMax > info.heart && itemType == eItemType::HeartHalf)
 			{
 				player->AddHeart(1);
 				mbDeath = true;

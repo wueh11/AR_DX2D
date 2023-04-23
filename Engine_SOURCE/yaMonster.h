@@ -4,14 +4,9 @@
 
 namespace ya
 {
+	using namespace isaac;
 	class Monster : public GameObject
 	{
-		struct Info
-		{
-			int hp;
-			isaac::eMonsterType type;
-		};
-
 	public:
 		Monster();
 		virtual ~Monster();
@@ -21,6 +16,8 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
-	private:
+	public:
+		eMonsterType mType;
+		int mHp;
 	};
 }

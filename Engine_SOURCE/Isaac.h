@@ -20,25 +20,35 @@ namespace ya::isaac
 	enum class eItemType
 	{
 		None,
+
 		ActiveItem,
 		PassiveItem,
+		Trinket,
 		Pill,
 		Card,
-		End,
-	};
 
-	enum class ePickupType
-	{
-		None,
 		Coin,
 		Bomb,
 		Key,
 		HeartHalf,
 		HeartFull,
 		SoulHeartFull,
-		Pill,
-		Card,
+
+		End,
 	};
+
+	//enum class eItemType
+	//{
+	//	None,
+	//	Coin,
+	//	Bomb,
+	//	Key,
+	//	HeartHalf,
+	//	HeartFull,
+	//	SoulHeartFull,
+	//	Pill,
+	//	Card,
+	//};
 
 	enum class eActiveItem
 	{
@@ -65,6 +75,7 @@ namespace ya::isaac
 		None,
 		FishHead, //피격당할시 푸른파리생김
 		PinkyEye, // 10%확률로 중독 상태이상을 주는 눈물 발사
+		End,
 	};
 
 	enum class ePills

@@ -50,8 +50,8 @@ namespace ya
 		void Tears(Vector3 direction);
 		void Invincible();
 
-		void gainActiveItem(eActiveItem item);
-		void gainConsumable(eItemType type, UINT num);
+		void gainActiveItem(class ActiveItem* item);
+		void gainConsumable(class Pickup* pickup);
 
 		void UseActiveItem();
 		void UseConsumable();
@@ -66,6 +66,9 @@ namespace ya
 
 		GameObject* mHead;
 		GameObject* mBody;
+
+		GameObject* mStarflash;
+		GameObject* mGainItem;
 
 		float mInvincibleTime;
 		float mInvincibleTimeMax;

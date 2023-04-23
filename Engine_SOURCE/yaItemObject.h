@@ -76,6 +76,7 @@ namespace ya
 
 	private:
 		isaac::eItemType mItemType;
+		std::shared_ptr<Texture> mTexture;
 		UINT mType;
 		std::wstring mName;
 		Events* mEvent;

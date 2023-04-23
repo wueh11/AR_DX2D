@@ -4,7 +4,7 @@
 namespace ya
 {
 	Coin::Coin()
-		: Pickup(ePickupType::Coin)
+		: Pickup(eItemType::Coin)
 	{
 		CoinScript* coinScript = AddComponent<CoinScript>();
 	}

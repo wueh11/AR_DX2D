@@ -17,6 +17,7 @@
 #include "yaRigidbody.h"
 #include "yaPlayerScript.h"
 #include "yaTime.h"
+#include "yaPickup.h"
 
 namespace ya
 {
@@ -89,7 +90,8 @@ namespace ya
 		if (player != nullptr)
 		{
 			PlayerScript* playerScript = player->GetScript<PlayerScript>();
-			playerScript->gainConsumable(eItemType::Pill, (UINT)mPill);
+			//playerScript->gainConsumable(eItemType::Pill, (UINT)mPill);
+			playerScript->gainConsumable(dynamic_cast<Pickup*>(GetOwner()));
 
 			mbDeath = true;
 		}
