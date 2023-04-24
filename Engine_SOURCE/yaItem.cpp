@@ -1,4 +1,5 @@
 #include "yaItem.h"
+#include "yaRigidbody.h"
 
 namespace ya
 {
@@ -8,6 +9,8 @@ namespace ya
 		Collider2D* collider = AddComponent<Collider2D>();
 		collider->SetSize(Vector2(0.5f, 0.5f));
 		collider->SetColliderType(eColliderType::Rect);
+
+		AddComponent<Rigidbody>();
 	}
 	Item::~Item()
 	{

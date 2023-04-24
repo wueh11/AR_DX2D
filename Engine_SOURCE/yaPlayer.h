@@ -59,14 +59,14 @@ namespace ya
 			std::vector<int> passiveItems; // 패시브 아이템
 			ePills pill;
 			eCards card;
-			eTrinkets trinkets; //장신구
+			eTrinkets trinket; //장신구
 
 			Items()
 				: activeItem(eActiveItem::None)
 				, passiveItems{}
 				, pill(ePills::None)
-				, card(eCards::TheLovers)
-				, trinkets(eTrinkets::None)
+				, card(eCards::None)
+				, trinket(eTrinkets::None)
 			{}
 		};
 
@@ -124,7 +124,7 @@ namespace ya
 		void SetPill(ePills pill) { mItem.pill = pill; }
 		void SetCard(eCards card) { mItem.card = card; }
 		void SetActiveItem(eActiveItem item) { mItem.activeItem = item; }
-		void SetTrinket(eTrinkets trinket) { mItem.trinkets = trinket; }
+		void SetTrinket(eTrinkets trinket) { mItem.trinket = trinket; }
 
 		void AddPassiveItem(ePassiveItem item) { mItem.passiveItems.push_back((UINT)item); }
 

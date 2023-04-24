@@ -1,14 +1,11 @@
 #pragma once
-#include "yaEngine.h"
-#include "yaScript.h"
+#include "yaPickupScript.h"
 #include "Isaac.h"
 
 namespace ya
 {
 	using namespace isaac;
-	class Transform;
-	class Animator;
-	class CardScript : public Script
+	class CardScript : public PickupScript
 	{
 	public:
 		CardScript();
@@ -31,19 +28,6 @@ namespace ya
 		void SetCard(eCards type);
 
 	private:
-		void Take();
-		void Pause();
-		void Death();
-
-	private:
-		Transform* mTransform;
-		Animator* mAnimator;
-
 		eCards mCard;
-
-		float mTimer;
-		bool mbDeath;
-
-		Vector3 mCollideVelocity;
 	};
 }

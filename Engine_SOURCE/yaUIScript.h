@@ -21,6 +21,9 @@ namespace ya
 		void SetPlayer(Player* player) { mPlayer = player; }
 
 	private:
+		void ActiveActiveItem(bool active);
+
+	private:
 		Player* mPlayer;
 		std::vector<GameObject*> mHearts;
 
@@ -29,7 +32,7 @@ namespace ya
 		GameObject* mChargeBar;
 		GameObject* mChargeGauge;
 		GameObject* mConsumable;
-		GameObject* Trinket;
+		GameObject* mTrinket;
 		
 		NumberScript* mCoinCount;
 		NumberScript* mBombCount;

@@ -6,6 +6,8 @@
 #include "yaPill.h"
 #include "yaCard.h"
 #include "yaActiveItem.h"
+#include "yaPassiveItem.h"
+#include "yaTrinket.h"
 
 namespace ya
 {
@@ -83,25 +85,15 @@ namespace ya
 		return active;
 	}
 
-	/*std::vector<ItemManager::Events*> ItemManager::GetEvent(eItemType itemType)
+	Trinket* ItemManager::CreateTrinket(eTrinkets trinketType)
 	{
-		if (itemType == eItemType::ActiveItem)
-		{ 
-			return mActiveEvents;
-		}
-		else if (itemType == eItemType::PassiveItem)
-		{
+		Trinket* trinket = new Trinket(trinketType);
+		Scene* scene = SceneManager::GetActiveScene();
+		Layer& layer = scene->GetLayer(eLayerType::Item);
+		layer.AddGameObject(trinket);
 
-		}
-		else if (itemType == eItemType::Pill)
-		{
-			return mPillEvents;
-		}
-		else if (itemType == eItemType::Card)
-		{
-			return mCardEvents;
-		}
-	}*/
+		return trinket;
+	}
 
 	std::vector<ItemObject*> ItemManager::GetItemObjects(eItemType itemType)
 	{

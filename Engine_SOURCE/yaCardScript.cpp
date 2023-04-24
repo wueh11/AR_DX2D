@@ -1,33 +1,22 @@
 #include "yaCardScript.h"
 
-#include "yaTransform.h"
-#include "yaGameObject.h"
-#include "yaAnimator.h"
 #include "yaResources.h"
+#include "yaGameObject.h"
+
+#include "yaTransform.h"
+#include "yaAnimator.h"
 #include "yaSpriteRenderer.h"
-#include "yaObject.h"
 
 #include "yaPlayer.h"
-#include "yaScene.h"
-#include "yaSceneManager.h"
-
-#include "yaItemManager.h"
-
-#include "yaRigidbody.h"
 #include "yaPlayerScript.h"
-#include "yaTime.h"
+
 #include "yaPickup.h"
 
 namespace ya
 {
 	CardScript::CardScript()
-		: Script()
-		, mTransform(nullptr)
-		, mAnimator(nullptr)
+		: PickupScript()
 		, mCard(eCards::None)
-		, mbDeath(false)
-		, mTimer(0.1f)
-		, mCollideVelocity(Vector3::Zero)
 	{
 	}
 	CardScript::~CardScript()
@@ -57,11 +46,7 @@ namespace ya
 
 	void CardScript::Update()
 	{
-		if (mTimer < 0.0f)
-			Death();
-
-		if (mbDeath && mTimer > 0.0f)
-			Take();
+		PickupScript::Update();
 	}
 
 	void CardScript::FixedUpdate()
@@ -73,33 +58,34 @@ namespace ya
 
 	void CardScript::OnCollisionEnter(Collider2D* collider)
 	{
-		GameObject* other = collider->GetOwner();
-
-		Player* player = dynamic_cast<Player*>(other);
-		if (player != nullptr)
+		if (mCard != eCards::None)
 		{
-			PlayerScript* playerScript = player->GetScript<PlayerScript>();
-			//playerScript->gainConsumable(eItemType::Card, (UINT)mCard);
-			playerScript->gainConsumable(dynamic_cast<Pickup*>(GetOwner()));
+			GameObject* other = collider->GetOwner();
 
-			mbDeath = true;
+			Player* player = dynamic_cast<Player*>(other);
+			if (player != nullptr)
+			{
+				PlayerScript* playerScript = player->GetScript<PlayerScript>();
+				if (playerScript->IsGainItem() && mbGain)
+				{
+					playerScript->gainConsumable(dynamic_cast<Pickup*>(GetOwner()));
+					mbDeath = true;
+				}
+			}
 		}
-		else
-		{
-			Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
-			if (rigidbody == nullptr)
-				return;
-			mCollideVelocity = rigidbody->GetVelocity();
-		}
+
+		PickupScript::OnCollisionEnter(collider);
 	}
 
 	void CardScript::OnCollisionStay(Collider2D* collider)
 	{
+		PickupScript::OnCollisionStay(collider);
 	}
-
 	void CardScript::OnCollisionExit(Collider2D* collider)
 	{
+		PickupScript::OnCollisionExit(collider);
 	}
+
 	void CardScript::OnTriggerEnter(Collider2D* collider)
 	{
 	}
@@ -117,22 +103,5 @@ namespace ya
 			mAnimator->Play(L"card_taro", false);
 		else if ((UINT)mCard > (UINT)eCards::Trump && (UINT)mCard < (UINT)eCards::End)
 			mAnimator->Play(L"card_trump", false);
-	}
-	void CardScript::Take()
-	{
-		Vector3 scale = mTransform->GetScale();
-		scale.x -= 0.01f;
-		scale.y += 0.01f;
-		mTransform->SetScale(scale);
-
-		mTimer -= Time::DeltaTime();
-	}
-	void CardScript::Pause()
-	{
-		GetOwner()->Pause();
-	}
-	void CardScript::Death()
-	{
-		GetOwner()->Death();
 	}
 }

@@ -485,6 +485,11 @@ namespace ya::renderer
 				Resources::Load<Texture>(L"cubeofmeat", L"Issac\\collectibles\\collectibles_073_cubeofmeat.png");
 				Resources::Load<Texture>(L"ouijaboard", L"Issac\\collectibles\\collectibles_115_ouijaboard.png");
 			}
+
+			{ // trinkets
+				Resources::Load<Texture>(L"fishhead", L"Issac\\trinkets\\trinket_029_fishhead.png");
+				Resources::Load<Texture>(L"pinkyeye", L"Issac\\trinkets\\trinket_030_pinkyeye.png");
+			}
 		}
 
 		{ // title

@@ -16,6 +16,7 @@ namespace ya
 		static class Pill* CreatePill(ePills pillType);
 		static class Card* CreateCard(eCards cardType);
 		static class ActiveItem* CreateActiveItem(eActiveItem activeType);
+		static class Trinket* CreateTrinket(eTrinkets trinketType);
 
 	public:
 		static std::vector<ItemObject*> GetItemObjects(eItemType itemType);

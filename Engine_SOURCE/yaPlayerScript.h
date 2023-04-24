@@ -40,6 +40,7 @@ namespace ya
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
+	public:
 		void Idle();
 		void Move();
 		void Attack();
@@ -52,13 +53,19 @@ namespace ya
 
 		void gainActiveItem(class ActiveItem* item);
 		void gainConsumable(class Pickup* pickup);
+		void gainTrinket(class Trinket* pickup);
 
 		void UseActiveItem();
 		void UseConsumable();
 
-		void ThrowItem();
+		void ThrowConsumable();
+		void ThrowTrinket();
 
 		bool IsItemAction() { return mbItemAction; }
+		bool IsGainItem() { return mbGainItem; }
+
+	private:
+		void SetGainItem(class Animator* animator);
 
 	private:
 		Transform* mTransform;
@@ -78,6 +85,13 @@ namespace ya
 		float mItemActionTimeMax;
 		bool mbItemAction;
 
+		float mDropTime;
+		float mDropTimeMax;
+
 		bool mbMove;
+		
+		float mGainItemTime;
+		float mGainItemTimeMax;
+		bool mbGainItem;
 	};
 }

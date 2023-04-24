@@ -1,15 +1,12 @@
 #pragma once
 #include "yaEngine.h"
-#include "yaScript.h"
+#include "yaPickupScript.h"
 #include "Isaac.h"
-#include <functional>
 
 namespace ya
 {
 	using namespace isaac;
-	class Transform;
-	class Animator;
-	class PillScript : public Script
+	class PillScript : public PickupScript
 	{
 	public:
 		PillScript();
@@ -32,19 +29,6 @@ namespace ya
 		void SetPill(ePills pill);
 
 	private:
-		void Take();
-		void Pause();
-		void Death();
-
-	private:
-		Transform* mTransform;
-		Animator* mAnimator;
-
 		ePills mPill;
-
-		float mTimer;
-		bool mbDeath;
-
-		Vector3 mCollideVelocity;
 	};
 }

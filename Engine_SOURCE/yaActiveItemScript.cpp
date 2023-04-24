@@ -1,23 +1,15 @@
 #include "yaActiveItemScript.h"
 #include "yaActiveItem.h"
 
-#include "yaTransform.h"
+#include "yaResources.h"
 #include "yaGameObject.h"
 
+#include "yaTransform.h"
 #include "yaAnimator.h"
-#include "yaResources.h"
 #include "yaSpriteRenderer.h"
-#include "yaObject.h"
 
 #include "yaPlayer.h"
-#include "yaScene.h"
-#include "yaSceneManager.h"
-
-#include "yaItemManager.h"
-
-#include "yaRigidbody.h"
 #include "yaPlayerScript.h"
-#include "yaTime.h"
 
 namespace ya
 {
@@ -66,16 +58,15 @@ namespace ya
 
 	void ActiveItemScript::OnCollisionEnter(Collider2D* collider)
 	{
-		GameObject* other = collider->GetOwner();
-
 		if (mActiveItem != eActiveItem::None)
 		{
+			GameObject* other = collider->GetOwner();
 			Player* player = dynamic_cast<Player*>(other);
 			if (player != nullptr)
 			{
 				PlayerScript* playerScript = player->GetScript<PlayerScript>();
 
-				if (!playerScript->IsItemAction())
+				if (playerScript->IsGainItem())
 				{
 					Player::Items item = player->GetItem();
 					eActiveItem temp = item.activeItem;

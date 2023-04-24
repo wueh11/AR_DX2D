@@ -25,7 +25,7 @@ namespace ya
 		, mActiveItem(nullptr)
 		, mChargeBar(nullptr)
 		, mConsumable(nullptr)
-		, Trinket(nullptr)
+		, mTrinket(nullptr)
 		, mKeyCount(nullptr)
 		, mBombCount(nullptr)
 		, mCoinCount(nullptr)
@@ -144,15 +144,32 @@ namespace ya
 			animator->Play(L"None", false);
 		}
 
+		{ // Trinket
+			mTrinket = object::Instantiate<GameObject>(eLayerType::UI);
+			Transform* ui_trinketTr = mTrinket->GetComponent<Transform>();
+			ui_trinketTr->SetPosition(Vector3(-4.2f, -2.4f, 0.0f));
+			ui_trinketTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
+
+			SpriteRenderer* ui_trinketMr = mTrinket->AddComponent<SpriteRenderer>();
+			ui_trinketMr->SetMesh(mesh);
+			ui_trinketMr->SetMaterial(material);
+
+			Animator* animator = mTrinket->AddComponent<Animator>();
+			animator->Create(L"None", Resources::Find<Texture>(L"transparent"), Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"trinket_" + std::to_wstring((UINT)eTrinkets::FishHead), Resources::Find<Texture>(L"fishhead"), Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"trinket_" + std::to_wstring((UINT)eTrinkets::PinkyEye), Resources::Find<Texture>(L"pinkyeye"), Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Play(L"None", false);
+		}
+
 		{ // ActiveItem
 			mActiveItem = object::Instantiate<GameObject>(eLayerType::UI);
 			Transform* activeitemTr = mActiveItem->GetComponent<Transform>();
 			activeitemTr->SetPosition(Vector3(-4.45f, 2.35f, 0.0f));
 			activeitemTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
-			SpriteRenderer* ui_heartsMr = mActiveItem->AddComponent<SpriteRenderer>();
-			ui_heartsMr->SetMesh(mesh);
-			ui_heartsMr->SetMaterial(material);
+			SpriteRenderer* ui_activeMr = mActiveItem->AddComponent<SpriteRenderer>();
+			ui_activeMr->SetMesh(mesh);
+			ui_activeMr->SetMaterial(material);
 
 			Animator* animator = mActiveItem->AddComponent<Animator>();
 			animator->Create(L"None", Resources::Find<Texture>(L"transparent"), Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f), Vector2::Zero, 1, 0.1f);
@@ -177,6 +194,8 @@ namespace ya
 				chargeBarBackgroundRenderer->SetMaterial(chargeBarMaterial);
 
 				chargeBarBackgroundRenderer->SetImageSize(chargeBarTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 32.0f));
+
+				mChargeBarBackground->Pause();
 			}
 
 			{ // gauge color
@@ -191,6 +210,8 @@ namespace ya
 				chargeBarGaugeRenderer->SetMaterial(chargebar_gaugeMaterial);
 
 				chargeBarGaugeRenderer->SetImageSize(chargeBarTexture, Vector2(16.0f, 0.0f), Vector2(16.0f, 32.0f));
+
+				mChargeGauge->Pause();
 			}
 
 			{	// charge row
@@ -213,6 +234,8 @@ namespace ya
 				animator->Create(L"charge_2", chargeBarTexture, Vector2(32.0f, 32.0f), Vector2(16.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 				animator->Create(L"charge_1", chargeBarTexture, Vector2(48.0f, 32.0f), Vector2(16.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 				animator->Play(L"None", false);
+
+				mChargeBar->Pause();
 			}
 		}
 
@@ -263,7 +286,6 @@ namespace ya
 		int soulhearthalf = info.soulHeart % 2;
 
 		int pos = 0;
-
 		for (size_t i = 0; i < heartmax; i++, pos++)
 		{
 			GameObject* obj = mHearts[pos];
@@ -316,13 +338,13 @@ namespace ya
 		mBombCount->SetNumber(pickup.bomb);
 		mKeyCount->SetNumber(pickup.key);
 
+		Player::Items items = mPlayer->GetItem();
 
 		// Consumble
 		{
 			Animator* animator = mConsumable->GetComponent<Animator>();
 			Transform* transform = mConsumable->GetComponent<Transform>();
 
-			Player::Items items = mPlayer->GetItem();
 			if (items.pill != ePills::None)
 			{
 				std::wstring name = L"pill_" + std::to_wstring((UINT)items.pill);
@@ -347,26 +369,34 @@ namespace ya
 			}
 		}
 
-		mConsumable->Pause();
-
 		// trinket
+		{
+			Animator* animator = mTrinket->GetComponent<Animator>();
+			Transform* transform = mTrinket->GetComponent<Transform>();
 
-		
+			if (items.trinket != eTrinkets::None)
+			{
+				std::wstring name = L"trinket_" + std::to_wstring((UINT)items.trinket);
+				Animation* animation = animator->FindAnimation(name);
+				transform->SetScale(Vector3(0.64f, 0.64f, 1.0f));
+
+				if (animation != nullptr)
+					animator->Play(name);
+			}
+			else
+			{
+				animator->Play(L"None");
+			}
+		}
 		
 		// active item
 		{
-			Player::Items item = mPlayer->GetItem();
-			eActiveItem activeItem = item.activeItem;
+			eActiveItem activeItem = items.activeItem;
 
 			Animator* activeItemAnim = mActiveItem->GetComponent<Animator>();
 			Animator* chargeBarAnim = mChargeBar->GetComponent<Animator>();
 			if (activeItem != eActiveItem::None)
 			{
-				mActiveItem->SetActive();
-				mChargeGauge->SetActive();
-				mChargeBar->SetActive();
-				mChargeBarBackground->SetActive();
-
 				activeItemAnim->Play(L"active_" + std::to_wstring((UINT)activeItem));
 
 				ItemObject* obj = ItemManager::GetItemObjects(eItemType::ActiveItem)[(UINT)activeItem];
@@ -381,15 +411,15 @@ namespace ya
 				std::shared_ptr<Material> material = mr->GetMaterial();
 				Vector4 data = Vector4(0.0f, 0.85f - (0.8f * ((float)charge / (float)gauge)), 1.0f, 1.0f);
 				material->SetData(eGPUParam::Vector4, &data);
+
+				ActiveActiveItem(true);
 			}
 			else
 			{
 				activeItemAnim->Play(L"None");
 				chargeBarAnim->Play(L"None");
-				mActiveItem->Pause();
-				mChargeGauge->Pause();
-				mChargeBar->Pause();
-				mChargeBarBackground->Pause();
+
+				ActiveActiveItem(false);
 			}
 		}
 		
@@ -401,5 +431,23 @@ namespace ya
 
 	void UIScript::Render()
 	{
+	}
+
+	void UIScript::ActiveActiveItem(bool active)
+	{
+		if (active)
+		{
+			mActiveItem->SetActive();
+			mChargeGauge->SetActive();
+			mChargeBar->SetActive();
+			mChargeBarBackground->SetActive();
+		}
+		else
+		{
+			mActiveItem->Pause();
+			mChargeGauge->Pause();
+			mChargeBar->Pause();
+			mChargeBarBackground->Pause();
+		}
 	}
 }

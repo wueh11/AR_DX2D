@@ -23,6 +23,7 @@
 #include "yaDropBomb.h"
 #include "yaPill.h"
 #include "yaCard.h"
+#include "yaTrinket.h"
 
 namespace ya
 {
@@ -41,6 +42,11 @@ namespace ya
 		, mItemActionTime(0.0f)
 		, mItemActionTimeMax(1.0f)
 		, mbItemAction(false)
+		, mDropTime(0.0f)
+		, mDropTimeMax(2.0f)
+		, mGainItemTime(0.0f)
+		, mGainItemTimeMax(1.0f)
+		, mbGainItem(true)
 	{
 	}
 	PlayerScript::~PlayerScript()
@@ -182,8 +188,6 @@ namespace ya
 			if (mItemActionTime > 0.0f)
 			{
 				mItemActionTime -= Time::DeltaTime();
-				mStarflash->SetActive();
-				mGainItem->SetActive();
 			}
 			else
 			{
@@ -194,20 +198,28 @@ namespace ya
 			}
 		}
 
+		if (!mbGainItem)
+		{
+			if (mGainItemTime > 0.0f)
+				mGainItemTime -= Time::DeltaTime();
+			else
+				mbGainItem = true;
+		}
+
 		Move();
 		Attack();
 
 		// 폭탄
 		if (Input::GetKeyDown(eKeyCode::E))
 		{
-			//if (player->GetPickup().bomb > 0)
+			if (player->GetPickup().bomb > 0)
 			{
 				DropBomb* bomb = new DropBomb(pos);
 				Scene* scene = SceneManager::GetActiveScene();
 				Layer& layer = scene->GetLayer(eLayerType::Item);
 				layer.AddGameObject(bomb);
 
-				//player->AddBomb(-1);
+				player->AddBomb(-1);
 			}
 		}
 
@@ -232,10 +244,31 @@ namespace ya
 		}
 
 		// 장신구, 소모품 드랍
-		if (Input::GetKeyDown(eKeyCode::LCTRL))
+		if (Input::GetKey(eKeyCode::LCTRL))
 		{
 			//3초간 누르면 아이템 drop
+			if (mDropTime > 0.0f)
+			{
+				mDropTime -= Time::DeltaTime();
+			}
+			else
+			{
+				mGainItemTime = mGainItemTimeMax;
+				mbGainItem = false;
+				ThrowConsumable();
+				ThrowTrinket();
+			}
 		}
+		else if (Input::GetKeyDown(eKeyCode::LCTRL))
+		{
+			mDropTime = mDropTimeMax;
+		}
+		else if (Input::GetKeyUp(eKeyCode::LCTRL))
+		{
+			mDropTime = mDropTimeMax;
+		}
+
+
 
 		if (Input::GetKeyDown(eKeyCode::N_9))
 		{
@@ -245,8 +278,6 @@ namespace ya
 		{
 			Die();
 		}
-
-
 		if (Input::GetKeyDown(eKeyCode::N_1))
 		{
 			player->AddHeart(1);
@@ -263,18 +294,7 @@ namespace ya
 		{
 			player->AddMaxHeart(-2);
 		}
-		if (Input::GetKeyDown(eKeyCode::N_5))
-		{
-			player->SetActiveItem(eActiveItem::TheBible);
-		}
-		if (Input::GetKeyDown(eKeyCode::N_6))
-		{
-			player->SetActiveItem(eActiveItem::TammysHead);
-		}
-		if (Input::GetKeyDown(eKeyCode::N_7))
-		{
-			player->SetActiveItem(eActiveItem::YumHeart);
-		}
+
 		if (Input::GetKeyDown(eKeyCode::N_8))
 		{
 			if (items.activeItem != eActiveItem::None)
@@ -462,6 +482,12 @@ namespace ya
 
 		headAnimator->Play(L"ItemIdle", false);
 		bodyAnimator->Play(L"ItemIdle", false);
+
+		mStarflash->SetActive();
+		mGainItem->SetActive();
+
+		mGainItemTime = mGainItemTimeMax;
+		mbGainItem = false;
 	}
 
 	void PlayerScript::Tears(Vector3 direction)
@@ -527,14 +553,7 @@ namespace ya
 		player->SetActiveItem(active);
 		ItemAction();
 
-		ImageRenderer* rd = mGainItem->GetComponent<ImageRenderer>();
-		Animator* objectAnimator = item->GetComponent<Animator>();
-		if (objectAnimator != nullptr)
-		{
-			std::shared_ptr<Texture> texture = objectAnimator->GetActiveAnimation()->GetAtlas();
-			Animation::Sprite sprite = objectAnimator->GetActiveAnimation()->GetSprite();
-			rd->SetSprite(texture, sprite.leftTop, sprite.size, sprite.atlasSize);
-		}
+		SetGainItem(item->GetComponent<Animator>());
 	}
 
 	void PlayerScript::gainConsumable(Pickup* pickup)
@@ -551,12 +570,11 @@ namespace ya
 
 			if (item.pill != ePills::None)
 			{
-				// TODO: 아이템 교체
+				ThrowConsumable();
 			}
 			else if (item.card != eCards::None)
 			{
-				// TODO: 아이템 교체
-				player->SetCard(eCards::None);
+				ThrowConsumable();
 			}
 
 			player->SetPill(type);
@@ -569,26 +587,29 @@ namespace ya
 
 			if (item.card != eCards::None)
 			{
-				// TODO: 아이템 교체
+				ThrowConsumable();
 			}
 			else if (item.pill != ePills::None)
 			{
-				// TODO: 아이템 교체
-				player->SetPill(ePills::None);
+				ThrowConsumable();
 			}
 
 			player->SetCard(type);
 		}
 
 		ItemAction();
-		ImageRenderer* rd = mGainItem->GetComponent<ImageRenderer>();
-		Animator* objectAnimator = pickup->GetComponent<Animator>();
-		if (objectAnimator != nullptr)
-		{
-			std::shared_ptr<Texture> texture = objectAnimator->GetActiveAnimation()->GetAtlas();
-			Animation::Sprite sprite = objectAnimator->GetActiveAnimation()->GetSprite();
-			rd->SetSprite(texture, sprite.leftTop, sprite.size, sprite.atlasSize);
-		}
+		SetGainItem(pickup->GetComponent<Animator>());
+	}
+
+	void PlayerScript::gainTrinket(Trinket* item)
+	{
+		Player* player = dynamic_cast<Player*>(GetOwner());
+		ThrowTrinket();
+
+		eTrinkets trinket = item->GetTrinketType();
+		player->SetTrinket(trinket);
+		ItemAction();
+		SetGainItem(item->GetComponent<Animator>());
 	}
 	
 	void PlayerScript::UseActiveItem()
@@ -613,29 +634,50 @@ namespace ya
 			ItemManager::GetItemObjects(eItemType::Card)[(UINT)item.card]->PlayEvent();
 			player->SetCard(eCards::None);
 		}
+
+		ItemAction();
 	}
 
-	void PlayerScript::ThrowItem()
+	void PlayerScript::ThrowConsumable()
 	{
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		Player::Items item = player->GetItem();
 
-		if (item.trinkets != eTrinkets::None)
-		{
-			//TODO: trinket 아이템 생성
-			
-			player->SetTrinket(eTrinkets::None);
-		}
-
 		if (item.pill != ePills::None)
 		{
-			//TODO: consumable 아이템 생성
 			player->SetPill(ePills::None);
+			Pill* pill = ItemManager::CreatePill(item.pill);
+			pill->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
 		}
 
 		if (item.card != eCards::None)
 		{
 			player->SetCard(eCards::None);
+			Card* card = ItemManager::CreateCard(item.card);
+			card->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
+		}
+	}
+	void PlayerScript::ThrowTrinket()
+	{
+		Player* player = dynamic_cast<Player*>(GetOwner());
+		Player::Items item = player->GetItem();
+
+		if (item.trinket != eTrinkets::None)
+		{
+			player->SetTrinket(eTrinkets::None);
+			Trinket* trinket = ItemManager::CreateTrinket(item.trinket);
+			trinket->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
+		}
+	}
+
+	void PlayerScript::SetGainItem(Animator* animator)
+	{
+		ImageRenderer* gainItemRenderer = mGainItem->GetComponent<ImageRenderer>();
+		if (animator != nullptr)
+		{
+			std::shared_ptr<Texture> texture = animator->GetActiveAnimation()->GetAtlas();
+			Animation::Sprite sprite = animator->GetActiveAnimation()->GetSprite();
+			gainItemRenderer->SetSprite(texture, sprite.leftTop, sprite.size, sprite.atlasSize);
 		}
 	}
 }

@@ -30,6 +30,7 @@
 #include "yaPill.h"
 #include "yaCard.h"
 #include "yaActiveItem.h"
+#include "yaTrinket.h"
 
 #include "yaItemManager.h"
 
@@ -89,9 +90,9 @@ namespace ya
 				{
 					GameObject* gamemenu = object::Instantiate<GameObject>(eLayerType::Background);
 					Transform* gamemenuTr = gamemenu->GetComponent<Transform>();
-					gamemenuTr->SetPosition(Vector3(-2.1f + (4.2f * i), 1.45f + (-2.9f * j), 10.0f));
+					gamemenuTr->SetPosition(Vector3(-2.1f + (4.2f * i), 1.36f + (-2.72f * j), 10.0f));
 					gamemenuTr->SetRotation(Vector3(XM_PI * j, XM_PI * i, 0.0f));
-					gamemenuTr->SetScale(Vector3(4.4f, 2.9f, 1.0f));
+					gamemenuTr->SetScale(Vector3(4.4f, 2.72f, 1.0f));
 
 					ImageRenderer* gamemenuMr = gamemenu->AddComponent<ImageRenderer>();
 					gamemenuMr->SetMesh(mesh);
@@ -241,6 +242,12 @@ namespace ya
 			ActiveItem* active = ItemManager::CreateActiveItem(eActiveItem::YumHeart);
 			Transform* activeTr = active->GetComponent<Transform>();
 			activeTr->SetPosition(Vector3(-2.0f, -1.0f, -10.0f));
+		}
+
+		{
+			Trinket* trinket = ItemManager::CreateTrinket(eTrinkets::FishHead);
+			Transform* trinketTr = trinket->GetComponent<Transform>();
+			trinketTr->SetPosition(Vector3(-1.8f, -0.2f, -10.0f));
 		}
 
 		{

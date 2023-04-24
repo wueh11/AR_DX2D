@@ -40,5 +40,7 @@ namespace ya
 		bool mbDeath;
 
 		Vector3 mCollideVelocity;
+
+		bool mbGain;
 	};
 }

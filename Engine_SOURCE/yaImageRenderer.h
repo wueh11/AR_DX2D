@@ -47,4 +47,4 @@ namespace ya
 		std::shared_ptr<Texture> mAtlas;
 		CutImage mImage;
 	};
-}
+} 

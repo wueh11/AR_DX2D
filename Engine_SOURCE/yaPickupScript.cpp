@@ -16,6 +16,7 @@ namespace ya
 		, mbDeath(false)
 		, mTimer(0.1f)
 		, mCollideVelocity(Vector3::Zero)
+		, mbGain(true)
 	{
 	}
 	PickupScript::~PickupScript()
@@ -47,7 +48,11 @@ namespace ya
 		Player* player = dynamic_cast<Player*>(other);
 		if (player != nullptr)
 		{
-			mbDeath = true;
+			//mbDeath = true;
+			Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
+			if (otherRigidbody == nullptr)
+				return;
+			mCollideVelocity = otherRigidbody->GetVelocity();
 		}
 		else
 		{
@@ -104,6 +109,12 @@ namespace ya
 	}
 	void PickupScript::OnCollisionExit(Collider2D* collider)
 	{
+		GameObject* other = collider->GetOwner();
+		Player* player = dynamic_cast<Player*>(other);
+		if (player != nullptr)
+		{
+			mbGain = true;
+		}
 	}
 	void PickupScript::OnTriggerEnter(Collider2D* collider)
 	{
