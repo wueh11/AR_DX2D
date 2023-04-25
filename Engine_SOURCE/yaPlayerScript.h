@@ -77,6 +77,9 @@ namespace ya
 		GameObject* mStarflash;
 		GameObject* mGainItem;
 
+		GameObject* mGainPill;
+		GameObject* mGainCard;
+
 		float mInvincibleTime;
 		float mInvincibleTimeMax;
 		bool mbInvincible;

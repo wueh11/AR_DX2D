@@ -71,8 +71,8 @@ namespace ya
 			Transform* ownerTr = GetOwner()->GetComponent<Transform>();
 
 			Vector3 dist = Vector3(
-				ownerCollider->GetSize().x * ownerTr->GetScale().x / 2.0f + collider->GetSize().x * otherTr->GetScale().x / 2.0f //+ ownerCollider->GetCenter().x
-				, ownerCollider->GetSize().y * ownerTr->GetScale().y / 2.0f + collider->GetSize().y * otherTr->GetScale().y / 2.0f //+ ownerCollider->GetCenter().y
+				ownerCollider->GetSize().x * ownerTr->GetScale().x / 2.0f + collider->GetSize().x * otherTr->GetScale().x / 2.0f 
+				, ownerCollider->GetSize().y * ownerTr->GetScale().y / 2.0f + collider->GetSize().y * otherTr->GetScale().y / 2.0f
 				, 0.0f);
 
 			if (otherPos.x >= ownerCollider->GetPosition().x + dist.x - 0.01f

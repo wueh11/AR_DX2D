@@ -49,26 +49,27 @@ namespace ya
 			Collider2D* ownerCollider = GetOwner()->GetComponent<Collider2D>();
 			Transform* ownerTr = GetOwner()->GetComponent<Transform>();
 
-			Vector3 dist = Vector3(ownerCollider->GetSize().x * ownerTr->GetScale().x / 2.0f + collider->GetSize().x * otherTr->GetScale().x / 2.0f
-									, ownerCollider->GetSize().y * ownerTr->GetScale().y / 2.0f + collider->GetSize().y * otherTr->GetScale().y / 2.0f
-									, 0.0f);
+			Vector3 dist = Vector3(
+				ownerCollider->GetSize().x * ownerTr->GetScale().x / 2.0f + collider->GetSize().x * otherTr->GetScale().x / 2.0f
+				, ownerCollider->GetSize().y * ownerTr->GetScale().y / 2.0f + collider->GetSize().y * otherTr->GetScale().y / 2.0f
+				, 0.0f);
 
-			if (otherPos.x >= ownerCollider->GetPosition().x + dist.x - 0.1f
-				|| otherPos.x <= ownerCollider->GetPosition().x - dist.x + 0.1f)
+			if (otherPos.x >= ownerCollider->GetPosition().x + dist.x - 0.01f
+				|| otherPos.x <= ownerCollider->GetPosition().x - dist.x + 0.01f)
 			{
 				if (collider->GetPosition().x > ownerCollider->GetPosition().x)
-					otherPos.x = ownerCollider->GetPosition().x + dist.x + 0.001f;
+					otherPos.x = ownerCollider->GetPosition().x + dist.x + 0.002f;
 				else
-					otherPos.x = ownerCollider->GetPosition().x - dist.x - 0.001f;
+					otherPos.x = ownerCollider->GetPosition().x - dist.x - 0.002f;
 			}
 
-			if (otherPos.y >= ownerCollider->GetPosition().y + dist.y - 0.1f
-				|| otherPos.y <= ownerCollider->GetPosition().y - dist.y + 0.1f)
+			if (otherPos.y >= ownerCollider->GetPosition().y + dist.y - 0.01f
+				|| otherPos.y <= ownerCollider->GetPosition().y - dist.y + 0.01f)
 			{
 				if (collider->GetPosition().y > ownerCollider->GetPosition().y)
-					otherPos.y = ownerCollider->GetPosition().y + dist.y + 0.001f;
+					otherPos.y = ownerCollider->GetPosition().y + dist.y + 0.002f;
 				else
-					otherPos.y = ownerCollider->GetPosition().y - dist.y - 0.001f;
+					otherPos.y = ownerCollider->GetPosition().y - dist.y - 0.002f;
 			}
 
 			otherTr->SetPosition(otherPos);

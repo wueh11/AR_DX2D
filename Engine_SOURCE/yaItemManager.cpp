@@ -1,13 +1,14 @@
 #include "yaItemManager.h"
 
-#include "yaSceneManager.h"
-#include "yaScene.h"
+#include "yaObject.h"
 #include "yaPlayer.h"
+
 #include "yaPill.h"
 #include "yaCard.h"
+#include "yaTrinket.h"
 #include "yaActiveItem.h"
 #include "yaPassiveItem.h"
-#include "yaTrinket.h"
+#include "yaHeartFull.h"
 
 namespace ya
 {
@@ -198,11 +199,27 @@ namespace ya
 
 	void ItemManager::TheFool()
 	{
-		// TODO : 시작 지점으로 텔레포트
+		Scene* scene = SceneManager::GetActiveScene();
+		Player* player = scene->GetPlayer();
+		Transform* playerTr = player->GetComponent<Transform>();
+		playerTr->SetPosition(Vector3(0.0f, -1.0f, -0.0f));
+
+		// 스테이지 시작 방으로
 	}
 	void ItemManager::TheLovers()
 	{
-		// TODO: 빨간하트 2개 생성
+		Scene* scene = SceneManager::GetActiveScene();
+		Player* player = scene->GetPlayer();
+		Transform* playerTr = player->GetComponent<Transform>();
+		Vector3 playerPos = playerTr->GetPosition();
+
+		HeartFull* heart1 = object::Instantiate<HeartFull>(eLayerType::Item);
+		Transform* heart1Tr = heart1->GetComponent<Transform>();
+		heart1Tr->SetPosition(Vector3(playerPos.x, playerPos.y, -10.0f) + Vector3(0.5f, 0.5f, 0.0f));
+
+		HeartFull* heart2 = object::Instantiate<HeartFull>(eLayerType::Item);
+		Transform* heart2Tr = heart2->GetComponent<Transform>();
+		heart2Tr->SetPosition(Vector3(playerPos.x, playerPos.y, -10.0f) + Vector3(0.0f, 0.5f, 0.0f));
 	}
 	/// <summary>
 	/// 현재폭탄 x2, 0개일때 +2

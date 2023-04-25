@@ -424,6 +424,9 @@ namespace ya
 					bodyAnimator->Play(L"ItemIdle", true);
 			}
 		}
+
+		/*Vector3 pos = mTransform->GetPosition();
+		mTransform->SetPosition(Vector3(pos.x, pos.y, pos.y));*/
 	}
 
 	void PlayerScript::Attack()
@@ -482,6 +485,8 @@ namespace ya
 
 		headAnimator->Play(L"ItemIdle", false);
 		bodyAnimator->Play(L"ItemIdle", false);
+
+		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 
 		mStarflash->SetActive();
 		mGainItem->SetActive();
@@ -628,11 +633,19 @@ namespace ya
 		{
 			ItemManager::GetItemObjects(eItemType::Pill)[(UINT)item.pill]->PlayEvent();
 			player->SetPill(ePills::None);
+
+			Pill* gainPill = ItemManager::CreatePill(item.pill);
+			SetGainItem(gainPill->GetComponent<Animator>());
+			gainPill->Death();
 		}
 		else if (item.card != eCards::None)
 		{
 			ItemManager::GetItemObjects(eItemType::Card)[(UINT)item.card]->PlayEvent();
 			player->SetCard(eCards::None);
+
+			Card* gainCard = ItemManager::CreateCard(item.card);
+			SetGainItem(gainCard->GetComponent<Animator>());
+			gainCard->Death();
 		}
 
 		ItemAction();

@@ -176,9 +176,6 @@ namespace ya
 
 			{ // UI
 				GameObject* ui = object::Instantiate<GameObject>(eLayerType::Background);
-				/*Transform* uiTr = ui->GetComponent<Transform>();
-				uiTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-				uiTr->SetScale(Vector3(1.0f, 1.0f, 1.0f));*/
 				UIScript* uiScript = ui->AddComponent<UIScript>();
 			}
 		}
