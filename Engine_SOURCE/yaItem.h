@@ -13,5 +13,8 @@ namespace ya
 		virtual void Update();
 		virtual void FixedUpdate();
 		virtual void Render();
+
+	private:
+		//class Room* mRoom = nullptr;
 	};
 }

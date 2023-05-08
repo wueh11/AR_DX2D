@@ -18,23 +18,9 @@
 #include "yaSpriteRenderer.h"
 
 #include "yaUIScript.h"
-#include "yaWallScript.h"
-
-#include "yaHeartFull.h"
-#include "yaHeartHalf.h"
-#include "yaSoulHeartFull.h"
-
-#include "yaKey.h"
-#include "yaCoin.h"
-#include "yaBomb.h"
-#include "yaPill.h"
-#include "yaCard.h"
-#include "yaActiveItem.h"
-#include "yaTrinket.h"
 
 #include "yaItemManager.h"
 
-#include "yaGaper.h"
 
 namespace ya
 {
@@ -49,8 +35,6 @@ namespace ya
 
 	void PlayScene::Initialize()
 	{
-		ItemManager::Initialize();
-
 		//Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
 		cameraObj->AddComponent<CameraScript>();
@@ -70,6 +54,18 @@ namespace ya
 		}
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+
+		{ // bgblack
+			GameObject* bgblack = object::Instantiate<GameObject>(eLayerType::Background);
+			Transform* bgblackTr = bgblack->GetComponent<Transform>();
+			bgblackTr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
+			bgblackTr->SetScale(Vector3(10.0f, 8.0f, 1.0f));
+
+			MeshRenderer* bgblackMr = bgblack->AddComponent<MeshRenderer>();
+			bgblackMr->SetMesh(mesh);
+			std::shared_ptr<Material> gamemenuMaterial = Resources::Find<Material>(L"bgblackMaterial");
+			bgblackMr->SetMaterial(gamemenuMaterial);
+		}
  
 		{ // Player
 			Player* player = object::Instantiate<Player>(eLayerType::Player);
@@ -83,84 +79,11 @@ namespace ya
 			collider->SetColliderType(eColliderType::Rect);
 
 			SetPlayer(player);
-
-			{ // UI
-				GameObject* ui = object::Instantiate<GameObject>(eLayerType::Background);
-				UIScript* uiScript = ui->AddComponent<UIScript>();
-			}
 		}
 
-		{
-			HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item);
-			Transform* heartTr = heart->GetComponent<Transform>();
-			heartTr->SetPosition(Vector3(-1.0f, 1.0f, -10.0f));
-		}
-
-		{
-			SoulHeartFull* heart = object::Instantiate<SoulHeartFull>(eLayerType::Item);
-			Transform* heartTr = heart->GetComponent<Transform>();
-			heartTr->SetPosition(Vector3(-1.0f, -1.0f, -10.0f));
-		}
-
-
-		{
-			HeartHalf* heart = object::Instantiate<HeartHalf>(eLayerType::Item);
-			Transform* heartTr = heart->GetComponent<Transform>();
-			heartTr->SetPosition(Vector3(-1.0f, 0.0f, -10.0f));
-		}
-
-		{
-			Coin* coin = object::Instantiate<Coin>(eLayerType::Item);
-			Transform* coinTr = coin->GetComponent<Transform>();
-			coinTr->SetPosition(Vector3(0.0f, 1.0f, -10.0f));
-		}
-		
-		{
-			Key* key = object::Instantiate<Key>(eLayerType::Item);
-			Transform* keyTr = key->GetComponent<Transform>();
-			keyTr->SetPosition(Vector3(1.0f, 1.0f, -10.0f));
-		}
-
-		{
-			Bomb* key = object::Instantiate<Bomb>(eLayerType::Item);
-			Transform* keyTr = key->GetComponent<Transform>();
-			keyTr->SetPosition(Vector3(2.0f, 1.0f, -10.0f));
-		}
-		
-		{
-			Pill* pill = ItemManager::CreatePill(ePills::HealthUp);
-			Transform* pillTr = pill->GetComponent<Transform>();
-			pillTr->SetPosition(Vector3(2.0f, 1.5f, -10.0f));
-		}
-
-		{
-			Card* card = ItemManager::CreateCard(eCards::TheLovers);
-			Transform* cardTr = card->GetComponent<Transform>();
-			cardTr->SetPosition(Vector3(2.0f, 0.6f, -10.0f));
-		}
-
-		{
-			Card* card = ItemManager::CreateCard(eCards::Club2);
-			Transform* cardTr = card->GetComponent<Transform>();
-			cardTr->SetPosition(Vector3(1.4f, 0.6f, -10.0f));
-		}
-
-		{
-			ActiveItem* active = ItemManager::CreateActiveItem(eActiveItem::YumHeart);
-			Transform* activeTr = active->GetComponent<Transform>();
-			activeTr->SetPosition(Vector3(-2.0f, -1.0f, -10.0f));
-		}
-
-		{
-			Trinket* trinket = ItemManager::CreateTrinket(eTrinkets::FishHead);
-			Transform* trinketTr = trinket->GetComponent<Transform>();
-			trinketTr->SetPosition(Vector3(-1.8f, -0.2f, -10.0f));
-		}
-
-		{
-			Gaper* gaper = object::Instantiate<Gaper>(eLayerType::Monster);
-			Transform* gaperTr = gaper->GetComponent<Transform>();
-			gaperTr->SetPosition(Vector3(1.0f, -1.2f, -10.0f));
+		{ // UI
+			GameObject* ui = object::Instantiate<GameObject>(eLayerType::Background);
+			UIScript* uiScript = ui->AddComponent<UIScript>();
 		}
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);

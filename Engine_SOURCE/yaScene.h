@@ -31,7 +31,7 @@ namespace ya
 		Player* GetPlayer() { return mPlayer; }
 		void SetPlayer(Player* player) { mPlayer = player; }
 
-	private:
+	protected:
 		std::vector<Layer> mLayers;
 		eSceneType mType;
 		Player* mPlayer;

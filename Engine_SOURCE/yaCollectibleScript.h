@@ -1,6 +1,6 @@
 #pragma once
 #include "yaScript.h"
-#include "Isaac.h"
+#include "yaIsaacEnums.h"
 
 using namespace ya::isaac;
 namespace ya

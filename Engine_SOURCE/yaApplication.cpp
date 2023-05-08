@@ -7,6 +7,8 @@
 #include "yaCollisionManager.h"
 #include <ctime>
 
+#include "yaItemManager.h"
+
 namespace ya
 {
 	using namespace graphics;
@@ -28,6 +30,8 @@ namespace ya
 		CollisionManager::Initialize();
 		renderer::Initialize();
 		SceneManager::Initialize();
+
+		ItemManager::Initialize();
 	}
 
 	// 게임 로직 캐릭터 이동 등등 

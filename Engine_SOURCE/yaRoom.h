@@ -6,14 +6,7 @@ namespace ya
 	class Room : public GameObject
 	{
 	public:
-		struct RoomObjectData
-		{
-			GameObject* object;
-			Vector3 position;
-		};
-
-	public:
-		Room();
+		Room(int x, int y);
 		virtual ~Room();
 	
 		virtual void Initialize();
@@ -22,16 +15,24 @@ namespace ya
 		virtual void Render();
 
 	public:
-		void AddRoomData(RoomObjectData roomDatas) { mRoomDatas.push_back(roomDatas); }
+		void AddRoomObject(GameObject* roomObj, int x = -1, int y = -1);
 
 		void Active(bool active) { mbActive = active; }
 		bool IsActive() { return mbActive; }
 
-	private:
-		bool mbActive;
-		int mMonsterCount;
-		bool mbClear;
+		void SetRoomPos(Vector2 roomPos);
 
-		std::vector<RoomObjectData> mRoomDatas;
+		Vector2 GetRoomPos() { return mRoomPos; }
+
+	private:
+		bool mbActive;	// player가 방에 있을 경우 true
+		bool mbClear;	// player가 방의 몬스터를 모두 처치했을 경우 true
+		bool mbLock;	// 열쇠가 필요한 방(상점, 보물방), player가 방의 문을 열쇠로 열었을 경우 false
+
+		int mMonsterCount;	// 방에 남은 몬스터 수
+
+		GameObject* mGrid[7][13];	// 방을 구성하는 gameobject. 빈칸일경우 nullptr
+
+		Vector2 mRoomPos;
 	};
 }

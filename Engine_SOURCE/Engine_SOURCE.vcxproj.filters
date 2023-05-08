@@ -58,9 +58,6 @@
     <Filter Include="Component\Transform">
       <UniqueIdentifier>{62ef3152-0edd-4414-bc90-229e5ed562b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Script\Contents">
-      <UniqueIdentifier>{8ba9974c-ce6b-4eb3-975f-295b0bcdd46e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\Camera">
       <UniqueIdentifier>{c0f81a4a-aeba-46b6-9998-4f119dbde58a}</UniqueIdentifier>
     </Filter>
@@ -115,15 +112,6 @@
     <Filter Include="GameObject\Projectile">
       <UniqueIdentifier>{58f239d4-365e-403e-9b85-8ff407215930}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Script\Contents\System">
-      <UniqueIdentifier>{5e701ae9-1f7b-4660-809b-84a09fc001a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Script\Contents\Object">
-      <UniqueIdentifier>{0b2a4b92-0457-4f38-9c38-26c6d41aa4e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Script\Contents\Scene">
-      <UniqueIdentifier>{1dc5c247-6d6d-415c-8f78-4b64b8412612}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource\Shader\CS">
       <UniqueIdentifier>{f157527b-deda-4f0e-94b6-d60c50966e35}</UniqueIdentifier>
     </Filter>
@@ -136,17 +124,8 @@
     <Filter Include="GameObject\Item\Pickup">
       <UniqueIdentifier>{787e0f04-26bd-43d6-8b66-8576b40ccbf9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Script\Contents\Item">
-      <UniqueIdentifier>{ed0db38a-5a3e-4ef5-8ebc-68911607df46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Script\Contents\Item\PickUp">
-      <UniqueIdentifier>{338c47e0-16f9-4b1b-a575-240d3d502ef9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\Rigidbody">
       <UniqueIdentifier>{2fe796ae-7712-4053-a7b6-bf2d3b5ccee9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Script\Contents\Projectile">
-      <UniqueIdentifier>{40d6ffd5-d304-45f2-8b6d-5b27f34f59f2}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameObject\Item\Pickup\Base">
       <UniqueIdentifier>{a2d0787d-4d81-44c6-8bca-1ffcf750d69b}</UniqueIdentifier>
@@ -157,12 +136,6 @@
     <Filter Include="GameObject\Item\Items\Base">
       <UniqueIdentifier>{c198f2df-9857-454c-929c-34a6d1fa334d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Script\Contents\Item\Collectible">
-      <UniqueIdentifier>{5d2da00f-dde9-4f7a-867a-7b7812213210}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Script\Contents\Item\Base">
-      <UniqueIdentifier>{5f584e8c-aa9d-4396-9a85-f130ae311ac0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObject\Monsters">
       <UniqueIdentifier>{395b2549-4fdf-4acf-8e45-e9aef345ec6c}</UniqueIdentifier>
     </Filter>
@@ -172,20 +145,56 @@
     <Filter Include="GameObject\Monsters\Base">
       <UniqueIdentifier>{3ebf006f-57ad-49d8-a974-6d254e6a582a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Script\Contents\Monsters">
-      <UniqueIdentifier>{e57cbd25-a915-49cb-8ad8-56e2f32f8f79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Script\Contents\Monsters\Base">
-      <UniqueIdentifier>{22a4f0ad-35a7-4a34-9b11-d63cd65a54c8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObject\Stage">
       <UniqueIdentifier>{93c22f6d-2a2b-4593-96ca-4256eb7533ba}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameObject\Item\Manager">
       <UniqueIdentifier>{2482c518-912a-491f-b13e-c0bf068c7815}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Stage\Manager">
-      <UniqueIdentifier>{9aa0ba12-98a3-490c-921f-d39bfdc74e26}</UniqueIdentifier>
+    <Filter Include="GameObject\Land\Base">
+      <UniqueIdentifier>{c9bb326a-2ad5-4759-b670-234f1a2702e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Issac\Stage">
+      <UniqueIdentifier>{ab0d327a-9a0b-4de3-a535-e37fb1448a21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Stage\Base">
+      <UniqueIdentifier>{97885143-d03c-4696-8d0c-5e0b3738b256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Base">
+      <UniqueIdentifier>{0960dc8d-e814-499b-8627-e274d5aafe85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Item">
+      <UniqueIdentifier>{ed0db38a-5a3e-4ef5-8ebc-68911607df46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Item\PickUp">
+      <UniqueIdentifier>{338c47e0-16f9-4b1b-a575-240d3d502ef9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Item\Collectible">
+      <UniqueIdentifier>{5d2da00f-dde9-4f7a-867a-7b7812213210}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Item\Base">
+      <UniqueIdentifier>{5f584e8c-aa9d-4396-9a85-f130ae311ac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Monsters">
+      <UniqueIdentifier>{e57cbd25-a915-49cb-8ad8-56e2f32f8f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Monsters\Base">
+      <UniqueIdentifier>{22a4f0ad-35a7-4a34-9b11-d63cd65a54c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Object">
+      <UniqueIdentifier>{0b2a4b92-0457-4f38-9c38-26c6d41aa4e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Projectile">
+      <UniqueIdentifier>{40d6ffd5-d304-45f2-8b6d-5b27f34f59f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Scene">
+      <UniqueIdentifier>{1dc5c247-6d6d-415c-8f78-4b64b8412612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\System">
+      <UniqueIdentifier>{5e701ae9-1f7b-4660-809b-84a09fc001a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Land">
+      <UniqueIdentifier>{a828175f-beee-4ecb-8e07-dc00e74a747e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -236,9 +245,6 @@
     </ClCompile>
     <ClCompile Include="yaTransform.cpp">
       <Filter>Component\Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="yaScript.cpp">
-      <Filter>Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="yaMeshRenderer.cpp">
       <Filter>Component\Renderer</Filter>
@@ -303,26 +309,23 @@
     <ClCompile Include="yaTear.cpp">
       <Filter>GameObject\Projectile</Filter>
     </ClCompile>
-    <ClCompile Include="yaPlayerScript.cpp">
-      <Filter>Component\Script\Contents\Object</Filter>
-    </ClCompile>
     <ClCompile Include="yaTearScript.cpp">
-      <Filter>Component\Script\Contents\Projectile</Filter>
+      <Filter>Component\Script\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="yaTitleScript.cpp">
-      <Filter>Component\Script\Contents\Scene</Filter>
+      <Filter>Component\Script\Scene</Filter>
     </ClCompile>
     <ClCompile Include="yaGridScript.cpp">
-      <Filter>Component\Script\Contents\System</Filter>
+      <Filter>Component\Script\System</Filter>
     </ClCompile>
     <ClCompile Include="yaFadeScript.cpp">
-      <Filter>Component\Script\Contents\Scene</Filter>
+      <Filter>Component\Script\Scene</Filter>
     </ClCompile>
     <ClCompile Include="yaCameraScript.cpp">
-      <Filter>Component\Script\Contents\System</Filter>
+      <Filter>Component\Script\System</Filter>
     </ClCompile>
     <ClCompile Include="yaDropBombScript.cpp">
-      <Filter>Component\Script\Contents\Projectile</Filter>
+      <Filter>Component\Script\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="yaPaintShader.cpp">
       <Filter>Resource\Shader\CS</Filter>
@@ -347,28 +350,22 @@
       <Filter>GameObject\Item\Pickup</Filter>
     </ClCompile>
     <ClCompile Include="yaCoinScript.cpp">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClCompile>
     <ClCompile Include="yaHeartScript.cpp">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClCompile>
     <ClCompile Include="yaWorkScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="yaKeyScript.cpp">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClCompile>
     <ClCompile Include="yaExplosionScript.cpp">
-      <Filter>Component\Script\Contents\Projectile</Filter>
+      <Filter>Component\Script\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="yaRigidbody.cpp">
       <Filter>Component\Rigidbody</Filter>
-    </ClCompile>
-    <ClCompile Include="yaNumberScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="yaWallScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
     </ClCompile>
     <ClCompile Include="yaBomb.cpp">
       <Filter>GameObject\Item\Pickup</Filter>
@@ -377,7 +374,7 @@
       <Filter>GameObject\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="yaBombScript.cpp">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClCompile>
     <ClCompile Include="yaHeartHalf.cpp">
       <Filter>GameObject\Item\Pickup</Filter>
@@ -416,29 +413,29 @@
       <Filter>GameObject\Land</Filter>
     </ClCompile>
     <ClCompile Include="yaPillScript.cpp">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClCompile>
     <ClCompile Include="yaCardScript.cpp">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClCompile>
     <ClCompile Include="yaUIScript.cpp">
-      <Filter>Component\Script\Contents\Scene</Filter>
+      <Filter>Component\Script\Scene</Filter>
     </ClCompile>
     <ClCompile Include="yaParticleShader.cpp" />
     <ClCompile Include="yaActiveItemScript.cpp">
-      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+      <Filter>Component\Script\Item\Collectible</Filter>
     </ClCompile>
     <ClCompile Include="yaPassiveItemScript.cpp">
-      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+      <Filter>Component\Script\Item\Collectible</Filter>
     </ClCompile>
     <ClCompile Include="yaTrinketScript.cpp">
-      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+      <Filter>Component\Script\Item\Collectible</Filter>
     </ClCompile>
     <ClCompile Include="yaPickupScript.cpp">
-      <Filter>Component\Script\Contents\Item\Base</Filter>
+      <Filter>Component\Script\Item\Base</Filter>
     </ClCompile>
     <ClCompile Include="yaCollectibleScript.cpp">
-      <Filter>Component\Script\Contents\Item\Base</Filter>
+      <Filter>Component\Script\Item\Base</Filter>
     </ClCompile>
     <ClCompile Include="yaMonster.cpp">
       <Filter>GameObject\Monsters\Base</Filter>
@@ -447,22 +444,43 @@
       <Filter>GameObject\Monsters</Filter>
     </ClCompile>
     <ClCompile Include="yaMonsterScript.cpp">
-      <Filter>Component\Script\Contents\Monsters\Base</Filter>
+      <Filter>Component\Script\Monsters\Base</Filter>
     </ClCompile>
     <ClCompile Include="yaGaperScript.cpp">
-      <Filter>Component\Script\Contents\Monsters</Filter>
+      <Filter>Component\Script\Monsters</Filter>
     </ClCompile>
     <ClCompile Include="yaItemManager.cpp">
       <Filter>GameObject\Item\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="yaStageManager.cpp">
-      <Filter>GameObject\Stage\Manager</Filter>
+    <ClCompile Include="yaDoor.cpp">
+      <Filter>GameObject\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLand.cpp">
+      <Filter>GameObject\Land\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBasement1.cpp">
+      <Filter>Scene\Issac\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="yaStageScene.cpp">
+      <Filter>Scene\Base</Filter>
     </ClCompile>
     <ClCompile Include="yaRoom.cpp">
       <Filter>GameObject\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="yaStage.cpp">
-      <Filter>GameObject\Stage</Filter>
+    <ClCompile Include="yaScript.cpp">
+      <Filter>Component\Script\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayerScript.cpp">
+      <Filter>Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="yaNumberScript.cpp">
+      <Filter>Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="yaWallScript.cpp">
+      <Filter>Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="yaDoorScript.cpp">
+      <Filter>Component\Script\Land</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,9 +543,6 @@
     </ClInclude>
     <ClInclude Include="yaTransform.h">
       <Filter>Component\Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="yaScript.h">
-      <Filter>Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="yaMeshRenderer.h">
       <Filter>Component\Renderer</Filter>
@@ -595,26 +610,23 @@
     <ClInclude Include="yaTear.h">
       <Filter>GameObject\Projectile</Filter>
     </ClInclude>
-    <ClInclude Include="yaPlayerScript.h">
-      <Filter>Component\Script\Contents\Object</Filter>
-    </ClInclude>
     <ClInclude Include="yaTearScript.h">
-      <Filter>Component\Script\Contents\Projectile</Filter>
+      <Filter>Component\Script\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="yaTitleScript.h">
-      <Filter>Component\Script\Contents\Scene</Filter>
+      <Filter>Component\Script\Scene</Filter>
     </ClInclude>
     <ClInclude Include="yaGridScript.h">
-      <Filter>Component\Script\Contents\System</Filter>
+      <Filter>Component\Script\System</Filter>
     </ClInclude>
     <ClInclude Include="yaFadeScript.h">
-      <Filter>Component\Script\Contents\Scene</Filter>
+      <Filter>Component\Script\Scene</Filter>
     </ClInclude>
     <ClInclude Include="yaCameraScript.h">
-      <Filter>Component\Script\Contents\System</Filter>
+      <Filter>Component\Script\System</Filter>
     </ClInclude>
     <ClInclude Include="yaDropBombScript.h">
-      <Filter>Component\Script\Contents\Projectile</Filter>
+      <Filter>Component\Script\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="yaPaintShader.h">
       <Filter>Resource\Shader\CS</Filter>
@@ -629,7 +641,7 @@
     <ClInclude Include="yaPlayer.h">
       <Filter>GameObject\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Isaac.h">
+    <ClInclude Include="yaIsaacEnums.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="yaCoin.h">
@@ -642,28 +654,22 @@
       <Filter>GameObject\Item\Pickup</Filter>
     </ClInclude>
     <ClInclude Include="yaCoinScript.h">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClInclude>
     <ClInclude Include="yaHeartScript.h">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClInclude>
     <ClInclude Include="yaWorkScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="yaKeyScript.h">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClInclude>
     <ClInclude Include="yaExplosionScript.h">
-      <Filter>Component\Script\Contents\Projectile</Filter>
+      <Filter>Component\Script\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="yaRigidbody.h">
       <Filter>Component\Rigidbody</Filter>
-    </ClInclude>
-    <ClInclude Include="yaNumberScript.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="yaWallScript.h">
-      <Filter>Component\Script\Contents</Filter>
     </ClInclude>
     <ClInclude Include="yaBomb.h">
       <Filter>GameObject\Item\Pickup</Filter>
@@ -672,7 +678,7 @@
       <Filter>GameObject\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="yaBombScript.h">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClInclude>
     <ClInclude Include="yaHeartHalf.h">
       <Filter>GameObject\Item\Pickup</Filter>
@@ -711,13 +717,13 @@
       <Filter>GameObject\Land</Filter>
     </ClInclude>
     <ClInclude Include="yaPillScript.h">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClInclude>
     <ClInclude Include="yaCardScript.h">
-      <Filter>Component\Script\Contents\Item\PickUp</Filter>
+      <Filter>Component\Script\Item\PickUp</Filter>
     </ClInclude>
     <ClInclude Include="yaUIScript.h">
-      <Filter>Component\Script\Contents\Scene</Filter>
+      <Filter>Component\Script\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Commons.h">
       <Filter>Common</Filter>
@@ -725,19 +731,19 @@
     <ClInclude Include="yaParticleShader.h" />
     <ClInclude Include="yaItemObject.h" />
     <ClInclude Include="yaActiveItemScript.h">
-      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+      <Filter>Component\Script\Item\Collectible</Filter>
     </ClInclude>
     <ClInclude Include="yaPassiveItemScript.h">
-      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+      <Filter>Component\Script\Item\Collectible</Filter>
     </ClInclude>
     <ClInclude Include="yaTrinketScript.h">
-      <Filter>Component\Script\Contents\Item\Collectible</Filter>
+      <Filter>Component\Script\Item\Collectible</Filter>
     </ClInclude>
     <ClInclude Include="yaPickupScript.h">
-      <Filter>Component\Script\Contents\Item\Base</Filter>
+      <Filter>Component\Script\Item\Base</Filter>
     </ClInclude>
     <ClInclude Include="yaCollectibleScript.h">
-      <Filter>Component\Script\Contents\Item\Base</Filter>
+      <Filter>Component\Script\Item\Base</Filter>
     </ClInclude>
     <ClInclude Include="yaMonster.h">
       <Filter>GameObject\Monsters\Base</Filter>
@@ -746,22 +752,43 @@
       <Filter>GameObject\Monsters</Filter>
     </ClInclude>
     <ClInclude Include="yaMonsterScript.h">
-      <Filter>Component\Script\Contents\Monsters\Base</Filter>
+      <Filter>Component\Script\Monsters\Base</Filter>
     </ClInclude>
     <ClInclude Include="yaGaperScript.h">
-      <Filter>Component\Script\Contents\Monsters</Filter>
+      <Filter>Component\Script\Monsters</Filter>
     </ClInclude>
     <ClInclude Include="yaItemManager.h">
       <Filter>GameObject\Item\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="yaStageManager.h">
-      <Filter>GameObject\Stage\Manager</Filter>
+    <ClInclude Include="yaDoor.h">
+      <Filter>GameObject\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLand.h">
+      <Filter>GameObject\Land\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBasement1.h">
+      <Filter>Scene\Issac\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="yaStageScene.h">
+      <Filter>Scene\Base</Filter>
     </ClInclude>
     <ClInclude Include="yaRoom.h">
       <Filter>GameObject\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="yaStage.h">
-      <Filter>GameObject\Stage</Filter>
+    <ClInclude Include="yaScript.h">
+      <Filter>Component\Script\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaWallScript.h">
+      <Filter>Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPlayerScript.h">
+      <Filter>Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="yaNumberScript.h">
+      <Filter>Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="yaDoorScript.h">
+      <Filter>Component\Script\Land</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

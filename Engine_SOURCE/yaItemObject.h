@@ -1,5 +1,5 @@
 #pragma once
-#include "Isaac.h"
+#include "yaIsaacEnums.h"
 #include "yaEngine.h"
 #include <functional>
 

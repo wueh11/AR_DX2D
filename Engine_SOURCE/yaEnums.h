@@ -7,6 +7,7 @@ namespace ya::enums
 		Work,
 		Title,
 		Play,
+		Basement1,
 		End,
 	};
 
@@ -14,19 +15,21 @@ namespace ya::enums
 	{
 		None = 0,
 		Grid,
+		Stage,
 		Background,
 		Wall,
+
 		Land,
 		Camera,
-
 		Effect,
 		Monster,
 		Player,
+
 		Item,
 		Projectile,
-		
 		Particle,
 		UI,
+
 		End = 16,
 	};
 

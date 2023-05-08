@@ -1,7 +1,7 @@
 #pragma once
 #include "yaEngine.h"
 #include "yaScene.h"
-#include "Isaac.h"
+#include "yaIsaacEnums.h"
 #include "yaItemObject.h"
 
 namespace ya

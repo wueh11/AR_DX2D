@@ -155,7 +155,10 @@
   <ItemGroup>
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="Commons.h" />
-    <ClInclude Include="Isaac.h" />
+    <ClInclude Include="yaBasement1.h" />
+    <ClInclude Include="yaDoor.h" />
+    <ClInclude Include="yaDoorScript.h" />
+    <ClInclude Include="yaIsaacEnums.h" />
     <ClInclude Include="yaCollectibleScript.h" />
     <ClInclude Include="yaGaper.h" />
     <ClInclude Include="yaGaperScript.h" />
@@ -189,6 +192,7 @@
     <ClInclude Include="yaImageRenderer.h" />
     <ClInclude Include="yaItem.h" />
     <ClInclude Include="yaItemManager.h" />
+    <ClInclude Include="yaLand.h" />
     <ClInclude Include="yaMonsterScript.h" />
     <ClInclude Include="yaPickupScript.h" />
     <ClInclude Include="yaParticleShader.h" />
@@ -238,8 +242,7 @@
     <ClInclude Include="yaSoulHeartFull.h" />
     <ClInclude Include="yaSpike.h" />
     <ClInclude Include="yaSpriteRenderer.h" />
-    <ClInclude Include="yaStage.h" />
-    <ClInclude Include="yaStageManager.h" />
+    <ClInclude Include="yaStageScene.h" />
     <ClInclude Include="yaStructedBuffer.h" />
     <ClInclude Include="yaTear.h" />
     <ClInclude Include="yaTearScript.h" />
@@ -258,8 +261,11 @@
   <ItemGroup>
     <ClCompile Include="yaActiveItem.cpp" />
     <ClCompile Include="yaActiveItemScript.cpp" />
+    <ClCompile Include="yaBasement1.cpp" />
     <ClCompile Include="yaCardScript.cpp" />
     <ClCompile Include="yaCollectibleScript.cpp" />
+    <ClCompile Include="yaDoor.cpp" />
+    <ClCompile Include="yaDoorScript.cpp" />
     <ClCompile Include="yaFireplace.cpp" />
     <ClCompile Include="yaGaper.cpp" />
     <ClCompile Include="yaGaperScript.cpp" />
@@ -288,6 +294,7 @@
     <ClCompile Include="yaHeartScript.cpp" />
     <ClCompile Include="yaImageRenderer.cpp" />
     <ClCompile Include="yaItemManager.cpp" />
+    <ClCompile Include="yaLand.cpp" />
     <ClCompile Include="yaMonsterScript.cpp" />
     <ClCompile Include="yaPickupScript.cpp" />
     <ClCompile Include="yaParticleShader.cpp" />
@@ -333,8 +340,7 @@
     <ClCompile Include="yaSoulHeartFull.cpp" />
     <ClCompile Include="yaSpike.cpp" />
     <ClCompile Include="yaSpriteRenderer.cpp" />
-    <ClCompile Include="yaStage.cpp" />
-    <ClCompile Include="yaStageManager.cpp" />
+    <ClCompile Include="yaStageScene.cpp" />
     <ClCompile Include="yaStructedBuffer.cpp" />
     <ClCompile Include="yaTear.cpp" />
     <ClCompile Include="yaTearScript.cpp" />

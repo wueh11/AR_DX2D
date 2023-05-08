@@ -1,6 +1,6 @@
 #pragma once
 #include "yaMonster.h"
-#include "Isaac.h"
+#include "yaIsaacEnums.h"
 
 namespace ya
 {

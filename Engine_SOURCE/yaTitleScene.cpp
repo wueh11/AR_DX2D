@@ -23,7 +23,7 @@
 #include "yaAnimator.h"
 
 #include "yaPlayer.h"
-#include "yaIsaac.h"
+#include "yaIsaacEnums.h"
 #include "yaLight.h"
 
 #include "yaPaintShader.h"
@@ -184,7 +184,7 @@ namespace ya
 	{
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
-			SceneManager::LoadScene(eSceneType::Play);
+			SceneManager::LoadScene(eSceneType::Basement1);
 		}
 
 		if (Input::GetKeyDown(eKeyCode::N_0))

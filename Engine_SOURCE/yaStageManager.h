@@ -1,9 +1,8 @@
 #pragma once
 #include "yaEngine.h"
 #include "yaScene.h"
-#include "Isaac.h"
+#include "yaIsaacEnums.h"
 #include "yaItemObject.h"
-#include "yaStage.h"
 #include "yaRoom.h"
 
 namespace ya
@@ -13,14 +12,11 @@ namespace ya
 	{
 	public:
 		static void Initialize();
+		static void Release();
 
 	public:
-		Stage* GetCurrentStage() { return mCurrentStage; }
+		static Room* CreateRoom(int x, int y);
 
-	private:
-		static Stage* mCurrentStage;
-		std::vector<Stage*> mStages;
-		
 	};
 }
 
