@@ -178,6 +178,15 @@
     <Filter Include="Component\Script\Contents\Monsters\Base">
       <UniqueIdentifier>{22a4f0ad-35a7-4a34-9b11-d63cd65a54c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Stage">
+      <UniqueIdentifier>{93c22f6d-2a2b-4593-96ca-4256eb7533ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Item\Manager">
+      <UniqueIdentifier>{2482c518-912a-491f-b13e-c0bf068c7815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Stage\Manager">
+      <UniqueIdentifier>{9aa0ba12-98a3-490c-921f-d39bfdc74e26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -240,7 +249,6 @@
     <ClCompile Include="yaSpriteRenderer.cpp">
       <Filter>Component\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="yaRoom.cpp" />
     <ClCompile Include="yaPlayScene.cpp">
       <Filter>Scene\Issac</Filter>
     </ClCompile>
@@ -413,7 +421,6 @@
     <ClCompile Include="yaCardScript.cpp">
       <Filter>Component\Script\Contents\Item\PickUp</Filter>
     </ClCompile>
-    <ClCompile Include="yaItemManager.cpp" />
     <ClCompile Include="yaUIScript.cpp">
       <Filter>Component\Script\Contents\Scene</Filter>
     </ClCompile>
@@ -444,6 +451,18 @@
     </ClCompile>
     <ClCompile Include="yaGaperScript.cpp">
       <Filter>Component\Script\Contents\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="yaItemManager.cpp">
+      <Filter>GameObject\Item\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="yaStageManager.cpp">
+      <Filter>GameObject\Stage\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRoom.cpp">
+      <Filter>GameObject\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="yaStage.cpp">
+      <Filter>GameObject\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -522,7 +541,6 @@
     <ClInclude Include="yaObject.h">
       <Filter>GameObject\Base</Filter>
     </ClInclude>
-    <ClInclude Include="yaRoom.h" />
     <ClInclude Include="yaPlayScene.h">
       <Filter>Scene\Issac</Filter>
     </ClInclude>
@@ -698,7 +716,6 @@
     <ClInclude Include="yaCardScript.h">
       <Filter>Component\Script\Contents\Item\PickUp</Filter>
     </ClInclude>
-    <ClInclude Include="yaItemManager.h" />
     <ClInclude Include="yaUIScript.h">
       <Filter>Component\Script\Contents\Scene</Filter>
     </ClInclude>
@@ -733,6 +750,18 @@
     </ClInclude>
     <ClInclude Include="yaGaperScript.h">
       <Filter>Component\Script\Contents\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="yaItemManager.h">
+      <Filter>GameObject\Item\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="yaStageManager.h">
+      <Filter>GameObject\Stage\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRoom.h">
+      <Filter>GameObject\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="yaStage.h">
+      <Filter>GameObject\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

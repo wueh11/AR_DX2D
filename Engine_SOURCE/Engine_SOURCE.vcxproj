@@ -238,6 +238,8 @@
     <ClInclude Include="yaSoulHeartFull.h" />
     <ClInclude Include="yaSpike.h" />
     <ClInclude Include="yaSpriteRenderer.h" />
+    <ClInclude Include="yaStage.h" />
+    <ClInclude Include="yaStageManager.h" />
     <ClInclude Include="yaStructedBuffer.h" />
     <ClInclude Include="yaTear.h" />
     <ClInclude Include="yaTearScript.h" />
@@ -331,6 +333,8 @@
     <ClCompile Include="yaSoulHeartFull.cpp" />
     <ClCompile Include="yaSpike.cpp" />
     <ClCompile Include="yaSpriteRenderer.cpp" />
+    <ClCompile Include="yaStage.cpp" />
+    <ClCompile Include="yaStageManager.cpp" />
     <ClCompile Include="yaStructedBuffer.cpp" />
     <ClCompile Include="yaTear.cpp" />
     <ClCompile Include="yaTearScript.cpp" />

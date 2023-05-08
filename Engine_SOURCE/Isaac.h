@@ -2,6 +2,10 @@
 
 namespace ya::isaac
 {
+	const UINT STAGE_SIZE = 2;
+	const UINT ROOM_MAX_ROW = 8;
+	const UINT ROOM_MAX_COLUMN = 8;
+
 	// monster
 	enum class eMonsterType
 	{
@@ -105,7 +109,7 @@ namespace ya::isaac
 		End,
 	};
 
-	struct ActiveItemInfo
+	/*struct ActiveItemInfo
 	{
 		std::wstring name;
 		eActiveItem type;
@@ -157,5 +161,5 @@ namespace ya::isaac
 		PassiveItemInfo()
 			:type(ePassiveItem::None)
 		{}
-	};
+	};*/
 }
