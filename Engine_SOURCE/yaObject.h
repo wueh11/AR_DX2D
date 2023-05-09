@@ -45,6 +45,29 @@ namespace ya::object
 
 		return gameObj;
 	}
+	
+
+	template<typename T>
+	static T* Instantiate(enums::eLayerType type, GameObject* parent)
+	{
+		T* gameObj = new T();
+		Scene* scene = SceneManager::GetActiveScene();
+		Layer& layer = scene->GetLayer(type);
+		layer.AddGameObject(gameObj);
+		gameObj->Initialize();
+
+		if (parent != nullptr)
+		{
+			gameObj->SetParent(parent);
+			Transform* parentTr = parent->GetComponent<Transform>();
+
+			Transform* tr = gameObj->GameObject::GetComponent<Transform>();
+			tr->SetParent(parentTr);
+		}
+
+
+		return gameObj;
+	}
 
 	/*template<typename T>
 	static T* Instantiate(enums::eLayerType type, Transform* parent, bool instantiateInWorldSpace = false)

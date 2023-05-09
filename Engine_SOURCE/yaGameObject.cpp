@@ -7,6 +7,7 @@ namespace ya
 		: mState(eState::Active)
 		, mType(eLayerType::None)
 		, mbDontDestroy(false)
+		, mParent(nullptr)
 	{
 		mComponents.resize((UINT)eComponentType::End);
 		AddComponent(new Transform());

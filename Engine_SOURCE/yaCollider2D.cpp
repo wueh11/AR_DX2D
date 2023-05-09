@@ -37,10 +37,17 @@ namespace ya
 	{
 		Vector3 scale = mTransform->GetScale();
 		scale *= Vector3(mSize.x, mSize.y, 1.0f);
-
 		Vector3 rotation = mTransform->GetRotation();
-
 		Vector3 position = mTransform->GetPosition();
+
+		GameObject* parent = GetOwner()->GetParent();
+		if (parent != nullptr)
+		{
+			Transform* parentTr = parent->GetComponent<Transform>();
+			scale += parentTr->GetRotation();
+			position += parentTr->GetPosition();
+		}
+
 		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f);
 		mPosition = colliderPos;
 

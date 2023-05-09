@@ -111,6 +111,9 @@ namespace ya
 		void SetLayerType(eLayerType type) { mType = type; }
 		eLayerType GetLayerType() { return mType; }
 
+		GameObject* GetParent() { return mParent; }
+		void SetParent(GameObject* obj) { mParent = obj; }
+
 	protected:
 		std::vector<Component*> mComponents;
 
@@ -119,5 +122,7 @@ namespace ya
 		eLayerType mType;
 		std::vector<Script*> mScripts;
 		bool mbDontDestroy;
+
+		GameObject* mParent;
 	};
 }
