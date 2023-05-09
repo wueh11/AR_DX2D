@@ -67,7 +67,7 @@ namespace ya
 		if (x < 0 || y < 0)
 			return;
 
-		room->SetRoomPos(Vector2(x, y));
+		room->SetRoomGrid(Vector2(x, y));
 		mRooms[x][y] = room;
 	}
 
@@ -76,6 +76,14 @@ namespace ya
 		mCurrentRoom = room;
 
 		Transform* tr = room->GetComponent<Transform>();
+		mainCamera->GetOwner()->GetComponent<Transform>()->SetPosition(tr->GetPosition());
+	}
+
+	void StageScene::SetCurrentRoom(int x, int y)
+	{
+		mCurrentRoom = GetRoom(x, y);
+
+		Transform* tr = mCurrentRoom->GetComponent<Transform>();
 		mainCamera->GetOwner()->GetComponent<Transform>()->SetPosition(tr->GetPosition());
 	}
 

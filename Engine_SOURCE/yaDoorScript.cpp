@@ -15,6 +15,9 @@
 
 #include "yaDoor.h"
 
+#include "yaSceneManager.h"
+#include "yaStageScene.h"
+
 namespace ya
 {
 	DoorScript::DoorScript()
@@ -71,17 +74,42 @@ namespace ya
 		if (player != nullptr)
 		{
 			Transform* playerTr = player->GetComponent<Transform>();
+			Vector3 pos = playerTr->GetPosition();
 
 			Door::eDirection dir = dynamic_cast<Door*>(GetOwner())->GetDirection();
 
+			StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+			Vector2 roomgrid = scene->GetCurrentRoom()->GetRoomGrid();
+
+			float dist = 2.0f;
 			if (dir == Door::eDirection::LEFT)
-				playerTr->SetPosition(Vector3(playerTr->GetPosition().x - 3.0f, playerTr->GetPosition().y, playerTr->GetPosition().z));
+			{
+				pos.x += dist;
+				scene->SetCurrentRoom(roomgrid.x, roomgrid.y + 1);
+			}
 			else if (dir == Door::eDirection::RIGHT)
-				playerTr->SetPosition(Vector3(playerTr->GetPosition().x + 3.0f, playerTr->GetPosition().y, playerTr->GetPosition().z));
+			{
+				pos.x -= dist;
+				scene->SetCurrentRoom(roomgrid.x, roomgrid.y - 1);
+			}
 			else if (dir == Door::eDirection::UP)
-				playerTr->SetPosition(Vector3(playerTr->GetPosition().x, playerTr->GetPosition().y - 3.0f, playerTr->GetPosition().z));
+			{
+				pos.y += dist;
+				scene->SetCurrentRoom(roomgrid.x - 1, roomgrid.y);
+			}
 			else if (dir == Door::eDirection::DOWN)
-				playerTr->SetPosition(Vector3(playerTr->GetPosition().x, playerTr->GetPosition().y + 3.0f, playerTr->GetPosition().z));
+			{
+				pos.y -= dist;
+				scene->SetCurrentRoom(roomgrid.x + 1, roomgrid.y);
+			}
+
+			playerTr->SetPosition(pos);
+
+			/*
+			Vector2 roompos = scene->GetCurrentRoom()->GetRoomPosition();
+			Transform* cameraTr = mainCamera->GetOwner()->GetComponent<Transform>();
+			cameraTr->SetPosition(Vector3(roompos.x, roompos.y, 0.0f));
+			int a = 0;*/
 		}
 	}
 

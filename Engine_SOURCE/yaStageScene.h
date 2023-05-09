@@ -25,9 +25,11 @@ namespace ya
 		Room* GetRoom(int x, int y);
 
 		void AddRoom(Room* room, int x, int y);
-		void SetCurrentRoom(Room* room);
-
 		Room* CreateRoom(int x, int y);
+
+		Room* GetCurrentRoom() { return mCurrentRoom; }
+		void SetCurrentRoom(Room* room);
+		void SetCurrentRoom(int x, int y);
 
 	protected:
 		std::vector<std::vector<Room*>> mRooms;

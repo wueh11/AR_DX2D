@@ -25,11 +25,14 @@ namespace ya
 
 	public:
 		eDirection GetDirection() { return mDirection; }
+		void SetDirection(eDirection dir) { mDirection = dir; }
+
 		bool IsOpen() { return mbOpen; }
 		bool IsDamaged() { return mbDamaged; }
 
 		void SetOpen(bool open) { mbOpen = open; }
 		void SetDamaged(bool damaged) { mbDamaged = damaged; }
+
 
 	private:
 		eDirection mDirection;

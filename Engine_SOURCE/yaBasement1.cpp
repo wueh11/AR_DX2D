@@ -68,18 +68,6 @@ namespace ya
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 
-		{ // bgblack
-			GameObject* bgblack = object::Instantiate<GameObject>(eLayerType::UI);
-			Transform* bgblackTr = bgblack->GetComponent<Transform>();
-			bgblackTr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
-			bgblackTr->SetScale(Vector3(10.0f, 8.0f, 1.0f));
-
-			MeshRenderer* bgblackMr = bgblack->AddComponent<MeshRenderer>();
-			bgblackMr->SetMesh(mesh);
-			std::shared_ptr<Material> gamemenuMaterial = Resources::Find<Material>(L"bgblackMaterial");
-			bgblackMr->SetMaterial(gamemenuMaterial);
-		}
-
 		Player* player = object::Instantiate<Player>(eLayerType::Player);
 		{ // Player
 			player->AddComponent<PlayerScript>();
@@ -140,17 +128,17 @@ namespace ya
 		Room* room32 = CreateRoom(3, 2);
 		{
 			{
-				HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item, room32->GetComponent<Transform>());
+				HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item, room32);
 				room32->AddRoomObject(heart, 0, 0);
 			}
 
 			{
-				SoulHeartFull* heart = object::Instantiate<SoulHeartFull>(eLayerType::Item, room32->GetComponent<Transform>());
+				SoulHeartFull* heart = object::Instantiate<SoulHeartFull>(eLayerType::Item, room32);
 				room32->AddRoomObject(heart, 3, 4);
 			}
 
 			{
-				HeartHalf* heart = object::Instantiate<HeartHalf>(eLayerType::Item, room32->GetComponent<Transform>());
+				HeartHalf* heart = object::Instantiate<HeartHalf>(eLayerType::Item, room32);
 				room32->AddRoomObject(heart, 3, 5);
 			}
 

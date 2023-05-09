@@ -20,9 +20,11 @@ namespace ya
 		void Active(bool active) { mbActive = active; }
 		bool IsActive() { return mbActive; }
 
-		void SetRoomPos(Vector2 roomPos);
+		void SetRoomGrid(Vector2 roomGrid);
+		void SetRoomPosition(Vector2 roomGrid);
 
-		Vector2 GetRoomPos() { return mRoomPos; }
+		Vector2 GetRoomPosition() { return mRoomPosition; }
+		Vector2 GetRoomGrid() { return mRoomGrid; }
 
 	private:
 		bool mbActive;	// player가 방에 있을 경우 true
@@ -33,6 +35,9 @@ namespace ya
 
 		GameObject* mGrid[7][13];	// 방을 구성하는 gameobject. 빈칸일경우 nullptr
 
-		Vector2 mRoomPos;
+		Vector2 mRoomGrid;
+		Vector2 mRoomPosition;
+
+		Transform* tr1;
 	};
 }

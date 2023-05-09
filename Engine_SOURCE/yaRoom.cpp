@@ -21,6 +21,9 @@
 
 #include "yaStageScene.h"
 
+#include "yaInput.h"
+#include "yaTime.h"
+
 namespace ya
 {
 	Room::Room(int x, int y)
@@ -30,7 +33,8 @@ namespace ya
 		, mbClear(false)
 		, mbLock(false)
 		, mGrid{}
-		, mRoomPos(x, y)
+		, mRoomGrid(x, y)
+		, mRoomPosition(Vector2::Zero)
 	{
 	}
 	Room::~Room()
@@ -38,10 +42,7 @@ namespace ya
 	}
 	void Room::Initialize()
 	{
-		GameObject::Initialize();
-
-		Transform* tr = GetComponent<Transform>();
-		tr->SetPosition(Vector3(mRoomPos.y * 7.0f, mRoomPos.x * -4.0f, 0.0f));
+		SetRoomPosition(mRoomGrid);
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 
@@ -49,7 +50,7 @@ namespace ya
 		{
 			for (size_t j = 0; j < 2; j++)
 			{
-				GameObject* basement = object::Instantiate<GameObject>(eLayerType::Background, tr);
+				GameObject* basement = object::Instantiate<GameObject>(eLayerType::Background, this);
 				Transform* basementTr = basement->GetComponent<Transform>();
 				basementTr->SetPosition(Vector3(-2.1f + (4.2f * i), 1.36f + (-2.72f * j), 0.0f));
 				basementTr->SetRotation(Vector3(XM_PI * j, XM_PI * i, 0.0f));
@@ -71,12 +72,12 @@ namespace ya
 			{
 				for (size_t j = 0; j < 2; j++)
 				{
-					GameObject* wall = object::Instantiate<GameObject>(eLayerType::Wall, tr);
+					GameObject* wall = object::Instantiate<GameObject>(eLayerType::Wall, this);
 					Transform* wallTr = wall->GetComponent<Transform>();
 					wallTr->SetPosition(Vector3(-2.0f + (4.0f * j), 2.0f + (-4.0f * i), 0.0f));
+					wallTr->SetScale(Vector3(3.2f, 0.2f, 1.0f));
 					wall->AddComponent<WallScript>();
 					Collider2D* collider = wall->AddComponent<Collider2D>();
-					collider->SetSize(Vector2(3.2f, 0.2f));
 					collider->SetColliderType(eColliderType::Rect);
 				}
 			}
@@ -85,19 +86,19 @@ namespace ya
 			{
 				for (size_t j = 0; j < 2; j++)
 				{
-					GameObject* wall = object::Instantiate<GameObject>(eLayerType::Wall, tr);
+					GameObject* wall = object::Instantiate<GameObject>(eLayerType::Wall, this);
 					Transform* wallTr = wall->GetComponent<Transform>();
 					wallTr->SetPosition(Vector3(-3.4f + (6.8f * j), 1.3f + (-2.6f * i), 0.0f));
+					wallTr->SetScale(Vector3(0.2f, 1.8f, 1.0f));
 					wall->AddComponent<WallScript>();
 					Collider2D* collider = wall->AddComponent<Collider2D>();
-					collider->SetSize(Vector2(0.2f, 1.8f));
 					collider->SetColliderType(eColliderType::Rect);
 				}
 			}
 		}
 
 		{ // shading
-			GameObject* shading = object::Instantiate<GameObject>(eLayerType::Background, tr);
+			GameObject* shading = object::Instantiate<GameObject>(eLayerType::Background, this);
 			Transform* shadingTr = shading->GetComponent<Transform>();
 			shadingTr->SetPosition(Vector3(0.0f, 0.0f, 0.5f));
 			shadingTr->SetScale(Vector3(8.7f, 6.0f, 1.0f));
@@ -113,46 +114,59 @@ namespace ya
 		{
 			// 주위에 방이 있는 경우 문 생성
 			//상
-			if (stage->GetRoom(mRoomPos.x - 1, mRoomPos.y) != nullptr)
+			if (stage->GetRoom(mRoomGrid.x - 1, mRoomGrid.y) != nullptr)
 			{
-				Door* door = object::Instantiate<Door>(eLayerType::Land, tr);
+				Door* door = object::Instantiate<Door>(eLayerType::Land, this);
+				door->SetDirection(Door::eDirection::UP);
 				Transform* doorTr = door->GetComponent<Transform>();
 				//doorTr->SetPosition(Vector3(0.0f, -1.2f, 0.0f));
 				AddRoomObject(door, 0, 6);
 			}
 
 			//하
-			if (stage->GetRoom(mRoomPos.x + 1, mRoomPos.y) != nullptr)
+			if (stage->GetRoom(mRoomGrid.x + 1, mRoomGrid.y) != nullptr)
 			{
-				Door* door = object::Instantiate<Door>(eLayerType::Land, tr);
+				Door* door = object::Instantiate<Door>(eLayerType::Land, this);
+				door->SetDirection(Door::eDirection::DOWN);
 				Transform* doorTr = door->GetComponent<Transform>();
 				//doorTr->SetPosition(Vector3(0.0f, 1.2f, 0.0f));
 				AddRoomObject(door, 6, 6);
 			}
 
 			//좌
-			if (stage->GetRoom(mRoomPos.x, mRoomPos.y - 1) != nullptr)
+			if (stage->GetRoom(mRoomGrid.x, mRoomGrid.y - 1) != nullptr)
 			{
-				Door* door = object::Instantiate<Door>(eLayerType::Land, tr);
+				Door* door = object::Instantiate<Door>(eLayerType::Land, this);
+				door->SetDirection(Door::eDirection::LEFT);
 				Transform* doorTr = door->GetComponent<Transform>();
 				//doorTr->SetPosition(Vector3(-3.6f, 0.0f, 0.0f));
 				AddRoomObject(door, 3, 0);
 			}
 
 			//우
-			if (stage->GetRoom(mRoomPos.x, mRoomPos.y + 1) != nullptr)
+			if (stage->GetRoom(mRoomGrid.x, mRoomGrid.y + 1) != nullptr)
 			{
-				Door* door = object::Instantiate<Door>(eLayerType::Land, tr);
+				Door* door = object::Instantiate<Door>(eLayerType::Land, this);
+				door->SetDirection(Door::eDirection::RIGHT);
 				Transform* doorTr = door->GetComponent<Transform>();
 				//doorTr->SetPosition(Vector3(3.6f, 0.0f, 0.0f));
 				AddRoomObject(door, 3, 12);
 			}
 		}
+
+		GameObject::Initialize();
 	}
 
 	void Room::Update()
 	{
 		GameObject::Update();
+
+		Transform* tr = GetComponent<Transform>();
+		Vector3 pos = tr->GetPosition();
+		if (Input::GetKey(eKeyCode::V))
+			pos -= 100.0f * tr->Right() * Time::DeltaTime();
+
+		tr->SetPosition(pos);
 	}
 	void Room::FixedUpdate()
 	{
@@ -191,11 +205,15 @@ namespace ya
 			tr->SetPosition(Vector3((y - 6) * 0.64f, (x - 3) * 0.8f, 0.0f));
 		}
 	}
-	void Room::SetRoomPos(Vector2 roomPos)
+	void Room::SetRoomGrid(Vector2 roomGrid)
 	{
-		mRoomPos = roomPos;
-		
+		mRoomGrid = roomGrid;
+		SetRoomPosition(mRoomGrid);
+	}
+	void Room::SetRoomPosition(Vector2 roomGrid)
+	{
+		mRoomPosition = Vector2(mRoomGrid.y * 7.0f, mRoomGrid.x * -4.0f);
 		Transform* tr = GetComponent<Transform>();
-		tr->SetPosition(Vector3(roomPos.x * 3.4f, roomPos.y * 2.0f, 0.0f));
+		tr->SetPosition(Vector3(mRoomPosition.x, mRoomPosition.y, 0.0f));
 	}
 }

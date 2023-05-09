@@ -44,9 +44,9 @@ namespace ya
 
 			for (size_t i = 0; i < 12; i++)
 			{
-				GameObject* ui_hearts = object::Instantiate<GameObject>(eLayerType::Background);
+				GameObject* ui_hearts = object::Instantiate<GameObject>(eLayerType::UI);
 				Transform* ui_heartsTr = ui_hearts->GetComponent<Transform>();
-				ui_heartsTr->SetPosition(Vector3(-3.7f + (0.25f * i), 2.48f, 1.0f));
+				ui_heartsTr->SetPosition(Vector3(-3.7f + (0.25f * i), 2.48f, -10.0f));
 				ui_heartsTr->SetScale(Vector3(0.32f, 0.32f, 1.0f));
 
 				SpriteRenderer* ui_heartsMr = ui_hearts->AddComponent<SpriteRenderer>();
@@ -72,7 +72,7 @@ namespace ya
 		{ // coin
 			GameObject* coin = object::Instantiate<GameObject>(eLayerType::UI);
 			Transform* coinTr = coin->GetComponent<Transform>();
-			coinTr->SetPosition(Vector3(-4.64f, 1.9f, 0.0f));
+			coinTr->SetPosition(Vector3(-4.64f, 1.9f, -10.0f));
 			coinTr->SetScale(Vector3(0.32f, 0.32f, 1.0f));
 
 			 ImageRenderer* coinMr = coin->AddComponent<ImageRenderer>();
@@ -84,7 +84,7 @@ namespace ya
 		{ // bomb
 			GameObject* bomb = object::Instantiate<GameObject>(eLayerType::UI);
 			Transform* bombTr = bomb->GetComponent<Transform>();
-			bombTr->SetPosition(Vector3(-4.64f, 1.64f, 0.0f));
+			bombTr->SetPosition(Vector3(-4.64f, 1.64f, -10.0f));
 			bombTr->SetScale(Vector3(0.32f, 0.32f, 1.0f));
 
 			ImageRenderer* bombMr = bomb->AddComponent<ImageRenderer>();
@@ -96,7 +96,7 @@ namespace ya
 		{ // key
 			GameObject* key = object::Instantiate<GameObject>(eLayerType::UI);
 			Transform* keyTr = key->GetComponent<Transform>();
-			keyTr->SetPosition(Vector3(-4.64f, 1.38f, 0.0f));
+			keyTr->SetPosition(Vector3(-4.64f, 1.38f, -10.0f));
 			keyTr->SetScale(Vector3(0.32f, 0.32f, 1.0f));
 
 			ImageRenderer* keyMr = key->AddComponent<ImageRenderer>();
@@ -108,7 +108,7 @@ namespace ya
 		{ // consumable
 			mConsumable = object::Instantiate<GameObject>(eLayerType::UI);
 			Transform* ui_cardspillsTr = mConsumable->GetComponent<Transform>();
-			ui_cardspillsTr->SetPosition(Vector3(4.5f, -2.5f, 0.0f));
+			ui_cardspillsTr->SetPosition(Vector3(4.5f, -2.5f, -10.0f));
 			ui_cardspillsTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
 			std::shared_ptr<Material> ui_cardspillsMaterial = Resources::Find<Material>(L"ui_cardspillsMaterial");
@@ -147,7 +147,7 @@ namespace ya
 		{ // Trinket
 			mTrinket = object::Instantiate<GameObject>(eLayerType::UI);
 			Transform* ui_trinketTr = mTrinket->GetComponent<Transform>();
-			ui_trinketTr->SetPosition(Vector3(-4.2f, -2.4f, 0.0f));
+			ui_trinketTr->SetPosition(Vector3(-4.2f, -2.4f, -10.0f));
 			ui_trinketTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
 			SpriteRenderer* ui_trinketMr = mTrinket->AddComponent<SpriteRenderer>();
@@ -164,7 +164,7 @@ namespace ya
 		{ // ActiveItem
 			mActiveItem = object::Instantiate<GameObject>(eLayerType::UI);
 			Transform* activeitemTr = mActiveItem->GetComponent<Transform>();
-			activeitemTr->SetPosition(Vector3(-4.45f, 2.35f, 0.0f));
+			activeitemTr->SetPosition(Vector3(-4.45f, 2.35f, -10.0f));
 			activeitemTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
 			SpriteRenderer* ui_activeMr = mActiveItem->AddComponent<SpriteRenderer>();
@@ -186,7 +186,7 @@ namespace ya
 			{ // active gauge background
 				mChargeBarBackground = object::Instantiate<GameObject>(eLayerType::UI);
 				Transform* chargeBarBackgroundTr = mChargeBarBackground->GetComponent<Transform>();
-				chargeBarBackgroundTr->SetPosition(Vector3(-4.1f, 2.32f, 0.0f));
+				chargeBarBackgroundTr->SetPosition(Vector3(-4.1f, 2.32f, -10.0f));
 				chargeBarBackgroundTr->SetScale(Vector3(0.32f, 0.60f, 1.0f));
 
 				ImageRenderer* chargeBarBackgroundRenderer = mChargeBarBackground->AddComponent<ImageRenderer>();
@@ -201,7 +201,7 @@ namespace ya
 			{ // gauge color
 				mChargeGauge = object::Instantiate<GameObject>(eLayerType::UI);
 				Transform* chargeBarGaugeTr = mChargeGauge->GetComponent<Transform>();
-				chargeBarGaugeTr->SetPosition(Vector3(-4.1f, 2.32f, 0.0f));
+				chargeBarGaugeTr->SetPosition(Vector3(-4.1f, 2.32f, -10.0f));
 				chargeBarGaugeTr->SetScale(Vector3(0.32f, 0.60f, 1.0f));
 
 				ImageRenderer* chargeBarGaugeRenderer = mChargeGauge->AddComponent<ImageRenderer>();
@@ -218,7 +218,7 @@ namespace ya
 				mChargeBar = object::Instantiate<GameObject>(eLayerType::UI);
 
 				Transform* chargeBarTr = mChargeBar->GetComponent<Transform>();
-				chargeBarTr->SetPosition(Vector3(-4.1f, 2.32f, 0.0f));
+				chargeBarTr->SetPosition(Vector3(-4.1f, 2.32f, -10.0f));
 				chargeBarTr->SetScale(Vector3(0.32f, 0.60f, 1.0f));
 
 				SpriteRenderer* chargeBarRenderer = mChargeBar->AddComponent<SpriteRenderer>();

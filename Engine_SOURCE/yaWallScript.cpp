@@ -9,7 +9,8 @@
 #include "yaScene.h"
 #include "yaSceneManager.h"
 #include "yaRigidbody.h"
-#include "yaPickup.h"
+
+#include "yaInput.h"
 
 namespace ya
 {
@@ -27,6 +28,12 @@ namespace ya
 
 	void WallScript::Update()
 	{
+		/*Transform* tr = GetOwner()->GetComponent<Transform>();
+		Vector3 pos = tr->GetPosition();
+		if (Input::GetKey(eKeyCode::V))
+			pos -= 100.0f * tr->Right() * Time::DeltaTime();
+
+		tr->SetPosition(pos);*/
 	}
 
 	void WallScript::FixedUpdate()
