@@ -1,5 +1,6 @@
 #pragma once
 #include "yaGameObject.h"
+#include "yaDoor.h"
 
 namespace ya
 {
@@ -15,6 +16,8 @@ namespace ya
 		virtual void Render();
 
 	public:
+		void InitDoor();
+		Door* CreateDoor(Door::eDirection dir);
 		void AddRoomObject(GameObject* roomObj, int x = -1, int y = -1);
 
 		void Active(bool active) { mbActive = active; }

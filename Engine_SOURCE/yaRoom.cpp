@@ -12,7 +12,6 @@
 #include "yaUIScript.h"
 
 #include "yaMonster.h"
-#include "yaDoor.h"
 #include "yaFireplace.h"
 #include "yaPit.h"
 #include "yaRock.h"
@@ -109,51 +108,6 @@ namespace ya
 			shadingMr->SetMaterial(shadingMaterial);
 		}
 
-		StageScene* stage = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
-		if(stage != nullptr)
-		{
-			// 주위에 방이 있는 경우 문 생성
-			//상
-			if (stage->GetRoom(mRoomGrid.x - 1, mRoomGrid.y) != nullptr)
-			{
-				Door* door = object::Instantiate<Door>(eLayerType::Land, this);
-				door->SetDirection(Door::eDirection::UP);
-				Transform* doorTr = door->GetComponent<Transform>();
-				//doorTr->SetPosition(Vector3(0.0f, -1.2f, 0.0f));
-				AddRoomObject(door, 0, 6);
-			}
-
-			//하
-			if (stage->GetRoom(mRoomGrid.x + 1, mRoomGrid.y) != nullptr)
-			{
-				Door* door = object::Instantiate<Door>(eLayerType::Land, this);
-				door->SetDirection(Door::eDirection::DOWN);
-				Transform* doorTr = door->GetComponent<Transform>();
-				//doorTr->SetPosition(Vector3(0.0f, 1.2f, 0.0f));
-				AddRoomObject(door, 6, 6);
-			}
-
-			//좌
-			if (stage->GetRoom(mRoomGrid.x, mRoomGrid.y - 1) != nullptr)
-			{
-				Door* door = object::Instantiate<Door>(eLayerType::Land, this);
-				door->SetDirection(Door::eDirection::LEFT);
-				Transform* doorTr = door->GetComponent<Transform>();
-				//doorTr->SetPosition(Vector3(-3.6f, 0.0f, 0.0f));
-				AddRoomObject(door, 3, 0);
-			}
-
-			//우
-			if (stage->GetRoom(mRoomGrid.x, mRoomGrid.y + 1) != nullptr)
-			{
-				Door* door = object::Instantiate<Door>(eLayerType::Land, this);
-				door->SetDirection(Door::eDirection::RIGHT);
-				Transform* doorTr = door->GetComponent<Transform>();
-				//doorTr->SetPosition(Vector3(3.6f, 0.0f, 0.0f));
-				AddRoomObject(door, 3, 12);
-			}
-		}
-
 		GameObject::Initialize();
 	}
 
@@ -176,6 +130,64 @@ namespace ya
 	{
 		GameObject::Render();
 	}
+
+	void Room::InitDoor()
+	{
+		StageScene* stage = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+		if (stage != nullptr)
+		{
+			// 주위에 방이 있는 경우 문 생성
+			//상
+			if (stage->GetRoom(mRoomGrid.x - 1, mRoomGrid.y) != nullptr)
+			{
+				Door* door = CreateDoor(Door::eDirection::UP);
+				Transform* doorTr = door->GetComponent<Transform>();
+				doorTr->SetPosition(Vector3(0.0f, 1.6f, 0.0f));
+			}
+
+			//하
+			if (stage->GetRoom(mRoomGrid.x + 1, mRoomGrid.y) != nullptr)
+			{
+				Door* door = CreateDoor(Door::eDirection::DOWN);
+				Transform* doorTr = door->GetComponent<Transform>();
+				doorTr->SetPosition(Vector3(0.0f, -1.6f, 0.0f));
+			}
+
+			//좌
+			if (stage->GetRoom(mRoomGrid.x, mRoomGrid.y - 1) != nullptr)
+			{
+				Door* door = CreateDoor(Door::eDirection::LEFT);
+				Transform* doorTr = door->GetComponent<Transform>();
+				doorTr->SetPosition(Vector3(-3.2f, 0.0f, 0.0f));
+			}
+
+			//우
+			if (stage->GetRoom(mRoomGrid.x, mRoomGrid.y + 1) != nullptr)
+			{
+				Door* door = CreateDoor(Door::eDirection::RIGHT);
+				Transform* doorTr = door->GetComponent<Transform>();
+				doorTr->SetPosition(Vector3(3.2f, 0.0f, 0.0f));
+			}
+		}
+	}
+
+	Door* Room::CreateDoor(Door::eDirection dir)
+	{
+		Door* door = new Door(dir);
+		Scene* scene = SceneManager::GetActiveScene();
+		Layer& layer = scene->GetLayer(eLayerType::Land);
+		layer.AddGameObject(door);
+		door->Initialize();
+		
+		door->SetParent(this);
+		Transform* parentTr = GetComponent<Transform>();
+
+		Transform* tr = door->GetComponent<Transform>();
+		tr->SetParent(parentTr);
+
+		return door;
+	}
+
 	void Room::AddRoomObject(GameObject* roomObj, int x, int y)
 	{
 		if (x < 0 || y < 0)
@@ -202,14 +214,16 @@ namespace ya
 			mGrid[x][y] = roomObj;
 
 			Transform* tr = roomObj->GetComponent<Transform>();
-			tr->SetPosition(Vector3((y - 6) * 0.64f, (x - 3) * 0.8f, 0.0f));
+			tr->SetPosition(Vector3((y - 6) * 0.64f, (x - 3) * 0.8f, -5.0f));
 		}
 	}
+
 	void Room::SetRoomGrid(Vector2 roomGrid)
 	{
 		mRoomGrid = roomGrid;
 		SetRoomPosition(mRoomGrid);
 	}
+
 	void Room::SetRoomPosition(Vector2 roomGrid)
 	{
 		mRoomPosition = Vector2(mRoomGrid.y * 7.0f, mRoomGrid.x * -4.0f);

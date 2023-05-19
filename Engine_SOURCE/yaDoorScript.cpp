@@ -37,23 +37,41 @@ namespace ya
 		std::shared_ptr<Material> material = Resources::Find<Material>(L"normaldoorMaterial");
 		std::shared_ptr<Texture> texture = material->GetTexture();
 
-		{ // door frame
-			GameObject* doorframe = object::Instantiate<GameObject>(eLayerType::Land, tr);
-			SpriteRenderer* renderer = doorframe->AddComponent<SpriteRenderer>();
-			renderer->SetMesh(mesh);
-			renderer->SetMaterial(material);
+		GameObject* doorframe = object::Instantiate<GameObject>(eLayerType::Land, tr);
+		SpriteRenderer* renderer = doorframe->AddComponent<SpriteRenderer>();
+		renderer->SetMesh(mesh);
+		renderer->SetMaterial(material);
 
-			Transform* doorframeTr = doorframe->GetComponent<Transform>();
-			doorframeTr->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+		Transform* doorframeTr = doorframe->GetComponent<Transform>();
+		doorframeTr->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 
+		{
 			Animator* doorAnimator = doorframe->AddComponent<Animator>();
+			doorAnimator->Create(L"normal", texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 45.0f), Vector2::Zero, 1, 1.0f);
 			doorAnimator->Create(L"normal", texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 45.0f), Vector2::Zero, 1, 1.0f);
 			doorAnimator->Create(L"damaged", texture, Vector2(0.0f, 100.0f), Vector2(64.0f, 45.0f), Vector2::Zero, 1, 1.0f);
 
 			doorAnimator->Play(L"normal", false);
 		}
 
-		/*ImageRenderer* renderer = GetOwner()->AddComponent<ImageRenderer>();*/
+		{
+			Animator* doorAnimator = doorframe->AddComponent<Animator>();
+			doorAnimator->Create(L"normal", texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 45.0f), Vector2::Zero, 1, 1.0f);
+			doorAnimator->Create(L"normal", texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 45.0f), Vector2::Zero, 1, 1.0f);
+			doorAnimator->Create(L"damaged", texture, Vector2(0.0f, 100.0f), Vector2(64.0f, 45.0f), Vector2::Zero, 1, 1.0f);
+
+			doorAnimator->Play(L"normal", false);
+		}
+
+		Door::eDirection dir = dynamic_cast<Door*>(GetOwner())->GetDirection();
+		if (dir == Door::eDirection::UP)
+			doorframeTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+		else if (dir == Door::eDirection::DOWN)
+			doorframeTr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2 * 2));
+		else if (dir == Door::eDirection::LEFT)
+			doorframeTr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2));
+		else if (dir == Door::eDirection::RIGHT)
+			doorframeTr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2 * 3));
 	}
 
 	void DoorScript::Update()
@@ -84,13 +102,13 @@ namespace ya
 			float dist = 2.0f;
 			if (dir == Door::eDirection::LEFT)
 			{
-				pos.x += dist;
-				scene->SetCurrentRoom(roomgrid.x, roomgrid.y + 1);
+				pos.x -= dist;
+				scene->SetCurrentRoom(roomgrid.x, roomgrid.y - 1);
 			}
 			else if (dir == Door::eDirection::RIGHT)
 			{
-				pos.x -= dist;
-				scene->SetCurrentRoom(roomgrid.x, roomgrid.y - 1);
+				pos.x += dist;
+				scene->SetCurrentRoom(roomgrid.x, roomgrid.y + 1);
 			}
 			else if (dir == Door::eDirection::UP)
 			{
@@ -104,13 +122,8 @@ namespace ya
 			}
 
 			playerTr->SetPosition(pos);
-
-			/*
-			Vector2 roompos = scene->GetCurrentRoom()->GetRoomPosition();
-			Transform* cameraTr = mainCamera->GetOwner()->GetComponent<Transform>();
-			cameraTr->SetPosition(Vector3(roompos.x, roompos.y, 0.0f));
-			int a = 0;*/
 		}
+
 	}
 
 	void DoorScript::OnCollisionStay(Collider2D* collider)

@@ -94,6 +94,7 @@ namespace ya
 		Layer& layer = scene->GetLayer(eLayerType::Stage);
 		layer.AddGameObject(room);
 
+		room->Initialize();
 		AddRoom(room, x, y);
 
 		return room;

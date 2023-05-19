@@ -188,8 +188,6 @@ namespace ya
 
 		Room* room34 = CreateRoom(3, 4);
 		
-
-
 		for (size_t i = 0; i < mRooms.size(); i++)
 		{
 			std::vector<Room*> rooms = mRooms[i];
@@ -197,7 +195,7 @@ namespace ya
 			{
 				Room* room = rooms[j];
 				if (room != nullptr)
-					room->Initialize();
+					room->InitDoor();
 			}
 		}
 
