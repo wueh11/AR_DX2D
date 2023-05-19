@@ -12,6 +12,7 @@ namespace ya
 		, mScale(Vector3::One)
 		, mRotation(Vector3::Zero)
 		, mPosition(Vector3::Zero)
+		, mHeight(0.0f)
 	{
 	}
 
@@ -45,7 +46,8 @@ namespace ya
 
 		// 이동 변환 행렬
 		Matrix position;
-		position.Translation(mPosition);
+		//position.Translation(mPosition);
+		position.Translation(Vector3(mPosition.x, mPosition.y + mHeight, mPosition.z));
 
 		mWorld = scale * rotation * position;
 

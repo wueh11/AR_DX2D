@@ -46,5 +46,8 @@ namespace ya
 		bool mbDead;
 
 		eState mState;
+
+		float mFriction;
+		float mGravity;
 	};
 }

@@ -21,6 +21,8 @@ namespace ya
 		, mDistance(0.0f)
 		, mbDead(false)
 		, mState(eState::None)
+		, mFriction(0.0f)
+		, mGravity(0.0f)
 	{
 	}
 	TearScript::~TearScript()
@@ -41,6 +43,7 @@ namespace ya
 		Transform* ownerTr = mProjectileOwner->GetComponent<Transform>();
 		mTransform->SetPosition(ownerTr->GetPosition());
 		mTransform->SetScale(Vector3(0.8f, 0.8f, 1.0f));
+		mTransform->SetHeight(0.3f);
 
 		Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
 		Vector3 scale = mTransform->GetScale();
@@ -83,7 +86,19 @@ namespace ya
 			}
 			else
 			{
-				mState = eState::Death;
+				float height = mTransform->GetHeight();
+				if (height > 0.0f)
+				{
+					pos.x += (speed - mFriction) * dir.x * Time::DeltaTime();
+					height -= mGravity * Time::DeltaTime();
+					mTransform->SetHeight(height);
+					mFriction += 0.01f;
+					mGravity += 0.04f;
+				}
+				else
+				{
+					mState = eState::Death;
+				}
 			}
 		}
 			break;

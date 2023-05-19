@@ -35,6 +35,9 @@ namespace ya
 
 		Matrix GetWorldMatrix() { return mWorld; }
 
+		float GetHeight() { return mHeight; }
+		void SetHeight(float height) { mHeight = height; }
+
 	private:
 		Transform* mParent;
 
@@ -49,6 +52,7 @@ namespace ya
 
 		Matrix mWorld;
 
+		float mHeight;
 	};
 }
 
