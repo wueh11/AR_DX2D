@@ -1,9 +1,19 @@
 #include "yaPlayer.h"
+#include "yaPlayerScript.h"
 
 namespace ya
 {
 	Player::Player()
+		: GameObject()
 	{
+		SetName(L"Player");
+
+		Collider2D* collider = AddComponent<Collider2D>();
+		collider->SetSize(Vector2(0.5f, 0.5f));
+		collider->SetCenter(Vector2(0.0f, -0.1f));
+		collider->SetColliderType(eColliderType::Rect);
+
+		AddComponent<PlayerScript>();
 	}
 	Player::~Player()
 	{

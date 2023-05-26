@@ -25,6 +25,11 @@
 #include "yaCard.h"
 #include "yaTrinket.h"
 
+#include "yaSceneManager.h"
+#include "yaStageScene.h"
+#include "yaScene.h"
+
+
 namespace ya
 {
 	PlayerScript::PlayerScript()
@@ -76,8 +81,6 @@ namespace ya
 		animator->Add(L"Die", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.2f);
 		animator->Add(L"Die", texture, Vector2(192.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.3f);
 		animator->Play(L"None", true);
-
-		//animator->GetCompleteEvent(L"hurt") = std::bind(&PlayerScript::Idle, this);
 
 		{ // body
 			mBody = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
@@ -308,6 +311,15 @@ namespace ya
 
 	void PlayerScript::FixedUpdate()
 	{
+		Vector3 pos = mTransform->GetPosition();
+
+		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+		Room* currentRoom = scene->GetCurrentRoom();
+		if(currentRoom != nullptr)
+		{
+			Vector3 roomPos = currentRoom->GetComponent<Transform>()->GetPosition();
+			mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + pos.y - roomPos.y + roomPos.z));
+		}
 	}
 	void PlayerScript::Render()
 	{
@@ -315,7 +327,6 @@ namespace ya
 
 	void PlayerScript::OnCollisionEnter(Collider2D* collider)
 	{
-		//GameObject* other = collider->GetOwner();
 	}
 	void PlayerScript::OnCollisionStay(Collider2D* collider)
 	{
@@ -634,7 +645,11 @@ namespace ya
 			ItemManager::GetItemObjects(eItemType::Pill)[(UINT)item.pill]->PlayEvent();
 			player->SetPill(ePills::None);
 
-			Pill* gainPill = ItemManager::CreatePill(item.pill);
+
+			StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+			Pill* gainPill = object::Instantiate<Pill>(eLayerType::Item, scene->GetCurrentRoom());
+			gainPill->SetPillType(item.pill);
+
 			SetGainItem(gainPill->GetComponent<Animator>());
 			gainPill->Death();
 		}
@@ -643,7 +658,10 @@ namespace ya
 			ItemManager::GetItemObjects(eItemType::Card)[(UINT)item.card]->PlayEvent();
 			player->SetCard(eCards::None);
 
-			Card* gainCard = ItemManager::CreateCard(item.card);
+			StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+			//Card* gainCard = ItemManager::CreateCard(item.card);
+			Card* gainCard = object::Instantiate<Card>(eLayerType::Item, scene->GetCurrentRoom());
+			gainCard->SetCardType(item.card);
 			SetGainItem(gainCard->GetComponent<Animator>());
 			gainCard->Death();
 		}
@@ -659,14 +677,21 @@ namespace ya
 		if (item.pill != ePills::None)
 		{
 			player->SetPill(ePills::None);
-			Pill* pill = ItemManager::CreatePill(item.pill);
+
+			StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+			Pill* pill = object::Instantiate<Pill>(eLayerType::Item, scene->GetCurrentRoom());
+			pill->SetPillType(item.pill);
+
 			pill->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
 		}
 
 		if (item.card != eCards::None)
 		{
 			player->SetCard(eCards::None);
-			Card* card = ItemManager::CreateCard(item.card);
+			StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+			Card* card = object::Instantiate<Card>(eLayerType::Item, scene->GetCurrentRoom());
+			card->SetCardType(item.card);
+
 			card->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
 		}
 	}
@@ -678,7 +703,11 @@ namespace ya
 		if (item.trinket != eTrinkets::None)
 		{
 			player->SetTrinket(eTrinkets::None);
-			Trinket* trinket = ItemManager::CreateTrinket(item.trinket);
+
+			StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+			Trinket* trinket = object::Instantiate<Trinket>(eLayerType::Item, scene->GetCurrentRoom());
+			trinket->SetTrinketType(item.trinket);
+
 			trinket->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
 		}
 	}

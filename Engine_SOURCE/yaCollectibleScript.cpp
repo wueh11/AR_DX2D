@@ -42,16 +42,17 @@ namespace ya
 		rd->SetImageSize(texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f));
 
 		Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
-		collider->SetCenter(Vector2(0.06f, -0.2f));
-		collider->SetSize(Vector2(0.4f, 0.4f));
+		collider->SetCenter(Vector2(0.06f, -0.24f));
+		collider->SetSize(Vector2(0.4f, 0.32f));
 
 	}
 	void CollectibleScript::Update()
 	{
 	}
-
 	void CollectibleScript::FixedUpdate()
 	{
+		Vector3 pos = mTransform->GetPosition();
+		mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + pos.y));
 	}
 	void CollectibleScript::Render()
 	{
@@ -92,6 +93,9 @@ namespace ya
 				else
 					otherPos.y = ownerCollider->GetPosition().y - dist.y - 0.002f;
 			}
+
+			otherPos.x -= collider->GetCenter().x;
+			otherPos.y -= collider->GetCenter().y;
 
 			otherTr->SetPosition(otherPos);
 

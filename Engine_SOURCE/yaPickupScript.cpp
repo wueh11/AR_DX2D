@@ -6,6 +6,12 @@
 #include "yaTime.h"
 #include "yaRigidbody.h"
 
+#include "yaInput.h"
+#include "yaSceneManager.h"
+#include "yaScene.h"
+#include "yaStageScene.h"
+#include "yaRoom.h"
+
 namespace ya
 {
 	PickupScript::PickupScript()
@@ -36,6 +42,8 @@ namespace ya
 
 	void PickupScript::FixedUpdate()
 	{
+		Vector3 pos = mTransform->GetPosition();
+		mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + pos.y));
 	}
 	void PickupScript::Render()
 	{
