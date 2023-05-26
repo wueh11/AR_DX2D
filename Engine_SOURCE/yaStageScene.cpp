@@ -11,10 +11,10 @@ namespace ya
 		: Scene(type)
 		, mCurrentRoom(nullptr)
 	{
-		mRooms.resize(isaac::ROOM_MAX_ROW);
-		for (size_t i = 0; i < isaac::ROOM_MAX_ROW; i++)
+		mRooms.resize(isaac::STAGE_MAX_ROW);
+		for (size_t i = 0; i < isaac::STAGE_MAX_ROW; i++)
 		{
-			mRooms[i].resize(isaac::ROOM_MAX_COLUMN);
+			mRooms[i].resize(isaac::STAGE_MAX_COLUMN);
 		}
 	}
 
@@ -73,18 +73,29 @@ namespace ya
 
 	void StageScene::SetCurrentRoom(Room* room)
 	{
+		if(mCurrentRoom != nullptr)
+			mCurrentRoom->Pause();
+
+		room->SetActive();
 		mCurrentRoom = room;
 
-		Transform* tr = room->GetComponent<Transform>();
-		mainCamera->GetOwner()->GetComponent<Transform>()->SetPosition(tr->GetPosition());
+		Vector3 roomPos = room->GetComponent<Transform>()->GetPosition();
+		Transform* cameraTr = mainCamera->GetOwner()->GetComponent<Transform>();
+		cameraTr->SetPosition(Vector3(roomPos.x, roomPos.y, cameraTr->GetPosition().z));
 	}
 
 	void StageScene::SetCurrentRoom(int x, int y)
 	{
-		mCurrentRoom = GetRoom(x, y);
+		if (mCurrentRoom != nullptr)
+			mCurrentRoom->Pause();
 
-		Transform* tr = mCurrentRoom->GetComponent<Transform>();
-		mainCamera->GetOwner()->GetComponent<Transform>()->SetPosition(tr->GetPosition());
+		Room* nextRoom = GetRoom(x, y); 
+		nextRoom->SetActive();
+		mCurrentRoom = nextRoom;
+
+		Vector3 roomPos = mCurrentRoom->GetComponent<Transform>()->GetPosition();
+		Transform* cameraTr = mainCamera->GetOwner()->GetComponent<Transform>();
+		cameraTr->SetPosition(Vector3(roomPos.x, roomPos.y, cameraTr->GetPosition().z));
 	}
 
 	Room* StageScene::CreateRoom(int x, int y)
@@ -96,6 +107,8 @@ namespace ya
 
 		room->Initialize();
 		AddRoom(room, x, y);
+
+		room->Pause();
 
 		return room;
 	}
