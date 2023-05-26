@@ -51,9 +51,11 @@ namespace ya
 	}
 	void ActiveItemScript::FixedUpdate()
 	{
+		CollectibleScript::FixedUpdate();
 	}
 	void ActiveItemScript::Render()
 	{
+		CollectibleScript::Render();
 	}
 
 	void ActiveItemScript::OnCollisionEnter(Collider2D* collider)

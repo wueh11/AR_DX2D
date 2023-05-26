@@ -3,12 +3,11 @@
 
 namespace ya
 {
-	ActiveItem::ActiveItem(isaac::eActiveItem type)
+	ActiveItem::ActiveItem()
 		: Item()
-		, mType(type)
+		, mType(isaac::eActiveItem::None)
 	{
-		ActiveItemScript* activeItemScript = AddComponent<ActiveItemScript>();
-		activeItemScript->SetActiveItem(type);
+		AddComponent<ActiveItemScript>();
 	}
 	ActiveItem::~ActiveItem()
 	{
@@ -28,5 +27,11 @@ namespace ya
 	void ActiveItem::Render()
 	{
 		GameObject::Render();
+	}
+	void ActiveItem::SetActiveItemType(isaac::eActiveItem type)
+	{
+		mType = type;
+		ActiveItemScript* activeItemScript = GetScript<ActiveItemScript>();
+		activeItemScript->SetActiveItem(type);
 	}
 }

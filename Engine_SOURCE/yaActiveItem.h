@@ -7,7 +7,7 @@ namespace ya
 	class ActiveItem : public Item
 	{
 	public:
-		ActiveItem(isaac::eActiveItem type);
+		ActiveItem();
 		virtual ~ActiveItem();
 
 		virtual void Initialize();
@@ -17,6 +17,7 @@ namespace ya
 
 	public:
 		isaac::eActiveItem GetActveItemType() { return mType; }
+		void SetActiveItemType(isaac::eActiveItem type);
 
 	private:
 		isaac::eActiveItem mType;
