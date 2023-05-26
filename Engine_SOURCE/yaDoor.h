@@ -8,6 +8,7 @@ namespace ya
 	public:
 		enum class eDirection
 		{
+			None,
 			UP,
 			DOWN,
 			LEFT,
@@ -25,18 +26,20 @@ namespace ya
 
 	public:
 		eDirection GetDirection() { return mDirection; }
-		void SetDirection(eDirection dir) { mDirection = dir; }
+		void SetDirection(eDirection dir);
 
 		bool IsOpen() { return mbOpen; }
 		bool IsDamaged() { return mbDamaged; }
+		bool IsLock() { return mbLock; }
 
-		void SetOpen(bool open) { mbOpen = open; }
-		void SetDamaged(bool damaged) { mbDamaged = damaged; }
-
+		void SetOpen(bool open);
+		void SetDamaged(bool damaged);
+		void SetLock(bool lock);
 
 	private:
 		eDirection mDirection;
 		bool mbOpen;
+		bool mbLock;
 		bool mbDamaged;
 	};
 }

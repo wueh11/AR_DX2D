@@ -59,12 +59,12 @@ namespace ya::object
 		if (parent != nullptr)
 		{
 			gameObj->SetParent(parent);
+			parent->AddChild(gameObj);
 			Transform* parentTr = parent->GetComponent<Transform>();
 
 			Transform* tr = gameObj->GameObject::GetComponent<Transform>();
 			tr->SetParent(parentTr);
 		}
-
 
 		return gameObj;
 	}

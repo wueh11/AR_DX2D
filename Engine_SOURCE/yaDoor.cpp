@@ -5,14 +5,13 @@ namespace ya
 {
 	Door::Door()
 		: Land()
-		, mDirection(eDirection::LEFT)
+		, mDirection(eDirection::None)
 		, mbOpen(true)
 		, mbDamaged(false)
+		, mbLock(false)
 	{
-		Collider2D* collider = AddComponent<Collider2D>();
-		collider->SetSize(Vector2(0.5f, 0.5f));
-		collider->SetColliderType(eColliderType::Rect);
-
+		SetName(L"Door " + std::to_wstring((int)mDirection));
+		Pause();
 		AddComponent<DoorScript>();
 	}
 	Door::~Door()
@@ -20,18 +19,36 @@ namespace ya
 	}
 	void Door::Initialize()
 	{
-		GameObject::Initialize();
+		Land::Initialize();
 	}
 	void Door::Update()
 	{
-		GameObject::Update();
+		Land::Update();
 	}
 	void Door::FixedUpdate()
 	{
-		GameObject::FixedUpdate();
+		Land::FixedUpdate();
 	}
 	void Door::Render()
 	{
-		GameObject::Render();
+		Land::Render();
+	}
+	void Door::SetDirection(eDirection dir)
+	{
+		mDirection = dir;
+		DoorScript* doorScript = GetScript<DoorScript>();
+		doorScript->SetDoorDirection(dir);
+	}
+	void Door::SetOpen(bool open)
+	{
+		mbOpen = open;
+	}
+	void Door::SetDamaged(bool damaged)
+	{
+		mbDamaged = damaged;
+	}
+	void Door::SetLock(bool lock)
+	{
+		mbLock = lock;
 	}
 }

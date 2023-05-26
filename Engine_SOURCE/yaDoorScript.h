@@ -1,5 +1,6 @@
 #pragma once
 #include "yaScript.h"
+#include "yaDoor.h"
 
 namespace ya
 {
@@ -21,6 +22,19 @@ namespace ya
 		virtual void OnTriggerEnter(Collider2D* collider) override;
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
+
+	public:
+		void SetDoorDirection(Door::eDirection dir);
+
+		void SetOpen(bool open);
+		void SetDamaged(bool damaged);
+		void SetLock(bool lock);
+
+	private:
+		GameObject* mDoorBackground;
+		GameObject* mDoorframe;
+		GameObject* mDoorLeft;
+		GameObject* mDoorRight;
 
 	};
 }

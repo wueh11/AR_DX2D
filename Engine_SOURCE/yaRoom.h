@@ -7,6 +7,17 @@ namespace ya
 	class Room : public GameObject
 	{
 	public:
+		enum class eRoomType
+		{
+			Normal,
+			Treasure,
+			Selfsacrifice,
+			Secret,
+			Shop,
+			Boss,
+		};
+
+	public:
 		Room(int x, int y);
 		virtual ~Room();
 	
@@ -17,11 +28,7 @@ namespace ya
 
 	public:
 		void InitDoor();
-		Door* CreateDoor(Door::eDirection dir);
 		void AddRoomObject(GameObject* roomObj, int x = -1, int y = -1);
-
-		void Active(bool active) { mbActive = active; }
-		bool IsActive() { return mbActive; }
 
 		void SetRoomGrid(Vector2 roomGrid);
 		void SetRoomPosition(Vector2 roomGrid);
@@ -30,7 +37,8 @@ namespace ya
 		Vector2 GetRoomGrid() { return mRoomGrid; }
 
 	private:
-		bool mbActive;	// player가 방에 있을 경우 true
+		eRoomType mRoomType;
+
 		bool mbClear;	// player가 방의 몬스터를 모두 처치했을 경우 true
 		bool mbLock;	// 열쇠가 필요한 방(상점, 보물방), player가 방의 문을 열쇠로 열었을 경우 false
 
@@ -41,6 +49,6 @@ namespace ya
 		Vector2 mRoomGrid;
 		Vector2 mRoomPosition;
 
-		Transform* tr1;
+		
 	};
 }
