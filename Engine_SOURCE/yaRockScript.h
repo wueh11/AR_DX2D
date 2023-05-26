@@ -1,13 +1,14 @@
 #pragma once
-#include "yaPickupScript.h"
+#include "yaWallScript.h"
+#include "yaRock.h"
 
 namespace ya
 {
-	class HeartScript : public PickupScript
+	class RockScript : public WallScript
 	{
 	public:
-		HeartScript();
-		virtual ~HeartScript();
+		RockScript();
+		virtual ~RockScript();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -21,5 +22,8 @@ namespace ya
 		virtual void OnTriggerEnter(Collider2D* collider) override;
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
+
+	public:
+		void SetRockType(Rock::eRockType type);
 	};
 }

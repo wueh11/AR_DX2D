@@ -4,12 +4,11 @@
 
 namespace ya
 {
-	Pill::Pill(ePills type)
+	Pill::Pill()
 		: Pickup(eItemType::Pill)
-		, mPill(type)
+		, mPill(ePills::None)
 	{
-		PillScript* pillScript = AddComponent<PillScript>();
-		pillScript->SetPill(type);
+		AddComponent<PillScript>();
 	}
 	Pill::~Pill()
 	{
@@ -29,5 +28,11 @@ namespace ya
 	void Pill::Render()
 	{
 		GameObject::Render();
+	}
+	void Pill::SetPillType(ePills type)
+	{
+		mPill = type;
+		PillScript* pillScript = GetScript<PillScript>();
+		pillScript->SetPill(type);
 	}
 }

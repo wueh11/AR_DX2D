@@ -11,7 +11,6 @@
 #include "yaCollisionManager.h"
 
 #include "yaMeshRenderer.h"
-#include "yaPlayerScript.h"
 #include "yaResources.h"
 
 #include "yaPlayer.h"
@@ -21,6 +20,12 @@
 #include "yaUIScript.h"
 
 #include "yaItemManager.h"
+
+#include "yaDoor.h"
+#include "yaFireplace.h"
+#include "yaPit.h"
+#include "yaRock.h"
+#include "yaSpike.h"
 
 #include "yaHeartFull.h"
 #include "yaHeartHalf.h"
@@ -58,6 +63,9 @@ namespace ya
 
 		mainCamera = cameraComp;
 
+		Transform* cameraTr = cameraObj->GetComponent<Transform>();
+		cameraTr->SetPosition(Vector3(0.0f, 0.0f, -0.1f));
+
 		{ //Camera UI
 			GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
 			Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
@@ -70,14 +78,9 @@ namespace ya
 
 		Player* player = object::Instantiate<Player>(eLayerType::Player);
 		{ // Player
-			player->AddComponent<PlayerScript>();
 			Transform* playerTr = player->GetComponent<Transform>();
-			playerTr->SetPosition(Vector3(0.0f, -1.0f, -0.0f));
+			//playerTr->SetPosition(Vector3(0.0f, -1.0f, -10.0f));
 			playerTr->SetScale(Vector3(0.66f, 0.66f, 1.0f));
-			Collider2D* collider = player->AddComponent<Collider2D>();
-			collider->SetSize(Vector2(0.5f, 0.5f));
-			//collider->SetCenter(Vector2(0.0f, -0.1f));
-			collider->SetColliderType(eColliderType::Rect);
 
 			object::DontDestroyOnLoad(player);
 
@@ -102,7 +105,7 @@ namespace ya
 
 		Room* startRoom = CreateRoom(3, 3);
 		{ // controls
-			GameObject* controls = object::Instantiate<GameObject>(eLayerType::Background, startRoom->GetComponent<Transform>());
+			GameObject* controls = object::Instantiate<GameObject>(eLayerType::Background, startRoom);
 			Transform* controlsTr = controls->GetComponent<Transform>();
 			controlsTr->SetPosition(Vector3(0.0, 0.0f, 0.5f));
 			controlsTr->SetScale(Vector3(6.0f, 1.5f, 1.0f));
@@ -113,13 +116,24 @@ namespace ya
 			controlsMr->SetMaterial(controlsMaterial);
 
 			startRoom->AddRoomObject(controls, 3, 6);
+
+			{
+				Coin* coin = object::Instantiate<Coin>(eLayerType::Item, startRoom);
+				startRoom->AddRoomObject(coin, 4, 4);
+			}
 		}
 
 		Room* shop = CreateRoom(3, 1);
 
-		Room* treasure = CreateRoom(3, 5);
+		Room* treasure = CreateRoom(4, 4);
 
-		Room* selfsacrifice = CreateRoom(4, 4);
+		Room* selfsacrifice = CreateRoom(3, 5);
+		{
+			{
+				Spike* spike = object::Instantiate<Spike>(eLayerType::Land, selfsacrifice);
+				selfsacrifice->AddRoomObject(spike, 3, 6);
+			}
+		}
 
 		Room* secret = CreateRoom(4, 5);
 
@@ -128,65 +142,171 @@ namespace ya
 		Room* room32 = CreateRoom(3, 2);
 		{
 			{
-				HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item, room32);
-				room32->AddRoomObject(heart, 0, 0);
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 0, 1);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 1, 1);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 2, 1);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 6, 3);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 4, 3);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 3, 3);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::RockItem);
+				room32->AddRoomObject(rock, 3, 5);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 2, 5);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 1, 5);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 3, 7);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 4, 7);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 5, 7);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 0, 9);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 2, 9);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 3, 9);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 6, 11);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 5, 11);
+			}
+			{	
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room32);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room32->AddRoomObject(rock, 4, 11);
+			}
+		}
+
+		Room* room23 = CreateRoom(2, 3);
+		{
+			{
+				Coin* coin = object::Instantiate<Coin>(eLayerType::Item, room23);
+				room23->AddRoomObject(coin, 4, 4);
 			}
 
 			{
-				SoulHeartFull* heart = object::Instantiate<SoulHeartFull>(eLayerType::Item, room32);
-				room32->AddRoomObject(heart, 3, 4);
+				Key* key = object::Instantiate<Key>(eLayerType::Item, room23);
+				room23->AddRoomObject(key, 3, 6);
 			}
 
 			{
-				HeartHalf* heart = object::Instantiate<HeartHalf>(eLayerType::Item, room32);
-				room32->AddRoomObject(heart, 3, 5);
+				Bomb* bomb = object::Instantiate<Bomb>(eLayerType::Item, room23);
+				room23->AddRoomObject(bomb, 1, 2);
+			}
+		}
+
+		Room* room34 = CreateRoom(3, 4);
+		{
+			{
+				HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item, room34);
+				room34->AddRoomObject(heart, 0, 0);
 			}
 
 			{
-				Pill* pill = ItemManager::CreatePill(ePills::HealthUp);
+				SoulHeartFull* heart = object::Instantiate<SoulHeartFull>(eLayerType::Item, room34);
+				room34->AddRoomObject(heart, 3, 4);
 			}
 
 			{
-				Card* card = ItemManager::CreateCard(eCards::TheLovers);
+				HeartHalf* heart = object::Instantiate<HeartHalf>(eLayerType::Item, room34);
+				room34->AddRoomObject(heart, 3, 5);
 			}
 
 			{
-				Card* card = ItemManager::CreateCard(eCards::Club2);
+				//Pill* pill = ItemManager::CreatePill(ePills::HealthUp);
+				Pill* pill = object::Instantiate<Pill>(eLayerType::Item, room34);
+				pill->SetPillType(ePills::HealthUp);
+				room34->AddRoomObject(pill, 2, 3);
 			}
 
 			{
-				ActiveItem* active = ItemManager::CreateActiveItem(eActiveItem::YumHeart);
+				Card* card = object::Instantiate<Card>(eLayerType::Item, room34);
+				card->SetCardType(eCards::TheLovers);
+				//Card* card = ItemManager::CreateCard(eCards::TheLovers);
+				room34->AddRoomObject(card, 4, 8);
 			}
 
 			{
-				Trinket* trinket = ItemManager::CreateTrinket(eTrinkets::FishHead);
+				//Card* card = ItemManager::CreateCard(eCards::Club2);
+				Card* card = object::Instantiate<Card>(eLayerType::Item, room34);
+				card->SetCardType(eCards::Club2);
+				room34->AddRoomObject(card, 3, 2);
+			}
+
+			{
+				//ActiveItem* active = ItemManager::CreateActiveItem(eActiveItem::YumHeart);
+				ActiveItem* activeItem = object::Instantiate<ActiveItem>(eLayerType::Item, room34);
+				activeItem->SetActiveItemType(eActiveItem::YumHeart);
+				room34->AddRoomObject(activeItem, 3, 6);
+			}
+
+			{
+				//Trinket* trinket = ItemManager::CreateTrinket(eTrinkets::FishHead);
+				Trinket* trinket = object::Instantiate<Trinket>(eLayerType::Item, room34);
+				trinket->SetTrinketType(eTrinkets::FishHead);
+				room34->AddRoomObject(trinket, 2, 2);
 			}
 
 			{
 				Gaper* gaper = object::Instantiate<Gaper>(eLayerType::Monster);
 			}
 		}
-
-		Room* room23 = CreateRoom(2, 3);
-		{
-
-			{
-				Coin* coin = object::Instantiate<Coin>(eLayerType::Item);
-				room23->AddRoomObject(coin, 0, 2);
-			}
-
-			{
-				Key* key = object::Instantiate<Key>(eLayerType::Item);
-				room23->AddRoomObject(key, 1, 0);
-			}
-
-			{
-				Bomb* bomb = object::Instantiate<Bomb>(eLayerType::Item);
-				room23->AddRoomObject(bomb, 2, 0);
-			}
-		}
-
-		Room* room34 = CreateRoom(3, 4);
 		
 		for (size_t i = 0; i < mRooms.size(); i++)
 		{
@@ -199,7 +319,8 @@ namespace ya
 			}
 		}
 
-		player->GetComponent<Transform>()->SetPosition(startRoom->GetComponent<Transform>()->GetPosition());
+		Vector3 startPos = startRoom->GetComponent<Transform>()->GetPosition();
+		player->GetComponent<Transform>()->SetPosition(Vector3(startPos.x, startPos.y - 1.0f, -10.0f));
 		SetCurrentRoom(startRoom);
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);

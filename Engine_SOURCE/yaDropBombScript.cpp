@@ -10,10 +10,12 @@
 #include "yaImageRenderer.h"
 #include "yaObject.h"
 
+#include "yaExplosion.h"
 #include "yaExplosionScript.h"
 
 #include "yaPlayer.h"
 #include "yaRigidbody.h"
+
 
 namespace ya
 {
@@ -77,7 +79,7 @@ namespace ya
 			mTransform->SetScale(Vector3(1.5f, 1.5f, 1.0f));
 			mTransform->SetPosition(mTransform->GetPosition() + Vector3(0.0f, 0.4f, 0.0f));
 
-			Explosion();
+			Explode();
 			mAnimator->Play(L"Explosion", false);
 			mState = eState::None;
 		}
@@ -145,13 +147,12 @@ namespace ya
 		Transform* tr = imprint->GetComponent<Transform>();
 		tr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.2f, 1.0f));
 	}
-	void DropBombScript::Explosion()
+	void DropBombScript::Explode()
 	{
-		GameObject* explosion = object::Instantiate<GameObject>(eLayerType::Projectile);
+		Explosion* explosion = object::Instantiate<Explosion>(eLayerType::Projectile);
 		explosion->SetName(L"explosion");
 		Transform* tr = explosion->GetComponent<Transform>();
 		tr->SetPosition(mTransform->GetPosition());
-		explosion->AddComponent<ExplosionScript>();
 	}
 	void DropBombScript::Death()
 	{

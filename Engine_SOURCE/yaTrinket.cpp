@@ -3,12 +3,11 @@
 
 namespace ya
 {
-	Trinket::Trinket(isaac::eTrinkets type)
+	Trinket::Trinket()
 		: Item()
-		, mType(type)
+		, mType(isaac::eTrinkets::None)
 	{
-		TrinketScript* trinketScript = AddComponent<TrinketScript>();
-		trinketScript->SetTrinket(type);
+		AddComponent<TrinketScript>();
 	}
 	Trinket::~Trinket()
 	{
@@ -28,5 +27,12 @@ namespace ya
 	void Trinket::Render()
 	{
 		GameObject::Render();
+	}
+	void Trinket::SetTrinketType(isaac::eTrinkets type)
+	{
+		mType = type;
+
+		TrinketScript* trinketScript = GetScript<TrinketScript>();
+		trinketScript->SetTrinket(type);
 	}
 }

@@ -68,7 +68,7 @@ namespace ya
 					otherPos.x = ownerCollider->GetPosition().x + dist.x + 0.002f;
 				else
 					otherPos.x = ownerCollider->GetPosition().x - dist.x - 0.002f;
-			}
+			}  
 
 			if (otherPos.y >= ownerCollider->GetPosition().y + dist.y - 0.01f
 				|| otherPos.y <= ownerCollider->GetPosition().y - dist.y + 0.01f)
@@ -79,7 +79,10 @@ namespace ya
 					otherPos.y = ownerCollider->GetPosition().y - dist.y - 0.002f;
 			}
 
-			otherTr->SetPosition(otherPos);
+			otherPos.x -= collider->GetCenter().x;
+			otherPos.y -= collider->GetCenter().y;
+
+			otherTr->SetPosition(otherPos); 
 
 			Rigidbody* objRigidbody = other->GetComponent<Rigidbody>();
 			if (objRigidbody != nullptr)

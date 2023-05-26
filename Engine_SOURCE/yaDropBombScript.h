@@ -33,7 +33,7 @@ namespace ya
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
 		void Imprint();
-		void Explosion();
+		void Explode();
 		void Death();
 
 	public:

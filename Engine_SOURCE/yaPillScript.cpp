@@ -63,9 +63,11 @@ namespace ya
 	}
 	void PillScript::FixedUpdate()
 	{
+		PickupScript::FixedUpdate();
 	}
 	void PillScript::Render()
 	{
+		PickupScript::Render();
 	}
 
 	void PillScript::OnCollisionEnter(Collider2D* collider)

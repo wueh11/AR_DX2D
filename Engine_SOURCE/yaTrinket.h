@@ -7,7 +7,7 @@ namespace ya
 	class Trinket : public Item
 	{
 	public:
-		Trinket(isaac::eTrinkets type);
+		Trinket();
 		virtual ~Trinket();
 
 		virtual void Initialize();
@@ -17,6 +17,7 @@ namespace ya
 
 	public:
 		isaac::eTrinkets GetTrinketType() { return mType; }
+		void SetTrinketType(isaac::eTrinkets type);
 
 	private:
 		isaac::eTrinkets mType;

@@ -1,15 +1,13 @@
 #pragma once
-#include "yaLand.h"
+#include "yaGameObject.h"
 
 namespace ya
 {
-	class Pit : public Land
+	class Explosion : public GameObject
 	{
 	public:
-
-	public:
-		Pit();
-		virtual ~Pit();
+		Explosion();
+		virtual ~Explosion();
 
 		virtual void Initialize();
 		virtual void Update();

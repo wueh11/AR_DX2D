@@ -56,7 +56,7 @@ namespace ya
 
 	}
 
-	Pill* ItemManager::CreatePill(ePills pillType)
+	/*Pill* ItemManager::CreatePill(ePills pillType)
 	{
 		Pill* pill = new Pill(pillType);
 		Scene* scene = SceneManager::GetActiveScene();
@@ -94,7 +94,7 @@ namespace ya
 		layer.AddGameObject(trinket);
 
 		return trinket;
-	}
+	}*/
 
 	std::vector<ItemObject*> ItemManager::GetItemObjects(eItemType itemType)
 	{

@@ -4,12 +4,11 @@
 
 namespace ya
 {
-	Card::Card(eCards type)
+	Card::Card()
 		: Pickup(eItemType::Card)
-		, mCard(type)
+		, mCard(eCards::None)
 	{
-		CardScript* cardScript = AddComponent<CardScript>();
-		cardScript->SetCard(type);
+		AddComponent<CardScript>();
 	}
 
 	Card::~Card()
@@ -30,5 +29,12 @@ namespace ya
 	void Card::Render()
 	{
 		GameObject::Render();
+	}
+	void Card::SetCardType(eCards card)
+	{
+		mCard = card; 
+
+		CardScript* cardScript = GetScript<CardScript>();
+		cardScript->SetCard(card);
 	}
 }

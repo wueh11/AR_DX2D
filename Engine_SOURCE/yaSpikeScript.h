@@ -1,13 +1,14 @@
 #pragma once
-#include "yaPickupScript.h"
+#include "yaScript.h"
 
 namespace ya
 {
-	class HeartScript : public PickupScript
+	class Transform;
+	class SpikeScript : public Script
 	{
 	public:
-		HeartScript();
-		virtual ~HeartScript();
+		SpikeScript();
+		virtual ~SpikeScript();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -21,5 +22,6 @@ namespace ya
 		virtual void OnTriggerEnter(Collider2D* collider) override;
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
+
 	};
 }

@@ -525,6 +525,7 @@ namespace ya::renderer
 			Resources::Load<Texture>(L"pit", L"Issac\\grid_pit.png");
 			Resources::Load<Texture>(L"poop_1", L"Issac\\grid_poop_1.png");
 			Resources::Load<Texture>(L"spikes", L"Issac\\grid_spikes.png");
+			Resources::Load<Texture>(L"rocks_basement", L"Issac\\rocks_basement.png");
 		}
 
 		{ // monster
@@ -940,6 +941,69 @@ namespace ya::renderer
 				material->SetShader(rectShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"holeinwallMaterial", material);
+			}
+
+			{ // fire
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"fire");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"fireMaterial", material);
+			}
+
+			{ // bridge
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bridge");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bridgeMaterial", material);
+			}
+
+			{ // fireplace
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"fireplace");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"fireplaceMaterial", material);
+			}
+
+			{ // pit
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"pit");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"pitMaterial", material);
+			}
+
+			{ // poop_1
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"poop_1");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"poop_1Material", material);
+			}
+
+			{ // spikes
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"spikes");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"spikesMaterial", material);
+			}
+
+			{ // rocks_basement
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"rocks_basement");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"rocks_basementMaterial", material);
 			}
 		}
 

@@ -7,7 +7,7 @@ namespace ya
 	class Pill : public Pickup
 	{
 	public:
-		Pill(ePills type);
+		Pill();
 		virtual ~Pill();
 
 		virtual void Initialize();
@@ -17,6 +17,7 @@ namespace ya
 
 	public:
 		ePills GetPillType() { return mPill; }
+		void SetPillType(ePills type);
 
 	private:
 		ePills mPill;

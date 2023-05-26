@@ -3,8 +3,8 @@
 namespace ya::isaac
 {
 	const UINT STAGE_SIZE = 2;
-	const UINT ROOM_MAX_ROW = 8;
-	const UINT ROOM_MAX_COLUMN = 8;
+	const UINT STAGE_MAX_ROW = 8;
+	const UINT STAGE_MAX_COLUMN = 8;
 
 	// monster
 	enum class eMonsterType

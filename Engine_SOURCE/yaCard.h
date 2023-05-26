@@ -7,7 +7,7 @@ namespace ya
 	class Card : public Pickup
 	{
 	public:
-		Card(eCards type);
+		Card();
 		virtual ~Card();
 
 		virtual void Initialize();
@@ -16,6 +16,7 @@ namespace ya
 		virtual void Render();
 
 	public:
+		void SetCardType(eCards card);
 		eCards GetCardType() { return mCard; }
 
 	private:

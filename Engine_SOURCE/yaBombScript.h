@@ -1,13 +1,9 @@
 #pragma once
-#include "yaScript.h"
-#include "yaIsaacEnums.h"
+#include "yaPickupScript.h"
 
-using namespace ya::isaac;
 namespace ya
 {
-	class Transform;
-	class Animator;
-	class BombScript : public Script
+	class BombScript : public PickupScript
 	{
 	public:
 		BombScript();
@@ -25,17 +21,5 @@ namespace ya
 		virtual void OnTriggerEnter(Collider2D* collider) override;
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
-
-	private:
-		void Take();
-		void Death();
-
-	private:
-		Transform* mTransform;
-
-		float mTimer;
-		bool mbDeath;
-
-		Vector3 mCollideVelocity;
 	};
 }

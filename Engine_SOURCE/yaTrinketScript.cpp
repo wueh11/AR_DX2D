@@ -58,9 +58,11 @@ namespace ya
 	}
 	void TrinketScript::FixedUpdate()
 	{
+		PickupScript::FixedUpdate();
 	}
 	void TrinketScript::Render()
 	{
+		PickupScript::FixedUpdate();
 	}
 
 	void TrinketScript::OnCollisionEnter(Collider2D* collider)

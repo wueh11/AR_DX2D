@@ -1,11 +1,9 @@
 #pragma once
-#include "yaScript.h"
+#include "yaPickupScript.h"
 
 namespace ya
 {
-	class Transform;
-	class Animator;
-	class CoinScript : public Script
+	class CoinScript : public PickupScript
 	{
 	public:
 		CoinScript();
@@ -23,14 +21,5 @@ namespace ya
 		virtual void OnTriggerEnter(Collider2D* collider) override;
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
-
-	private:
-		void Death();
-
-	private:
-		Transform* mTransform;
-		Animator* mAnimator;
-
-		Vector3 mCollideVelocity;
 	};
 }

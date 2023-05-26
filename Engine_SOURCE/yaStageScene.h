@@ -20,7 +20,7 @@ namespace ya
 		virtual void OnEnter();
 		virtual void OnExit();
 
-	public:
+	public: 
 		std::vector<std::vector<Room*>> GetRooms() { return mRooms; }
 		Room* GetRoom(int x, int y);
 

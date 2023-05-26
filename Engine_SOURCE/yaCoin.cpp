@@ -6,6 +6,7 @@ namespace ya
 	Coin::Coin()
 		: Pickup(eItemType::Coin)
 	{
+		SetName(L"Coin");
 		CoinScript* coinScript = AddComponent<CoinScript>();
 	}
 	Coin::~Coin()

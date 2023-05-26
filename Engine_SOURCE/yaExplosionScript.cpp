@@ -26,7 +26,7 @@ namespace ya
 
 	void ExplosionScript::Initialize()
 	{
-		Collider2D* collider = GetOwner()->AddComponent<Collider2D>();
+		Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
 		collider->SetColliderType(eColliderType::Rect);
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		tr->SetScale(Vector3(1.5f, 1.5f, 1.5f));

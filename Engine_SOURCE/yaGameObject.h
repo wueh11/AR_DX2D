@@ -99,9 +99,27 @@ namespace ya
 		std::vector<Script*>& GetScripts() { return mScripts; }
 
 		bool IsDead() { return (mState == eState::Dead); }
-		void SetActive() { mState = eState::Active; }
-		void Pause() { mState = eState::Paused; }
-		void Death() { mState = eState::Dead; }
+
+		void SetActive() 
+		{ 
+			mState = eState::Active;
+			for (auto obj : mChildren)
+				obj->SetActive();
+		}
+
+		void Pause()
+		{
+			mState = eState::Paused;
+			for (auto obj : mChildren)
+				obj->Pause();
+		}
+
+		void Death()
+		{
+			mState = eState::Dead;
+			for (auto obj : mChildren)
+				obj->Death();
+		}
 
 		eState GetState() { return mState; }
 
@@ -114,6 +132,9 @@ namespace ya
 		GameObject* GetParent() { return mParent; }
 		void SetParent(GameObject* obj) { mParent = obj; }
 
+		std::vector<GameObject*> GetChildren() { return mChildren; }
+		void AddChild(GameObject* child) { mChildren.push_back(child); }
+
 	protected:
 		std::vector<Component*> mComponents;
 
@@ -124,5 +145,6 @@ namespace ya
 		bool mbDontDestroy;
 
 		GameObject* mParent;
+		std::vector<GameObject*> mChildren;
 	};
 }

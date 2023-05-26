@@ -51,9 +51,11 @@ namespace ya
 
 	void CardScript::FixedUpdate()
 	{
+		PickupScript::FixedUpdate();
 	}
 	void CardScript::Render()
 	{
+		PickupScript::Render();
 	}
 
 	void CardScript::OnCollisionEnter(Collider2D* collider)
