@@ -65,7 +65,7 @@ namespace ya
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		Player::Status status = player->GetStatus();
 
-		mRigidbody->SetLimitVelocity(Vector3(1.0f + status.speed, 1.0f + status.speed, 0.0f));
+		player->SetSpeed();
 
 		SpriteRenderer* rd = GetOwner()->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
@@ -311,14 +311,16 @@ namespace ya
 
 	void PlayerScript::FixedUpdate()
 	{
-		Vector3 pos = mTransform->GetPosition();
-
 		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+		if (scene == nullptr)
+			return;
+
+		Vector3 pos = mTransform->GetPosition();
 		Room* currentRoom = scene->GetCurrentRoom();
 		if(currentRoom != nullptr)
 		{
 			Vector3 roomPos = currentRoom->GetComponent<Transform>()->GetPosition();
-			mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + pos.y - roomPos.y + roomPos.z));
+			mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + (pos.y - roomPos.y) * 0.1f + roomPos.z));
 		}
 	}
 	void PlayerScript::Render()
@@ -360,7 +362,7 @@ namespace ya
 	{
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		Player::Status status = player->GetStatus();
-		float speed = 2.0f + status.speed;
+		float speed = 1.8f + status.speed;
 		Rigidbody* rigidbody = player->GetComponent<Rigidbody>();
 		rigidbody->SetLimitVelocity(Vector3(speed, speed, 0.0f));
 

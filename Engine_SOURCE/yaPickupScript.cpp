@@ -12,6 +12,8 @@
 #include "yaStageScene.h"
 #include "yaRoom.h"
 
+#include "yaPickup.h"
+
 namespace ya
 {
 	PickupScript::PickupScript()
@@ -43,7 +45,7 @@ namespace ya
 	void PickupScript::FixedUpdate()
 	{
 		Vector3 pos = mTransform->GetPosition();
-		mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + pos.y));
+		mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + (pos.y * 0.1f)));
 	}
 	void PickupScript::Render()
 	{
@@ -55,8 +57,7 @@ namespace ya
 
 		Player* player = dynamic_cast<Player*>(other);
 		if (player != nullptr)
-		{
-			//mbDeath = true;
+		{ 
 			Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
 			if (otherRigidbody == nullptr)
 				return;
@@ -105,13 +106,11 @@ namespace ya
 
 				Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
 				if (otherRigidbody != nullptr)
-				{
-					otherRigidbody->AddForce(mCollideVelocity * 200.0f);
-				}
+					otherRigidbody->AddForce(mCollideVelocity * 50.0f);
 
-				Vector3 force = rigidbody->Bounce(mCollideVelocity, target);
+				Vector3 force = rigidbody->Bounce(-mCollideVelocity, target);
 				rigidbody->ClearForce();
-				rigidbody->AddForce(force * 100.0f);
+				rigidbody->AddForce(force * 50.0f);
 			}
 		}
 	}

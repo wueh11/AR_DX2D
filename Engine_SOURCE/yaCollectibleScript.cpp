@@ -52,7 +52,7 @@ namespace ya
 	void CollectibleScript::FixedUpdate()
 	{
 		Vector3 pos = mTransform->GetPosition();
-		mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + pos.y));
+		mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + (pos.y * 0.1f)));
 	}
 	void CollectibleScript::Render()
 	{

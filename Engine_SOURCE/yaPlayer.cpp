@@ -1,5 +1,6 @@
 #include "yaPlayer.h"
 #include "yaPlayerScript.h"
+#include "yaRigidbody.h"
 
 namespace ya
 {
@@ -9,8 +10,8 @@ namespace ya
 		SetName(L"Player");
 
 		Collider2D* collider = AddComponent<Collider2D>();
-		collider->SetSize(Vector2(0.5f, 0.5f));
-		collider->SetCenter(Vector2(0.0f, -0.1f));
+		collider->SetSize(Vector2(0.5f, 0.3f));
+		collider->SetCenter(Vector2(0.0f, -0.2f));
 		collider->SetColliderType(eColliderType::Rect);
 
 		AddComponent<PlayerScript>();
@@ -33,5 +34,11 @@ namespace ya
 	void Player::Render()
 	{
 		GameObject::Render();
+	}
+	void Player::SetSpeed()
+	{
+		Rigidbody* rigidbody = GetComponent<Rigidbody>();
+		if (rigidbody != nullptr)
+ 			rigidbody->SetLimitVelocity(Vector3(1.0f + mStatus.speed, 1.0f + mStatus.speed, 0.0f));
 	}
 }

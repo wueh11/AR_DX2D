@@ -27,8 +27,8 @@ namespace ya
 			float attackSpeed;
 			float tearSpeed;
 			float range;
-			int speed;
-			int luck;
+			float speed;
+			float luck;
 
 			Status()
 				: attack(3.5f)
@@ -47,9 +47,9 @@ namespace ya
 			int key;
 
 			Pickup()
-				: coin(0)
-				, bomb(1)
-				, key(0)
+				: coin(10)
+				, bomb(50)
+				, key(10)
 			{}
 		};
 
@@ -118,7 +118,8 @@ namespace ya
 		void AddAttackSpeed(int attack) { mStatus.attack += attack; }
 		void AddTearSpeed(int tearSpeed) { mStatus.tearSpeed += tearSpeed; }
 		void AddRange(int range) { mStatus.range += range; }
-		void AddSpeed(int speed) { mStatus.speed += speed; }
+		void AddSpeed(int speed) { mStatus.speed += speed; SetSpeed(); }
+		void SetSpeed();
 		void AddLuck(int luck) { mStatus.luck += luck; }
 
 		void SetPill(ePills pill) { mItem.pill = pill; }
