@@ -5,6 +5,7 @@
 
 namespace ya
 {
+	using namespace isaac;
 	class StageScene : public Scene
 	{
 	public:
@@ -25,7 +26,7 @@ namespace ya
 		Room* GetRoom(int x, int y);
 
 		void AddRoom(Room* room, int x, int y);
-		Room* CreateRoom(int x, int y);
+		Room* CreateRoom(int x, int y, eRoomType type = eRoomType::Normal, bool bLock = false);
 
 		Room* GetCurrentRoom() { return mCurrentRoom; }
 		void SetCurrentRoom(Room* room);

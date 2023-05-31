@@ -1,10 +1,10 @@
 #pragma once
-#include "yaScript.h"
+#include "yaWallScript.h"
 #include "yaDoor.h"
 
 namespace ya
 {
-	class DoorScript : public Script
+	class DoorScript : public WallScript
 	{
 	public:
 		DoorScript();
@@ -25,16 +25,22 @@ namespace ya
 
 	public:
 		void SetDoorDirection(Door::eDirection dir);
+		void SetDoorType(isaac::eRoomType doorType);
 
 		void SetOpen(bool open);
 		void SetDamaged(bool damaged);
 		void SetLock(bool lock);
 
+		void playDeco(isaac::eRoomType doorType);
+
 	private:
+		std::shared_ptr<Material> mMaterial;
+
 		GameObject* mDoorBackground;
-		GameObject* mDoorframe;
+		GameObject* mDoorFrame;
 		GameObject* mDoorLeft;
 		GameObject* mDoorRight;
+		GameObject* mDoorDeco;
 
 	};
 }

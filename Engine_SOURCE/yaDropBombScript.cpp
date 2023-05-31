@@ -16,6 +16,10 @@
 #include "yaPlayer.h"
 #include "yaRigidbody.h"
 
+#include "yaSceneManager.h"
+#include "yaStageScene.h"
+#include "yaScene.h"
+
 
 namespace ya
 {
@@ -133,7 +137,13 @@ namespace ya
 
 	void DropBombScript::Imprint()
 	{
-		GameObject* imprint = object::Instantiate<GameObject>(eLayerType::Background);
+		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+		
+		Room* room = scene->GetCurrentRoom();
+		if (room == nullptr)
+			return;
+
+		GameObject* imprint = object::Instantiate<GameObject>(eLayerType::Background, room);
 		imprint->SetName(L"imprint");
 
 		ImageRenderer* rd = imprint->AddComponent<ImageRenderer>();

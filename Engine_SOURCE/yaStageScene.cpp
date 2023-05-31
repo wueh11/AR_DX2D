@@ -98,15 +98,16 @@ namespace ya
 		cameraTr->SetPosition(Vector3(roomPos.x, roomPos.y, cameraTr->GetPosition().z));
 	}
 
-	Room* StageScene::CreateRoom(int x, int y)
+	Room* StageScene::CreateRoom(int x, int y, eRoomType type, bool bLock)
 	{
-		Room* room = new Room(x, y);
+		Room* room = new Room(x, y, type);
 		Scene* scene = SceneManager::GetActiveScene();
 		Layer& layer = scene->GetLayer(eLayerType::Stage);
 		layer.AddGameObject(room);
 
 		room->Initialize();
 		AddRoom(room, x, y);
+		room->SetLock(bLock);
 
 		room->Pause();
 

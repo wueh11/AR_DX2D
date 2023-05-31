@@ -5,12 +5,12 @@ namespace ya
 {
 	Door::Door()
 		: Land()
+		, mDoorType(eRoomType::Normal)
 		, mDirection(eDirection::None)
 		, mbOpen(true)
 		, mbDamaged(false)
 		, mbLock(false)
 	{
-		SetName(L"Door " + std::to_wstring((int)mDirection));
 		Pause();
 		AddComponent<DoorScript>();
 	}
@@ -19,6 +19,8 @@ namespace ya
 	}
 	void Door::Initialize()
 	{
+		SetName(L"Door " + std::to_wstring((int)mDirection));
+
 		Land::Initialize();
 	}
 	void Door::Update()
@@ -39,16 +41,28 @@ namespace ya
 		DoorScript* doorScript = GetScript<DoorScript>();
 		doorScript->SetDoorDirection(dir);
 	}
+	void Door::SetDoorType(eRoomType type)
+	{
+		mDoorType = type;
+		DoorScript* doorScript = GetScript<DoorScript>();
+		doorScript->SetDoorType(type);
+	}
 	void Door::SetOpen(bool open)
 	{
 		mbOpen = open;
+		DoorScript* doorScript = GetScript<DoorScript>();
+		doorScript->SetOpen(open);
 	}
 	void Door::SetDamaged(bool damaged)
 	{
 		mbDamaged = damaged;
+		DoorScript* doorScript = GetScript<DoorScript>();
+		doorScript->SetDamaged(damaged);
 	}
 	void Door::SetLock(bool lock)
 	{
 		mbLock = lock;
+		DoorScript* doorScript = GetScript<DoorScript>();
+		doorScript->SetLock(lock);
 	}
 }

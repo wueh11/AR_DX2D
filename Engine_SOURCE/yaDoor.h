@@ -3,6 +3,9 @@
 
 namespace ya
 {
+	using namespace isaac;
+
+	class Room;
 	class Door : public Land
 	{
 	public:
@@ -13,6 +16,7 @@ namespace ya
 			DOWN,
 			LEFT,
 			RIGHT,
+			End,
 		};
 
 	public:
@@ -28,6 +32,9 @@ namespace ya
 		eDirection GetDirection() { return mDirection; }
 		void SetDirection(eDirection dir);
 
+		eRoomType GetDoorType() { return mDoorType; }
+		void SetDoorType(eRoomType type);
+
 		bool IsOpen() { return mbOpen; }
 		bool IsDamaged() { return mbDamaged; }
 		bool IsLock() { return mbLock; }
@@ -38,6 +45,8 @@ namespace ya
 
 	private:
 		eDirection mDirection;
+		eRoomType mDoorType;
+		
 		bool mbOpen;
 		bool mbLock;
 		bool mbDamaged;

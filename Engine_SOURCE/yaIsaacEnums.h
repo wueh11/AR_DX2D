@@ -109,60 +109,6 @@ namespace ya::isaac
 		End,
 	};
 
-	/*struct ActiveItemInfo
-	{
-		std::wstring name;
-		eActiveItem type;
-		int maxGauge;
-
-		ActiveItemInfo()
-			: type(eActiveItem::None)
-			, maxGauge(1)
-		{}
-
-		int GetMaxGauge() { return maxGauge; }
-	};
-
-	struct PillInfo
-	{
-		std::wstring name;
-		ePills type;
-
-		PillInfo()
-			:type(ePills::None)
-		{}
-	};
-	
-	struct CardInfo
-	{
-		std::wstring name;
-		eCards type;
-
-		CardInfo()
-			:type(eCards::None)
-		{}
-	};
-		
-	struct TrinketInfo
-	{
-		std::wstring name;
-		eTrinkets type;
-
-		TrinketInfo()
-			:type(eTrinkets::None)
-		{}
-	};
-
-	struct PassiveItemInfo
-	{  
-		std::wstring name;
-		ePassiveItem type;
-		
-		PassiveItemInfo()
-			:type(ePassiveItem::None)
-		{}
-	};*/
-
 	enum class eStageType
 	{
 		None,
@@ -175,10 +121,15 @@ namespace ya::isaac
 		None,
 		Normal = 1,
 		Treasure = 2,
-		Shop,
+		Ambush = 3,
 		Selfsacrifice = 4,
+		Arcade = 5,
+		devil = 6,
+		holy = 7,
 		Secret = 8,
 		Boss = 10,
+		Dark = 21,
+		Shop,
 		End,
 	};
 }

@@ -103,6 +103,10 @@ namespace ya
 		void SetActive() 
 		{ 
 			mState = eState::Active;
+			Collider2D* collider = GetComponent<Collider2D>();
+			if (collider != nullptr)
+				collider->Active(true);
+
 			for (auto obj : mChildren)
 				obj->SetActive();
 		}
@@ -110,6 +114,10 @@ namespace ya
 		void Pause()
 		{
 			mState = eState::Paused;
+			Collider2D* collider = GetComponent<Collider2D>();
+			if(collider != nullptr)
+				collider->Active(false);
+
 			for (auto obj : mChildren)
 				obj->Pause();
 		}

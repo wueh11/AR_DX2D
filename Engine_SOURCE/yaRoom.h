@@ -4,21 +4,11 @@
 
 namespace ya
 {
+	using namespace isaac;
 	class Room : public GameObject
 	{
 	public:
-		enum class eRoomType
-		{
-			Normal,
-			Treasure,
-			Selfsacrifice,
-			Secret,
-			Shop,
-			Boss,
-		};
-
-	public:
-		Room(int x, int y);
+		Room(int x, int y, eRoomType type = eRoomType::Normal);
 		virtual ~Room();
 	
 		virtual void Initialize();
@@ -28,6 +18,9 @@ namespace ya
 
 	public:
 		void InitDoor();
+		void CreateDoor(Room* targetRoom, Door::eDirection doorDirection);
+		Door* GetDoor(Door::eDirection doorDirection) { return mDoors[(UINT)doorDirection]; }
+
 		void AddRoomObject(GameObject* roomObj, int x = -1, int y = -1);
 
 		void SetRoomGrid(Vector2 roomGrid);
@@ -35,6 +28,14 @@ namespace ya
 
 		Vector2 GetRoomPosition() { return mRoomPosition; }
 		Vector2 GetRoomGrid() { return mRoomGrid; }
+
+		eRoomType GetRoomType() { return mRoomType; }
+		//void SetRoomType(eRoomType type);
+
+		void SetLock(bool lock) { mbLock = lock; }
+		bool IsLock() { return mbLock; }
+
+		bool IsClear() { return mbClear; }
 
 	private:
 		eRoomType mRoomType;
@@ -49,6 +50,7 @@ namespace ya
 		Vector2 mRoomGrid;
 		Vector2 mRoomPosition;
 
+		Door* mDoors[(UINT)Door::eDirection::End];
 		
 	};
 }
