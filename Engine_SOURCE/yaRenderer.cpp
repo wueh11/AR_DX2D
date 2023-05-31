@@ -502,30 +502,42 @@ namespace ya::renderer
 		}
 
 		{ // room
-			Resources::Load<Texture>(L"bgblack", L"Issac\\bgblack.png");
-			Resources::Load<Texture>(L"shading", L"Issac\\shading.png");
-		}
+			Resources::Load<Texture>(L"bgblack", L"Issac\\backdrop\\bgblack.png");
+			Resources::Load<Texture>(L"shading", L"Issac\\backdrop\\shading.png");
+			Resources::Load<Texture>(L"controls", L"Issac\\backdrop\\controls.png");
 
-		{ //basement
-			Resources::Load<Texture>(L"basement", L"Issac\\01_basement.png");
-			Resources::Load<Texture>(L"controls", L"Issac\\controls.png");
+			Resources::Load<Texture>(L"shop", L"Issac\\backdrop\\0b_shop.png");
+			Resources::Load<Texture>(L"arcade", L"Issac\\backdrop\\0e_arcade.png");
+			Resources::Load<Texture>(L"secretroom", L"Issac\\backdrop\\0f_secretroom.png");
+
+			Resources::Load<Texture>(L"basement", L"Issac\\backdrop\\01_basement.png");
+			Resources::Load<Texture>(L"depths", L"Issac\\backdrop\\05_depths.png");
 		}
 
 		{ // land
-			Resources::Load<Texture>(L"normaldoor", L"Issac\\door_01_normaldoor.png");
-			Resources::Load<Texture>(L"treasureroomdoor", L"Issac\\door_02_treasureroomdoor.png");
-			Resources::Load<Texture>(L"selfsacrificeroomdoor", L"Issac\\door_04_selfsacrificeroomdoor.png");
-			Resources::Load<Texture>(L"holeinwall", L"Issac\\door_08_holeinwall.png");
-			Resources::Load<Texture>(L"bossroomdoor", L"Issac\\door_10_bossroomdoor.png");
+			Resources::Load<Texture>(L"normaldoor", L"Issac\\grid\\door_01_normaldoor.png");
+			Resources::Load<Texture>(L"treasureroomdoor", L"Issac\\grid\\door_02_treasureroomdoor.png");
+			Resources::Load<Texture>(L"ambushroomdoor", L"Issac\\grid\\door_03_ambushroomdoor.png");
+			Resources::Load<Texture>(L"selfsacrificeroomdoor", L"Issac\\grid\\door_04_selfsacrificeroomdoor.png");
+			Resources::Load<Texture>(L"arcaderoomdoor", L"Issac\\grid\\door_05_arcaderoomdoor.png");
+			Resources::Load<Texture>(L"devilroomdoor", L"Issac\\grid\\door_07_devilroomdoor.png");
+			Resources::Load<Texture>(L"holyroomdoor", L"Issac\\grid\\door_07_holyroomdoor.png");
+			Resources::Load<Texture>(L"holeinwall", L"Issac\\grid\\door_08_holeinwall.png");
+			Resources::Load<Texture>(L"bossroomdoor", L"Issac\\grid\\door_10_bossroomdoor.png");
+			Resources::Load<Texture>(L"doublelock", L"Issac\\grid\\door_16_doublelock.png");
+			Resources::Load<Texture>(L"bardoor", L"Issac\\grid\\door_17_bardoor.png");
+			Resources::Load<Texture>(L"crackeddoor", L"Issac\\grid\\door_18_crackeddoor.png");
+			Resources::Load<Texture>(L"darkroomdoor", L"Issac\\grid\\door_21_darkroomdoor.png");
 
 			Resources::Load<Texture>(L"fire", L"Issac\\effect_005_fire.png");
 
-			Resources::Load<Texture>(L"bridge", L"Issac\\grid_bridge.png");
-			Resources::Load<Texture>(L"fireplace", L"Issac\\grid_fireplace.png");
-			Resources::Load<Texture>(L"pit", L"Issac\\grid_pit.png");
-			Resources::Load<Texture>(L"poop_1", L"Issac\\grid_poop_1.png");
-			Resources::Load<Texture>(L"spikes", L"Issac\\grid_spikes.png");
-			Resources::Load<Texture>(L"rocks_basement", L"Issac\\rocks_basement.png");
+			Resources::Load<Texture>(L"bridge", L"Issac\\grid\\grid_bridge.png");
+			Resources::Load<Texture>(L"fireplace", L"Issac\\grid\\grid_fireplace.png");
+			Resources::Load<Texture>(L"pit", L"Issac\\grid\\grid_pit.png");
+			Resources::Load<Texture>(L"poop_1", L"Issac\\grid\\grid_poop_1.png");
+			Resources::Load<Texture>(L"spikes", L"Issac\\grid\\grid_spikes.png");
+			Resources::Load<Texture>(L"rocks_basement", L"Issac\\grid\\rocks_basement.png");
+			Resources::Load<Texture>(L"web", L"Issac\\grid\\grid_web.png");
 		}
 
 		{ // monster
@@ -884,18 +896,6 @@ namespace ya::renderer
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"shadingMaterial", material);
 			}
-		}
-
-		{ // basement
-			{ //BG_basement
-				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"basement");
-				std::shared_ptr<Material> material = std::make_shared<Material>();
-				material->SetRenderingMode(eRenderingMode::Transparent);
-				material->SetShader(spriteSolidNoneShader);
-				material->SetTexture(texture);
-				Resources::Insert<Material>(L"basementMaterial", material);
-			}
-
 			{ //controls
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"controls");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -904,10 +904,55 @@ namespace ya::renderer
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"controlsMaterial", material);
 			}
+
+			{ // shop
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"shop");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteSolidNoneShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"shopMaterial", material);
+			}
+
+			{ // arcade
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"arcade");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteSolidNoneShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"arcadeMaterial", material);
+			}
+
+			{ // secretroom
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"secretroom");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteSolidNoneShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"secretroomMaterial", material);
+			}
+
+			{ // basement
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"basement");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteSolidNoneShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"basementMaterial", material);
+			}
+
+			{ // depth
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"depths");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteSolidNoneShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"depthsMaterial", material);
+			}
 		}
 
-		{ // land
-			{ //
+		{ // door
+			{ // normaldoor
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"normaldoor");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
 				material->SetRenderingMode(eRenderingMode::Transparent);
@@ -916,33 +961,89 @@ namespace ya::renderer
 				Resources::Insert<Material>(L"normaldoorMaterial", material);
 			}
 
-			{ //
+			{ // treasureroomdoor
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"treasureroomdoor");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
 				material->SetRenderingMode(eRenderingMode::Transparent);
-				material->SetShader(rectShader);
+				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"treasureroomdoorMaterial", material);
 			}
 
-			{ //
+			{ // ambushroomdoor
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"ambushroomdoor");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"ambushroomdoorMaterial", material);
+			}
+
+			{ // selfsacrificeroomdoor
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"selfsacrificeroomdoor");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
 				material->SetRenderingMode(eRenderingMode::Transparent);
-				material->SetShader(rectShader);
+				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"selfsacrificeroomdoorMaterial", material);
 			}
 			
-			{ //
+			{ // arcaderoomdoor
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"arcaderoomdoor");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"arcaderoomdoorMaterial", material);
+			}
+
+			{ // devilroomdoor
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"devilroomdoor");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"devilroomdoorMaterial", material);
+			}
+
+			{ // holyroomdoor
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"holyroomdoor");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"holyroomdoorMaterial", material);
+			}
+
+			{ // holeinwall
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"holeinwall");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
 				material->SetRenderingMode(eRenderingMode::Transparent);
-				material->SetShader(rectShader);
+				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"holeinwallMaterial", material);
 			}
 
+			{ // bossroomdoor
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bossroomdoor");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bossroomdoorMaterial", material);
+			}
+
+			{ // darkroomdoor
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"darkroomdoor");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"darkroomdoorMaterial", material);
+			}
+		}
+
+		{ // land
 			{ // fire
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"fire");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -1004,6 +1105,15 @@ namespace ya::renderer
 				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"rocks_basementMaterial", material);
+			}
+
+			{ // web
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"web");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"webMaterial", material);
 			}
 		}
 
