@@ -45,7 +45,8 @@ namespace ya
 		if (parent != nullptr)
 		{
 			Transform* parentTr = parent->GetComponent<Transform>();
-			scale += parentTr->GetRotation();
+			//scale += parentTr->GetScale();
+			rotation += parentTr->GetRotation();
 			position += parentTr->GetPosition() + Vector3(0.0f, parentTr->GetHeight(), 0.0f);
 		}
 
