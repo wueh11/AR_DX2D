@@ -6,10 +6,6 @@ namespace ya
 	Spike::Spike()
 		: Land()
 	{
-		Collider2D* collider = AddComponent<Collider2D>();
-		collider->SetSize(Vector2(0.5f, 0.5f));
-		collider->SetColliderType(eColliderType::Rect);
-
 		AddComponent<SpikeScript>();
 	}
 	Spike::~Spike()
