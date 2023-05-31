@@ -28,5 +28,6 @@ namespace ya
 
 	private:
 		Vector3 mCollideVelocity;
+		Vector3 mColliderPosition;
 	};
 }

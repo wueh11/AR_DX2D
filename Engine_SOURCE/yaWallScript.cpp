@@ -11,6 +11,7 @@
 #include "yaRigidbody.h"
 
 #include "yaInput.h"
+#include "yaPickup.h"
 
 namespace ya
 {
@@ -48,6 +49,7 @@ namespace ya
 		GameObject* other = collider->GetOwner();
 		Player* player = dynamic_cast<Player*>(other);
 
+
 		if (player != nullptr)
 		{
 			Transform* otherTr = other->GetComponent<Transform>();
@@ -55,65 +57,108 @@ namespace ya
 
 			Collider2D* ownerCollider = GetOwner()->GetComponent<Collider2D>();
 			Transform* ownerTr = GetOwner()->GetComponent<Transform>();
+			Vector3 ownerPos = ownerCollider->GetPosition();
 
 			Vector3 dist = Vector3(
 				ownerCollider->GetSize().x * ownerTr->GetScale().x / 2.0f + collider->GetSize().x * otherTr->GetScale().x / 2.0f
 				, ownerCollider->GetSize().y * ownerTr->GetScale().y / 2.0f + collider->GetSize().y * otherTr->GetScale().y / 2.0f
 				, 0.0f);
 
-			if (otherPos.x >= ownerCollider->GetPosition().x + dist.x - 0.01f
-				|| otherPos.x <= ownerCollider->GetPosition().x - dist.x + 0.01f)
-			{
-				if (collider->GetPosition().x > ownerCollider->GetPosition().x)
-					otherPos.x = ownerCollider->GetPosition().x + dist.x + 0.002f;
-				else
-					otherPos.x = ownerCollider->GetPosition().x - dist.x - 0.002f;
-			}  
+			Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
+			Vector3 vel = otherRigidbody->GetVelocity();
+			vel.Normalize();
+			mColliderPosition = otherTr->GetPosition() - (vel * 0.01f);
 
-			if (otherPos.y >= ownerCollider->GetPosition().y + dist.y - 0.01f
-				|| otherPos.y <= ownerCollider->GetPosition().y - dist.y + 0.01f)
-			{
-				if (collider->GetPosition().y > ownerCollider->GetPosition().y)
-					otherPos.y = ownerCollider->GetPosition().y + dist.y + 0.002f;
-				else
-					otherPos.y = ownerCollider->GetPosition().y - dist.y - 0.002f;
-			}
+			otherTr->SetPosition(mColliderPosition);
 
-			otherPos.x -= collider->GetCenter().x;
+			if (otherRigidbody != nullptr)
+				otherRigidbody->SetVelocity(Vector3::Zero); 
+
+			//if (otherPos.x >= ownerPos.x + dist.x - 0.01f
+			//	|| otherPos.x <= ownerPos.x - dist.x + 0.01f)
+			//{
+			//	if (collider->GetPosition().x > ownerPos.x)
+			//		otherPos.x = ownerPos.x + dist.x + 0.001f;
+			//	else
+			//		otherPos.x = ownerPos.x - dist.x - 0.001f;
+			//}  
+
+			//if (otherPos.y >= ownerPos.y + dist.y - 0.01f
+			//	|| otherPos.y <= ownerPos.y - dist.y + 0.01f)
+			//{
+			//	if (collider->GetPosition().y > ownerPos.y)
+			//		otherPos.y = ownerPos.y + dist.y + 0.001f;
+			//	else
+			//		otherPos.y = ownerPos.y - dist.y - 0.001f;
+			//}
+
+
+			/*otherPos.x -= collider->GetCenter().x;
 			otherPos.y -= collider->GetCenter().y;
 
 			otherTr->SetPosition(otherPos); 
 
-			Rigidbody* objRigidbody = other->GetComponent<Rigidbody>();
-			if (objRigidbody != nullptr)
-				objRigidbody->SetVelocity(Vector3::Zero);
+			Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
+			if (otherRigidbody != nullptr)
+				otherRigidbody->SetVelocity(Vector3::Zero);*/
 		}
 	}
 
 	void WallScript::OnCollisionStay(Collider2D* collider)
 	{
 		GameObject* other = collider->GetOwner();
-		Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>(); 
+		Player* player = dynamic_cast<Player*>(other);
 
-		if (otherRigidbody == nullptr)
+		if (player != nullptr)
+		{
+
+			Transform* otherTr = other->GetComponent<Transform>();
+			Vector3 otherPos = collider->GetPosition();
+
+			Collider2D* ownerCollider = GetOwner()->GetComponent<Collider2D>();
+			Transform* ownerTr = GetOwner()->GetComponent<Transform>();
+			Vector3 ownerPos = ownerCollider->GetPosition();
+
+			otherTr->SetPosition(mColliderPosition);
+
+
 			return;
+			Vector3 dist = Vector3(
+				ownerCollider->GetSize().x * ownerTr->GetScale().x / 2.0f + collider->GetSize().x * otherTr->GetScale().x / 2.0f
+				, ownerCollider->GetSize().y * ownerTr->GetScale().y / 2.0f + collider->GetSize().y * otherTr->GetScale().y / 2.0f
+				, 0.0f);
 
-		Collider2D* ownerCollider = other->GetComponent<Collider2D>();
+			if (otherPos.x >= ownerPos.x + dist.x - 0.01f
+				|| otherPos.x <= ownerPos.x - dist.x + 0.01f)
+			{
+				if (collider->GetPosition().x > ownerPos.x)
+					otherPos.x = ownerPos.x + dist.x + 0.001f;
+				else
+					otherPos.x = ownerPos.x - dist.x - 0.001f;
+			}
 
-		Vector3 target = Vector3(0.0f, 0.0f, 0.0f);
-		if (collider->GetPosition().x > ownerCollider->GetPosition().x - (ownerCollider->GetSize().x / 2)
-			|| collider->GetPosition().x < ownerCollider->GetPosition().x + (ownerCollider->GetSize().x / 2))
-			target.y = 1.0f;
-		else if (collider->GetPosition().y > ownerCollider->GetPosition().y - (ownerCollider->GetSize().y / 2)
-			|| collider->GetPosition().y < ownerCollider->GetPosition().y + (ownerCollider->GetSize().y / 2))
-			target.x = 1.0f;
+			if (otherPos.y >= ownerPos.y + dist.y - 0.01f
+				|| otherPos.y <= ownerPos.y - dist.y + 0.01f)
+			{
+				if (collider->GetPosition().y > ownerPos.y)
+					otherPos.y = ownerPos.y + dist.y + 0.001f;
+				else
+					otherPos.y = ownerPos.y - dist.y - 0.001f;
+			}
 
-		Vector3 force = otherRigidbody->Bounce(-mCollideVelocity, target);
-		otherRigidbody->AddForce(force * 100.0f);
+			otherPos.x -= collider->GetCenter().x;
+			otherPos.y -= collider->GetCenter().y;
+
+			otherTr->SetPosition(otherPos);
+
+			Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
+			if (otherRigidbody != nullptr)
+				otherRigidbody->SetVelocity(Vector3::Zero);
+		}
 	}
 	void WallScript::OnCollisionExit(Collider2D* collider)
 	{
-		mCollideVelocity = Vector3::Zero;
+		//mCollideVelocity = Vector3::Zero;
 	}
 	void WallScript::OnTriggerEnter(Collider2D* collider)
 	{
