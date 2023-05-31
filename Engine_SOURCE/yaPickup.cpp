@@ -5,33 +5,29 @@
 namespace ya
 {
 	Pickup::Pickup(eItemType pickupType)
-		: GameObject()
+		: Item()
 		, mItemType(pickupType)
+		, mTimer(0.0f)
 	{
-		Collider2D* collider = AddComponent<Collider2D>();
-		collider->SetSize(Vector2(0.32f, 0.32f));
-		collider->SetColliderType(eColliderType::Rect);
-
-		AddComponent<Rigidbody>();
 	}
 	Pickup::~Pickup()
 	{
 	}
 	void Pickup::Initialize()
 	{
-		GameObject::Initialize();
+		Item::Initialize();
 	}
 	void Pickup::Update()
 	{
-		GameObject::Update();
+		Item::Update();
 	}
 	void Pickup::FixedUpdate()
 	{
-		GameObject::FixedUpdate();
+		Item::FixedUpdate();
 	}
 	void Pickup::Render()
 	{
-		GameObject::Render();
+		Item::Render();
 	}
 	void Pickup::Take()
 	{

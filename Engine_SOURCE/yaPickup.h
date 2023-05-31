@@ -1,11 +1,11 @@
 #pragma once
-#include "yaGameObject.h"
+#include "yaItem.h"
 #include "yaIsaacEnums.h"
 
 using namespace ya::isaac;
 namespace ya
 {
-	class Pickup : public GameObject
+	class Pickup : public Item
 	{
 	public:
 		Pickup(eItemType itemType);
