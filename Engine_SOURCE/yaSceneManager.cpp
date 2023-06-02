@@ -4,6 +4,7 @@
 #include "yaTitleScene.h"
 #include "yaWorkScene.h"
 #include "yaBasement1.h"
+#include "yaBasement1Boss.h"
 
 namespace ya
 {
@@ -18,6 +19,7 @@ namespace ya
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Play] = new PlayScene();
 		mScenes[(UINT)eSceneType::Basement1] = new Basement1();
+		mScenes[(UINT)eSceneType::Basement1Boss] = new Basement1Boss();
 
 		for (Scene* scene : mScenes)
 		{

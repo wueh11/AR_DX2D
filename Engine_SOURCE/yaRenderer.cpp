@@ -497,6 +497,12 @@ namespace ya::renderer
 			}
 		}
 
+		{ // bossScene
+			Resources::Load<Texture>(L"nightmares_bg", L"Issac\\nightmares_bg.png");
+			Resources::Load<Texture>(L"playername_01_isaac", L"Issac\\playername_01_isaac.png");
+			Resources::Load<Texture>(L"playerportrait_01_isaac", L"Issac\\playerportrait_01_isaac.png");
+		}
+
 		{ // title
 			Resources::Load<Texture>(L"titlemenu", L"Issac\\titlemenu.png");
 			Resources::Load<Texture>(L"gamemenu", L"Issac\\gamemenu.png");
@@ -710,70 +716,74 @@ namespace ya::renderer
 #pragma endregion
 
 		{ // Items
-			{ // pickups
-				{ // heart
-					std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"heart");
-					std::shared_ptr<Material> material = std::make_shared<Material>();
-					material->SetRenderingMode(eRenderingMode::Transparent);
-					material->SetShader(spriteShader);
-					material->SetTexture(texture);
-					Resources::Insert<Material>(L"heartMaterial", material);
-				}
+#pragma region pickups
+			{
 
-				{ // Coin
-					std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"coin");
-					std::shared_ptr<Material> material = std::make_shared<Material>();
-					material->SetRenderingMode(eRenderingMode::Transparent);
-					material->SetShader(spriteShader);
-					material->SetTexture(texture);
-					Resources::Insert<Material>(L"coinMaterial", material);
-				}
-
-				{ // key
-					std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"key");
-					std::shared_ptr<Material> material = std::make_shared<Material>();
-					material->SetRenderingMode(eRenderingMode::Transparent);
-					material->SetShader(spriteShader);
-					material->SetTexture(texture);
-					Resources::Insert<Material>(L"keyMaterial", material);
-				}
-
-				{ // bomb
-					std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bomb");
-					std::shared_ptr<Material> material = std::make_shared<Material>();
-					material->SetRenderingMode(eRenderingMode::Transparent);
-					material->SetShader(spriteShader);
-					material->SetTexture(texture);
-					Resources::Insert<Material>(L"bombMaterial", material);
-				}
-
-				{ // pill
-					std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"pill");
-					std::shared_ptr<Material> material = std::make_shared<Material>();
-					material->SetRenderingMode(eRenderingMode::Transparent);
-					material->SetShader(spriteShader);
-					material->SetTexture(texture);
-					Resources::Insert<Material>(L"pillMaterial", material);
-				}
-
-				{ // card
-					std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"card");
-					std::shared_ptr<Material> material = std::make_shared<Material>();
-					material->SetRenderingMode(eRenderingMode::Transparent);
-					material->SetShader(spriteShader);
-					material->SetTexture(texture);
-					Resources::Insert<Material>(L"cardMaterial", material);
-				}
-
-				{ // little battery
-					std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"littlebattery");
-					std::shared_ptr<Material> material = std::make_shared<Material>();
-					material->SetRenderingMode(eRenderingMode::Transparent);
-					material->SetShader(rectShader);
-					material->SetTexture(texture);
-					Resources::Insert<Material>(L"littlebatteryMaterial", material);
-				}
 			}
+
+			{ // heart
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"heart");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"heartMaterial", material);
+			}
+
+			{ // Coin
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"coin");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"coinMaterial", material);
+			}
+
+			{ // key
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"key");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"keyMaterial", material);
+			}
+
+			{ // bomb
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bomb");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bombMaterial", material);
+			}
+
+			{ // pill
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"pill");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"pillMaterial", material);
+			}
+
+			{ // card
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"card");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"cardMaterial", material);
+			}
+
+			{ // little battery
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"littlebattery");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"littlebatteryMaterial", material);
+			}
+#pragma endregion
 
 			{ // collectibles
 				{ 
@@ -848,6 +858,33 @@ namespace ya::renderer
 				Resources::Insert<Material>(L"menushadowMaterial", material);
 			}
 		}
+
+#pragma region boss scene
+		{ 
+			{ // nightmares_bg
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"nightmares_bg");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"nightmares_bgMaterial", material);
+			}
+			{ // playername_01_isaac
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"playername_01_isaac");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"playername_01_isaacMaterial", material);
+			}
+			{ // playerportrait_01_isaac
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"playerportrait_01_isaac");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"playerportrait_01_isaacMaterial", material);
+			}
+		}
+
+#pragma endregion
 
 		{ // uis
 			{ //fonts

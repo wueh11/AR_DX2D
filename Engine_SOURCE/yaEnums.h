@@ -8,6 +8,9 @@ namespace ya::enums
 		Title,
 		Play,
 		Basement1,
+		Basement1Boss,
+		Basement2,
+		Basement2Boss,
 		End,
 	};
 
