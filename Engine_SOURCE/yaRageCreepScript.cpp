@@ -243,7 +243,7 @@ namespace ya
 
 	void RageCreepScript::Destroy()
 	{
-		mEffect->Pause();
+		mEffect->Death();
 		GetOwner()->Death();
 	}
 

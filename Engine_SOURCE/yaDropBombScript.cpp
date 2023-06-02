@@ -143,7 +143,7 @@ namespace ya
 		if (room == nullptr)
 			return;
 
-		GameObject* bombradius = object::Instantiate<GameObject>(eLayerType::Background);
+		GameObject* bombradius = object::Instantiate<GameObject>(eLayerType::Background, room);
 		bombradius->SetName(L"bombradius");
 
 		ImageRenderer* rd = bombradius->AddComponent<ImageRenderer>();
@@ -156,7 +156,7 @@ namespace ya
 		rd->SetImageSize(texture, Vector2(0.0f, 0.0f), Vector2(96.0f, 64.0f));
 
 		Transform* tr = bombradius->GetComponent<Transform>();
-		tr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.6f, 0.0f));
+		tr->SetPosition(mTransform->GetPosition() - Vector3(room->GetRoomPosition().x, room->GetRoomPosition().y, 0.0f) + Vector3(0.0f, -0.6f, 0.0f));
 		tr->SetScale(Vector3(1.0f, 0.6f, 0.0f));
 	}
 

@@ -182,7 +182,7 @@ namespace ya
 		{
 			ActiveItem* activeItem = object::Instantiate<ActiveItem>(eLayerType::Item, treasure);
 			activeItem->SetActiveItemType(eActiveItem::YumHeart);
-			treasure->AddRoomObject(activeItem, 3, 6);
+			treasure->AddRoomObject(activeItem, 4, 7);
 		}
 
 		Room* dark = CreateRoom(3, 5, eRoomType::Dark);
