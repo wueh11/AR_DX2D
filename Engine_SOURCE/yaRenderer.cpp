@@ -447,9 +447,14 @@ namespace ya::renderer
 		}
 
 		{ // effect
-			Resources::Load<Texture>(L"tearpoofa", L"Issac\\effect_015_tearpoofa.png");
-			Resources::Load<Texture>(L"starflash", L"Issac\\effect_023_starflash.png");
-			Resources::Load<Texture>(L"explosion", L"Issac\\effect_029_explosion.png");
+			Resources::Load<Texture>(L"fire", L"Issac\\effects\\effect_005_fire.png");
+			Resources::Load<Texture>(L"bloodpoof", L"Issac\\effects\\effect_002_bloodpoof.png");
+			Resources::Load<Texture>(L"bloodtear", L"Issac\\effects\\effect_003_bloodtear.png");
+			Resources::Load<Texture>(L"tearpoofa", L"Issac\\effects\\effect_015_tearpoofa.png");
+			Resources::Load<Texture>(L"tearpoofb", L"Issac\\effects\\effect_015_tearpoofb.png");
+			Resources::Load<Texture>(L"bombradius", L"Issac\\effects\\effect_017_bombradius.png");
+			Resources::Load<Texture>(L"starflash", L"Issac\\effects\\effect_023_starflash.png");
+			Resources::Load<Texture>(L"explosion", L"Issac\\effects\\effect_029_explosion.png");
 		}
 
 		{ // ui
@@ -542,7 +547,15 @@ namespace ya::renderer
 
 		{ // monster
 			Resources::Load<Texture>(L"monster_bodies01", L"Issac\\monsters\\monster_000_bodies01.png");
-			Resources::Load<Texture>(L"monster_gaper", L"Issac\\monsters\\monster_017_gaper.png");
+			Resources::Load<Texture>(L"fly", L"Issac\\monsters\\monster_010_fly.png");
+			Resources::Load<Texture>(L"gaper", L"Issac\\monsters\\monster_017_gaper.png");
+			Resources::Load<Texture>(L"hopperleaper", L"Issac\\monsters\\monster_044_hopperleaper.png");
+			Resources::Load<Texture>(L"clotty", L"Issac\\monsters\\monster_065_clotty.png");
+			Resources::Load<Texture>(L"trite", L"Issac\\monsters\\monster_082_trite.png");
+			Resources::Load<Texture>(L"boomfly", L"Issac\\monsters\\monster_096_boomfly.png");
+			Resources::Load<Texture>(L"charger", L"Issac\\monsters\\monster_113_charger.png");
+			Resources::Load<Texture>(L"host", L"Issac\\monsters\\monster_122_host.png");
+			Resources::Load<Texture>(L"ragecreep", L"Issac\\monsters\\monster_241_ragecreep.png");
 		}
 	}
 
@@ -629,6 +642,31 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"gainItemMaterial", material);
 		}
 
+#pragma region effect
+		{ // fire
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"fire");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"fireMaterial", material);
+		}
+		{ // bloodpoof
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bloodpoof");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"bloodpoofMaterial", material);
+		}
+		{ // bloodtear
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bloodtear");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"bloodtearMaterial", material);
+		}
 		{ // tearpoofa
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"tearpoofa");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -637,7 +675,22 @@ namespace ya::renderer
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"tearpoofaMaterial", material);
 		}
-
+		{ // tearpoofb
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"tearpoofb");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"tearpoofbMaterial", material);
+		}
+		{ // bombradius
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bombradius");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"bombradiusMaterial", material);
+		}
 		{ // starflash
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"starflash");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -646,7 +699,6 @@ namespace ya::renderer
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"starflashMaterial", material);
 		}
-
 		{ // bomb explosion
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"explosion");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -655,6 +707,7 @@ namespace ya::renderer
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"explosionMaterial", material);
 		}
+#pragma endregion
 
 		{ // Items
 			{ // pickups
@@ -716,7 +769,7 @@ namespace ya::renderer
 					std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"littlebattery");
 					std::shared_ptr<Material> material = std::make_shared<Material>();
 					material->SetRenderingMode(eRenderingMode::Transparent);
-					material->SetShader(spriteShader);
+					material->SetShader(rectShader);
 					material->SetTexture(texture);
 					Resources::Insert<Material>(L"littlebatteryMaterial", material);
 				}
@@ -1127,13 +1180,29 @@ namespace ya::renderer
 				Resources::Insert<Material>(L"monsterBodiesMaterial", material);
 			}
 
+			{ // fly
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"fly");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"flyMaterial", material);
+			}
 			{ // gaper
-				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"monster_gaper");
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"gaper");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
 				material->SetRenderingMode(eRenderingMode::Transparent);
 				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"gaperMaterial", material);
+			}
+			{ // ragecreep
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"ragecreep");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"ragecreepMaterial", material);
 			}
 		}
 	}

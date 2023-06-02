@@ -60,7 +60,7 @@ namespace ya
 			mAnimator->Create(L"Explosion", texture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 12, 0.05f, 2, 3);
 			//mAnimator->GetEvent(L"Explosion", 1) = std::bind(&DropBombScript::Explosion, this);
 			mAnimator->GetEvent(L"Explosion", 2) = std::bind(&DropBombScript::Imprint, this);
-			//mAnimator->GetCompleteEvent(L"Explosion") = std::bind(&DropBombScript::Death, this);
+			mAnimator->GetCompleteEvent(L"Explosion") = std::bind(&DropBombScript::Death, this);
 		}
 
 		mAnimator->Play(L"Default", false);
@@ -80,8 +80,8 @@ namespace ya
 		break;
 		case ya::DropBombScript::eState::Explosion:
 		{
-			mTransform->SetScale(Vector3(1.5f, 1.5f, 1.0f));
-			mTransform->SetPosition(mTransform->GetPosition() + Vector3(0.0f, 0.4f, 0.0f));
+			mTransform->SetScale(Vector3(1.6f, 1.6f, 1.0f));
+			mTransform->SetPosition(mTransform->GetPosition() + Vector3(0.0f, 0.5f, 0.0f));
 
 			Explode();
 			mAnimator->Play(L"Explosion", false);
@@ -143,27 +143,31 @@ namespace ya
 		if (room == nullptr)
 			return;
 
-		GameObject* imprint = object::Instantiate<GameObject>(eLayerType::Background, room);
-		imprint->SetName(L"imprint");
+		GameObject* bombradius = object::Instantiate<GameObject>(eLayerType::Background);
+		bombradius->SetName(L"bombradius");
 
-		ImageRenderer* rd = imprint->AddComponent<ImageRenderer>();
+		ImageRenderer* rd = bombradius->AddComponent<ImageRenderer>();
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 		rd->SetMesh(mesh);
-		std::shared_ptr<Material> material = Resources::Find<Material>(L"bombMaterial");
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"bombradiusMaterial");
 		rd->SetMaterial(material);
-		std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"explosion", L"explosion.png");
-		rd->SetImageSize(texture, Vector2(288.0f, 288.0f), Vector2(96.0f, 96.0f));
+		std::shared_ptr<Texture> texture = material->GetTexture();
 
-		Transform* tr = imprint->GetComponent<Transform>();
-		tr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.2f, 1.0f));
+		rd->SetImageSize(texture, Vector2(0.0f, 0.0f), Vector2(96.0f, 64.0f));
+
+		Transform* tr = bombradius->GetComponent<Transform>();
+		tr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.6f, 0.0f));
+		tr->SetScale(Vector3(1.0f, 0.6f, 0.0f));
 	}
+
 	void DropBombScript::Explode()
 	{
 		Explosion* explosion = object::Instantiate<Explosion>(eLayerType::Projectile);
 		explosion->SetName(L"explosion");
 		Transform* tr = explosion->GetComponent<Transform>();
-		tr->SetPosition(mTransform->GetPosition());
+		tr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.5f, 0.0f));
 	}
+
 	void DropBombScript::Death()
 	{
 		GetOwner()->Death();

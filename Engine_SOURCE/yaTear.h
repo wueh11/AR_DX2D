@@ -1,12 +1,13 @@
 #pragma once
 #include "yaGameObject.h"
+#include "yaIsaacEnums.h"
 
 namespace ya
 {
 	class Tear : public GameObject
 	{
 	public:
-		Tear(GameObject* owner, Vector3 direction);
+		Tear();
 		virtual ~Tear();
 
 		virtual void Initialize();
@@ -14,11 +15,21 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
-		Vector3 GetDirection() { return mDirection;}
-		GameObject* GetProjectileOwner() { return mProjectileOwner; }
+	public:
+		GameObject* GetTearOwner() { return mTearOwner; }
+		//void SetTearOwner(GameObject* obj) { mTearOwner = obj; }
 
-	private:
-		GameObject* mProjectileOwner;
+		Vector3 GetDirection() { return mDirection;}
+		//void SetDirection(Vector3 dir) { mDirection = dir; }
+
+		void InitTear(GameObject* tearOwner, Vector3 dir);
+
+		isaac::Status GetStatus() { return mStatus; }
+
+	protected:
+		GameObject* mTearOwner;
 		Vector3 mDirection;
+
+		isaac::Status mStatus;
 	};
 }

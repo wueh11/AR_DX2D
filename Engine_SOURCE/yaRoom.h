@@ -17,9 +17,13 @@ namespace ya
 		virtual void Render();
 
 	public:
+		void EnterRoom();
+		void ExitRoom();
+
+	public:
 		void InitDoor();
-		void CreateDoor(Room* targetRoom, Door::eDirection doorDirection);
-		Door* GetDoor(Door::eDirection doorDirection) { return mDoors[(UINT)doorDirection]; }
+		void CreateDoor(Room* targetRoom, eDirection doorDirection);
+		Door* GetDoor(eDirection doorDirection) { return mDoors[(UINT)doorDirection]; }
 
 		void AddRoomObject(GameObject* roomObj, int x = -1, int y = -1);
 
@@ -45,12 +49,12 @@ namespace ya
 
 		int mMonsterCount;	// 방에 남은 몬스터 수
 
-		GameObject* mGrid[7][13];	// 방을 구성하는 gameobject. 빈칸일경우 nullptr
+		GameObject* mGrid[9][15];	// 방을 구성하는 gameobject. 빈칸일경우 nullptr
 
 		Vector2 mRoomGrid;
 		Vector2 mRoomPosition;
 
-		Door* mDoors[(UINT)Door::eDirection::End];
+		Door* mDoors[(UINT)eDirection::End];
 		
 	};
 }

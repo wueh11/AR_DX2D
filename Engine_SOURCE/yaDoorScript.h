@@ -1,6 +1,6 @@
 #pragma once
 #include "yaWallScript.h"
-#include "yaDoor.h"
+#include "yaIsaacEnums.h"
 
 namespace ya
 {
@@ -24,7 +24,7 @@ namespace ya
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
 	public:
-		void SetDoorDirection(Door::eDirection dir);
+		void SetDoorDirection(isaac::eDirection dir);
 		void SetDoorType(isaac::eRoomType doorType);
 
 		void SetOpen(bool open);
@@ -34,8 +34,6 @@ namespace ya
 		void playDeco(isaac::eRoomType doorType);
 
 	private:
-		std::shared_ptr<Material> mMaterial;
-
 		GameObject* mDoorBackground;
 		GameObject* mDoorFrame;
 		GameObject* mDoorLeft;

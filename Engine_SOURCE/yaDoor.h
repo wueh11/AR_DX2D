@@ -9,17 +9,6 @@ namespace ya
 	class Door : public Land
 	{
 	public:
-		enum class eDirection
-		{
-			None,
-			UP,
-			DOWN,
-			LEFT,
-			RIGHT,
-			End,
-		};
-
-	public:
 		Door();
 		virtual ~Door();
 

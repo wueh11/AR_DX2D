@@ -19,6 +19,7 @@ namespace ya::enums
 		Background,
 		Wall,
 
+		Floor,
 		Land,
 		Camera,
 		Effect,

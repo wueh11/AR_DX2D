@@ -15,8 +15,9 @@
 #include "yaSpriteRenderer.h"
 #include "yaImageRenderer.h"
 
+#include "yaPlayerTear.h"
+
 #include "yaItemManager.h"
-#include "yaTear.h"
 #include "yaItem.h"
 #include "yaActiveItem.h"
 #include "yaPickup.h"
@@ -52,6 +53,8 @@ namespace ya
 		, mGainItemTime(0.0f)
 		, mGainItemTimeMax(1.0f)
 		, mbGainItem(true)
+		, mAttackSpeed(0.0f)
+		, mAttackAble(true)
 	{
 	}
 	PlayerScript::~PlayerScript()
@@ -63,7 +66,7 @@ namespace ya
 		mRigidbody = GetOwner()->AddComponent<Rigidbody>();
 
 		Player* player = dynamic_cast<Player*>(GetOwner());
-		Player::Status status = player->GetStatus();
+		isaac::Status status = player->GetStatus();
 
 		player->SetSpeed();
 
@@ -361,9 +364,11 @@ namespace ya
 	void PlayerScript::Move()
 	{
 		Player* player = dynamic_cast<Player*>(GetOwner());
-		Player::Status status = player->GetStatus();
+		isaac::Status status = player->GetStatus();
 		float speed = 1.8f + status.speed;
 		Rigidbody* rigidbody = player->GetComponent<Rigidbody>();
+
+		//TODO: set speed 
 		rigidbody->SetLimitVelocity(Vector3(speed, speed, 0.0f));
 
 		float s = 20.0f;
@@ -390,21 +395,25 @@ namespace ya
 			{
 				if (Input::GetKeyDown(eKeyCode::W))
 				{
+					Idle();
 					headAnimator->Play(L"BackIdle", true);
 					bodyAnimator->Play(L"FrontWalk", true);
 				}
 				else if (Input::GetKeyDown(eKeyCode::S))
 				{
+					Idle();
 					headAnimator->Play(L"FrontIdle", true);
 					bodyAnimator->Play(L"FrontWalk", true);
 				}
 				else if (Input::GetKeyDown(eKeyCode::A))
 				{
+					Idle();
 					headAnimator->Play(L"SideIdle", true);
 					bodyAnimator->Play(L"SideWalk", true);
 				}
 				else if (Input::GetKeyDown(eKeyCode::D))
 				{
+					Idle();
 					headAnimator->Play(L"SideIdle", true);
 					bodyAnimator->Play(L"SideWalk", true);
 				}
@@ -437,9 +446,6 @@ namespace ya
 					bodyAnimator->Play(L"ItemIdle", true);
 			}
 		}
-
-		/*Vector3 pos = mTransform->GetPosition();
-		mTransform->SetPosition(Vector3(pos.x, pos.y, pos.y));*/
 	}
 
 	void PlayerScript::Attack()
@@ -447,28 +453,6 @@ namespace ya
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		Animator* headAnimator = mHead->GetComponent<Animator>();
 		Animator* bodyAnimator = mBody->GetComponent<Animator>();
-
-		// ´«¹° ¹ß»ç
-		if (Input::GetKeyDown(eKeyCode::UP))
-		{
-			headAnimator->Play(L"BackAttack", true);
-			Tears(Vector3(0.0f, 1.0f, 0.0f));
-		}
-		else if (Input::GetKeyDown(eKeyCode::DOWN))
-		{
-			headAnimator->Play(L"FrontAttack", true);
-			Tears(Vector3(0.0f, -1.0f, 0.0f));
-		}
-		else if (Input::GetKeyDown(eKeyCode::LEFT))
-		{
-			headAnimator->Play(L"SideAttack", true);
-			Tears(Vector3(-1.0f, 0.0f, 0.0f));
-		}
-		else if (Input::GetKeyDown(eKeyCode::RIGHT))
-		{
-			headAnimator->Play(L"SideAttack", true);
-			Tears(Vector3(1.0f, 0.0f, 0.0f));
-		}
 
 		if (Input::GetKeyUp(eKeyCode::UP))
 		{
@@ -485,6 +469,52 @@ namespace ya
 		else if (Input::GetKeyUp(eKeyCode::RIGHT))
 		{
 			headAnimator->Play(L"SideIdle", true);
+		}
+
+		if (mAttackSpeed <= 0.0f)
+		{
+			mAttackAble = true;
+			mAttackSpeed = dynamic_cast<Player*>(GetOwner())->GetStatus().attackSpeed;
+		}
+
+		if (!mAttackAble)
+		{
+			mAttackSpeed -= 10.0f * Time::DeltaTime();
+			return;
+		}
+
+		// ´«¹° ¹ß»ç
+		if (Input::GetKey(eKeyCode::UP))
+		{
+			Idle();
+			headAnimator->Play(L"BackAttack", true);
+			PlayerTear* tear = object::Instantiate<PlayerTear>(eLayerType::Projectile);
+			tear->InitTear(GetOwner(), Vector3(0.0f, 1.0f, 0.0f));
+			mAttackAble = false;
+		}
+		else if (Input::GetKey(eKeyCode::DOWN))
+		{
+			Idle();
+			headAnimator->Play(L"FrontAttack", true);
+			PlayerTear* tear = object::Instantiate<PlayerTear>(eLayerType::Projectile);
+			tear->InitTear(GetOwner(), Vector3(0.0f, -1.0f, 0.0f));
+			mAttackAble = false;
+		}
+		else if (Input::GetKey(eKeyCode::LEFT))
+		{
+			Idle();
+			headAnimator->Play(L"SideAttack", true);
+			PlayerTear* tear = object::Instantiate<PlayerTear>(eLayerType::Projectile);
+			tear->InitTear(GetOwner(), Vector3(-1.0f, 0.0f, 0.0f));
+			mAttackAble = false;
+		}
+		else if (Input::GetKey(eKeyCode::RIGHT))
+		{
+			Idle();
+			headAnimator->Play(L"SideAttack", true);
+			PlayerTear* tear = object::Instantiate<PlayerTear>(eLayerType::Projectile);
+			tear->InitTear(GetOwner(), Vector3(1.0f, 0.0f, 0.0f));
+			mAttackAble = false;
 		}
 	}
 
@@ -506,14 +536,6 @@ namespace ya
 
 		mGainItemTime = mGainItemTimeMax;
 		mbGainItem = false;
-	}
-
-	void PlayerScript::Tears(Vector3 direction)
-	{
-		Tear* tear = new Tear(GetOwner(), direction);
-		Scene* scene = SceneManager::GetActiveScene();
-		Layer& layer = scene->GetLayer(eLayerType::Projectile);
-		layer.AddGameObject(tear);
 	}
 
 	void PlayerScript::Hurt()

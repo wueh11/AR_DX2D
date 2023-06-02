@@ -29,7 +29,6 @@ namespace ya
 		, mDoorRight(nullptr)
 		, mDoorBackground(nullptr)
 		, mDoorDeco(nullptr)
-		, mMaterial(nullptr)
 	{
 	}
 	DoorScript::~DoorScript()
@@ -251,7 +250,7 @@ namespace ya
 		//if (!door->IsOpen())
 		{
 			Explosion* explosion = dynamic_cast<Explosion*>(otherOwner);
-			if (explosion != nullptr)
+			if (explosion != nullptr && eRoomType::Treasure != door->GetDoorType())
 			{
 				door->SetOpen(true);
 				door->SetDamaged(true);
@@ -259,15 +258,15 @@ namespace ya
 				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
 				Vector2 roomgrid = scene->GetCurrentRoom()->GetRoomGrid();
 
-				Door::eDirection dir = door->GetDirection();
-				if (dir == Door::eDirection::LEFT)
-					scene->GetRoom(roomgrid.x, roomgrid.y - 1)->GetDoor(Door::eDirection::RIGHT)->SetDamaged(true);
-				else if (dir == Door::eDirection::RIGHT)
-					scene->GetRoom(roomgrid.x, roomgrid.y + 1)->GetDoor(Door::eDirection::LEFT)->SetDamaged(true);
-				else if (dir == Door::eDirection::UP)
-					scene->GetRoom(roomgrid.x - 1, roomgrid.y)->GetDoor(Door::eDirection::DOWN)->SetDamaged(true);
-				else if (dir == Door::eDirection::DOWN)
-					scene->GetRoom(roomgrid.x + 1, roomgrid.y)->GetDoor(Door::eDirection::UP)->SetDamaged(true);
+				eDirection dir = door->GetDirection();
+				if (dir == eDirection::LEFT)
+					scene->GetRoom(roomgrid.x, roomgrid.y - 1)->GetDoor(eDirection::RIGHT)->SetDamaged(true);
+				else if (dir == eDirection::RIGHT)
+					scene->GetRoom(roomgrid.x, roomgrid.y + 1)->GetDoor(eDirection::LEFT)->SetDamaged(true);
+				else if (dir == eDirection::UP)
+					scene->GetRoom(roomgrid.x - 1, roomgrid.y)->GetDoor(eDirection::DOWN)->SetDamaged(true);
+				else if (dir == eDirection::DOWN)
+					scene->GetRoom(roomgrid.x + 1, roomgrid.y)->GetDoor(eDirection::UP)->SetDamaged(true);
 			}
 		}
 		
@@ -284,33 +283,33 @@ namespace ya
 			}
 			else if(door->GetDoorType() == eRoomType::Secret && !door->IsDamaged())
 			{ }
-			else if(door->GetDoorType() != eRoomType::None || door->IsDamaged())
+			else if(door->GetDoorType() != eRoomType::None)
 			{
 				Transform* playerTr = player->GetComponent<Transform>();
 				Vector3 pos = playerTr->GetPosition();
 
-				Door::eDirection dir = door->GetDirection();
+				eDirection dir = door->GetDirection();
 
 				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
 				Vector2 roomgrid = scene->GetCurrentRoom()->GetRoomGrid();
 
 				float dist = 0.7f;
-				if (dir == Door::eDirection::LEFT)
+				if (dir == eDirection::LEFT)
 				{
 					pos.x -= dist;
 					scene->SetCurrentRoom(roomgrid.x, roomgrid.y - 1);
 				}
-				else if (dir == Door::eDirection::RIGHT)
+				else if (dir == eDirection::RIGHT)
 				{
 					pos.x += dist;
 					scene->SetCurrentRoom(roomgrid.x, roomgrid.y + 1);
 				}
-				else if (dir == Door::eDirection::UP)
+				else if (dir == eDirection::UP)
 				{
 					pos.y += dist;
 					scene->SetCurrentRoom(roomgrid.x - 1, roomgrid.y);
 				}
-				else if (dir == Door::eDirection::DOWN)
+				else if (dir == eDirection::DOWN)
 				{
 					pos.y -= dist;
 					scene->SetCurrentRoom(roomgrid.x + 1, roomgrid.y);
@@ -346,27 +345,27 @@ namespace ya
 		WallScript::OnTriggerExit(collider);
 	}
 
-	void DoorScript::SetDoorDirection(Door::eDirection dir)
+	void DoorScript::SetDoorDirection(eDirection dir)
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
 
-		if (dir == Door::eDirection::UP)
+		if (dir == eDirection::UP)
 		{
 			tr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 			collider->SetCenter(Vector2(0.0f, -0.15f));
 		}
-		else if (dir == Door::eDirection::DOWN)
+		else if (dir == eDirection::DOWN)
 		{
 			tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2 * 2));
 			collider->SetCenter(Vector2(0.0f, 0.15f));
 		}
-		else if (dir == Door::eDirection::LEFT)
+		else if (dir == eDirection::LEFT)
 		{
 			tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2));
 			collider->SetCenter(Vector2(0.15f, 0.0f));
 		}
-		else if (dir == Door::eDirection::RIGHT)
+		else if (dir == eDirection::RIGHT)
 		{
 			tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2 * 3));
 			collider->SetCenter(Vector2(-0.15f, 0.0f));

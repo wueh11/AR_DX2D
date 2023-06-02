@@ -138,7 +138,12 @@ namespace ya
 		eLayerType GetLayerType() { return mType; }
 
 		GameObject* GetParent() { return mParent; }
-		void SetParent(GameObject* obj) { mParent = obj; }
+		void SetParent(GameObject* obj)
+		{ 
+			mParent = obj; 
+			Transform* objTr = obj->GetComponent<Transform>();
+			GetComponent<Transform>()->SetParent(objTr);
+		}
 
 		std::vector<GameObject*> GetChildren() { return mChildren; }
 		void AddChild(GameObject* child) { mChildren.push_back(child); }

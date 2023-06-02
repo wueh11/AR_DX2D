@@ -1,17 +1,19 @@
 #include "yaTear.h"
-#include "yaTearScript.h"
-#include "yaTransform.h"
+#include "yaIsaacEnums.h"
+
+#include "yaIsaacObject.h"
 
 namespace ya
 {
-	Tear::Tear(GameObject* owner, Vector3 direction)
+	Tear::Tear()
 		: GameObject()
-		, mProjectileOwner(owner)
-		, mDirection(direction)
+		, mTearOwner(nullptr)
+		, mDirection(Vector3::Zero)
 	{
+		SetName(L"Tear");
+
 		Collider2D* collider = AddComponent<Collider2D>();
 		collider->SetColliderType(eColliderType::Rect);
-		AddComponent<TearScript>();
 	}
 	Tear::~Tear()
 	{
@@ -31,5 +33,31 @@ namespace ya
 	void Tear::Render()
 	{
 		GameObject::Render();
+	}
+
+	/// <summary>
+	/// tear Initialize
+	/// </summary>
+	/// <param name="tearOwner">눈물 주체</param>
+	/// <param name="dir">방향</param>
+	void Tear::InitTear(GameObject* tearOwner, Vector3 dir)
+	{
+		mTearOwner = tearOwner;
+		Transform* ownerTr = mTearOwner->GetComponent<Transform>();
+
+		mDirection = dir;
+
+		Transform* tr = GetComponent<Transform>();
+		tr->SetPosition(ownerTr->GetPosition() + Vector3(0.0f, -0.2f, 0.0f) + (dir * 0.2f));
+		tr->SetScale(Vector3(0.8f, 0.8f, 1.0f));
+		tr->SetHeight(0.2f);
+
+		IsaacObject* obj = dynamic_cast<IsaacObject*>(tearOwner);
+		if(obj != nullptr)
+		{
+			isaac::Status status = obj->GetStatus();
+			mStatus.range = status.range / 2.0f;
+			mStatus.tearSpeed = 2.0f + status.tearSpeed;
+		}
 	}
 }

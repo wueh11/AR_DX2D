@@ -29,9 +29,9 @@ namespace ya
 		Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
 		collider->SetColliderType(eColliderType::Rect);
 		Transform* tr = GetOwner()->GetComponent<Transform>();
-		tr->SetScale(Vector3(1.5f, 1.5f, 1.5f));
-		collider->SetPosition(tr->GetPosition());
-		//collider->SetSize(Vector2(1.0f, 1.0f));
+		tr->SetScale(Vector3(1.5f, 1.5f, 2.0f));
+		collider->SetPosition(tr->GetPosition() + Vector3(0.0f, -0.6f, 0.0f));
+		collider->SetSize(Vector2(1.0f, 1.0f));
 	}
 
 	void ExplosionScript::Update()

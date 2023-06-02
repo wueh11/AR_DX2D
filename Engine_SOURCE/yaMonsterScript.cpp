@@ -9,6 +9,9 @@
 #include "yaPlayer.h"
 #include "yaPlayerScript.h"
 
+#include "yaMonster.h"
+#include "yaPlayerTear.h"
+
 namespace ya
 {
 	MonsterScript::MonsterScript()
@@ -41,11 +44,26 @@ namespace ya
 	{
 		GameObject* other = collider->GetOwner();
 
-		Player* player = dynamic_cast<Player*>(other);
+		PlayerTear* tear = dynamic_cast<PlayerTear*>(other);
 
 		if (mbDeath)
 			return;
 
+		if (tear != nullptr) 
+		{
+			Player* player = dynamic_cast<Player*>(tear->GetTearOwner());
+			if (player != nullptr)
+			{
+				// 몬스터 피격
+				Monster* monster = dynamic_cast<Monster*>(GetOwner());
+				monster->AddHp(-player->GetStatus().attack);
+
+				// 눈물에 의한 밀림
+				mRigidbody->AddForce(tear->GetDirection() * 100.0f);
+			}
+		}
+
+		Player* player = dynamic_cast<Player*>(other);
 		if (player != nullptr)
 		{
 			// 플레이어 피격

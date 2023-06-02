@@ -1,11 +1,11 @@
 #pragma once
-#include "yaGameObject.h"
+#include "yaIsaacObject.h"
 #include "yaIsaacEnums.h"
 
 namespace ya
 {
 	using namespace isaac;
-	class Player : public GameObject
+	class Player : public IsaacObject
 	{
 	public:
 		struct Info
@@ -18,25 +18,6 @@ namespace ya
 				: heartMax(6)
 				, heart(3)
 				, soulHeart(2)
-			{}
-		};
-
-		struct Status
-		{
-			float attack;
-			float attackSpeed;
-			float tearSpeed;
-			float range;
-			float speed;
-			float luck;
-
-			Status()
-				: attack(3.5f)
-				, attackSpeed(2.73f)
-				, tearSpeed(1.0f)
-				, range(6.5f)
-				, speed(1.0f)
-				, luck(0.0f)
 			{}
 		};
 
@@ -81,7 +62,6 @@ namespace ya
 
 	public:
 		Info GetInfo() { return mInfo; }
-		Status GetStatus() { return mStatus; }
 		Items GetItem() { return mItem; }
 		Pickup GetPickup() { return mPickup; }
 
@@ -114,14 +94,6 @@ namespace ya
 		void AddBomb(int bomb) { mPickup.bomb += bomb; }
 		void AddKey(int key) { mPickup.key += key; }
 
-		void AddAttack(int attack) { mStatus.attack += attack; }
-		void AddAttackSpeed(int attack) { mStatus.attack += attack; }
-		void AddTearSpeed(int tearSpeed) { mStatus.tearSpeed += tearSpeed; }
-		void AddRange(int range) { mStatus.range += range; }
-		void AddSpeed(int speed) { mStatus.speed += speed; SetSpeed(); }
-		void SetSpeed();
-		void AddLuck(int luck) { mStatus.luck += luck; }
-
 		void SetPill(ePills pill) { mItem.pill = pill; }
 		void SetCard(eCards card) { mItem.card = card; }
 		void SetActiveItem(eActiveItem item) { mItem.activeItem = item; }
@@ -129,9 +101,10 @@ namespace ya
 
 		void AddPassiveItem(ePassiveItem item) { mItem.passiveItems.push_back((UINT)item); }
 
+		Vector3 GetRelativePosition();
+
 	private:
 		Info mInfo;
-		Status mStatus;
 		Items mItem;
 		Pickup mPickup;
 	};

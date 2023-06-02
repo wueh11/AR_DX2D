@@ -87,11 +87,15 @@ namespace ya
 	void StageScene::SetCurrentRoom(int x, int y)
 	{
 		if (mCurrentRoom != nullptr)
+		{
 			mCurrentRoom->Pause();
+			mCurrentRoom->ExitRoom();
+		}
 
 		Room* nextRoom = GetRoom(x, y); 
 		nextRoom->SetActive();
 		mCurrentRoom = nextRoom;
+		mCurrentRoom->EnterRoom();
 
 		Vector3 roomPos = mCurrentRoom->GetComponent<Transform>()->GetPosition();
 		Transform* cameraTr = mainCamera->GetOwner()->GetComponent<Transform>();

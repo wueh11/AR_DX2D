@@ -48,7 +48,7 @@ namespace ya
 		void ItemAction();
 		void Die();
 
-		void Tears(Vector3 direction);
+		//void Tears(Vector3 direction);
 		void Invincible();
 
 		void gainActiveItem(class ActiveItem* item);
@@ -96,5 +96,8 @@ namespace ya
 		float mGainItemTime;
 		float mGainItemTimeMax;
 		bool mbGainItem;
+
+		float mAttackSpeed;
+		bool mAttackAble;
 	};
 }

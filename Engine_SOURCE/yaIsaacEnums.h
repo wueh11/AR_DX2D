@@ -6,12 +6,23 @@ namespace ya::isaac
 	const UINT STAGE_MAX_ROW = 8;
 	const UINT STAGE_MAX_COLUMN = 8;
 
+	enum class eDirection
+	{
+		None,
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT,
+		End,
+	};
+
 	// monster
 	enum class eMonsterType
 	{
 		None,
 		Fly,
 		AttackFly,
+		RageCreep,
 		Pacer,
 		Gaper,
 		Horf,
@@ -37,6 +48,8 @@ namespace ya::isaac
 		HeartHalf,
 		HeartFull,
 		SoulHeartFull,
+
+		LittleBattery,
 
 		End,
 	};
@@ -131,5 +144,33 @@ namespace ya::isaac
 		Dark = 21,
 		Shop,
 		End,
+	};
+
+	struct Status
+	{
+		float attack;
+		float attackSpeed;
+		float tearSpeed;
+		float range;
+		float speed;
+		float luck;
+
+		Status()
+			: attack(3.5f)
+			, attackSpeed(2.73f)
+			, tearSpeed(1.0f)
+			, range(6.5f)
+			, speed(1.0f)
+			, luck(0.0f)
+		{}
+
+		Status(float fattack, float fattackSpeed, float ftearSpeed, float frange, float fspeed, float fluck)
+			: attack(fattack)
+			, attackSpeed(fattackSpeed)
+			, tearSpeed(ftearSpeed)
+			, range(frange)
+			, speed(fspeed)
+			, luck(fluck)
+		{}
 	};
 }

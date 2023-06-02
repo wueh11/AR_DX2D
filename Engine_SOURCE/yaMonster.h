@@ -1,11 +1,11 @@
 #pragma once
-#include "yaGameObject.h"
+#include "yaIsaacObject.h"
 #include "yaIsaacEnums.h"
 
 namespace ya
 {
 	using namespace isaac;
-	class Monster : public GameObject
+	class Monster : public IsaacObject
 	{
 	public:
 		Monster();
@@ -17,7 +17,24 @@ namespace ya
 		virtual void Render();
 
 	public:
+		void SetStatus(float hp, float tearSpeed, float range, float speed)
+		{
+			mHp = hp;
+			mStatus.tearSpeed = tearSpeed;
+			mStatus.range = range;
+			mStatus.speed = speed;
+		}
+
+		void AddHp(float hp)
+		{
+			mHp += hp;
+		}
+
+		float GetHp() { return mHp; }
+
+	protected:
 		eMonsterType mType;
-		int mHp;
+
+		float mHp;
 	};
 }

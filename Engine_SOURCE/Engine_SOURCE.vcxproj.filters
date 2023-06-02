@@ -157,9 +157,6 @@
     <Filter Include="Scene\Issac\Stage">
       <UniqueIdentifier>{ab0d327a-9a0b-4de3-a535-e37fb1448a21}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Stage\Base">
-      <UniqueIdentifier>{97885143-d03c-4696-8d0c-5e0b3738b256}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\Script\Base">
       <UniqueIdentifier>{0960dc8d-e814-499b-8627-e274d5aafe85}</UniqueIdentifier>
     </Filter>
@@ -181,9 +178,6 @@
     <Filter Include="Component\Script\Monsters\Base">
       <UniqueIdentifier>{22a4f0ad-35a7-4a34-9b11-d63cd65a54c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Script\Object">
-      <UniqueIdentifier>{0b2a4b92-0457-4f38-9c38-26c6d41aa4e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\Script\Projectile">
       <UniqueIdentifier>{40d6ffd5-d304-45f2-8b6d-5b27f34f59f2}</UniqueIdentifier>
     </Filter>
@@ -195,6 +189,12 @@
     </Filter>
     <Filter Include="Component\Script\Land">
       <UniqueIdentifier>{a828175f-beee-4ecb-8e07-dc00e74a747e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Projectile\Base">
+      <UniqueIdentifier>{a652b43b-4fb9-4820-a8d2-7a7aae2ef555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Projectile\Base">
+      <UniqueIdentifier>{3e3e8954-d9f0-43c0-8a94-efa93e7447b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -305,12 +305,6 @@
     </ClCompile>
     <ClCompile Include="yaLight.cpp">
       <Filter>Component\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="yaTear.cpp">
-      <Filter>GameObject\Projectile</Filter>
-    </ClCompile>
-    <ClCompile Include="yaTearScript.cpp">
-      <Filter>Component\Script\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="yaTitleScript.cpp">
       <Filter>Component\Script\Scene</Filter>
@@ -452,9 +446,6 @@
     <ClCompile Include="yaItemManager.cpp">
       <Filter>GameObject\Item\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="yaDoor.cpp">
-      <Filter>GameObject\Land</Filter>
-    </ClCompile>
     <ClCompile Include="yaLand.cpp">
       <Filter>GameObject\Land\Base</Filter>
     </ClCompile>
@@ -481,6 +472,66 @@
     </ClCompile>
     <ClCompile Include="yaDoorScript.cpp">
       <Filter>Component\Script\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaExplosion.cpp">
+      <Filter>GameObject\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaFireplaceScript.cpp">
+      <Filter>Component\Script\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPitScript.cpp">
+      <Filter>Component\Script\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRockScript.cpp">
+      <Filter>Component\Script\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSpikeScript.cpp">
+      <Filter>Component\Script\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaWeb.cpp">
+      <Filter>GameObject\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaWebScript.cpp">
+      <Filter>Component\Script\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLittleBattery.cpp">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLittleBatteryScript.cpp">
+      <Filter>Component\Script\Item\PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="yaDoor.cpp">
+      <Filter>GameObject\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRageCreep.cpp">
+      <Filter>GameObject\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="yaFly.cpp">
+      <Filter>GameObject\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="yaRageCreepScript.cpp">
+      <Filter>Component\Script\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMonsterTear.cpp">
+      <Filter>GameObject\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayerTear.cpp">
+      <Filter>GameObject\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTear.cpp">
+      <Filter>GameObject\Projectile\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMonsterTearScript.cpp">
+      <Filter>Component\Script\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayerTearScript.cpp">
+      <Filter>Component\Script\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTearScript.cpp">
+      <Filter>Component\Script\Projectile\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaIsaacObject.cpp">
+      <Filter>GameObject\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -606,12 +657,6 @@
     </ClInclude>
     <ClInclude Include="yaLight.h">
       <Filter>Component\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="yaTear.h">
-      <Filter>GameObject\Projectile</Filter>
-    </ClInclude>
-    <ClInclude Include="yaTearScript.h">
-      <Filter>Component\Script\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="yaTitleScript.h">
       <Filter>Component\Script\Scene</Filter>
@@ -760,9 +805,6 @@
     <ClInclude Include="yaItemManager.h">
       <Filter>GameObject\Item\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="yaDoor.h">
-      <Filter>GameObject\Land</Filter>
-    </ClInclude>
     <ClInclude Include="yaLand.h">
       <Filter>GameObject\Land\Base</Filter>
     </ClInclude>
@@ -790,13 +832,70 @@
     <ClInclude Include="yaDoorScript.h">
       <Filter>Component\Script\Land</Filter>
     </ClInclude>
+    <ClInclude Include="yaExplosion.h">
+      <Filter>GameObject\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaSpikeScript.h">
+      <Filter>Component\Script\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFireplaceScript.h">
+      <Filter>Component\Script\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPitScript.h">
+      <Filter>Component\Script\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRockScript.h">
+      <Filter>Component\Script\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaWeb.h">
+      <Filter>GameObject\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaWebScript.h">
+      <Filter>Component\Script\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLittleBattery.h">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLittleBatteryScript.h">
+      <Filter>Component\Script\Item\PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="yaDoor.h">
+      <Filter>GameObject\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRageCreep.h">
+      <Filter>GameObject\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFly.h">
+      <Filter>GameObject\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRageCreepScript.h">
+      <Filter>Component\Script\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonsterTear.h">
+      <Filter>GameObject\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPlayerTear.h">
+      <Filter>GameObject\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTear.h">
+      <Filter>GameObject\Projectile\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPlayerTearScript.h">
+      <Filter>Component\Script\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonsterTearScript.h">
+      <Filter>Component\Script\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTearScript.h">
+      <Filter>Component\Script\Projectile\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaIsaacObject.h">
+      <Filter>GameObject\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">
       <Filter>Common\Math</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="text.txt" />
   </ItemGroup>
 </Project>

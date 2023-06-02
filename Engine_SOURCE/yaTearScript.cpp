@@ -1,15 +1,19 @@
 #include "yaTearScript.h"
-#include "yaTransform.h"
-#include "yaGameObject.h"
+
 #include "yaInput.h"
 #include "yaTime.h"
-#include "yaAnimator.h"
 #include "yaResources.h"
+
+#include "yaTransform.h"
+#include "yaAnimator.h"
 #include "yaSpriteRenderer.h"
+
 #include "yaObject.h"
+#include "yaGameObject.h"
 
 #include "yaTear.h"
 #include "yaPlayer.h"
+#include "yaMonster.h"
 
 namespace ya
 {
@@ -17,7 +21,6 @@ namespace ya
 		: Script()
 		, mTransform(nullptr)
 		, mAnimator(nullptr)
-		, mProjectileOwner(nullptr)
 		, mDistance(0.0f)
 		, mbDead(false)
 		, mState(eState::None)
@@ -30,66 +33,44 @@ namespace ya
 	}
 	void TearScript::Initialize()
 	{
-		SpriteRenderer* rd = GetOwner()->AddComponent<SpriteRenderer>();
-		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
-		rd->SetMesh(mesh);
-		std::shared_ptr<Material> material = Resources::Find<Material>(L"tearpoofaMaterial");
-		rd->SetMaterial(material);
-
 		mTransform = GetOwner()->GetComponent<Transform>();
-		Tear* tear = dynamic_cast<Tear*>(GetOwner());
-		mProjectileOwner = tear->GetProjectileOwner();
-
-		Transform* ownerTr = mProjectileOwner->GetComponent<Transform>();
-		mTransform->SetPosition(ownerTr->GetPosition());
-		mTransform->SetScale(Vector3(0.8f, 0.8f, 1.0f));
-		mTransform->SetHeight(0.3f);
+		mAnimator = GetOwner()->AddComponent<Animator>();
 
 		Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
 		Vector3 scale = mTransform->GetScale();
 		collider->SetSize(Vector2(scale.x / 3.0f, scale.y / 3.0f));
-
-		mAnimator = GetOwner()->AddComponent<Animator>();
-		std::shared_ptr<Texture> texture = material->GetTexture();
-
-		mAnimator->Create(L"Default", texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 1, 0.1f);
-		mAnimator->Create(L"Destroy", texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 16, 0.05f, 4, 4);
-		mAnimator->Play(L"Default", true);
-
-		mAnimator->GetCompleteEvent(L"Destroy") = std::bind(&TearScript::Destroy, this);
 	}
+
 	void TearScript::Update()
 	{
-		if (mProjectileOwner == nullptr)
+		Tear* tear = dynamic_cast<Tear*>(GetOwner());
+		GameObject* tearOnwer = tear->GetTearOwner();
+		if (tearOnwer == nullptr)
 			return;
-
-		Player* player = dynamic_cast<Player*>(mProjectileOwner);
-		Player::Status status = player->GetStatus();
-		float range = status.range / 2.0f;
-		//float range = 2.0f;
-		float speed = 2.0f + status.tearSpeed;
 
 		Vector3 pos = mTransform->GetPosition();
 
-		Vector3 dir = dynamic_cast<Tear*>(GetOwner())->GetDirection();
+		Vector3 dir = tear->GetDirection();
 		dir.Normalize();
+
+		isaac::Status status = tear->GetStatus();
 
 		switch (mState)
 		{
 		case ya::TearScript::eState::None:
 		{
-			if (mDistance < range)
+			if (mDistance < status.range)
 			{
-				mDistance += speed * Time::DeltaTime();
-				pos.x += speed * dir.x * Time::DeltaTime();
-				pos.y += speed * dir.y * Time::DeltaTime();
+				mDistance += status.tearSpeed * Time::DeltaTime();
+				pos.x += status.tearSpeed * dir.x * Time::DeltaTime();
+				pos.y += status.tearSpeed * dir.y * Time::DeltaTime();
 			}
 			else
 			{
 				float height = mTransform->GetHeight();
 				if (height > 0.0f)
 				{
-					pos.x += (speed - mFriction) * dir.x * Time::DeltaTime();
+					pos.x += (status.tearSpeed - mFriction) * dir.x * Time::DeltaTime();
 					height -= mGravity * Time::DeltaTime();
 					mTransform->SetHeight(height);
 					mFriction += 0.01f;
@@ -124,10 +105,6 @@ namespace ya
 
 	void TearScript::OnCollisionEnter(Collider2D* collider)
 	{
-		Player* player = dynamic_cast<Player*>(collider->GetOwner());
-		if (player != nullptr)
-			return;
-
 		mState = eState::Death;
 	}
 	void TearScript::OnCollisionStay(Collider2D* collider)

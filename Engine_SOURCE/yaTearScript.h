@@ -8,6 +8,7 @@ namespace ya
 	class Player;
 	class TearScript : public Script
 	{
+	protected:
 		enum class eState
 		{
 			None,
@@ -33,14 +34,9 @@ namespace ya
 
 		void Destroy();
 
-	public:
-		void SetProjectileOwner(GameObject* obj) { mProjectileOwner = obj; }
-
-	private:
+	protected:
 		Transform* mTransform;
 		Animator* mAnimator;
-
-		GameObject* mProjectileOwner;
 
 		float mDistance;
 		bool mbDead;

@@ -31,5 +31,6 @@ namespace ya
 
 		class Transform* mTransform;
 		class Rigidbody* mRigidbody;
+		class Animator* mAnimator;
 	};
 }
