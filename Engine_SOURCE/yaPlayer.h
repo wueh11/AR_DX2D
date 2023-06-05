@@ -30,7 +30,7 @@ namespace ya
 			Pickup()
 				: coin(10)
 				, bomb(50)
-				, key(10)
+				, key(0)
 			{}
 		};
 

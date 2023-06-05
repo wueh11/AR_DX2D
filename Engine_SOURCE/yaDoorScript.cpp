@@ -161,8 +161,8 @@ namespace ya
 			doorAnimator->Create(L"None", normaldoorTexture, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), Vector2::Zero, 1, 1.0f);
 			doorAnimator->Create(L"doorRight_" + std::to_wstring((UINT)ya::eRoomType::None), normaldoorTexture, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), Vector2::Zero, 1, 1.0f);
 			doorAnimator->Create(L"doorRightLock_" + std::to_wstring((UINT)ya::eRoomType::None), normaldoorTexture, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), Vector2::Zero, 1, 1.0f);
-			doorAnimator->Create(L"doorRight_" + std::to_wstring((UINT)ya::eRoomType::None), normaldoorTexture, Vector2(64.0f, 48.0f), Vector2(64.0f, 48.0f), Vector2::Zero, 1, 1.0f);
-			doorAnimator->Create(L"doorRightLock_" + std::to_wstring((UINT)ya::eRoomType::None), normaldoorTexture, Vector2(64.0f, 96.0f), Vector2(64.0f, 48.0f), Vector2::Zero, 1, 1.0f);
+			doorAnimator->Create(L"doorRight_" + std::to_wstring((UINT)ya::eRoomType::Normal), normaldoorTexture, Vector2(64.0f, 48.0f), Vector2(64.0f, 48.0f), Vector2::Zero, 1, 1.0f);
+			doorAnimator->Create(L"doorRightLock_" + std::to_wstring((UINT)ya::eRoomType::Normal), normaldoorTexture, Vector2(64.0f, 96.0f), Vector2(64.0f, 48.0f), Vector2::Zero, 1, 1.0f);
 			doorAnimator->Create(L"doorRight_" + std::to_wstring((UINT)ya::eRoomType::Treasure), treasureroomdoorTexture, Vector2(64.0f, 48.0f), Vector2(64.0f, 48.0f), Vector2::Zero, 1, 1.0f);
 			doorAnimator->Create(L"doorRightLock_" + std::to_wstring((UINT)ya::eRoomType::Treasure), treasureroomdoorTexture, Vector2(64.0f, 96.0f), Vector2(64.0f, 48.0f), Vector2::Zero, 1, 1.0f);
 			doorAnimator->Create(L"doorRight_" + std::to_wstring((UINT)ya::eRoomType::Ambush), ambushroomdoorTexture, Vector2(64.0f, 48.0f), Vector2(64.0f, 48.0f), Vector2::Zero, 1, 1.0f);
@@ -284,6 +284,8 @@ namespace ya
 					door->SetOpen(true);
 				}
 			}
+			else if(!door->IsOpen())
+			{ }
 			else if(door->GetDoorType() == eRoomType::Secret && !door->IsDamaged())
 			{ }
 			else if(door->GetDoorType() != eRoomType::None)
@@ -438,11 +440,11 @@ namespace ya
 			mDoorRight->SetActive();
 			mDoorLeft->SetActive();
 
-			//if (leftAnimator != nullptr)
-			//	leftAnimator->Play(L"doorLeft_" + std::to_wstring((UINT)door->GetDoorType()));
+			if (leftAnimator != nullptr)
+				leftAnimator->Play(L"doorLeft_" + std::to_wstring((UINT)door->GetDoorType()));
 
-			//if (rightAnimator != nullptr)
-			//	rightAnimator->Play(L"doorRight_" + std::to_wstring((UINT)door->GetDoorType()));
+			if (rightAnimator != nullptr)
+				rightAnimator->Play(L"doorRight_" + std::to_wstring((UINT)door->GetDoorType()));
 		}
 	}
 	void DoorScript::SetDamaged(bool damaged)
@@ -458,10 +460,10 @@ namespace ya
 	{
 		Door* door = dynamic_cast<Door*>(GetOwner());
 
-		if (door->IsOpen())
+		Animator* leftAnimator = mDoorLeft->GetComponent<Animator>();
+		Animator* rightAnimator = mDoorRight->GetComponent<Animator>();
+	/*	if (door->IsOpen())
 		{
-			Animator* leftAnimator = mDoorLeft->GetComponent<Animator>();
-			Animator* rightAnimator = mDoorRight->GetComponent<Animator>();
 
 			if (leftAnimator != nullptr)
 				leftAnimator->Play(L"None");
@@ -469,12 +471,18 @@ namespace ya
 			if (rightAnimator != nullptr)
 				rightAnimator->Play(L"None");
 		}
-		else
+		else*/
 		{
 			if (lock == true)
-				mDoorRight->GetComponent<Animator>()->Play(L"doorRightLock_" + std::to_wstring((UINT)door->GetDoorType()));
+			{
+				rightAnimator->Play(L"doorRightLock_" + std::to_wstring((UINT)door->GetDoorType()));
+				leftAnimator->Play(L"doorLeft_" + std::to_wstring((UINT)door->GetDoorType()));
+			}
 			else
-				mDoorRight->GetComponent<Animator>()->Play(L"doorRight_" + std::to_wstring((UINT)door->GetDoorType()));
+			{
+				rightAnimator->Play(L"None");
+				leftAnimator->Play(L"None");
+			}
 		}
 	}
 	void DoorScript::playDeco(isaac::eRoomType doorType)

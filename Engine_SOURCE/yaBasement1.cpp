@@ -294,6 +294,11 @@ namespace ya
 		Room* room23 = CreateRoom(2, 3);
 		{
 			{
+				Key* key = object::Instantiate<Key>(eLayerType::Item);
+				room23->SetCompensation(key);
+			}
+
+			{
 				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room23);
 				rock->SetRockType(Rock::eRockType::Jar);
 				room23->AddRoomObject(rock, 6, 2);
@@ -525,10 +530,6 @@ namespace ya
 		{
 			Camera* c = mainCamera;
 			GameObject* cobj = mainCamera->GetOwner();  
-
-			Player* p = GetPlayer();
-
-			int a = 0;
 		}
 
 		StageScene::FixedUpdate();

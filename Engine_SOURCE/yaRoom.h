@@ -41,6 +41,11 @@ namespace ya
 
 		bool IsClear() { return mbClear; }
 
+		void AddMonsterCount(int count);
+
+		void Compensation();
+		void SetCompensation(GameObject* compensation);
+
 	private:
 		eRoomType mRoomType;
 
@@ -55,6 +60,8 @@ namespace ya
 		Vector2 mRoomPosition;
 
 		Door* mDoors[(UINT)eDirection::End];
+
+		GameObject* mCompensation;
 		
 	};
 }

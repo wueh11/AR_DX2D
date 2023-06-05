@@ -533,6 +533,9 @@
     <ClCompile Include="yaIsaacObject.cpp">
       <Filter>GameObject\Base</Filter>
     </ClCompile>
+    <ClCompile Include="yaBasement1Boss.cpp">
+      <Filter>Scene\Issac\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -891,6 +894,9 @@
     </ClInclude>
     <ClInclude Include="yaIsaacObject.h">
       <Filter>GameObject\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBasement1Boss.h">
+      <Filter>Scene\Issac\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,8 @@
 #include "yaTime.h"
 #include "yaObject.h"
 
+#include "yaStageScene.h"
+
 #include "yaPlayer.h"
 #include "yaPlayerScript.h"
 
@@ -138,6 +140,14 @@ namespace ya
 	}
 	void MonsterScript::Death()
 	{
+		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+
+		Monster* monster = dynamic_cast<Monster*>(GetOwner());
+		//Room* room = dynamic_cast<Room*>(monster->GetParent());
+		Room* room = monster->GetRoom();
+		if(room != nullptr)
+			room->AddMonsterCount(-1);
+
 		GetOwner()->Death();
 	}
 }

@@ -244,7 +244,7 @@ namespace ya
 	void RageCreepScript::Destroy()
 	{
 		mEffect->Death();
-		GetOwner()->Death();
+		Death();
 	}
 
 	void RageCreepScript::SetDirection(isaac::eDirection dir)

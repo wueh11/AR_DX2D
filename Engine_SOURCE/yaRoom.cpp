@@ -163,6 +163,18 @@ namespace ya
 	{
 		// 몬스터 있는경우, clear 안한경우 문 닫힘
 		// 문,몬스터에 이미지 효과추가
+
+
+		if(mMonsterCount > 0 && !IsClear())
+		{
+			for (size_t i = (UINT)eDirection::UP; i < (UINT)eDirection::End; i++)
+			{
+				if (mDoors[i]->GetDoorType() != eRoomType::None)
+					mDoors[i]->SetOpen(false);
+			}
+		}
+
+
 	}
 
 	void Room::ExitRoom()
@@ -222,9 +234,7 @@ namespace ya
 
 		if (targetRoom != nullptr)
 		{
-			door->SetLock(targetRoom->IsLock());
-
-			eRoomType targetRoomType = targetRoom->GetRoomType();
+		eRoomType targetRoomType = targetRoom->GetRoomType();
 
 			if(currentRoomType == eRoomType::Secret)
 			{ 
@@ -242,6 +252,8 @@ namespace ya
 				door->SetDoorType(targetRoomType);
 				door->GetScript<DoorScript>()->playDeco(targetRoomType);
 			}
+
+			door->SetLock(targetRoom->IsLock());
 		}
 		else
 			door->SetDoorType(eRoomType::None);
@@ -288,4 +300,30 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		tr->SetPosition(Vector3(mRoomPosition.x, mRoomPosition.y, 100.0f));
 	}
+	void Room::AddMonsterCount(int count)
+	{
+		mMonsterCount += count;
+
+		if (mMonsterCount == 0)
+		{
+			for (size_t i = (UINT)eDirection::UP; i < (UINT)eDirection::End; i++)
+			{
+				if (mDoors[i]->GetDoorType() != eRoomType::None)
+					mDoors[i]->SetOpen(true);
+			}
+
+			Compensation();
+		}
+	}
+	void Room::Compensation()
+	{
+		mCompensation->SetParent(this);
+		AddRoomObject(mCompensation, 4, 7);
+		mCompensation->SetActive();
+	}
+	void Room::SetCompensation(GameObject* compensation)
+	{
+		mCompensation = compensation; 
+		mCompensation->Pause();
+	};
 }

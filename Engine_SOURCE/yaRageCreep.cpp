@@ -15,19 +15,19 @@ namespace ya
 	}
 	void RageCreep::Initialize()
 	{
-		GameObject::Initialize();
+		Monster::Initialize();
 	}
 	void RageCreep::Update()
 	{
-		GameObject::Update();
+		Monster::Update();
 	}
 	void RageCreep::FixedUpdate()
 	{
-		GameObject::FixedUpdate();
+		Monster::FixedUpdate();
 	}
 	void RageCreep::Render()
 	{
-		GameObject::Render();
+		Monster::Render();
 	}
 	void RageCreep::SetDirection(eDirection direction)
 	{

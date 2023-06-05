@@ -5,6 +5,7 @@
 namespace ya
 {
 	using namespace isaac;
+	class Room;
 	class Monster : public IsaacObject
 	{
 	public:
@@ -32,9 +33,11 @@ namespace ya
 
 		float GetHp() { return mHp; }
 
+		Room* GetRoom() { return mRoom; }
+
 	protected:
 		eMonsterType mType;
-
+		Room* mRoom;
 		float mHp;
 	};
 }

@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="Commons.h" />
+    <ClInclude Include="yaBasement1Boss.h" />
     <ClInclude Include="yaFly.h" />
     <ClInclude Include="yaIsaacObject.h" />
     <ClInclude Include="yaLittleBattery.h" />
@@ -276,6 +277,7 @@
     <ClInclude Include="yaWorkScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="yaBasement1Boss.cpp" />
     <ClCompile Include="yaFly.cpp" />
     <ClCompile Include="yaIsaacObject.cpp" />
     <ClCompile Include="yaLittleBattery.cpp" />
