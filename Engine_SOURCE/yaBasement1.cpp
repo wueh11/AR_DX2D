@@ -28,21 +28,29 @@
 #include "yaSpike.h"
 #include "yaWeb.h"
 
+#include "yaActiveItem.h"
 #include "yaHeartFull.h"
 #include "yaHeartHalf.h"
 #include "yaSoulHeartFull.h"
 #include "yaPill.h"
 #include "yaCard.h"
-#include "yaActiveItem.h"
 #include "yaTrinket.h"
 #include "yaCoin.h"
 #include "yaBomb.h"
 #include "yaKey.h"
 #include "yaLittleBattery.h"
+#include "yaAltar.h"
+#include "yaShopItem.h"
+#include "yaLand.h"
+#include "yaChest.h"
 
 #include "yaGaper.h"
 #include "yaFly.h"
 #include "yaRageCreep.h"
+
+#include "yaMonstro.h"
+
+#include "Commons.h"
 
 namespace ya
 {
@@ -96,9 +104,9 @@ namespace ya
 		{ // Player
 			Transform* playerTr = player->GetComponent<Transform>();
 			//playerTr->SetPosition(Vector3(0.0f, -1.0f, -10.0f));
-			playerTr->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+			playerTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
-			object::DontDestroyOnLoad(player);
+			//object::DontDestroyOnLoad(player);
 
 			SetPlayer(player);
 		}
@@ -132,6 +140,20 @@ namespace ya
 			controlsMr->SetMaterial(controlsMaterial);
 
 			{
+				Chest* chest = object::Instantiate<Chest>(eLayerType::Item, startRoom);
+				{
+					Coin* coin = object::Instantiate<Coin>(eLayerType::Item);
+					chest->AddItem(coin);
+				}
+				{
+					HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item);
+					chest->AddItem(heart);
+				}
+				chest->SetChestType(eChestType::Treasure);
+				startRoom->AddRoomObject(chest, 6, 6);
+			}
+
+			/*{
 				Coin* coin = object::Instantiate<Coin>(eLayerType::Item, startRoom);
 				startRoom->AddRoomObject(coin, 4, 4);
 			}
@@ -173,16 +195,72 @@ namespace ya
 				Trinket* trinket = object::Instantiate<Trinket>(eLayerType::Item, startRoom);
 				trinket->SetTrinketType(eTrinkets::FishHead);
 				startRoom->AddRoomObject(trinket, 2, 2);
+			}*/
+		}
+
+		Room* shop = CreateRoom(3, 1, eRoomType::Shop, true);
+		{
+			{
+				ShopItem* shopItem = object::Instantiate<ShopItem>(eLayerType::Item, shop);
+				SoulHeartFull* heart = object::Instantiate<SoulHeartFull>(eLayerType::Item);
+				shopItem->SetItem(heart, 5);
+				shop->AddRoomObject(shopItem, 3, 6);
+			}
+			{
+				ShopItem* shopItem = object::Instantiate<ShopItem>(eLayerType::Item, shop);
+				Bomb* bomb = object::Instantiate<Bomb>(eLayerType::Item);
+				shopItem->SetItem(bomb, 3);
+				shop->AddRoomObject(shopItem, 3, 8);
+			}
+
+			{
+				GameObject* shopkeeper = object::Instantiate<GameObject>(eLayerType::Land, shop);
+
+				Transform* tr = shopkeeper->GetComponent<Transform>();
+				tr->SetScale(Vector3(1.2f, 1.2f, 1.0f));
+				tr->SetPosition(Vector3(0.0f, 1.2f, PositionZ(1.2f)));
+
+				ImageRenderer* rd = shopkeeper->AddComponent<ImageRenderer>();
+				std::shared_ptr<Material> material = Resources::Find<Material>(L"shopkeepersMaterial");
+				std::shared_ptr<Texture> texture = material->GetTexture();
+
+				rd->SetMesh(mesh);
+				rd->SetMaterial(material);
+				rd->SetImageSize(texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f));
+			}
+
+			{
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, shop);
+				rock->SetRockType(Rock::eRockType::Rock);
+				shop->AddRoomObject(rock, 6, 2);
+			}
+			{
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, shop);
+				rock->SetRockType(Rock::eRockType::Rock);
+				shop->AddRoomObject(rock, 6, 6);
+			}
+			{
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, shop);
+				rock->SetRockType(Rock::eRockType::Rock);
+				shop->AddRoomObject(rock, 6, 8);
+			}
+			{
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, shop);
+				rock->SetRockType(Rock::eRockType::Rock);
+				shop->AddRoomObject(rock, 6, 12);
 			}
 		}
 
-		Room* shop = CreateRoom(3, 1, eRoomType::Normal, true);
-
 		Room* treasure = CreateRoom(4, 4, eRoomType::Treasure);
 		{
-			ActiveItem* activeItem = object::Instantiate<ActiveItem>(eLayerType::Item, treasure);
+			Altar* altar = object::Instantiate<Altar>(eLayerType::Item, treasure);
+			ActiveItem* activeItem = object::Instantiate<ActiveItem>(eLayerType::Item);
 			activeItem->SetActiveItemType(eActiveItem::YumHeart);
-			treasure->AddRoomObject(activeItem, 4, 7);
+			altar->SetItem(activeItem);
+			treasure->AddRoomObject(altar, 4, 7);
+			/*ActiveItem* activeItem = object::Instantiate<ActiveItem>(eLayerType::Item, treasure);
+			activeItem->SetActiveItemType(eActiveItem::YumHeart);
+			treasure->AddRoomObject(activeItem, 4, 7);*/
 		}
 
 		Room* dark = CreateRoom(3, 5, eRoomType::Dark);
@@ -196,7 +274,13 @@ namespace ya
 		Room* secret = CreateRoom(4, 5, eRoomType::Secret);
 
 		Room* boss = CreateRoom(1, 3, eRoomType::Boss);
-		
+		{
+			{
+				Monstro* monstro = object::Instantiate<Monstro>(eLayerType::Monster, boss);
+				boss->AddRoomObject(monstro, 4, 7);
+			}
+		}
+
 		Room* room32 = CreateRoom(3, 2);
 		{
 			{
@@ -289,7 +373,7 @@ namespace ya
 				rock->SetRockType(Rock::eRockType::Rock);
 				room32->AddRoomObject(rock, 5, 12);
 			}
-		}
+		} 
 
 		Room* room23 = CreateRoom(2, 3);
 		{
@@ -347,11 +431,11 @@ namespace ya
 				room23->AddRoomObject(web, 1, 4);
 			}
 
-			{
+			/*{
 				RageCreep* rageCreep = object::Instantiate<RageCreep>(eLayerType::Monster, room23);
 				room23->AddRoomObject(rageCreep, 4, 0);
 				rageCreep->SetDirection(eDirection::LEFT);
-			}
+			}*/
 
 			/*{
 				Coin* coin = object::Instantiate<Coin>(eLayerType::Item, room23);
@@ -492,9 +576,13 @@ namespace ya
 			}
 		}
 
-		Vector3 startPos = startRoom->GetComponent<Transform>()->GetPosition();
+		Vector3 startPos = boss->GetComponent<Transform>()->GetPosition();
 		player->GetComponent<Transform>()->SetPosition(Vector3(startPos.x, startPos.y - 1.0f, -10.0f));
-		SetCurrentRoom(startRoom);
+		SetCurrentRoom(boss);
+
+		/*Vector3 startPos = startRoom->GetComponent<Transform>()->GetPosition();
+		player->GetComponent<Transform>()->SetPosition(Vector3(startPos.x, startPos.y - 1.0f, -10.0f));
+		SetCurrentRoom(startRoom);*/
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Wall, true);
@@ -503,7 +591,7 @@ namespace ya
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Projectile, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Projectile, eLayerType::Land, true);
-		CollisionManager::CollisionLayerCheck(eLayerType::Projectile, eLayerType::Wall, true);
+		//CollisionManager::CollisionLayerCheck(eLayerType::Projectile, eLayerType::Wall, true);
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Item, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Projectile, true);
@@ -520,16 +608,21 @@ namespace ya
 		{
 			SceneManager::LoadScene(eSceneType::Title);
 		}
+		
+		if (Input::GetKeyDown(eKeyCode::B))
+		{
+			SceneManager::LoadScene(eSceneType::Basement1Boss);
+		}
 
 		StageScene::Update();
 	}
 
 	void Basement1::FixedUpdate()
 	{
-		if (Input::GetKeyDown(eKeyCode::B))
+		if (Input::GetKeyDown(eKeyCode::P))
 		{
-			Camera* c = mainCamera;
-			GameObject* cobj = mainCamera->GetOwner();  
+			Player* p = GetPlayer();
+			int a = 0;
 		}
 
 		StageScene::FixedUpdate();
@@ -542,6 +635,7 @@ namespace ya
 
 	void Basement1::OnEnter()
 	{
+		//mainCamera = cameraComp;
 	}
 
 	void Basement1::OnExit()

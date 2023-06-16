@@ -19,6 +19,8 @@ namespace ya
 	}
 	void KeyScript::Initialize()
 	{
+		PickupScript::Initialize();
+
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mTransform->SetScale(Vector3(0.33f, 0.66f, 1.0f));
 

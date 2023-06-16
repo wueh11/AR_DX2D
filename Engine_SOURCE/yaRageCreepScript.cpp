@@ -17,7 +17,8 @@
 
 #include "yaPlayer.h"
 
-#include "yaMonsterTear.h"
+#include "yaTear.h"
+#include "yaMonsterTearScript.h"
 
 namespace ya
 {
@@ -199,7 +200,8 @@ namespace ya
 		if (mTimer[(UINT)eState::Tear] < 0.0f)
 		{
 			StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
-			MonsterTear* tear = object::Instantiate<MonsterTear>(eLayerType::Projectile, scene->GetCurrentRoom());
+			Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+			tear->AddComponent<MonsterTearScript>();
 			tear->InitTear(GetOwner(), tearDir);
 			mTimer[(UINT)eState::Tear] = mTimerMax[(UINT)eState::Tear];
 		}

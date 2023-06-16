@@ -69,11 +69,10 @@ namespace ya
  
 		{ // Player
 			Player* player = object::Instantiate<Player>(eLayerType::Player);
-			player->AddComponent<PlayerScript>();
 			Transform* playerTr = player->GetComponent<Transform>();
 			playerTr->SetPosition(Vector3(0.0f, -1.0f, -0.0f));
 			playerTr->SetScale(Vector3(0.66f, 0.66f, 1.0f));
-			Collider2D* collider = player->AddComponent<Collider2D>();
+			Collider2D* collider = player->GetComponent<Collider2D>();
 			collider->SetSize(Vector2(0.5f, 0.5f));
 			//collider->SetCenter(Vector2(0.0f, -0.1f));
 			collider->SetColliderType(eColliderType::Rect);
@@ -86,7 +85,7 @@ namespace ya
 			UIScript* uiScript = ui->AddComponent<UIScript>();
 		}
 
-		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
+		/*CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Wall, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Projectile, eLayerType::Wall, true);
 
@@ -94,7 +93,7 @@ namespace ya
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Projectile, true);
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Item, eLayerType::Item, true);
-		CollisionManager::CollisionLayerCheck(eLayerType::Item, eLayerType::Wall, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Item, eLayerType::Wall, true);*/
 		
 		Scene::Initialize();
 	}

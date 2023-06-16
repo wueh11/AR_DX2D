@@ -1,13 +1,13 @@
 #pragma once
-#include "yaTear.h"
+#include "yaMonster.h"
 
 namespace ya
 {
-	class MonsterTear : public Tear
+	class Monstro : public Monster
 	{
 	public:
-		MonsterTear();
-		virtual ~MonsterTear();
+		Monstro();
+		virtual ~Monstro();
 
 		virtual void Initialize();
 		virtual void Update();

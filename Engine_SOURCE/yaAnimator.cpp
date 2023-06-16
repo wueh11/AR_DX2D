@@ -126,6 +126,8 @@ namespace ya
 			events->mEndEvent();
 
 		mActiveAnimation = FindAnimation(name);
+		if (mActiveAnimation == nullptr)
+			return; 
 		mActiveAnimation->Reset();
 		mbLoop = loop;
 

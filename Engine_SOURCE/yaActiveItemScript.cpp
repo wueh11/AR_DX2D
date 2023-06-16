@@ -60,7 +60,7 @@ namespace ya
 
 	void ActiveItemScript::OnCollisionEnter(Collider2D* collider)
 	{
-		if (mActiveItem != eActiveItem::None)
+		/*if (mActiveItem != eActiveItem::None)
 		{
 			GameObject* other = collider->GetOwner();
 			Player* player = dynamic_cast<Player*>(other);
@@ -77,7 +77,7 @@ namespace ya
 					SetActiveItem(temp);
 				}
 			}
-		}
+		}*/
 
 		CollectibleScript::OnCollisionEnter(collider);
 	}

@@ -18,6 +18,7 @@ namespace ya
 		virtual void OnExit();
 
 	private:
+		GameObject* mCamera;
 		float mTimer;
 	};
 }

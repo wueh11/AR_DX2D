@@ -34,6 +34,7 @@ namespace ya
 	protected:
 		Transform* mTransform;
 		Animator* mAnimator;
+
 		eItemType mItemType;
 
 		float mTimer;

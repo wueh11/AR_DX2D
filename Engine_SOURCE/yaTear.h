@@ -26,10 +26,15 @@ namespace ya
 
 		isaac::Status GetStatus() { return mStatus; }
 
+		void Parabola(bool parabola) { mbParabola = parabola; }
+		bool IsParabola() { return mbParabola; }
+
 	protected:
 		GameObject* mTearOwner;
 		Vector3 mDirection;
 
 		isaac::Status mStatus;
+
+		bool mbParabola;
 	};
 }

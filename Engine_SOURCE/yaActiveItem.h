@@ -4,6 +4,7 @@
 
 namespace ya
 {
+	using namespace isaac;
 	class ActiveItem : public Item
 	{
 	public:

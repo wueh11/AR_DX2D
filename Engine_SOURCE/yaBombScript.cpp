@@ -23,6 +23,8 @@ namespace ya
 	}
 	void BombScript::Initialize()
 	{
+		PickupScript::Initialize();
+
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 

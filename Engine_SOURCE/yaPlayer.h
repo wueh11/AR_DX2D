@@ -28,9 +28,9 @@ namespace ya
 			int key;
 
 			Pickup()
-				: coin(10)
+				: coin(6)
 				, bomb(50)
-				, key(0)
+				, key(10)
 			{}
 		};
 
@@ -43,7 +43,7 @@ namespace ya
 			eTrinkets trinket; //¿ÂΩ≈±∏
 
 			Items()
-				: activeItem(eActiveItem::None)
+				: activeItem(eActiveItem::TammysHead)
 				, passiveItems{}
 				, pill(ePills::None)
 				, card(eCards::None)

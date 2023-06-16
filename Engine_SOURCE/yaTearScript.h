@@ -5,7 +5,7 @@ namespace ya
 {
 	class Transform;
 	class Animator;
-	class Player;
+	class Rigidbody;
 	class TearScript : public Script
 	{
 	protected:
@@ -37,6 +37,7 @@ namespace ya
 	protected:
 		Transform* mTransform;
 		Animator* mAnimator;
+		Rigidbody* mRigidbody;
 
 		float mDistance;
 		bool mbDead;
@@ -44,6 +45,5 @@ namespace ya
 		eState mState;
 
 		float mFriction;
-		float mGravity;
 	};
 }

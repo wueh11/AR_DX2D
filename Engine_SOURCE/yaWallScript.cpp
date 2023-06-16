@@ -29,12 +29,6 @@ namespace ya
 
 	void WallScript::Update()
 	{
-		/*Transform* tr = GetOwner()->GetComponent<Transform>();
-		Vector3 pos = tr->GetPosition();
-		if (Input::GetKey(eKeyCode::V))
-			pos -= 100.0f * tr->Right() * Time::DeltaTime();
-
-		tr->SetPosition(pos);*/
 	}
 
 	void WallScript::FixedUpdate()
@@ -66,7 +60,7 @@ namespace ya
 			Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
 			Vector3 vel = otherRigidbody->GetVelocity();
 			vel.Normalize();
-			mColliderPosition = otherTr->GetPosition() - (vel * 0.01f);
+			mColliderPosition = otherTr->GetPosition() - (vel * 0.005f);
 
 			otherTr->SetPosition(mColliderPosition);
 

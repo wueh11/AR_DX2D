@@ -295,6 +295,18 @@ namespace ya::renderer
 				, particleShader->GetVSBlobBufferSize()
 				, particleShader->GetInputLayoutAddressOf());
 		}
+
+		{ // ShadowShader
+			std::shared_ptr<Shader> shadowShader = std::make_shared<Shader>();
+			shadowShader->Create(eShaderStage::VS, L"RectVS.hlsl", "main");
+			shadowShader->Create(eShaderStage::PS, L"ShadowPS.hlsl", "main");
+			Resources::Insert<Shader>(L"ShadowShader", shadowShader);
+
+			GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+				, shadowShader->GetVSBlobBufferPointer()
+				, shadowShader->GetVSBlobBufferSize()
+				, shadowShader->GetInputLayoutAddressOf());
+		}
 	}
 
 	void SetUpState()
@@ -444,9 +456,11 @@ namespace ya::renderer
 
 		{ //character
 			Resources::Load<Texture>(L"isaac", L"Issac\\character_001_isaac.png");
+			Resources::Load<Texture>(L"shadow", L"Issac\\shadow.png");
 		}
 
 		{ // effect
+			Resources::Load<Texture>(L"shopkeepers", L"Issac\\effects\\effect_000_shopkeepers.png");
 			Resources::Load<Texture>(L"fire", L"Issac\\effects\\effect_005_fire.png");
 			Resources::Load<Texture>(L"bloodpoof", L"Issac\\effects\\effect_002_bloodpoof.png");
 			Resources::Load<Texture>(L"bloodtear", L"Issac\\effects\\effect_003_bloodtear.png");
@@ -465,6 +479,7 @@ namespace ya::renderer
 			Resources::Load<Texture>(L"ui_cardfronts", L"Issac\\ui_cardfronts.png");
 			Resources::Load<Texture>(L"ui_chargebar", L"Issac\\ui_chargebar.png");
 			Resources::Load<Texture>(L"fonts", L"Issac\\terminus_0.png");
+			Resources::Load<Texture>(L"bitfont", L"Issac\\shop_001_bitfont.png");
 		}
 
 		{ //items
@@ -472,6 +487,7 @@ namespace ya::renderer
 				Resources::Load<Texture>(L"heart", L"Issac\\pickup_001_heart.png");
 				Resources::Load<Texture>(L"coin", L"Issac\\pickup_002_coin.png");
 				Resources::Load<Texture>(L"key", L"Issac\\pickup_003_key.png");
+				Resources::Load<Texture>(L"chests", L"Issac\\pickup_005_chests.png");
 				Resources::Load<Texture>(L"pill", L"Issac\\pickup_007_pill.png");
 				Resources::Load<Texture>(L"bomb", L"Issac\\pickup_016_bomb.png");
 				Resources::Load<Texture>(L"card", L"Issac\\pickup_017_card.png");
@@ -497,19 +513,54 @@ namespace ya::renderer
 			}
 		}
 
-		{ // bossScene
-			Resources::Load<Texture>(L"nightmares_bg", L"Issac\\nightmares_bg.png");
-			Resources::Load<Texture>(L"playername_01_isaac", L"Issac\\playername_01_isaac.png");
-			Resources::Load<Texture>(L"playerportrait_01_isaac", L"Issac\\playerportrait_01_isaac.png");
+		{ // mainmenu
+			Resources::Load<Texture>(L"titlemenu", L"Issac\\ui\\mainmenu\\titlemenu.png");
+			Resources::Load<Texture>(L"gamemenu", L"Issac\\ui\\mainmenu\\gamemenu.png");
+			Resources::Load<Texture>(L"charactermenu", L"Issac\\ui\\mainmenu\\charactermenu.png");
+			Resources::Load<Texture>(L"menuoverlay", L"Issac\\ui\\mainmenu\\menuoverlay.png");
+			Resources::Load<Texture>(L"menushadow", L"Issac\\ui\\mainmenu\\menushadow.png");
+			Resources::Load<Texture>(L"splashes", L"Issac\\ui\\mainmenu\\splashes.png");
+			Resources::Load<Texture>(L"death portraits", L"Issac\\ui\\mainmenu\\death portraits.png");
+			Resources::Load<Texture>(L"menu_mystuff", L"Issac\\ui\\mainmenu\\menu_mystuff.png");
+			Resources::Load<Texture>(L"optionsmenu", L"Issac\\ui\\mainmenu\\optionsmenu.png");
+			Resources::Load<Texture>(L"pausescreen", L"Issac\\ui\\mainmenu\\pausescreen.png");
 		}
 
-		{ // title
-			Resources::Load<Texture>(L"titlemenu", L"Issac\\titlemenu.png");
-			Resources::Load<Texture>(L"gamemenu", L"Issac\\gamemenu.png");
-			Resources::Load<Texture>(L"charactermenu", L"Issac\\charactermenu.png");
-			Resources::Load<Texture>(L"menuoverlay", L"Issac\\menuoverlay.png");
-			Resources::Load<Texture>(L"menushadow", L"Issac\\menushadow.png");
-			Resources::Load<Texture>(L"splashes", L"Issac\\splashes.png");
+		{ // ui boss scene
+			Resources::Load<Texture>(L"playerspot_basement", L"Issac\\ui\\boss\\playerspot_01_basement.png");
+			Resources::Load<Texture>(L"vs", L"Issac\\ui\\boss\\vs.png");
+
+			Resources::Load<Texture>(L"playerportrait_isaac", L"Issac\\ui\\boss\\playerportrait_01_isaac.png");
+			Resources::Load<Texture>(L"playername_isaac", L"Issac\\ui\\boss\\playername_01_isaac.png");
+
+			Resources::Load<Texture>(L"playerportrait_magdalene", L"Issac\\ui\\boss\\playerportrait_02_magdalene.png");
+			Resources::Load<Texture>(L"playername_magdalene", L"Issac\\ui\\boss\\playerportraitbig_02_magdalene.png");
+
+			Resources::Load<Texture>(L"portrait_monstro", L"Issac\\ui\\boss\\portrait_20.0_monstro.png");
+			Resources::Load<Texture>(L"bossname_monstro", L"Issac\\ui\\boss\\bossname_20.0_monstro.png");
+
+			Resources::Load<Texture>(L"portrait_chub", L"Issac\\ui\\boss\\portrait_28.0_chub.png");
+			Resources::Load<Texture>(L"bossname_chub", L"Issac\\ui\\boss\\bossname_28.0_chub.png");
+
+			Resources::Load<Texture>(L"portrait_gurdy", L"Issac\\ui\\boss\\portrait_36.0_gurdy.png");
+			Resources::Load<Texture>(L"bossname_gurdy", L"Issac\\ui\\boss\\bossname_36.0_gurdy.png");
+
+			Resources::Load<Texture>(L"portrait_peep", L"Issac\\ui\\boss\\portrait_68.0_peep.png");
+			Resources::Load<Texture>(L"bossname_peep", L"Issac\\ui\\boss\\bossname_68.0_peep.png");
+
+			Resources::Load<Texture>(L"portrait_gurdyjr", L"Issac\\ui\\boss\\portrait_99.0_gurdyjr.png");
+			Resources::Load<Texture>(L"bossname_gurdyjr", L"Issac\\ui\\boss\\bossname_99.0_gurdyjr.png");
+		}
+
+		{ // bosses
+			Resources::Load<Texture>(L"monstro", L"Issac\\bosses\\boss_004_monstro.png");
+			Resources::Load<Texture>(L"gurdyjr", L"Issac\\bosses\\boss_021_gurdyjr.png");
+			Resources::Load<Texture>(L"peep", L"Issac\\bosses\\boss_027_peep.png");
+			Resources::Load<Texture>(L"peep_b", L"Issac\\bosses\\boss_027_peep_b.png");
+			Resources::Load<Texture>(L"peep_c", L"Issac\\bosses\\boss_027_peep_c.png");
+			Resources::Load<Texture>(L"gurdy", L"Issac\\bosses\\boss_030_gurdy.png");
+			Resources::Load<Texture>(L"chub", L"Issac\\bosses\\boss_032_chub.png");
+
 		}
 
 		{ // room
@@ -517,7 +568,7 @@ namespace ya::renderer
 			Resources::Load<Texture>(L"shading", L"Issac\\backdrop\\shading.png");
 			Resources::Load<Texture>(L"controls", L"Issac\\backdrop\\controls.png");
 
-			Resources::Load<Texture>(L"shop", L"Issac\\backdrop\\0b_shop.png");
+			Resources::Load<Texture>(L"shop", L"Issac\\backdrop\\0b_shop1.png");
 			Resources::Load<Texture>(L"arcade", L"Issac\\backdrop\\0e_arcade.png");
 			Resources::Load<Texture>(L"secretroom", L"Issac\\backdrop\\0f_secretroom.png");
 
@@ -628,6 +679,7 @@ namespace ya::renderer
 		std::shared_ptr<Shader> rectShader = Resources::Find<Shader>(L"RectShader");
 		std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
 		std::shared_ptr<Shader> spriteSolidNoneShader = Resources::Find<Shader>(L"SpriteSolidNoneShader");
+		std::shared_ptr<Shader> shadowShader = Resources::Find<Shader>(L"ShadowShader");
 
 		////////////////
 		{ // Issac
@@ -637,6 +689,14 @@ namespace ya::renderer
 			material->SetShader(spriteSolidNoneShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"isaacMaterial", material);
+		}
+		{ // shadow
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"shadow");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(shadowShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"shadowMaterial", material);
 		}
 
 		{ // issac item
@@ -649,6 +709,14 @@ namespace ya::renderer
 		}
 
 #pragma region effect
+		{ // shopkeepers
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"shopkeepers");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"shopkeepersMaterial", material);
+		}
 		{ // fire
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"fire");
 			std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -746,6 +814,15 @@ namespace ya::renderer
 				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"keyMaterial", material);
+			}
+
+			{ // chests
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"chests");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"chestsMaterial", material);
 			}
 
 			{ // bomb
@@ -869,22 +946,165 @@ namespace ya::renderer
 				Resources::Insert<Material>(L"nightmares_bgMaterial", material);
 			}
 			{ // playername_01_isaac
-				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"playername_01_isaac");
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"playername_isaac");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
 				material->SetShader(rectShader);
 				material->SetTexture(texture);
-				Resources::Insert<Material>(L"playername_01_isaacMaterial", material);
+				Resources::Insert<Material>(L"playername_isaacMaterial", material);
 			}
 			{ // playerportrait_01_isaac
-				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"playerportrait_01_isaac");
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"playerportrait_isaac");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
 				material->SetShader(rectShader);
 				material->SetTexture(texture);
-				Resources::Insert<Material>(L"playerportrait_01_isaacMaterial", material);
+				Resources::Insert<Material>(L"playerportrait_isaacMaterial", material);
+			}
+			{ // playerspot_basement
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"playerspot_basement");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"playerspot_basementMaterial", material);
+			}
+			{ // vs
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"vs");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"vsMaterial", material);
+			}
+			{ // portrait_monstro
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"portrait_monstro");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"portrait_monstroMaterial", material);
+			}
+			{ // bossname_monstro
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bossname_monstro");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bossname_monstroMaterial", material);
+			}
+
+			{ // portrait_chub
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"portrait_chub");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"portrait_chubMaterial", material);
+			}
+			{ // bossname_chub
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bossname_chub");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bossname_chubMaterial", material);
+			}
+
+			{ // portrait_gurdy
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"portrait_gurdy");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"portrait_gurdyMaterial", material);
+			}
+			{ // bossname_peep
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bossname_peep");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bossname_peepMaterial", material);
+			}	
+
+			{ // portrait_gurdyjr
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"portrait_gurdyjr");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"portrait_gurdyjrMaterial", material);
+			}
+			{ // bossname_gurdyjr
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bossname_gurdyjr");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(rectShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bossname_gurdyjrMaterial", material);
 			}
 		}
-
 #pragma endregion
+#pragma region bosses
+		{ // monstro
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"monstro");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteSolidNoneShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"monstroMaterial", material);
+		}
+		{ // gurdyjr
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"gurdyjr");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"gurdyjrMaterial", material);
+		}
+		{ // peep
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"peep");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"peepMaterial", material);
+		}
+		{ // peep_b
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"peep_b");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"peep_bMaterial", material);
+		}
+		{ // peep_c
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"peep_c");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"peep_cMaterial", material);
+		}
+		{ // gurdy
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"gurdy");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"gurdyMaterial", material);
+		}
+		{ // chub
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"chub");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"chubMaterial", material);
+		}
+#pragma endregion
+
 
 		{ // uis
 			{ //fonts
@@ -894,6 +1114,14 @@ namespace ya::renderer
 				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"fontsMaterial", material);
+			}
+			{ //bitfont
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bitfont");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bitfontMaterial", material);
 			}
 
 			{ //hudpickups

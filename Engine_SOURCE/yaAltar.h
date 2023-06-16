@@ -1,17 +1,21 @@
 #pragma once
-#include "yaTear.h"
+#include "yaLand.h"
 
 namespace ya
 {
-	class PlayerTear : public Tear
+	class Item;
+	class Altar : public Land
 	{
 	public:
-		PlayerTear();
-		virtual ~PlayerTear();
+		Altar();
+		virtual ~Altar();
 
 		virtual void Initialize();
 		virtual void Update();
 		virtual void FixedUpdate();
 		virtual void Render();
+
+	public:
+		void SetItem(Item* item);
 	};
 }

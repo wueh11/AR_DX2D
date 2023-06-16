@@ -10,6 +10,7 @@ namespace ya
 	StageScene::StageScene(eSceneType type)
 		: Scene(type)
 		, mCurrentRoom(nullptr)
+		, mbStageClear(false)
 	{
 		mRooms.resize(isaac::STAGE_MAX_ROW);
 		for (size_t i = 0; i < isaac::STAGE_MAX_ROW; i++)

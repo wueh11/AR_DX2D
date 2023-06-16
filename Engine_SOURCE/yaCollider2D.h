@@ -42,7 +42,10 @@ namespace ya
 		UINT GetID() { return mID; }
 
 		void Active(bool active) { mbActive = active; };
-		bool IsActive() { return mbActive; }
+		bool IsActive() { return mbActive && !mbDisabled; }
+
+		void Disable(bool disable) { mbDisabled = disable; }
+		bool IsDisabled() { return mbDisabled; }
 
 	private:
 		static UINT mColliderNumber; /// 같은 레이어간의 충돌 상태를 방지하기위해
@@ -59,6 +62,7 @@ namespace ya
 		bool mbTrigger;
 
 		bool mbActive;
+		bool mbDisabled;
 	};
 }
 

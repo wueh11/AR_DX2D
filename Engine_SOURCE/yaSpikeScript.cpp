@@ -42,7 +42,7 @@ namespace ya
 		animator->Create(L"spike_4", spikesTexture, Vector2(0.0f, 96.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 		animator->Create(L"spike_change", spikesTexture, Vector2(64.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 5, 0.1f, 1, 5);
 
-		animator->Play(L"spike_" + std::to_wstring(random(1, 4)), false);
+		animator->Play(L"spike_" + std::to_wstring(Random(1, 4)), false);
 	}
 
 	void SpikeScript::Update()

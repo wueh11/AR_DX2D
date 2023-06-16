@@ -34,6 +34,8 @@ namespace ya
 
 			if (type != eComponentType::Script)
 			{
+				if (mComponents[(UINT)type] != nullptr)
+					int a = 0;
 				mComponents[(UINT)type] = comp;
 				mComponents[(UINT)type]->SetOwner(this);
 			}
@@ -143,6 +145,7 @@ namespace ya
 			mParent = obj; 
 			Transform* objTr = obj->GetComponent<Transform>();
 			GetComponent<Transform>()->SetParent(objTr);
+			mParent->AddChild(this);
 		}
 
 		std::vector<GameObject*> GetChildren() { return mChildren; }

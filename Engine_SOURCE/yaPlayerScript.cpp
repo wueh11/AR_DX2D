@@ -15,7 +15,8 @@
 #include "yaSpriteRenderer.h"
 #include "yaImageRenderer.h"
 
-#include "yaPlayerTear.h"
+#include "yaTear.h"
+#include "yaPlayerTearScript.h"
 
 #include "yaItemManager.h"
 #include "yaItem.h"
@@ -30,6 +31,7 @@
 #include "yaStageScene.h"
 #include "yaScene.h"
 
+#include "Commons.h"
 
 namespace ya
 {
@@ -63,7 +65,7 @@ namespace ya
 	void PlayerScript::Initialize()
 	{
 		mTransform = GetOwner()->GetComponent<Transform>();
-		mRigidbody = GetOwner()->AddComponent<Rigidbody>();
+		mRigidbody = GetOwner()->GetComponent<Rigidbody>();
 
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		isaac::Status status = player->GetStatus();
@@ -78,12 +80,12 @@ namespace ya
 		std::shared_ptr<Texture> texture = material->GetTexture();
 
 		Animator* animator = GetOwner()->AddComponent<Animator>();
-		animator->Create(L"None", texture, Vector2(0.0f, 480.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		animator->Create(L"None", texture, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), Vector2::Zero, 1, 0.1f);
 		animator->Create(L"Hurt", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.1f);
 		animator->Create(L"Die", texture, Vector2(0.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.2f);
 		animator->Add(L"Die", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.2f);
 		animator->Add(L"Die", texture, Vector2(192.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.3f);
-		animator->Play(L"None", true);
+		animator->Play(L"None", false);
 
 		{ // body
 			mBody = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
@@ -162,6 +164,8 @@ namespace ya
 			gainItemTr->SetPosition(Vector3(0.0f, 0.7f, 1.0f));
 			mGainItem->Pause();
 		}
+
+		Shadow(Vector3(0.0f, -0.4f, 0.0f), Vector3(0.5f, 0.2f, 0.0f));
 	}
 
 	void PlayerScript::Update()
@@ -323,7 +327,7 @@ namespace ya
 		if(currentRoom != nullptr)
 		{
 			Vector3 roomPos = currentRoom->GetComponent<Transform>()->GetPosition();
-			mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + (pos.y - roomPos.y) * 0.1f + roomPos.z));
+			mTransform->SetPosition(Vector3(pos.x, pos.y, PositionZ(pos.y - roomPos.y) + roomPos.z));
 		}
 	}
 	void PlayerScript::Render()
@@ -488,32 +492,36 @@ namespace ya
 		{
 			Idle();
 			headAnimator->Play(L"BackAttack", true);
-			PlayerTear* tear = object::Instantiate<PlayerTear>(eLayerType::Projectile);
+			Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile);
 			tear->InitTear(GetOwner(), Vector3(0.0f, 1.0f, 0.0f));
+			tear->AddComponent<PlayerTearScript>();
 			mAttackAble = false;
 		}
 		else if (Input::GetKey(eKeyCode::DOWN))
 		{
 			Idle();
 			headAnimator->Play(L"FrontAttack", true);
-			PlayerTear* tear = object::Instantiate<PlayerTear>(eLayerType::Projectile);
+			Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile);
 			tear->InitTear(GetOwner(), Vector3(0.0f, -1.0f, 0.0f));
+			tear->AddComponent<PlayerTearScript>();
 			mAttackAble = false;
 		}
 		else if (Input::GetKey(eKeyCode::LEFT))
 		{
 			Idle();
 			headAnimator->Play(L"SideAttack", true);
-			PlayerTear* tear = object::Instantiate<PlayerTear>(eLayerType::Projectile);
+			Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile);
 			tear->InitTear(GetOwner(), Vector3(-1.0f, 0.0f, 0.0f));
+			tear->AddComponent<PlayerTearScript>();
 			mAttackAble = false;
 		}
 		else if (Input::GetKey(eKeyCode::RIGHT))
 		{
 			Idle();
 			headAnimator->Play(L"SideAttack", true);
-			PlayerTear* tear = object::Instantiate<PlayerTear>(eLayerType::Projectile);
+			Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile);
 			tear->InitTear(GetOwner(), Vector3(1.0f, 0.0f, 0.0f));
+			tear->AddComponent<PlayerTearScript>();
 			mAttackAble = false;
 		}
 	}

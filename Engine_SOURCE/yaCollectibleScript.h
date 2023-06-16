@@ -35,7 +35,7 @@ namespace ya
 		Animator* mAnimator;
 		eItemType mItemType;
 
-		GameObject* mAltar;
+		GameObject* mShopItem;
 
 		Vector3 mCollideVelocity;
 	};

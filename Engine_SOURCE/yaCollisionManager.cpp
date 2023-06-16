@@ -73,7 +73,7 @@ namespace ya
 					continue;
 				if (right->GetComponent<Collider2D>() == nullptr)
 					continue;
-				if (!left->GetComponent<Collider2D>()->IsActive())
+				if (!right->GetComponent<Collider2D>()->IsActive())
 					continue;
 				if (left == right)
 					continue;
@@ -182,6 +182,10 @@ namespace ya
 
 			Transform* leftTr = left->GetOwner()->GetComponent<Transform>();
 			Transform* rightTr = right->GetOwner()->GetComponent<Transform>();
+			
+			if (leftTr->GetHeight() > 1.0f || rightTr->GetHeight() > 1.0f)
+				return false;
+
 
 			Matrix leftMat = leftTr->GetWorldMatrix();
 			Matrix rightMat = rightTr->GetWorldMatrix();

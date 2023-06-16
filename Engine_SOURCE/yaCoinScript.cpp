@@ -22,6 +22,8 @@ namespace ya
 	}
 	void CoinScript::Initialize()
 	{
+		PickupScript::Initialize();
+
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mTransform->SetScale(Vector3(0.66f, 0.33f, 1.0f));
 

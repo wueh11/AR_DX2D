@@ -23,8 +23,15 @@ namespace ya
 		virtual void OnTriggerStay(Collider2D* collider) {};
 		virtual void OnTriggerExit(Collider2D* collider) {};
 
-	private:
-		//std::vector<Script*> mScripts;
+	public:
+		void Shadow(Vector3 pos = Vector3::Zero, Vector3 scale = Vector3::One);
+		void SetShadowPosition(Vector3 pos);
+		void SetShadowScale(Vector3 scale);
+
+	protected:
+		GameObject* mShadow;
+		Vector3 mShadowPos;
+		Vector3 mShadowScale;
 	};
 }
 

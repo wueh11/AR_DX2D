@@ -108,12 +108,19 @@ namespace ya
 				{
 					GameObject* wall = object::Instantiate<GameObject>(eLayerType::Wall, this);
 					Transform* wallTr = wall->GetComponent<Transform>();
-					wallTr->SetPosition(Vector3(-2.0f + (4.0f * j), 1.86f + (-3.7f * i), 100.0f));
+					wallTr->SetPosition(Vector3(-2.0f + (4.0f * j), -1.86f + (3.7f * i), 100.0f));
 					wallTr->SetScale(Vector3(3.2f, 0.2f, 1.0f));
 					wall->AddComponent<WallScript>();
 					Collider2D* collider = wall->AddComponent<Collider2D>();
 					collider->SetColliderType(eColliderType::Rect);
 				}
+
+				GameObject* outwall = object::Instantiate<GameObject>(eLayerType::Land, this);
+				Transform* outwallTr = outwall->GetComponent<Transform>();
+				outwallTr->SetPosition(Vector3(0.0f, 2.2f + (-4.4f * i), 100.0f));
+				outwallTr->SetScale(Vector3(7.8f, 0.2f, 1.0f));
+				Collider2D* collider = outwall->AddComponent<Collider2D>();
+				collider->SetColliderType(eColliderType::Rect);
 			}
 
 			for (size_t i = 0; i < 2; i++)
@@ -128,6 +135,13 @@ namespace ya
 					Collider2D* collider = wall->AddComponent<Collider2D>();
 					collider->SetColliderType(eColliderType::Rect);
 				}
+
+				GameObject* outwall = object::Instantiate<GameObject>(eLayerType::Land, this);
+				Transform* outwallTr = outwall->GetComponent<Transform>();
+				outwallTr->SetPosition(Vector3(-3.7f + (7.4f * i), 0.0f, 100.0f));
+				outwallTr->SetScale(Vector3(0.2f, 4.5f, 1.0f));
+				Collider2D* collider = outwall->AddComponent<Collider2D>();
+				collider->SetColliderType(eColliderType::Rect);
 			}
 		}
 
@@ -163,8 +177,6 @@ namespace ya
 	{
 		// 몬스터 있는경우, clear 안한경우 문 닫힘
 		// 문,몬스터에 이미지 효과추가
-
-
 		if(mMonsterCount > 0 && !IsClear())
 		{
 			for (size_t i = (UINT)eDirection::UP; i < (UINT)eDirection::End; i++)
@@ -173,8 +185,6 @@ namespace ya
 					mDoors[i]->SetOpen(false);
 			}
 		}
-
-
 	}
 
 	void Room::ExitRoom()
@@ -260,7 +270,7 @@ namespace ya
 
 		Transform* doorTr = door->GetComponent<Transform>();
 		if (doorDirection == eDirection::UP)
-			doorTr->SetPosition(Vector3(0.0f, 2.06f, 90.0f));
+			doorTr->SetPosition(Vector3(0.0f, 2.0f, 90.0f));
 		if (doorDirection == eDirection::DOWN)
 			doorTr->SetPosition(Vector3(0.0f, -2.05f, 90.0f));
 		if (doorDirection == eDirection::LEFT)
@@ -312,15 +322,25 @@ namespace ya
 					mDoors[i]->SetOpen(true);
 			}
 
+			if (mRoomType == eRoomType::Boss) 
+			{
+				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+				scene->StageClear(true);
+			}
+
 			Compensation();
 		}
 	}
 	void Room::Compensation()
 	{
-		mCompensation->SetParent(this);
-		AddRoomObject(mCompensation, 4, 7);
-		mCompensation->SetActive();
+		if(mCompensation != nullptr)
+		{
+			mCompensation->SetParent(this);
+			AddRoomObject(mCompensation, 4, 7);
+			mCompensation->SetActive();
+		}
 	}
+
 	void Room::SetCompensation(GameObject* compensation)
 	{
 		mCompensation = compensation; 

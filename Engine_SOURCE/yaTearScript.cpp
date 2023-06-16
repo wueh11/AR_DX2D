@@ -6,14 +6,13 @@
 
 #include "yaTransform.h"
 #include "yaAnimator.h"
-#include "yaSpriteRenderer.h"
+#include "yaRigidbody.h"
 
 #include "yaObject.h"
 #include "yaGameObject.h"
 
 #include "yaTear.h"
-#include "yaPlayer.h"
-#include "yaMonster.h"
+#include "Commons.h"
 
 namespace ya
 {
@@ -21,11 +20,11 @@ namespace ya
 		: Script()
 		, mTransform(nullptr)
 		, mAnimator(nullptr)
+		, mRigidbody(nullptr)
 		, mDistance(0.0f)
 		, mbDead(false)
 		, mState(eState::None)
 		, mFriction(0.0f)
-		, mGravity(0.0f)
 	{
 	}
 	TearScript::~TearScript()
@@ -35,10 +34,13 @@ namespace ya
 	{
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mAnimator = GetOwner()->AddComponent<Animator>();
+		mRigidbody = GetOwner()->GetComponent<Rigidbody>();
 
 		Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
 		Vector3 scale = mTransform->GetScale();
-		collider->SetSize(Vector2(scale.x / 3.0f, scale.y / 3.0f));
+		collider->SetSize(Vector2(scale.x / 5.0f, scale.y / 5.0f));
+
+		Shadow(Vector3::Zero, Vector3(0.3f, 0.1f, 1.0f));
 	}
 
 	void TearScript::Update()
@@ -59,48 +61,61 @@ namespace ya
 		{
 		case ya::TearScript::eState::None:
 		{
-			if (mDistance < status.range)
+			mDistance += status.tearSpeed * Time::DeltaTime();
+			if (tear->IsParabola())
 			{
-				mDistance += status.tearSpeed * Time::DeltaTime();
-				pos.x += status.tearSpeed * dir.x * Time::DeltaTime();
-				pos.y += status.tearSpeed * dir.y * Time::DeltaTime();
+				mRigidbody->AddForce(status.tearSpeed * dir * 10.0f);
+				mRigidbody->AddHeightForce(status.range);
 			}
 			else
 			{
-				float height = mTransform->GetHeight();
-				if (height > 0.0f)
-				{
-					pos.x += (status.tearSpeed - mFriction) * dir.x * Time::DeltaTime();
-					height -= mGravity * Time::DeltaTime();
-					mTransform->SetHeight(height);
-					mFriction += 0.01f;
-					mGravity += 0.04f;
-				}
-				else
-				{
-					mState = eState::Death;
-				}
+				mRigidbody->AddForce(status.tearSpeed * dir * 100.0f);
+				if (mDistance > status.range)
+					mRigidbody->SetHeightGround(false);
 			}
+
+			if (mTransform->GetHeight() < 0.0f)
+				mState = eState::Death;
 		}
 			break;
 		case ya::TearScript::eState::Death:
 			if (mbDead == false)
 			{
+				GetOwner()->GetComponent<Collider2D>()->Active(false);
+				mRigidbody->UseHeight(false);
 				mAnimator->Play(L"Destroy", false);
 				mbDead = true;
+				if (mShadow != nullptr)
+					mShadow->Pause();
 			}
 			break;
 		default:
 			break;
 		}
 
-		mTransform->SetPosition(pos);
+		if (mTransform->GetHeight() > 2.0f)
+		{
+			Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
+			collider->Disable(true);
+		}
+		else
+		{
+			Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
+			collider->Disable(false);
+		}
+
+		Script::Update();
 	}
 	void TearScript::FixedUpdate()
 	{
+		Vector3 pos = mTransform->GetPosition();
+		mTransform->SetPosition(Vector3(pos.x, pos.y, PositionZ(pos.y)));
+
+		Script::FixedUpdate();
 	}
 	void TearScript::Render()
 	{
+		Script::Render();
 	}
 
 	void TearScript::OnCollisionEnter(Collider2D* collider)

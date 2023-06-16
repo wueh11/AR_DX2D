@@ -32,9 +32,14 @@ namespace ya
 		void SetCurrentRoom(Room* room);
 		void SetCurrentRoom(int x, int y);
 
+		void StageClear(bool clear) { mbStageClear = clear; }
+		bool IsStageClear() { return mbStageClear; }
+
 	protected:
 		std::vector<std::vector<Room*>> mRooms;
 		Room* mCurrentRoom;
+		
+		bool mbStageClear;
 	};
 }
 

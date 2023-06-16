@@ -13,8 +13,8 @@ namespace ya
 		SetName(L"Player");
 
 		Collider2D* collider = GetComponent<Collider2D>();
-		collider->SetSize(Vector2(0.5f, 0.3f));
-		collider->SetCenter(Vector2(0.0f, -0.2f));
+		collider->SetSize(Vector2(0.5f, 0.6f));
+		collider->SetCenter(Vector2(0.0f, -0.1f));
 		collider->SetColliderType(eColliderType::Rect);
 
 		AddComponent<PlayerScript>();

@@ -16,6 +16,7 @@ namespace ya
 		, mbTrigger(false)
 		, mID(0)
 		, mbActive(true)
+		, mbDisabled(false)
 	{
 		mID = mColliderNumber++;
 	}
@@ -42,12 +43,18 @@ namespace ya
 		Vector3 position = mTransform->GetPosition() + Vector3(0.0f, mTransform->GetHeight(), 0.0f);
 
 		GameObject* parent = GetOwner()->GetParent();
-		if (parent != nullptr)
+		
+		while (true)
 		{
+			if (parent == nullptr)
+				break;
+
 			Transform* parentTr = parent->GetComponent<Transform>();
 			//scale += parentTr->GetScale();
 			rotation += parentTr->GetRotation();
 			position += parentTr->GetPosition() + Vector3(0.0f, parentTr->GetHeight(), 0.0f);
+
+			parent = parent->GetParent();
 		}
 
 		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f);

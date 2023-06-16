@@ -146,13 +146,24 @@ namespace ya::isaac
 		End,
 	};
 
+	/// <summary>
+	/// 상자 종류
+	/// </summary>
+	enum class eChestType
+	{
+		Normal,
+		Spike,
+		Treasure,
+		Rock,
+	};
+
 	struct Status
 	{
-		float attack;
-		float attackSpeed;
-		float tearSpeed;
-		float range;
-		float speed;
+		float attack;		//공격력
+		float attackSpeed;	// 눈물발사속도
+		float tearSpeed;	// 눈물속도
+		float range;		// 눈물거리
+		float speed;		// 이동속도
 		float luck;
 
 		Status()

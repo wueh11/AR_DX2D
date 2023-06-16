@@ -11,11 +11,9 @@ namespace ya
 		, mHp(-1)
 		, mRoom(nullptr)
 	{
-		Collider2D* collider = AddComponent<Collider2D>();
+		Collider2D* collider = GetComponent<Collider2D>();
 		collider->SetColliderType(eColliderType::Rect);
 		collider->SetSize(Vector2(0.5f, 0.5f));
-
-		AddComponent<Rigidbody>();
 	}
 	Monster::~Monster()
 	{

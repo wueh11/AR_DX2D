@@ -15,6 +15,7 @@ namespace ya
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
+	public:
 		void AddForce(Vector3 force);
 		void ClearForce();
 		void SetMass(float mass) { mMass = mass; }
@@ -26,6 +27,16 @@ namespace ya
 		Vector3 GetVelocity() { return mVelocity; }
 
 		void SetLimitVelocity(Vector3 limit) { mLimitVelocity = limit; }
+
+		void SetHeightGround(bool isGround) { mbHeightGround = isGround; }
+		void SetHeightVelocity(float velocity) { mHeightVelocity = velocity; }
+		void SetHeightGravity(float gravity) { mHeightGravity = gravity; }
+		void SetHeightLimitVelocity(float limit) { mHeightLimitVelocity = limit; }
+		bool IsHeightGround() { return mbHeightGround; }
+
+		void UseHeight(bool use);
+
+		void AddHeightForce(float force) { mHeightForce += force;  }
 
 	private:
 		// 힘과 마찰력을 이용한 이동
@@ -39,5 +50,12 @@ namespace ya
 		Vector3 mGravity;	/// 중력 크기
 		bool mbGround;		/// 지면에 붙어있는지
 		Vector3 mLimitVelocity;	/// 떨어지는 속도 한계값
+		
+		bool mbHeight;
+		bool mbHeightGround;
+		float mHeightGravity;
+		float mHeightVelocity;
+		float mHeightLimitVelocity;
+		float mHeightForce;
 	};
 }

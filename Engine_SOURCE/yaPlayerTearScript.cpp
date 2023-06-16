@@ -9,6 +9,7 @@
 #include "yaGameObject.h"
 #include "yaTear.h"
 #include "yaPlayer.h"
+#include "yaDoor.h"
 
 #include "Commons.h"
 
@@ -34,7 +35,7 @@ namespace ya
 
 		std::shared_ptr<Texture> texture = tearpoofaMaterial->GetTexture();
 
-		if(random(0, 1))
+		if(Random(0, 1))
 			texture = tearpoofaMaterial->GetTexture();
 		else
 			texture = tearpoofbMaterial->GetTexture();
@@ -67,8 +68,14 @@ namespace ya
 		if (tearOnwer == nullptr)
 			return;
 
-		Player* player = dynamic_cast<Player*>(collider->GetOwner());
+		GameObject* other = collider->GetOwner();
+
+		Player* player = dynamic_cast<Player*>(other);
 		if (player != nullptr)
+			return;
+
+		Door* door = dynamic_cast<Door*>(other);
+		if (door != nullptr)
 			return;
 
 		TearScript::OnCollisionEnter(collider);

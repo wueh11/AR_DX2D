@@ -9,13 +9,15 @@
 #include "yaResources.h"
 #include "yaRigidbody.h"
 
+#include "Commons.h"
+
 namespace ya
 {
 	CollectibleScript::CollectibleScript()
 		: Script()
 		, mTransform(nullptr)
 		, mAnimator(nullptr)
-		, mAltar(nullptr)
+		, mShopItem(nullptr)
 		, mItemType(eItemType::None)
 		, mCollideVelocity(Vector3::Zero)
 	{
@@ -27,8 +29,8 @@ namespace ya
 	{
 		mTransform = GetOwner()->GetComponent<Transform>();
 
-		mAltar = object::Instantiate<GameObject>(eLayerType::Land, mTransform);
-		Transform* altarTr = mAltar->GetComponent<Transform>();
+	/*	mShopItem = object::Instantiate<GameObject>(eLayerType::Land, mTransform);
+		Transform* altarTr = mShopItem->GetComponent<Transform>();
 		altarTr->SetPosition(Vector3(0.1f, -0.4f, 1.0f));
 		altarTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
@@ -36,14 +38,16 @@ namespace ya
 		std::shared_ptr<Material> material = Resources::Find<Material>(L"itemaltarMaterial");
 		std::shared_ptr<Texture> texture = material->GetTexture();
 
-		ImageRenderer* rd = mAltar->AddComponent<ImageRenderer>();
+		ImageRenderer* rd = mShopItem->AddComponent<ImageRenderer>();
 		rd->SetMesh(mesh);
 		rd->SetMaterial(material);
 		rd->SetImageSize(texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f));
 
 		Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
 		collider->SetCenter(Vector2(0.06f, -0.24f));
-		collider->SetSize(Vector2(0.4f, 0.32f));
+		collider->SetSize(Vector2(0.4f, 0.32f));*/
+
+		Shadow();
 
 	}
 	void CollectibleScript::Update()
@@ -52,7 +56,7 @@ namespace ya
 	void CollectibleScript::FixedUpdate()
 	{
 		Vector3 pos = mTransform->GetPosition();
-		mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + (pos.y * 0.1f)));
+		mTransform->SetPosition(Vector3(pos.x, pos.y, PositionZ(pos.y)));
 	}
 	void CollectibleScript::Render()
 	{

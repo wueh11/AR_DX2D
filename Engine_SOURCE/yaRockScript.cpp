@@ -10,6 +10,8 @@
 #include "yaResources.h"
 #include "yaSpriteRenderer.h"
 
+#include "yaExplosion.h"
+
 #include "Commons.h"
 
 namespace ya
@@ -70,8 +72,15 @@ namespace ya
 	void RockScript::OnCollisionEnter(Collider2D* collider)
 	{
 		GameObject* other = collider->GetOwner();
-		Player* player = dynamic_cast<Player*>(other);
 
+		Explosion* explosion = dynamic_cast<Explosion*>(other);
+		if (explosion != nullptr)
+		{
+			GetOwner()->Death();
+			return;
+		}
+
+		Player* player = dynamic_cast<Player*>(other);
 		if (player == nullptr)
 			return;
 
@@ -104,7 +113,7 @@ namespace ya
 		Rock::eRockType rockType = rock->GetRockType();
 
 		if (rockType == Rock::eRockType::Rock)
-			animator->Play(L"rock_" + std::to_wstring(random(1, 3)), false);
+			animator->Play(L"rock_" + std::to_wstring(Random(1, 3)), false);
 		else if (rockType == Rock::eRockType::RockItem)
 			animator->Play(L"rock_item", false);
 		else if (rockType == Rock::eRockType::Rock1x2)
@@ -116,6 +125,6 @@ namespace ya
 		else if (rockType == Rock::eRockType::Iron)
 			animator->Play(L"iron", false);
 		else if (rockType == Rock::eRockType::Jar)
-			animator->Play(L"jar_" + std::to_wstring(random(1, 3)), false);
+			animator->Play(L"jar_" + std::to_wstring(Random(1, 3)), false);
 	}
 }

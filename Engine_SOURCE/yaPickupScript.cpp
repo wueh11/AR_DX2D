@@ -13,6 +13,7 @@
 #include "yaRoom.h"
 
 #include "yaPickup.h"
+#include "Commons.h"
 
 namespace ya
 {
@@ -32,6 +33,7 @@ namespace ya
 	}
 	void PickupScript::Initialize()
 	{
+		Shadow();
 	}
 	void PickupScript::Update()
 	{
@@ -40,12 +42,14 @@ namespace ya
 
 		if (mbDeath && mTimer > 0.0f)
 			Take();
+
+		Script::Update();
 	}
 
 	void PickupScript::FixedUpdate()
 	{
 		Vector3 pos = mTransform->GetPosition();
-		mTransform->SetPosition(Vector3(pos.x, pos.y, -80.0f + (pos.y * 0.1f)));
+		mTransform->SetPosition(Vector3(pos.x, pos.y, PositionZ(pos.y)));
 	}
 	void PickupScript::Render()
 	{

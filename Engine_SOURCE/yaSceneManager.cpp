@@ -19,7 +19,7 @@ namespace ya
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Play] = new PlayScene();
 		mScenes[(UINT)eSceneType::Basement1] = new Basement1();
-		//mScenes[(UINT)eSceneType::Basement1Boss] = new Basement1Boss();
+		mScenes[(UINT)eSceneType::Basement1Boss] = new Basement1Boss();
 
 		for (Scene* scene : mScenes)
 		{
@@ -30,7 +30,6 @@ namespace ya
 		}
 
 		mActiveScene = mScenes[(UINT)eSceneType::Title];
-		//mActiveScene = mScenes[(UINT)eSceneType::Work];
 	}
 
 	void SceneManager::Update()

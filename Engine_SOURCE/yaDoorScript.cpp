@@ -250,10 +250,12 @@ namespace ya
 		if (door->GetState() != GameObject::eState::Active)
 			return;
 
-		//if (!door->IsOpen())
+		eRoomType doorType = door->GetDoorType();
+
+		if (doorType != eRoomType::None)
 		{
 			Explosion* explosion = dynamic_cast<Explosion*>(otherOwner);
-			if (explosion != nullptr && eRoomType::Treasure != door->GetDoorType())
+			if (explosion != nullptr && eRoomType::Treasure != doorType)
 			{
 				door->SetOpen(true);
 				door->SetDamaged(true);
@@ -286,9 +288,9 @@ namespace ya
 			}
 			else if(!door->IsOpen())
 			{ }
-			else if(door->GetDoorType() == eRoomType::Secret && !door->IsDamaged())
+			else if(doorType == eRoomType::Secret && !door->IsDamaged())
 			{ }
-			else if(door->GetDoorType() != eRoomType::None)
+			else if(doorType != eRoomType::None)
 			{
 				Transform* playerTr = player->GetComponent<Transform>();
 				Vector3 pos = playerTr->GetPosition();
@@ -298,7 +300,7 @@ namespace ya
 				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
 				Vector2 roomgrid = scene->GetCurrentRoom()->GetRoomGrid();
 
-				float dist = 0.7f;
+				float dist = 1.0f;
 				if (dir == eDirection::LEFT)
 				{
 					pos.x -= dist;
@@ -322,6 +324,11 @@ namespace ya
 
 				playerTr->SetPosition(pos);
 
+				if (scene->GetCurrentRoom()->GetRoomType() == eRoomType::Boss && !scene->GetCurrentRoom()->IsClear())
+				{
+					eSceneType sceneType = SceneManager::GetActiveScene()->GetSceneType();
+					SceneManager::LoadScene((eSceneType)((UINT)sceneType + 1));
+				}
 				return;
 			}
 		}
@@ -423,6 +430,7 @@ namespace ya
 		Animator* leftAnimator = mDoorLeft->GetComponent<Animator>();
 		Animator* rightAnimator = mDoorRight->GetComponent<Animator>();
 		Animator* frameAnimator = mDoorFrame->GetComponent<Animator>();
+		Animator* decoAnimator = mDoorDeco->GetComponent<Animator>();
 
 		if(open == true)
 		{
@@ -434,6 +442,13 @@ namespace ya
 
 			if (rightAnimator != nullptr)
 				rightAnimator->Play(L"None");
+
+			if (door->GetDoorType() == isaac::eRoomType::Boss)
+			{
+				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+				if(!scene->IsStageClear())
+					mDoorDeco->SetActive();
+			}
 		}
 		else
 		{
@@ -445,6 +460,9 @@ namespace ya
 
 			if (rightAnimator != nullptr)
 				rightAnimator->Play(L"doorRight_" + std::to_wstring((UINT)door->GetDoorType()));
+
+			if (door->GetDoorType() == isaac::eRoomType::Boss)
+				mDoorDeco->Pause();
 		}
 	}
 	void DoorScript::SetDamaged(bool damaged)

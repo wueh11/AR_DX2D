@@ -2,6 +2,7 @@
 #include "yaIsaacEnums.h"
 
 #include "yaIsaacObject.h"
+#include "yaRigidbody.h"
 
 namespace ya
 {
@@ -9,11 +10,15 @@ namespace ya
 		: GameObject()
 		, mTearOwner(nullptr)
 		, mDirection(Vector3::Zero)
+		, mbParabola(false)
 	{
 		SetName(L"Tear");
 
 		Collider2D* collider = AddComponent<Collider2D>();
 		collider->SetColliderType(eColliderType::Rect);
+
+		Rigidbody* rigidbody = AddComponent<Rigidbody>();
+		//rigidbody->SetHeightGround(false);
 	}
 	Tear::~Tear()
 	{
@@ -48,9 +53,12 @@ namespace ya
 		mDirection = dir;
 
 		Transform* tr = GetComponent<Transform>();
-		tr->SetPosition(ownerTr->GetPosition() + Vector3(0.0f, -0.2f, 0.0f) + (dir * 0.2f));
+		tr->SetPosition(ownerTr->GetPosition() + Vector3(0.0f, -0.32f, 0.0f) + (dir * 0.2f));
 		tr->SetScale(Vector3(0.8f, 0.8f, 1.0f));
-		tr->SetHeight(0.2f);
+		tr->SetHeight(0.4f);
+		
+		Rigidbody* rigidbody = GetComponent<Rigidbody>();
+		rigidbody->SetHeightGround(!mbParabola);
 
 		IsaacObject* obj = dynamic_cast<IsaacObject*>(tearOwner);
 		if(obj != nullptr)

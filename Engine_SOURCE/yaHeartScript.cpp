@@ -22,6 +22,8 @@ namespace ya
 
 	void HeartScript::Initialize()
 	{
+		PickupScript::Initialize();
+
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mTransform->SetPosition(Vector3(0.0f, 2.0f, 1.0f));
 		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
@@ -43,7 +45,6 @@ namespace ya
 			heartMr->SetImageSize(heartTexture, Vector2(32.0f, 0.0f), Vector2(32.0f, 32.0f));
 		else if (itemType == eItemType::SoulHeartFull)
 			heartMr->SetImageSize(heartTexture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f));
-
 	}
 	void HeartScript::Update()
 	{
@@ -110,5 +111,27 @@ namespace ya
 	}
 	void HeartScript::OnTriggerExit(Collider2D* collider)
 	{
+	}
+	void HeartScript::Take()
+	{
+		/*Player::Info info = player->GetInfo();
+		Pickup* item = dynamic_cast<Pickup*>(GetOwner());
+		isaac::eItemType itemType = item->GetItemType();
+
+		if (info.heartMax < 12 && itemType == eItemType::SoulHeartFull)
+		{
+			player->AddSoulHeart(2);
+			mbDeath = true;
+		}
+		else if (info.heartMax > info.heart && itemType == eItemType::HeartFull)
+		{
+			player->AddHeart(2);
+			mbDeath = true;
+		}
+		else if (info.heartMax > info.heart && itemType == eItemType::HeartHalf)
+		{
+			player->AddHeart(1);
+			mbDeath = true;
+		}*/
 	}
 }

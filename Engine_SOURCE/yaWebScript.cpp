@@ -46,7 +46,7 @@ namespace ya
 		animator->Create(L"web_2", websTexture, Vector2(26.0f, 0.0f), Vector2(26.0f, 26.0f), Vector2::Zero, 1, 0.1f);
 		animator->Create(L"web_3", websTexture, Vector2(0.0f, 26.0f), Vector2(26.0f, 26.0f), Vector2::Zero, 1, 0.1f);
 
-		animator->Play(L"web_" + std::to_wstring(random(1, 3)), false);
+		animator->Play(L"web_" + std::to_wstring(Random(1, 3)), false);
 	}
 
 	void WebScript::Update()
