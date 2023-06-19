@@ -153,8 +153,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Audio\yaAudioClip.h" />
+    <ClInclude Include="Audio\yaAudioListener.h" />
+    <ClInclude Include="Audio\yaFmod.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="Commons.h" />
+    <ClInclude Include="Font\yaFontWrapper.h" />
     <ClInclude Include="yaAltar.h" />
     <ClInclude Include="yaAltarScript.h" />
     <ClInclude Include="yaBasement1Boss.h" />
@@ -205,6 +209,7 @@
     <ClInclude Include="yaItemManager.h" />
     <ClInclude Include="yaLand.h" />
     <ClInclude Include="yaLittleBatteryScript.h" />
+    <ClInclude Include="yaMinimapScript.h" />
     <ClInclude Include="yaMonsterScript.h" />
     <ClInclude Include="yaMonsterTearScript.h" />
     <ClInclude Include="yaMonstro.h" />
@@ -286,6 +291,10 @@
     <ClInclude Include="yaWorkScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Audio\yaAudioClip.cpp" />
+    <ClCompile Include="Audio\yaAudioListener.cpp" />
+    <ClCompile Include="Audio\yaFmod.cpp" />
+    <ClCompile Include="Font\yaFontWrapper.cpp" />
     <ClCompile Include="yaAltar.cpp" />
     <ClCompile Include="yaAltarScript.cpp" />
     <ClCompile Include="yaBasement1Boss.cpp" />
@@ -334,6 +343,7 @@
     <ClCompile Include="yaItemManager.cpp" />
     <ClCompile Include="yaLand.cpp" />
     <ClCompile Include="yaLittleBatteryScript.cpp" />
+    <ClCompile Include="yaMinimapScript.cpp" />
     <ClCompile Include="yaMonsterScript.cpp" />
     <ClCompile Include="yaMonsterTearScript.cpp" />
     <ClCompile Include="yaMonstro.cpp" />

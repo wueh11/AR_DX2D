@@ -199,6 +199,12 @@
     <Filter Include="Scene\Issac\Stage\Base">
       <UniqueIdentifier>{eb2cc8d6-2680-46f1-bc72-da99eb63fdc2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Audio">
+      <UniqueIdentifier>{4f9563f8-b873-4e7c-a781-2da7d3d7049c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FontWrapper">
+      <UniqueIdentifier>{2fc0bede-9d2c-4f38-9a6d-0fecb4c2bf27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -565,6 +571,21 @@
     </ClCompile>
     <ClCompile Include="yaTrapdoorScript.cpp">
       <Filter>Component\Script\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMinimapScript.cpp">
+      <Filter>Component\Script\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\yaAudioListener.cpp">
+      <Filter>Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\yaFmod.cpp">
+      <Filter>Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\yaAudioClip.cpp">
+      <Filter>Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Font\yaFontWrapper.cpp">
+      <Filter>FontWrapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -954,6 +975,21 @@
     </ClInclude>
     <ClInclude Include="yaTrapdoorScript.h">
       <Filter>Component\Script\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMinimapScript.h">
+      <Filter>Component\Script\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\yaAudioClip.h">
+      <Filter>Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\yaAudioListener.h">
+      <Filter>Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\yaFmod.h">
+      <Filter>Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Font\yaFontWrapper.h">
+      <Filter>FontWrapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
