@@ -85,6 +85,18 @@ namespace ya::renderer
 		Vector4 noiseSize;
 	};
 
+	CBUFFER(ImageCB, CBSLOT_IMAGE)
+	{
+		UINT colorType;
+		float imageAlpha;
+		UINT useRate;
+		UINT useRange;
+
+		Vector4 imageColor;
+		Vector4 imageRange;
+		Vector2 imageRate;
+	};
+
 	//정점 데이터
 	extern Vertex vertexes[4];
 

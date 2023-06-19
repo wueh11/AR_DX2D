@@ -5,6 +5,7 @@
 namespace ya
 {
 	using namespace isaac;
+	class Item;
 	class Room : public GameObject
 	{
 	public:
@@ -55,6 +56,7 @@ namespace ya
 		int mMonsterCount;	// 방에 남은 몬스터 수
 
 		GameObject* mGrid[9][15];	// 방을 구성하는 gameobject. 빈칸일경우 nullptr
+		std::vector<Item*> mItems;
 
 		Vector2 mRoomGrid;
 		Vector2 mRoomPosition;

@@ -39,7 +39,7 @@ float4 main(VSOut In) : SV_Target
     {
         color = atlasTexture.Sample(pointSampler, In.UV);
     }
-    
+     
     /***** ºû °è»ê *****/
     if (numberOfLight > 0)
     {
@@ -52,9 +52,23 @@ float4 main(VSOut In) : SV_Target
         color *= lightColor.diffuse;
     }
     
-    if ((cbxyzw.z > 0.0f && cbxyzw.w > 0.0f)
-        && (In.UV.x < cbxyzw.x || In.UV.x > cbxyzw.z || In.UV.y < cbxyzw.y || In.UV.y > cbxyzw.w))
+    if (useRange == 1 && (In.UV.x < imageRange.x || In.UV.x > imageRange.z || In.UV.y < imageRange.y || In.UV.y > imageRange.w))
         discard;
     
+    if (imageAlpha > 0.0f && color.a > 0.0f)
+        color.a = imageAlpha;
+    
+    if (colorType == 1)
+    {
+        if (color.a > 0.0f)
+            color = imageColor;
+    }
+    else if (colorType == 2)
+    {
+        color.r += imageColor.x * imageColor.w;
+        color.g += imageColor.y * imageColor.w;
+        color.b += imageColor.z * imageColor.w;
+    }
+        
     return color;
 }

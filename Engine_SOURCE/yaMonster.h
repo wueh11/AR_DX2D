@@ -18,26 +18,26 @@ namespace ya
 		virtual void Render();
 
 	public:
-		void SetStatus(float hp, float tearSpeed, float range, float speed)
+		void SetStatus(float health, float tearSpeed, float range, float speed)
 		{
-			mHp = hp;
+			mHealth = health;
+			mHp = mHealth;
 			mStatus.tearSpeed = tearSpeed;
 			mStatus.range = range;
 			mStatus.speed = speed;
 		}
 
-		void AddHp(float hp)
-		{
-			mHp += hp;
-		}
+		void AddHp(float hp) { mHp += hp; }
 
 		float GetHp() { return mHp; }
+		float GetHealth() { return mHealth; }
 
 		Room* GetRoom() { return mRoom; }
 
 	protected:
 		eMonsterType mType;
 		Room* mRoom;
+		float mHealth;
 		float mHp;
 	};
 }

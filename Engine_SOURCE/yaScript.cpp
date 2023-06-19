@@ -37,17 +37,8 @@ namespace ya
 	{
 		if(mShadow != nullptr)
 		{
-			renderer::MaterialCB mCb = {};
-			mCb.fData = 0.3f;
-
-			float alpha = 0.3f;
-			ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Material];
-			cb->SetData(&mCb);
-			cb->Bind(eShaderStage::PS);
-
 			BaseRenderer* rd = mShadow->GetComponent<BaseRenderer>();
-			rd->GetMaterial()->SetData(eGPUParam::Float, &alpha);
-			int a = 0;
+			rd->SetAlpha(0.3f);
 		}
 	}
 	void Script::Shadow(Vector3 pos, Vector3 scale)
@@ -71,7 +62,7 @@ namespace ya
 	{
 		GameObject* owner = GetOwner();
 		Vector3 ownerScale = owner->GetComponent<Transform>()->GetScale();
-		mShadowPos = pos + Vector3(0.0f, 0.0f, 20.0f);
+		mShadowPos = pos + Vector3(0.0f, 0.0f, 10.0f);
 	}
 	void Script::SetShadowScale(Vector3 scale)
 	{

@@ -28,5 +28,11 @@ VSOut main(VSIn In)
     Out.Color = In.Color;
     Out.UV = In.UV;
     
+    if (useRate == 1)
+    {
+        Out.Pos.x = Out.Pos.x * imageRate.x;
+        Out.Pos.y = Out.Pos.y * imageRate.y;
+    }
+    
     return Out;
 }

@@ -34,8 +34,6 @@ namespace ya
 
 			if (type != eComponentType::Script)
 			{
-				if (mComponents[(UINT)type] != nullptr)
-					int a = 0;
 				mComponents[(UINT)type] = comp;
 				mComponents[(UINT)type]->SetOwner(this);
 			}
@@ -116,10 +114,6 @@ namespace ya
 		void Pause()
 		{
 			mState = eState::Paused;
-			/*Collider2D* collider = GetComponent<Collider2D>();
-			if(collider != nullptr)
-				collider->Active(false);*/
-
 			for (auto obj : mChildren)
 				obj->Pause();
 		}

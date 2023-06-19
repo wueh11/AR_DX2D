@@ -26,6 +26,8 @@ namespace ya
 		void Death();
 
 	protected:
+		bool mbHit;
+		float mHitTimer;
 		bool mbDeath;
 		Vector3 mCollideVelocity;
 

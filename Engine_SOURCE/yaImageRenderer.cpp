@@ -30,6 +30,8 @@ namespace ya
 
 	void ImageRenderer::Render()
 	{
+		BaseRenderer::Render();
+
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
 		GetMaterial()->Bind();

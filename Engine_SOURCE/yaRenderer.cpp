@@ -433,6 +433,9 @@ namespace ya::renderer
 		constantBuffers[(UINT)eCBType::Noise] = new ConstantBuffer(eCBType::Noise);
 		constantBuffers[(UINT)eCBType::Noise]->Create(sizeof(NoiseCB));
 
+		constantBuffers[(UINT)eCBType::Image] = new ConstantBuffer(eCBType::Image);
+		constantBuffers[(UINT)eCBType::Image]->Create(sizeof(ImageCB));
+
 		//Structed buffer
 		lightsBuffer = new StructedBuffer();
 		lightsBuffer->Create(sizeof(LightAttribute), 128, eSRVType::SRV, nullptr, true);
@@ -463,23 +466,26 @@ namespace ya::renderer
 			Resources::Load<Texture>(L"shopkeepers", L"Issac\\effects\\effect_000_shopkeepers.png");
 			Resources::Load<Texture>(L"fire", L"Issac\\effects\\effect_005_fire.png");
 			Resources::Load<Texture>(L"bloodpoof", L"Issac\\effects\\effect_002_bloodpoof.png");
+			Resources::Load<Texture>(L"bloodpoof_small", L"Issac\\effects\\effect_002_bloodpoof_small.png");
 			Resources::Load<Texture>(L"bloodtear", L"Issac\\effects\\effect_003_bloodtear.png");
 			Resources::Load<Texture>(L"tearpoofa", L"Issac\\effects\\effect_015_tearpoofa.png");
 			Resources::Load<Texture>(L"tearpoofb", L"Issac\\effects\\effect_015_tearpoofb.png");
 			Resources::Load<Texture>(L"bombradius", L"Issac\\effects\\effect_017_bombradius.png");
 			Resources::Load<Texture>(L"starflash", L"Issac\\effects\\effect_023_starflash.png");
 			Resources::Load<Texture>(L"explosion", L"Issac\\effects\\effect_029_explosion.png");
+			Resources::Load<Texture>(L"largebloodexplosion", L"Issac\\effects\\effect_077_largebloodexplosion.png");
 		}
 
 		{ // ui
-			Resources::Load<Texture>(L"hudpickups", L"Issac\\hudpickups.png");
-			Resources::Load<Texture>(L"ui_hearts", L"Issac\\ui_hearts.png");
-			Resources::Load<Texture>(L"ui_chargebar", L"Issac\\ui_chargebar.png");
-			Resources::Load<Texture>(L"ui_cardspills", L"Issac\\ui_cardspills.png");
-			Resources::Load<Texture>(L"ui_cardfronts", L"Issac\\ui_cardfronts.png");
-			Resources::Load<Texture>(L"ui_chargebar", L"Issac\\ui_chargebar.png");
+			Resources::Load<Texture>(L"hudpickups", L"Issac\\ui\\hudpickups.png");
+			Resources::Load<Texture>(L"ui_hearts", L"Issac\\ui\\ui_hearts.png");
+			Resources::Load<Texture>(L"ui_chargebar", L"Issac\\ui\\ui_chargebar.png");
+			Resources::Load<Texture>(L"ui_cardspills", L"Issac\\ui\\ui_cardspills.png");
+			Resources::Load<Texture>(L"ui_cardfronts", L"Issac\\ui\\ui_cardfronts.png");
+			Resources::Load<Texture>(L"ui_chargebar", L"Issac\\ui\\ui_chargebar.png");
 			Resources::Load<Texture>(L"fonts", L"Issac\\terminus_0.png");
 			Resources::Load<Texture>(L"bitfont", L"Issac\\shop_001_bitfont.png");
+			Resources::Load<Texture>(L"bosshealthbar", L"Issac\\ui\\ui_bosshealthbar.png");
 		}
 
 		{ //items
@@ -586,6 +592,7 @@ namespace ya::renderer
 			Resources::Load<Texture>(L"holyroomdoor", L"Issac\\grid\\door_07_holyroomdoor.png");
 			Resources::Load<Texture>(L"holeinwall", L"Issac\\grid\\door_08_holeinwall.png");
 			Resources::Load<Texture>(L"bossroomdoor", L"Issac\\grid\\door_10_bossroomdoor.png");
+			Resources::Load<Texture>(L"trapdoor", L"Issac\\grid\\door_11_trapdoor.png");
 			Resources::Load<Texture>(L"doublelock", L"Issac\\grid\\door_16_doublelock.png");
 			Resources::Load<Texture>(L"bardoor", L"Issac\\grid\\door_17_bardoor.png");
 			Resources::Load<Texture>(L"crackeddoor", L"Issac\\grid\\door_18_crackeddoor.png");
@@ -732,6 +739,22 @@ namespace ya::renderer
 			material->SetShader(spriteShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"bloodpoofMaterial", material);
+		}
+		{ // bloodpoof_small
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bloodpoof_small");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"bloodpoof_smallMaterial", material);
+		}
+		{ // largebloodexplosion
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"largebloodexplosion");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"largebloodexplosionMaterial", material);
 		}
 		{ // bloodtear
 			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bloodtear");
@@ -938,6 +961,14 @@ namespace ya::renderer
 
 #pragma region boss scene
 		{ 
+			{ // ui_bosshealthbar
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"ui_bosshealthbar");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"ui_bosshealthbarMaterial", material);
+			}
+
 			{ // nightmares_bg
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"nightmares_bg");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
@@ -1177,13 +1208,31 @@ namespace ya::renderer
 				Resources::Insert<Material>(L"ui_cardfrontsMaterial", material);
 			}
 
-			{
+			{ // ui_chargebar
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"ui_chargebar");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
 				material->SetRenderingMode(eRenderingMode::Transparent);
 				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"ui_chargebarMaterial", material);
+			}
+			
+			{ // bosshealthbar
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bosshealthbar");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bosshealthbarMaterial", material);
+			}
+			
+			{ // bosshealthgaugebar
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"bosshealthbar");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"bosshealthgaugebarMaterial", material);
 			}
 
 			{ //minimap1
@@ -1349,6 +1398,15 @@ namespace ya::renderer
 				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"bossroomdoorMaterial", material);
+			}
+
+			{ // trapdoor
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"trapdoor");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"trapdoorMaterial", material);
 			}
 
 			{ // darkroomdoor

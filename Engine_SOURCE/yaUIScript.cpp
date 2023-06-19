@@ -11,10 +11,14 @@
 #include "yaPlayer.h"
 #include "yaNumberScript.h"
 
+#include "yaMonster.h"
+
 #include "yaPill.h"
 #include "yaCard.h"
 
 #include "yaItemManager.h"
+
+#include "yaStageScene.h"
 
 namespace ya
 {
@@ -29,6 +33,7 @@ namespace ya
 		, mKeyCount(nullptr)
 		, mBombCount(nullptr)
 		, mCoinCount(nullptr)
+		, mbBossHealth(false)
 	{
 	}
 	UIScript::~UIScript()
@@ -273,6 +278,44 @@ namespace ya
 				mKeyCount->SetNumber(pickup.key);
 			}
 		}
+
+		//boss ui
+		{
+			{
+				mBossHealth = object::Instantiate<GameObject>(eLayerType::UI);
+
+				Transform* bosshealthTr = mBossHealth->GetComponent<Transform>();
+				bosshealthTr->SetPosition(Vector3(0.0f, -2.5f, -10.0f));
+				bosshealthTr->SetScale(Vector3(3.0f, 0.64f, 1.0f));
+
+				std::shared_ptr<Material> bosshealthMaterial = Resources::Find<Material>(L"bosshealthbarMaterial");
+				std::shared_ptr<Texture> bosshealthTexture = bosshealthMaterial->GetTexture();
+
+				ImageRenderer* bosshealthRenderer = mBossHealth->AddComponent<ImageRenderer>();
+				bosshealthRenderer->SetMesh(mesh);
+				bosshealthRenderer->SetMaterial(bosshealthMaterial);
+				bosshealthRenderer->SetImageSize(bosshealthTexture, Vector2(0.0f, 32.0f), Vector2(150.0f, 32.0f));
+
+				mBossHealth->Pause();
+			}
+			{
+				mBossHealthBar = object::Instantiate<GameObject>(eLayerType::UI);
+
+				Transform* bossHealthBarTr = mBossHealthBar->GetComponent<Transform>();
+				bossHealthBarTr->SetPosition(Vector3(0.0f, -2.5f, -10.0f));
+				bossHealthBarTr->SetScale(Vector3(3.0f, 0.64f, 1.0f));
+
+				std::shared_ptr<Material> bossHealthBarMaterial = Resources::Find<Material>(L"bosshealthgaugebarMaterial");
+				std::shared_ptr<Texture> bossHealthBarTexture = bossHealthBarMaterial->GetTexture();
+
+				ImageRenderer* bossHealthBarRenderer = mBossHealthBar->AddComponent<ImageRenderer>();
+				bossHealthBarRenderer->SetMesh(mesh);
+				bossHealthBarRenderer->SetMaterial(bossHealthBarMaterial);
+				bossHealthBarRenderer->SetImageSize(bossHealthBarTexture, Vector2(0.0f, 0.0f), Vector2(150.0f, 32.0f));
+
+				mBossHealthBar->Pause();
+			}
+		}
 	}
 
 	void UIScript::Update()
@@ -407,10 +450,14 @@ namespace ya
 				if(an != nullptr)
 					chargeBarAnim->Play(L"charge_" + std::to_wstring(gauge));
 
-				ImageRenderer* mr = mChargeGauge->GetComponent<ImageRenderer>();
+				/*ImageRenderer* mr = mChargeGauge->GetComponent<ImageRenderer>();
 				std::shared_ptr<Material> material = mr->GetMaterial();
 				Vector4 data = Vector4(0.0f, 0.85f - (0.8f * ((float)charge / (float)gauge)), 1.0f, 1.0f);
-				material->SetData(eGPUParam::Vector4, &data);
+				material->SetData(eGPUParam::Vector4, &data);*/
+
+				BaseRenderer* rd = mChargeGauge->GetComponent<BaseRenderer>();
+				rd->UseRange(true);
+				rd->SetRange(Vector4(0.0f, 0.85f - (0.8f * ((float)charge / (float)gauge)), 1.0f, 1.0f));
 
 				ActiveActiveItem(true);
 			}
@@ -422,6 +469,37 @@ namespace ya
 				ActiveActiveItem(false);
 			}
 		}
+
+		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+		if (scene == nullptr)
+			return;
+
+		Monster* boss = scene->GetBoss();
+		if (mBossHealthBar != nullptr && boss != nullptr)
+		{	// boss health
+			float hp = boss->GetHp();
+			float health = boss->GetHealth();
+
+			if (hp < 0.0f)
+				mBossHealthBar->Pause();
+
+			/*ImageRenderer* mr = mBossHealthBar->GetComponent<ImageRenderer>();
+			std::shared_ptr<Material> material = mr->GetMaterial();
+			Vector4 data = Vector4(0.0f, 0.0f, (hp / health) - 0.1f, 1.0f);
+			material->SetData(eGPUParam::Vector4, &data);*/
+
+			BaseRenderer* rd = mBossHealthBar->GetComponent<BaseRenderer>();
+			rd->UseRange(true);
+			rd->SetRange(Vector4(0.0f, 0.0f, (hp / health) - 0.1f, 1.0f));
+			rd->SetColorType(1);
+			rd->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+		}
+		else
+		{
+			mBossHealth->Pause();
+			mBossHealthBar->Pause();
+		}
+
 		
 	}
 
@@ -431,6 +509,20 @@ namespace ya
 
 	void UIScript::Render()
 	{
+	}
+
+	void UIScript::UseBossHealth(bool use)
+	{
+		if(use)
+		{
+			mBossHealth->SetActive();
+			mBossHealthBar->SetActive();
+		}
+		else
+		{
+			mBossHealth->Pause();
+			mBossHealthBar->Pause();
+		}
 	}
 
 	void UIScript::ActiveActiveItem(bool active)

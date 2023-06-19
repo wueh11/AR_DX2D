@@ -33,7 +33,7 @@ namespace ya
 	}
 	void PickupScript::Initialize()
 	{
-		Shadow();
+		Shadow(Vector3(0.0f, -0.2f, 0.0f), Vector3(0.64f, 0.32f, 1.0f));
 	}
 	void PickupScript::Update()
 	{
@@ -50,9 +50,12 @@ namespace ya
 	{
 		Vector3 pos = mTransform->GetPosition();
 		mTransform->SetPosition(Vector3(pos.x, pos.y, PositionZ(pos.y)));
+
+		Script::FixedUpdate();
 	}
 	void PickupScript::Render()
 	{
+		Script::Render();
 	}
 
 	void PickupScript::OnCollisionEnter(Collider2D* collider)

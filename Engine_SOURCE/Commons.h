@@ -8,7 +8,7 @@ namespace ya
 		return rand() % (max - min + 1) + min;
 	}
 
-	static float SinByTime(float speed, float scale)
+	static float SinByTime(float speed, float scale = 1.0f)
 	{
 		float pos = 0.0f;
 
@@ -16,6 +16,18 @@ namespace ya
 		auto mill = duration_cast<std::chrono::milliseconds>(time.time_since_epoch());
 		int msc = mill.count() % 10000;
 		pos = sin(msc * speed) * scale;
+
+		return pos;
+	}
+
+	static float CosByTime(float speed, float scale = 1.0f)
+	{
+		float pos = 0.0f;
+
+		auto time = std::chrono::system_clock::now();
+		auto mill = duration_cast<std::chrono::milliseconds>(time.time_since_epoch());
+		int msc = mill.count() % 10000;
+		pos = cos(msc * speed) * scale;
 
 		return pos;
 	}

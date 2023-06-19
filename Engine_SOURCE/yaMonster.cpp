@@ -8,7 +8,8 @@ namespace ya
 {
 	Monster::Monster()
 		: mType(eMonsterType::None)
-		, mHp(-1)
+		, mHealth(-1.0f)
+		, mHp(-1.0f)
 		, mRoom(nullptr)
 	{
 		Collider2D* collider = GetComponent<Collider2D>();

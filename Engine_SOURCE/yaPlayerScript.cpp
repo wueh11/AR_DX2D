@@ -185,6 +185,12 @@ namespace ya
 			if (mInvincibleTime > 0.0f)
 			{
 				mInvincibleTime -= Time::DeltaTime();
+
+				BaseRenderer* rd = GetOwner()->GetComponent<BaseRenderer>();
+				if (SinByTime(0.05f, 1.0f) > -0.5f)
+					rd->SetAlpha(0.01f);
+				else
+					rd->SetAlpha(1.0f);
 			}
 			else
 			{
@@ -314,6 +320,7 @@ namespace ya
 			}
 		}
 
+		Script::Update();
 	}
 
 	void PlayerScript::FixedUpdate()
@@ -329,9 +336,12 @@ namespace ya
 			Vector3 roomPos = currentRoom->GetComponent<Transform>()->GetPosition();
 			mTransform->SetPosition(Vector3(pos.x, pos.y, PositionZ(pos.y - roomPos.y) + roomPos.z));
 		}
+
+		Script::FixedUpdate();
 	}
 	void PlayerScript::Render()
 	{
+		Script::Render();
 	}
 
 	void PlayerScript::OnCollisionEnter(Collider2D* collider)

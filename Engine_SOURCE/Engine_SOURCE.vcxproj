@@ -155,7 +155,12 @@
   <ItemGroup>
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="Commons.h" />
+    <ClInclude Include="yaAltar.h" />
+    <ClInclude Include="yaAltarScript.h" />
     <ClInclude Include="yaBasement1Boss.h" />
+    <ClInclude Include="yaChest.h" />
+    <ClInclude Include="yaChestScript.h" />
+    <ClInclude Include="yaEffectScript.h" />
     <ClInclude Include="yaFly.h" />
     <ClInclude Include="yaIsaacObject.h" />
     <ClInclude Include="yaLittleBattery.h" />
@@ -201,8 +206,9 @@
     <ClInclude Include="yaLand.h" />
     <ClInclude Include="yaLittleBatteryScript.h" />
     <ClInclude Include="yaMonsterScript.h" />
-    <ClInclude Include="yaMonsterTear.h" />
     <ClInclude Include="yaMonsterTearScript.h" />
+    <ClInclude Include="yaMonstro.h" />
+    <ClInclude Include="yaMonstroScript.h" />
     <ClInclude Include="yaPickupScript.h" />
     <ClInclude Include="yaParticleShader.h" />
     <ClInclude Include="yaPassiveItem.h" />
@@ -238,7 +244,6 @@
     <ClInclude Include="yaPitScript.h" />
     <ClInclude Include="yaPlayer.h" />
     <ClInclude Include="yaPlayerScript.h" />
-    <ClInclude Include="yaPlayerTear.h" />
     <ClInclude Include="yaPlayerTearScript.h" />
     <ClInclude Include="yaPlayScene.h" />
     <ClInclude Include="yaRageCreep.h" />
@@ -254,6 +259,8 @@
     <ClInclude Include="yaSceneManager.h" />
     <ClInclude Include="yaScript.h" />
     <ClInclude Include="yaShader.h" />
+    <ClInclude Include="yaShopItem.h" />
+    <ClInclude Include="yaShopItemScript.h" />
     <ClInclude Include="yaSoulHeartFull.h" />
     <ClInclude Include="yaSpike.h" />
     <ClInclude Include="yaSpikeScript.h" />
@@ -267,6 +274,8 @@
     <ClInclude Include="yaTitleScene.h" />
     <ClInclude Include="yaTitleScript.h" />
     <ClInclude Include="yaTransform.h" />
+    <ClInclude Include="yaTrapdoor.h" />
+    <ClInclude Include="yaTrapdoorScript.h" />
     <ClInclude Include="yaTrinket.h" />
     <ClInclude Include="yaTrinketScript.h" />
     <ClInclude Include="yaUIheart.h" />
@@ -277,7 +286,12 @@
     <ClInclude Include="yaWorkScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="yaAltar.cpp" />
+    <ClCompile Include="yaAltarScript.cpp" />
     <ClCompile Include="yaBasement1Boss.cpp" />
+    <ClCompile Include="yaChest.cpp" />
+    <ClCompile Include="yaChestScript.cpp" />
+    <ClCompile Include="yaEffectScript.cpp" />
     <ClCompile Include="yaFly.cpp" />
     <ClCompile Include="yaIsaacObject.cpp" />
     <ClCompile Include="yaLittleBattery.cpp" />
@@ -321,8 +335,9 @@
     <ClCompile Include="yaLand.cpp" />
     <ClCompile Include="yaLittleBatteryScript.cpp" />
     <ClCompile Include="yaMonsterScript.cpp" />
-    <ClCompile Include="yaMonsterTear.cpp" />
     <ClCompile Include="yaMonsterTearScript.cpp" />
+    <ClCompile Include="yaMonstro.cpp" />
+    <ClCompile Include="yaMonstroScript.cpp" />
     <ClCompile Include="yaPickupScript.cpp" />
     <ClCompile Include="yaParticleShader.cpp" />
     <ClCompile Include="yaPassiveItem.cpp" />
@@ -354,7 +369,6 @@
     <ClCompile Include="yaPitScript.cpp" />
     <ClCompile Include="yaPlayer.cpp" />
     <ClCompile Include="yaPlayerScript.cpp" />
-    <ClCompile Include="yaPlayerTear.cpp" />
     <ClCompile Include="yaPlayerTearScript.cpp" />
     <ClCompile Include="yaPlayScene.cpp" />
     <ClCompile Include="yaRageCreep.cpp" />
@@ -370,6 +384,8 @@
     <ClCompile Include="yaSceneManager.cpp" />
     <ClCompile Include="yaScript.cpp" />
     <ClCompile Include="yaShader.cpp" />
+    <ClCompile Include="yaShopItem.cpp" />
+    <ClCompile Include="yaShopItemScript.cpp" />
     <ClCompile Include="yaSoulHeartFull.cpp" />
     <ClCompile Include="yaSpike.cpp" />
     <ClCompile Include="yaSpikeScript.cpp" />
@@ -383,6 +399,8 @@
     <ClCompile Include="yaTitleScene.cpp" />
     <ClCompile Include="yaTitleScript.cpp" />
     <ClCompile Include="yaTransform.cpp" />
+    <ClCompile Include="yaTrapdoor.cpp" />
+    <ClCompile Include="yaTrapdoorScript.cpp" />
     <ClCompile Include="yaTrinket.cpp" />
     <ClCompile Include="yaTrinketScript.cpp" />
     <ClCompile Include="yaUIheart.cpp" />

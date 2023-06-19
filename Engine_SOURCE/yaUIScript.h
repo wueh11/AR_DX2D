@@ -5,6 +5,7 @@ namespace ya
 {
 	class GameObject;
 	class Player;
+	class Monster;
 	class NumberScript;
 	class UIScript : public Script
 	{
@@ -19,6 +20,7 @@ namespace ya
 
 	public:
 		void SetPlayer(Player* player) { mPlayer = player; }
+		void UseBossHealth(bool use);
 
 	private:
 		void ActiveActiveItem(bool active);
@@ -37,5 +39,9 @@ namespace ya
 		NumberScript* mCoinCount;
 		NumberScript* mBombCount;
 		NumberScript* mKeyCount;
+
+		bool mbBossHealth;
+		GameObject* mBossHealthBar;
+		GameObject* mBossHealth;
 	};
 }

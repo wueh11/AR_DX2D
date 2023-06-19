@@ -20,7 +20,7 @@ float4 main(VSOut In) : SV_Target
     color = defaultTexture.Sample(pointSampler, In.UV);
     
     if (color.a > 0.0f)
-        color.a = cbfData;
+        color.a = imageAlpha;
     
      //discard;
     

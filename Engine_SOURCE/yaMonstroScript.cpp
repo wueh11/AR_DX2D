@@ -19,6 +19,9 @@
 
 #include "yaTear.h"
 #include "yaMonsterTearScript.h"
+#include "yaEffectScript.h"
+
+#include "yaUIScript.h"
 
 #include "Commons.h"
 
@@ -27,7 +30,7 @@ namespace ya
 	MonstroScript::MonstroScript()
 		: MonsterScript()
 		, mState(eState::Idle)
-		, mTimerMax{ 1.0f, 1.0f, 1.0f, 1.0f, 0.1f, /**/ 0.3f, 0.3f, 0.4f, 1.0f, 0.6f}
+		, mTimerMax{ 1.0f, 1.0f, 1.0f, 1.0f, 0.1f, /**/ 0.3f, 0.3f, 0.4f, 1.0f, 2.0f}
 		, mTimer{ 0.0f }
 		, mEffect(nullptr)
 		, mTargetPos(Vector3::Zero)
@@ -41,7 +44,7 @@ namespace ya
 		MonsterScript::Initialize();
 
 		Monster* monster = dynamic_cast<Monster*>(GetOwner());
-		monster->SetStatus(100.0f, 0.3f, 6.0f, 2.0f);
+		monster->SetStatus(10.0f, 0.1f, 6.0f, 2.0f);
 
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mTransform->SetScale(Vector3(1.5f, 2.0f, 1.0f));
@@ -118,8 +121,40 @@ namespace ya
 		if (monster->GetState() != GameObject::eState::Active)
 			return;
 
-		if (monster->GetHp() <= 0.0f)
-			mState = eState::Die;
+		if (monster->GetHp() <= 0.0f && mState != eState::Die && mState != eState::None)
+		{
+			mState = eState::Die; 
+			mAnimator->Play(L"After", false);
+			Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
+			collider->Disable(true);
+			{
+				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+				Room* room = scene->GetCurrentRoom();
+				if (room != nullptr)
+				{
+					GameObject* bloodpoof = object::Instantiate<GameObject>(eLayerType::Player, room);
+					bloodpoof->SetName(L"bloodpoof");
+
+					SpriteRenderer* rd = bloodpoof->AddComponent<SpriteRenderer>();
+					std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+					rd->SetMesh(mesh);
+					std::shared_ptr<Material> material = Resources::Find<Material>(L"bloodpoofMaterial");
+					rd->SetMaterial(material);
+					std::shared_ptr<Texture> texture = material->GetTexture();
+
+					Transform* tr = bloodpoof->GetComponent<Transform>();
+					tr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.4f, -0.01f));
+					tr->SetScale(Vector3(1.0f, 1.0f, 0.0f));
+
+					Animator* animator = bloodpoof->AddComponent<Animator>();
+					animator->Create(L"poof", texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 12, 0.1f, 3, 4);
+					animator->Play(L"poof", false);
+
+					EffectScript* effectScript = bloodpoof->AddComponent<EffectScript>();
+					effectScript->SetAutoDestroy(L"poof");
+				}
+			}
+		}
 
 		switch (mState)
 		{
@@ -217,10 +252,7 @@ namespace ya
 
 			Vector3 pos = mTransform->GetPosition();
 				
-			float dist = (mTargetPos - pos).Length();
-
-			//int ran = Random(0, 2);
-			int ran = 2;
+			int ran = Random(0, 2);
 			if (ran == 0)
 			{
 				mState = eState::JumpMove;
@@ -239,6 +271,11 @@ namespace ya
 				mAnimator->Play(L"JumpUp", false);
 				mRigidbody->SetHeightGround(false);
 			}
+
+			if (mTargetPos.x > pos.x)
+				mTransform->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
+			else
+				mTransform->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 		}
 	}
 
@@ -275,6 +312,9 @@ namespace ya
 			mState = eState::JumpDown;
 			mAnimator->Play(L"JumpDown", false);
 
+			Vector3 scale = mTransform->GetScale();
+			float val = Time::DeltaTime() * 10.0f;
+
 			Player* player = SceneManager::GetActiveScene()->GetPlayer();
 			mTargetPos = player->GetRelativePosition();
 		}
@@ -289,9 +329,10 @@ namespace ya
 		mTimer[(UINT)eState::JumpDown] -= Time::DeltaTime();
 		if (mTimer[(UINT)eState::JumpDown] < 0.0f)
 		{
-			mTimer[(UINT)eState::JumpDown] = mTimerMax[(UINT)eState::JumpDown];
 			if (mTransform->GetHeight() <= 0.0f)
 			{
+				mTimer[(UINT)eState::JumpDown] = mTimerMax[(UINT)eState::JumpDown];
+
 				mState = eState::SpreadAttack;
 				mAnimator->Play(L"JumpDown2", false);
 				mRigidbody->SetHeightGround(true);
@@ -316,20 +357,25 @@ namespace ya
 		}
 		else
 		{
-			if(Random(0, 15) < 1)
+			if(Random(0, 10) < 1)
 			{
 				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
-				for (size_t i = 0; i < 2; i++)
+
+				Vector3 dir = mTargetPos - mTransform->GetPosition();
+				dir.Normalize();
+
+				if (mTimer[(UINT)eState::JumpMove] > 0.9f)
 				{
-					Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
-					tear->Parabola(true);
-					tear->InitTear(GetOwner(), Vector3((float)(Random(10, 5))/ 10.0f, (float)(Random(-4,4))/10.0f, 0.0f));
-					Rigidbody* rigidbody = tear->GetComponent<Rigidbody>();
-					rigidbody->SetHeightGravity(-4.0f);
-					rigidbody->AddForce(Vector3((float)Random(-100, 100), 0.0f, 0.0f));
-					rigidbody->AddHeightForce((float)Random(5, 400));
-					tear->AddComponent<MonsterTearScript>();
+					mRigidbody->AddHeightForce(10.0f);
 				}
+
+				Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+				tear->Parabola(true);
+				tear->InitTear(GetOwner(), dir + Vector3((float)(Random(-4, 4)) / 10.0f, (float)(Random(-4, 4)) / 10.0f, 0.0f));
+				Rigidbody* rigidbody = tear->GetComponent<Rigidbody>();
+				rigidbody->AddForce(dir * Vector3((float)Random(600, 2000), 1000.0f, 0.0f));
+				rigidbody->AddHeightForce((float)Random(5, 600));
+				tear->AddComponent<MonsterTearScript>();
 			}
 		}
 	}
@@ -345,18 +391,16 @@ namespace ya
 		}
 		else
 		{
-			if (Random(0, 20) < 1)
+			if (Random(0, 8) < 1)
 			{
 				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
-				for (size_t i = 0; i < 2; i++)
 				{
 					Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
 					tear->Parabola(true);
 					tear->InitTear(GetOwner(), Vector3((float)(Random(-10, 10)) / 10.0f, (float)(Random(-10, 10)) / 10.0f, 0.0f));
 					Rigidbody* rigidbody = tear->GetComponent<Rigidbody>();
-					rigidbody->SetHeightGravity(-4.0f);
-					rigidbody->AddForce(Vector3((float)Random(-100, 100), 0.0f, 0.0f));
-					rigidbody->AddHeightForce((float)Random(5, 400));
+					rigidbody->AddForce(Vector3((float)Random(-2000, 2000), 0.0f, 0.0f));
+					rigidbody->AddHeightForce((float)Random(5, 600));
 					tear->AddComponent<MonsterTearScript>();
 				}
 			}
@@ -365,15 +409,82 @@ namespace ya
 
 	void MonstroScript::Die()
 	{
-		//Animator* effectmEffect = mEffect->GetComponent<Animator>();
-		//effectmEffect->Play(L"Normal",false);
-		mAnimator->Play(L"After", false);
+		mTimer[(UINT)eState::Die] -= Time::DeltaTime();
+		if (mTimer[(UINT)eState::Die] < 0.0f)
+		{
+			mTimer[(UINT)eState::Die] = mTimerMax[(UINT)eState::Die];
+			mState = eState::None;
+
+			{
+				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+				{
+					GameObject* largebloodexplosion = object::Instantiate<GameObject>(eLayerType::Effect, scene->GetCurrentRoom());
+					largebloodexplosion->SetName(L"largebloodexplosion");
+
+					SpriteRenderer* rd = largebloodexplosion->AddComponent<SpriteRenderer>();
+					std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+					rd->SetMesh(mesh);
+					std::shared_ptr<Material> material = Resources::Find<Material>(L"largebloodexplosionMaterial");
+					rd->SetMaterial(material);
+					std::shared_ptr<Texture> texture = material->GetTexture();
+
+					Transform* tr = largebloodexplosion->GetComponent<Transform>();
+					tr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.2f, -0.01f));
+					tr->SetScale(Vector3(2.0f, 1.6, 1.0f));
+
+					Animator* animator = largebloodexplosion->AddComponent<Animator>();
+					animator->Create(L"largebloodexplosion", texture, Vector2(0.0f, 100.0f), Vector2(146.0f, 110.0f), Vector2::Zero, 7, 0.1f, 3, 3);
+					animator->Play(L"largebloodexplosion", false);
+
+					EffectScript* effectScript = largebloodexplosion->AddComponent<EffectScript>();
+					effectScript->SetAutoDestroy(L"largebloodexplosion");
+				}
+			}
+
+			Destroy();
+		}
+		else
+		{
+			Vector3 pos = mTransform->GetPosition();
+			mTransform->SetPosition(Vector3(pos.x + SinByTime(0.7f, 0.05f), pos.y, pos.z));
+
+			if (Random(0, 50) < 1)
+			{
+				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+				{
+					GameObject* bloodpoof_small = object::Instantiate<GameObject>(eLayerType::Effect, scene->GetCurrentRoom());
+					bloodpoof_small->SetName(L"bloodpoof_small");
+
+					SpriteRenderer* rd = bloodpoof_small->AddComponent<SpriteRenderer>();
+					std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+					rd->SetMesh(mesh);
+					std::shared_ptr<Material> material = Resources::Find<Material>(L"bloodpoof_smallMaterial");
+					rd->SetMaterial(material);
+					std::shared_ptr<Texture> texture = material->GetTexture();
+
+					Transform* tr = bloodpoof_small->GetComponent<Transform>();
+					tr->SetPosition(mTransform->GetPosition() + Vector3((float)Random(-5, 5) * 0.1f, -0.2f + (float)Random(-5, 5) * 0.1f, -0.01f));
+					tr->SetScale(Vector3(0.32f, 0.32f, 1.0f));
+
+					Animator* animator = bloodpoof_small->AddComponent<Animator>();
+					animator->Create(L"bloodpoof_small", texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 12, 0.1f, 3, 4);
+					animator->Play(L"bloodpoof_small", false);
+
+					EffectScript* effectScript = bloodpoof_small->AddComponent<EffectScript>();
+					effectScript->SetAutoDestroy(L"bloodpoof_small");
+				}
+			}
+		}
 	}
 
 	void MonstroScript::Destroy()
 	{
 		//mEffect->Death();
-		//Death();
+		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+		scene->StageClear(true);
+		UIScript* ui = scene->GetUI();
+		ui->UseBossHealth(false);
+		Death();
 	}
 
 	void MonstroScript::After()

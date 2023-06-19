@@ -5,12 +5,16 @@
 #include "yaPlayer.h"
 #include "yaScene.h"
 
+#include "yaUIScript.h"
+
 namespace ya
 {
 	StageScene::StageScene(eSceneType type)
 		: Scene(type)
 		, mCurrentRoom(nullptr)
 		, mbStageClear(false)
+		, mbBossRoom(false)
+		, mBoss(nullptr)
 	{
 		mRooms.resize(isaac::STAGE_MAX_ROW);
 		for (size_t i = 0; i < isaac::STAGE_MAX_ROW; i++)
@@ -101,6 +105,20 @@ namespace ya
 		Vector3 roomPos = mCurrentRoom->GetComponent<Transform>()->GetPosition();
 		Transform* cameraTr = mainCamera->GetOwner()->GetComponent<Transform>();
 		cameraTr->SetPosition(Vector3(roomPos.x, roomPos.y, cameraTr->GetPosition().z));
+	}
+
+	void StageScene::StageClear(bool clear)
+	{
+		mbStageClear = clear;
+	
+		if (clear)
+			mbBossRoom = false;
+	}
+
+	void StageScene::SetBossRoom(bool boss)
+	{
+		mbBossRoom = boss;
+		mUI->UseBossHealth(true);
 	}
 
 	Room* StageScene::CreateRoom(int x, int y, eRoomType type, bool bLock)

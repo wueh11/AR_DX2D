@@ -114,6 +114,7 @@ namespace ya
 		{ // UI
 			GameObject* ui = object::Instantiate<GameObject>(eLayerType::Background);
 			UIScript* uiScript = ui->AddComponent<UIScript>();
+			SetUI(uiScript);
 		}
 
 		/*
@@ -277,7 +278,8 @@ namespace ya
 		{
 			{
 				Monstro* monstro = object::Instantiate<Monstro>(eLayerType::Monster, boss);
-				boss->AddRoomObject(monstro, 4, 7);
+				boss->AddRoomObject(monstro, 6, 7);
+				SetBoss(monstro);
 			}
 		}
 
@@ -431,26 +433,11 @@ namespace ya
 				room23->AddRoomObject(web, 1, 4);
 			}
 
-			/*{
+			{
 				RageCreep* rageCreep = object::Instantiate<RageCreep>(eLayerType::Monster, room23);
 				room23->AddRoomObject(rageCreep, 4, 0);
 				rageCreep->SetDirection(eDirection::LEFT);
-			}*/
-
-			/*{
-				Coin* coin = object::Instantiate<Coin>(eLayerType::Item, room23);
-				room23->AddRoomObject(coin, 4, 4);
 			}
-
-			{
-				Key* key = object::Instantiate<Key>(eLayerType::Item, room23);
-				room23->AddRoomObject(key, 3, 6);
-			}
-
-			{
-				Bomb* bomb = object::Instantiate<Bomb>(eLayerType::Item, room23);
-				room23->AddRoomObject(bomb, 1, 2);
-			}*/
 		}
 
 		Room* room34 = CreateRoom(3, 3);
@@ -466,14 +453,53 @@ namespace ya
 				room34->AddRoomObject(jar, 7, 13);
 			}
 			{
-				Rock* jar = object::Instantiate<Rock>(eLayerType::Land, room34);
-				jar->SetRockType(Rock::eRockType::Jar);
-				room34->AddRoomObject(jar, 1, 2);
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room34);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room34->AddRoomObject(rock, 3, 4);
 			}
+			{
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room34);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room34->AddRoomObject(rock, 3, 10);
+			}
+
 			{
 				Rock* jar = object::Instantiate<Rock>(eLayerType::Land, room34);
 				jar->SetRockType(Rock::eRockType::Jar);
 				room34->AddRoomObject(jar, 2, 3);
+			}
+			{
+				Rock* jar = object::Instantiate<Rock>(eLayerType::Land, room34);
+				jar->SetRockType(Rock::eRockType::Jar);
+				room34->AddRoomObject(jar, 2, 11);
+			}
+
+			for (size_t i = 1; i <= 4; i++)
+			{
+				for (size_t j = 1; j <= 5; j++)
+				{
+					Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room34);
+					rock->SetRockType(Rock::eRockType::Rock);
+					room34->AddRoomObject(rock, 5-i, 4 + j);
+				}
+			}
+
+			{
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room34);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room34->AddRoomObject(rock, 2, 10);
+			}
+			
+			{
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room34);
+				rock->SetRockType(Rock::eRockType::Rock);
+				room34->AddRoomObject(rock, 2, 4);
+			}
+
+			{
+				Rock* jar = object::Instantiate<Rock>(eLayerType::Land, room34);
+				jar->SetRockType(Rock::eRockType::Jar);
+				room34->AddRoomObject(jar, 1, 2);
 			}
 			{
 				Rock* jar = object::Instantiate<Rock>(eLayerType::Land, room34);
@@ -489,42 +515,6 @@ namespace ya
 				Rock* jar = object::Instantiate<Rock>(eLayerType::Land, room34);
 				jar->SetRockType(Rock::eRockType::Jar);
 				room34->AddRoomObject(jar, 1, 12);
-			}
-			{
-				Rock* jar = object::Instantiate<Rock>(eLayerType::Land, room34);
-				jar->SetRockType(Rock::eRockType::Jar);
-				room34->AddRoomObject(jar, 2, 11);
-			}
-
-			for (size_t i = 1; i <= 4; i++)
-			{
-				for (size_t j = 1; j <= 5; j++)
-				{
-					Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room34);
-					rock->SetRockType(Rock::eRockType::Rock);
-					room34->AddRoomObject(rock, i, 4 + j);
-				}
-			}
-
-			{
-				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room34);
-				rock->SetRockType(Rock::eRockType::Rock);
-				room34->AddRoomObject(rock, 2, 4);
-			}
-			{
-				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room34);
-				rock->SetRockType(Rock::eRockType::Rock);
-				room34->AddRoomObject(rock, 3, 4);
-			}
-			{
-				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room34);
-				rock->SetRockType(Rock::eRockType::Rock);
-				room34->AddRoomObject(rock, 2, 10);
-			}
-			{
-				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room34);
-				rock->SetRockType(Rock::eRockType::Rock);
-				room34->AddRoomObject(rock, 3, 10);
 			}
 
 			{
@@ -576,13 +566,13 @@ namespace ya
 			}
 		}
 
-		Vector3 startPos = boss->GetComponent<Transform>()->GetPosition();
+		/*Vector3 startPos = boss->GetComponent<Transform>()->GetPosition();
 		player->GetComponent<Transform>()->SetPosition(Vector3(startPos.x, startPos.y - 1.0f, -10.0f));
-		SetCurrentRoom(boss);
+		SetCurrentRoom(boss);*/
 
-		/*Vector3 startPos = startRoom->GetComponent<Transform>()->GetPosition();
+		Vector3 startPos = startRoom->GetComponent<Transform>()->GetPosition();
 		player->GetComponent<Transform>()->SetPosition(Vector3(startPos.x, startPos.y - 1.0f, -10.0f));
-		SetCurrentRoom(startRoom);*/
+		SetCurrentRoom(startRoom);
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Wall, true);

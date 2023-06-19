@@ -23,6 +23,7 @@
 #define CBSLOT_NUMBEROFLIGHT 4
 #define CBSLOT_PARTICLESYSTEM 5
 #define CBSLOT_NOISE 6
+#define CBSLOT_IMAGE 7
 
 using namespace ya::math;
 namespace ya::graphics
@@ -113,6 +114,7 @@ namespace ya::graphics
 		Light,
 		ParticleSystem,
 		Noise,
+		Image,
 		End,
 	};
 

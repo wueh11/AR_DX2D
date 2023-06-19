@@ -12,10 +12,6 @@
 #include "yaUIScript.h"
 
 #include "yaMonster.h"
-#include "yaFireplace.h"
-#include "yaPit.h"
-#include "yaRock.h"
-#include "yaSpike.h"
 #include "yaItem.h"
 
 #include "yaStageScene.h"
@@ -26,10 +22,14 @@
 #include "yaIsaacEnums.h"
 #include "yaDoorScript.h"
 
+#include "yaTrapdoor.h"
+
+#include "Commons.h"
+
 namespace ya
 {
 	const float ROOM_GRID_ROW_SIZE = 0.5f;
-	const float ROOM_GRID_COLUMN_SIZE = 0.49f;
+	const float ROOM_GRID_COLUMN_SIZE = 0.48f;
 
 	Room::Room(int x, int y, eRoomType type)
 		: GameObject()
@@ -290,8 +290,12 @@ namespace ya
 		
 		Transform* tr = roomObj->GetComponent<Transform>();
 		Vector3 pos = (Vector3((y - 7) * ROOM_GRID_ROW_SIZE, (x - 4) * ROOM_GRID_COLUMN_SIZE, 0.0f));
-		pos.z = -80.0f + pos.y;
+		pos.z = PositionZ(pos.y);
 		tr->SetPosition(pos);
+
+		Item* item = dynamic_cast<Item*>(roomObj);
+		if (item != nullptr)
+			mItems.push_back(item);
 
 		Land* land = dynamic_cast<Land*>(roomObj);
 		if (land != nullptr)
@@ -326,6 +330,10 @@ namespace ya
 			{
 				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
 				scene->StageClear(true);
+				Room* room = scene->GetCurrentRoom();
+
+				Trapdoor* trapdoor = object::Instantiate<Trapdoor>(eLayerType::Land, room);
+				room->AddRoomObject(trapdoor, 6, 7);
 			}
 
 			Compensation();

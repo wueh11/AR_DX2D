@@ -55,3 +55,15 @@ cbuffer ParticleSystem : register(b5)
     float elapsedTime; //누적시간
     int padding;
 }
+
+cbuffer ImageData : register(b7)
+{
+    uint colorType;
+    float imageAlpha;
+    uint useRate;
+    uint useRange;
+    
+    float4 imageColor;
+    float4 imageRange;
+    float2 imageRate;
+}

@@ -6,6 +6,8 @@
 namespace ya
 {
 	using namespace isaac;
+	class Monster;
+	class UIScript;
 	class StageScene : public Scene
 	{
 	public:
@@ -32,14 +34,28 @@ namespace ya
 		void SetCurrentRoom(Room* room);
 		void SetCurrentRoom(int x, int y);
 
-		void StageClear(bool clear) { mbStageClear = clear; }
+		void StageClear(bool clear);
 		bool IsStageClear() { return mbStageClear; }
+
+		void SetBoss(Monster* monster) { mBoss = monster;  }
+		Monster* GetBoss() { return mBoss; }
+
+		void SetBossRoom(bool boss);
+		bool IsBossRoom() { return mbBossRoom; }
+
+		UIScript* GetUI() { return mUI; }
+		void SetUI(UIScript* ui) { mUI = ui; }
 
 	protected:
 		std::vector<std::vector<Room*>> mRooms;
 		Room* mCurrentRoom;
 		
 		bool mbStageClear;
+		
+		Monster* mBoss;
+		bool mbBossRoom;
+
+		UIScript* mUI;
 	};
 }
 

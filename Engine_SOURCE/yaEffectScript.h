@@ -1,14 +1,13 @@
 #pragma once
-#include "yaWallScript.h"
-#include "yaIsaacEnums.h"
+#include "yaScript.h"
 
 namespace ya
 {
-	class DoorScript : public WallScript
+	class EffectScript : public Script
 	{
 	public:
-		DoorScript();
-		virtual ~DoorScript();
+		EffectScript();
+		virtual ~EffectScript();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -24,21 +23,12 @@ namespace ya
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
 	public:
-		void SetDoorDirection(isaac::eDirection dir);
-		void SetDoorType(isaac::eRoomType doorType);
-
-		void SetOpen(bool open);
-		void SetDamaged(bool damaged);
-		void SetLock(bool lock);
-
-		void playDeco(isaac::eRoomType doorType, bool play = true);
+		void Destroy();
+		void SetAutoDestroy(std::wstring name);
+		void SetAliveTime(float time);
 
 	private:
-		GameObject* mDoorBackground;
-		GameObject* mDoorFrame;
-		GameObject* mDoorLeft;
-		GameObject* mDoorRight;
-		GameObject* mDoorDeco;
-
+		float mAliveTime;
+		bool mbUseAliveTime;
 	};
 }

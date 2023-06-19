@@ -14,11 +14,14 @@
 #include "yaMonster.h"
 #include "yaTear.h"
 #include "Commons.h"
+#include "yaBaseRenderer.h"
 
 namespace ya
 {
 	MonsterScript::MonsterScript()
 		: Script()
+		, mbHit(false)
+		, mHitTimer(0.1f)
 		, mbDeath(false)
 		, mCollideVelocity(Vector3::Zero)
 		, mTransform(nullptr)
@@ -36,6 +39,19 @@ namespace ya
 	}
 	void MonsterScript::Update()
 	{
+		if (mbDeath)
+			return;
+
+		if (mbHit)
+		{
+			mHitTimer -= Time::DeltaTime();
+			if (mHitTimer < 0.0f)
+			{
+				mbHit = false;
+				mHitTimer = 0.1f;
+			}
+		}
+
 		Script::Update();
 	}
 	void MonsterScript::FixedUpdate()
@@ -47,6 +63,20 @@ namespace ya
 	}
 	void MonsterScript::Render()
 	{
+		if (mbDeath)
+			return;
+
+		BaseRenderer* rd = GetOwner()->GetComponent<BaseRenderer>();
+		if(mbHit)
+		{
+			rd->SetColorType(2);
+			rd->SetColor(Vector4(1.0f, -1.0f, -1.0f, 0.3f));
+		}
+		else
+		{
+			rd->SetColorType(0);
+		}
+
 		Script::Render();
 	}
 
@@ -71,6 +101,8 @@ namespace ya
 
 				// 눈물에 의한 밀림
 				mRigidbody->AddForce(tear->GetDirection() * 100.0f);
+
+				mbHit = true;
 			}
 		}
 

@@ -35,6 +35,7 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)ParticleVS.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)RectPS.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)RectVS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)ShadowPS.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)SpritePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>

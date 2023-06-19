@@ -10,6 +10,8 @@
 #include "yaPlayer.h"
 #include "yaPickup.h"
 
+#include "Commons.h"
+
 namespace ya
 {
 	HeartScript::HeartScript()
@@ -26,7 +28,7 @@ namespace ya
 
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mTransform->SetPosition(Vector3(0.0f, 2.0f, 1.0f));
-		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+		mTransform->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 
@@ -57,6 +59,10 @@ namespace ya
 	}
 	void HeartScript::Render()
 	{
+		BaseRenderer* rd = GetOwner()->GetComponent<BaseRenderer>();
+		rd->UseRate(true);
+		rd->SetRate(Vector2(1.0f, SinByTime(0.01f, 0.05f) + SinByTime(0.005f, 0.05f) + 1.0f));
+
 		PickupScript::Render();
 	}
 

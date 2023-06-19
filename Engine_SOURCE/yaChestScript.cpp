@@ -167,8 +167,8 @@ namespace ya
 			Rigidbody* rigidbody = item->GetComponent<Rigidbody>();
 			rigidbody->SetHeightGround(false);
 			rigidbody->SetLimitVelocity(Vector3(5.0f, 5.0f, 0.0f));
-			rigidbody->AddForce(Vector3((float)Random(-10, 10) * 600.0f, (float)Random(-10, 10) * 600.0f, 0.0f));
-			rigidbody->AddHeightForce(200.0f);
+			rigidbody->AddForce(Vector3((float)Random(-10, 10) * 800.0f, (float)Random(-10, 10) * 800.0f, 0.0f));
+			rigidbody->AddHeightForce(500.0f);
 		}
 	}
 

@@ -27,6 +27,8 @@ namespace ya
 
 	void MeshRenderer::Render()
 	{
+		BaseRenderer::Render();
+
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer(); ///상수버퍼 셋팅
 
 		GetMaterial()->Bind();

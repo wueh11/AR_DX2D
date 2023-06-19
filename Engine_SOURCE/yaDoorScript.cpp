@@ -328,6 +328,8 @@ namespace ya
 				{
 					eSceneType sceneType = SceneManager::GetActiveScene()->GetSceneType();
 					SceneManager::LoadScene((eSceneType)((UINT)sceneType + 1));
+					scene->SetBossRoom(true);
+					//playDeco(scene->GetCurrentRoom()->GetRoomType(), false);
 				}
 				return;
 			}
@@ -503,12 +505,19 @@ namespace ya
 			}
 		}
 	}
-	void DoorScript::playDeco(isaac::eRoomType doorType)
+	void DoorScript::playDeco(isaac::eRoomType doorType, bool play)
 	{
 		Animator* decoAnimator = mDoorDeco->GetComponent<Animator>();
 
-		if (doorType == isaac::eRoomType::Boss)
-			decoAnimator->Play(L"doorDeco_10");
+		if(play)
+		{
+			if (doorType == isaac::eRoomType::Boss)
+				decoAnimator->Play(L"doorDeco_10");
+		}
+		else
+		{
+			mDoorDeco->Pause();
+		}
 
 	}
 }

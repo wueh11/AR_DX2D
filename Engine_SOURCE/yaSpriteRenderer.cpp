@@ -23,6 +23,8 @@ namespace ya
 	}
 	void SpriteRenderer::Render()
 	{
+		BaseRenderer::Render();
+
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
 		GetMesh()->BindBuffer();

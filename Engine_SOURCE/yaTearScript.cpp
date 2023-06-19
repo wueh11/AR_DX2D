@@ -64,7 +64,7 @@ namespace ya
 			mDistance += status.tearSpeed * Time::DeltaTime();
 			if (tear->IsParabola())
 			{
-				mRigidbody->AddForce(status.tearSpeed * dir * 10.0f);
+				mRigidbody->AddForce(status.tearSpeed * dir * 4.5f);
 				mRigidbody->AddHeightForce(status.range);
 			}
 			else

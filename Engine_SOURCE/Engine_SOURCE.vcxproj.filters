@@ -196,6 +196,9 @@
     <Filter Include="Component\Script\Projectile\Base">
       <UniqueIdentifier>{3e3e8954-d9f0-43c0-8a94-efa93e7447b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\Issac\Stage\Base">
+      <UniqueIdentifier>{eb2cc8d6-2680-46f1-bc72-da99eb63fdc2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -452,9 +455,6 @@
     <ClCompile Include="yaBasement1.cpp">
       <Filter>Scene\Issac\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="yaStageScene.cpp">
-      <Filter>Scene\Base</Filter>
-    </ClCompile>
     <ClCompile Include="yaRoom.cpp">
       <Filter>GameObject\Stage</Filter>
     </ClCompile>
@@ -512,12 +512,6 @@
     <ClCompile Include="yaRageCreepScript.cpp">
       <Filter>Component\Script\Monsters</Filter>
     </ClCompile>
-    <ClCompile Include="yaMonsterTear.cpp">
-      <Filter>GameObject\Projectile</Filter>
-    </ClCompile>
-    <ClCompile Include="yaPlayerTear.cpp">
-      <Filter>GameObject\Projectile</Filter>
-    </ClCompile>
     <ClCompile Include="yaTear.cpp">
       <Filter>GameObject\Projectile\Base</Filter>
     </ClCompile>
@@ -535,6 +529,42 @@
     </ClCompile>
     <ClCompile Include="yaBasement1Boss.cpp">
       <Filter>Scene\Issac\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="yaShopItem.cpp">
+      <Filter>GameObject\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="yaAltarScript.cpp">
+      <Filter>Component\Script\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="yaShopItemScript.cpp">
+      <Filter>Component\Script\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="yaAltar.cpp">
+      <Filter>GameObject\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaChest.cpp">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClCompile>
+    <ClCompile Include="yaChestScript.cpp">
+      <Filter>Component\Script\Item\PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMonstroScript.cpp">
+      <Filter>Component\Script\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMonstro.cpp">
+      <Filter>GameObject\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="yaStageScene.cpp">
+      <Filter>Scene\Issac\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaEffectScript.cpp">
+      <Filter>Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTrapdoor.cpp">
+      <Filter>GameObject\Land</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTrapdoorScript.cpp">
+      <Filter>Component\Script\Land</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -814,9 +844,6 @@
     <ClInclude Include="yaBasement1.h">
       <Filter>Scene\Issac\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="yaStageScene.h">
-      <Filter>Scene\Base</Filter>
-    </ClInclude>
     <ClInclude Include="yaRoom.h">
       <Filter>GameObject\Stage</Filter>
     </ClInclude>
@@ -874,12 +901,6 @@
     <ClInclude Include="yaRageCreepScript.h">
       <Filter>Component\Script\Monsters</Filter>
     </ClInclude>
-    <ClInclude Include="yaMonsterTear.h">
-      <Filter>GameObject\Projectile</Filter>
-    </ClInclude>
-    <ClInclude Include="yaPlayerTear.h">
-      <Filter>GameObject\Projectile</Filter>
-    </ClInclude>
     <ClInclude Include="yaTear.h">
       <Filter>GameObject\Projectile\Base</Filter>
     </ClInclude>
@@ -897,6 +918,42 @@
     </ClInclude>
     <ClInclude Include="yaBasement1Boss.h">
       <Filter>Scene\Issac\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="yaShopItem.h">
+      <Filter>GameObject\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="yaAltarScript.h">
+      <Filter>Component\Script\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="yaShopItemScript.h">
+      <Filter>Component\Script\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="yaAltar.h">
+      <Filter>GameObject\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaChest.h">
+      <Filter>GameObject\Item\Pickup</Filter>
+    </ClInclude>
+    <ClInclude Include="yaChestScript.h">
+      <Filter>Component\Script\Item\PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonstroScript.h">
+      <Filter>Component\Script\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonstro.h">
+      <Filter>GameObject\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="yaStageScene.h">
+      <Filter>Scene\Issac\Stage\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaEffectScript.h">
+      <Filter>Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTrapdoor.h">
+      <Filter>GameObject\Land</Filter>
+    </ClInclude>
+    <ClInclude Include="yaTrapdoorScript.h">
+      <Filter>Component\Script\Land</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
