@@ -1,5 +1,5 @@
 #pragma once
-#include "..\\yaResource.h"
+#include "yaResource.h"
 #include "yaFmod.h"
 
 

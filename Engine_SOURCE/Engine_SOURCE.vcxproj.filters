@@ -575,16 +575,16 @@
     <ClCompile Include="yaMinimapScript.cpp">
       <Filter>Component\Script\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Audio\yaAudioListener.cpp">
+    <ClCompile Include="yaAudioListener.cpp">
       <Filter>Component\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Audio\yaFmod.cpp">
+    <ClCompile Include="yaAudioClip.cpp">
       <Filter>Component\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Audio\yaAudioClip.cpp">
+    <ClCompile Include="yaFmod.cpp">
       <Filter>Component\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Font\yaFontWrapper.cpp">
+    <ClCompile Include="yaFontWrapper.cpp">
       <Filter>FontWrapper</Filter>
     </ClCompile>
   </ItemGroup>
@@ -979,16 +979,16 @@
     <ClInclude Include="yaMinimapScript.h">
       <Filter>Component\Script\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Audio\yaAudioClip.h">
+    <ClInclude Include="yaAudioListener.h">
       <Filter>Component\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Audio\yaAudioListener.h">
+    <ClInclude Include="yaAudioClip.h">
       <Filter>Component\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Audio\yaFmod.h">
+    <ClInclude Include="yaFmod.h">
       <Filter>Component\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Font\yaFontWrapper.h">
+    <ClInclude Include="yaFontWrapper.h">
       <Filter>FontWrapper</Filter>
     </ClInclude>
   </ItemGroup>

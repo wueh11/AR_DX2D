@@ -5,8 +5,8 @@
 #include "yaSceneManager.h"
 #include "yaResources.h"
 #include "yaCollisionManager.h"
-#include "Audio/yaFmod.h"
-#include "Font/yaFontWrapper.h"
+//#include "yaFmod.h"
+//#include "yaFontWrapper.h"
 
 #include "yaItemManager.h"
 
@@ -28,8 +28,8 @@ namespace ya
 	{
 		Time::Initialize();
 		Input::Initialize();
-		Fmod::Initialize();
-		FontWrapper::Initialize();
+		//Fmod::Initialize();
+		//FontWrapper::Initialize();
 
 		CollisionManager::Initialize();
 		renderer::Initialize();
@@ -88,8 +88,8 @@ namespace ya
 
 	void Application::Release()
 	{
-		Fmod::Release();
-		FontWrapper::Release();
+		//Fmod::Release();
+		//FontWrapper::Release();
 	}
 
 	void Application::SetWindow(HWND hwnd, UINT width, UINT height)

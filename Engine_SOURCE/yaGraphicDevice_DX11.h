@@ -75,6 +75,7 @@ namespace ya::graphics
 
 	public:
 		ID3D11Device* GetID3D11Device() { return mDevice.Get(); }
+		ID3D11DeviceContext* GetID3D11DeviceContext() { return mContext.Get(); }
 
 	private:
 		// GPU 객체 생성 - 그래픽카드와 연결되는 기본적인 객체

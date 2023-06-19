@@ -1,5 +1,5 @@
 #include "yaAudioClip.h"
-#include "..\\yaTransform.h"
+#include "yaTransform.h"
 
 namespace ya
 {

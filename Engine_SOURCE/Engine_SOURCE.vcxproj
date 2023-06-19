@@ -153,19 +153,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Audio\yaAudioClip.h" />
-    <ClInclude Include="Audio\yaAudioListener.h" />
-    <ClInclude Include="Audio\yaFmod.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="Commons.h" />
-    <ClInclude Include="Font\yaFontWrapper.h" />
     <ClInclude Include="yaAltar.h" />
     <ClInclude Include="yaAltarScript.h" />
+    <ClInclude Include="yaAudioClip.h" />
+    <ClInclude Include="yaAudioListener.h" />
     <ClInclude Include="yaBasement1Boss.h" />
     <ClInclude Include="yaChest.h" />
     <ClInclude Include="yaChestScript.h" />
     <ClInclude Include="yaEffectScript.h" />
     <ClInclude Include="yaFly.h" />
+    <ClInclude Include="yaFmod.h" />
+    <ClInclude Include="yaFontWrapper.h" />
     <ClInclude Include="yaIsaacObject.h" />
     <ClInclude Include="yaLittleBattery.h" />
     <ClInclude Include="yaBasement1.h" />
@@ -291,17 +291,17 @@
     <ClInclude Include="yaWorkScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Audio\yaAudioClip.cpp" />
-    <ClCompile Include="Audio\yaAudioListener.cpp" />
-    <ClCompile Include="Audio\yaFmod.cpp" />
-    <ClCompile Include="Font\yaFontWrapper.cpp" />
     <ClCompile Include="yaAltar.cpp" />
     <ClCompile Include="yaAltarScript.cpp" />
+    <ClCompile Include="yaAudioClip.cpp" />
+    <ClCompile Include="yaAudioListener.cpp" />
     <ClCompile Include="yaBasement1Boss.cpp" />
     <ClCompile Include="yaChest.cpp" />
     <ClCompile Include="yaChestScript.cpp" />
     <ClCompile Include="yaEffectScript.cpp" />
     <ClCompile Include="yaFly.cpp" />
+    <ClCompile Include="yaFmod.cpp" />
+    <ClCompile Include="yaFontWrapper.cpp" />
     <ClCompile Include="yaIsaacObject.cpp" />
     <ClCompile Include="yaLittleBattery.cpp" />
     <ClCompile Include="yaActiveItem.cpp" />

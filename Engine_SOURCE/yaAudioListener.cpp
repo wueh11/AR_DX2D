@@ -1,6 +1,6 @@
 #include "yaAudioListener.h"
-#include "..\\yaTransform.h"
-#include "..\\yaGameObject.h"
+#include "yaTransform.h"
+#include "yaGameObject.h"
 #include "yaFmod.h"
 
 namespace ya
@@ -16,7 +16,7 @@ namespace ya
 
 	}
 
-	void AudioListener::Initalize()
+	void AudioListener::Initialize()
 	{
 
 	}
