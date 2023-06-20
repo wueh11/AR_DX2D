@@ -486,6 +486,7 @@ namespace ya::renderer
 			Resources::Load<Texture>(L"fonts", L"Issac\\terminus_0.png");
 			Resources::Load<Texture>(L"bitfont", L"Issac\\shop_001_bitfont.png");
 			Resources::Load<Texture>(L"bosshealthbar", L"Issac\\ui\\ui_bosshealthbar.png");
+			Resources::Load<Texture>(L"minimap1", L"Issac\\ui\\minimap1.png");
 		}
 
 		{ //items

@@ -18,6 +18,7 @@
 #include "yaSpriteRenderer.h"
 
 #include "yaUIScript.h"
+#include "yaMinimapScript.h"
 
 #include "yaItemManager.h"
 
@@ -111,11 +112,11 @@ namespace ya
 			SetPlayer(player);
 		}
 
-		{ // UI
-			GameObject* ui = object::Instantiate<GameObject>(eLayerType::Background);
-			UIScript* uiScript = ui->AddComponent<UIScript>();
-			SetUI(uiScript);
-		}
+		 // UI
+		GameObject* ui = object::Instantiate<GameObject>(eLayerType::Background);
+		UIScript* uiScript = ui->AddComponent<UIScript>();
+		SetUI(uiScript);
+		MinimapScript* minimap = ui->AddComponent<MinimapScript>();
 
 		/*
 			0 0 0 0  0 0 0 0
@@ -566,13 +567,11 @@ namespace ya
 			}
 		}
 
-		/*Vector3 startPos = boss->GetComponent<Transform>()->GetPosition();
-		player->GetComponent<Transform>()->SetPosition(Vector3(startPos.x, startPos.y - 1.0f, -10.0f));
-		SetCurrentRoom(boss);*/
-
 		Vector3 startPos = startRoom->GetComponent<Transform>()->GetPosition();
 		player->GetComponent<Transform>()->SetPosition(Vector3(startPos.x, startPos.y - 1.0f, -10.0f));
 		SetCurrentRoom(startRoom);
+
+		minimap->InitMinimap();
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Wall, true);

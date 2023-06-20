@@ -39,7 +39,9 @@ namespace ya
 
 		void SetLock(bool lock) { mbLock = lock; }
 		bool IsLock() { return mbLock; }
-
+		
+		bool IsVisit() { return mbVisit; }
+		void Visit(bool visit) { mbVisit = visit; }
 		bool IsClear() { return mbClear; }
 
 		void AddMonsterCount(int count);
@@ -50,6 +52,7 @@ namespace ya
 	private:
 		eRoomType mRoomType;
 
+		bool mbVisit;
 		bool mbClear;	// player가 방의 몬스터를 모두 처치했을 경우 true
 		bool mbLock;	// 열쇠가 필요한 방(상점, 보물방), player가 방의 문을 열쇠로 열었을 경우 false
 
