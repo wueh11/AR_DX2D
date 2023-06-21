@@ -52,8 +52,11 @@ float4 main(VSOut In) : SV_Target
         color *= lightColor.diffuse;
     }
     
-    if (useRange == 1 && (In.UV.x < imageRange.x || In.UV.x > imageRange.z || In.UV.y < imageRange.y || In.UV.y > imageRange.w))
+    if (color.a <= 0.0f)
         discard;
+    
+        if (useRange == 1 && (In.UV.x < imageRange.x || In.UV.x > imageRange.z || In.UV.y < imageRange.y || In.UV.y > imageRange.w))
+            discard;
     
     if (imageAlpha > 0.0f && color.a > 0.0f)
         color.a = imageAlpha;

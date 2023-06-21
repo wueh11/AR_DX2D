@@ -50,6 +50,7 @@
 #include "yaRageCreep.h"
 
 #include "yaMonstro.h"
+#include "yaAudioListener.h"
 
 #include "Commons.h"
 
@@ -73,6 +74,8 @@ namespace ya
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
 		cameraComp->SetProjectionType(Camera::eProjectionType::Orthographic);
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
+
+		AudioListener* audioComp = cameraObj->AddComponent<AudioListener>();
 
 		mainCamera = cameraComp;
 

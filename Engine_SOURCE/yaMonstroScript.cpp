@@ -78,13 +78,11 @@ namespace ya
 		mAnimator->Create(L"JumpDown", texture, Vector2(320.0f, 0.0f), Vector2(80.0f, 112.0f), Vector2::Zero, 1, 0.5f);
 		mAnimator->Create(L"JumpDown2", texture, Vector2(0.0f, 112.0f), Vector2(80.0f, 112.0f), Vector2::Zero, 1, 0.3f);
 		mAnimator->Add(L"JumpDown2", texture, Vector2(80.0f, 0.0f), Vector2(80.0f, 112.0f), Vector2::Zero, 2, 0.2f);
-		//mAnimator->Add(L"JumpDown", texture, Vector2(320.0f, 112.0f), Vector2(80.0f, 112.0f), Vector2::Zero, 1, 0.1f);
 
 		mAnimator->Create(L"JumpMove", texture, Vector2(80.0f, 112.0f), Vector2(80.0f, 112.0f), Vector2::Zero, 1, 0.2f);
 		mAnimator->Add(L"JumpMove", texture, Vector2(160.0f, 112.0f), Vector2(80.0f, 112.0f), Vector2::Zero, 1, 0.7f);
 		mAnimator->Add(L"JumpMove", texture, Vector2(320.0f, 0.0f), Vector2(80.0f, 112.0f), Vector2::Zero, 1, 0.2f);
 		mAnimator->Add(L"JumpMove", texture, Vector2(0.0f, 112.0f), Vector2(80.0f, 112.0f), Vector2::Zero, 1, 0.2);
-		//mAnimator->Add(L"JumpMove", texture, Vector2(240.0f, 112.0f), Vector2(80.0f, 112.0f), Vector2::Zero, 1, 0.1f);
 
 		mAnimator->Create(L"Spit", texture, Vector2(240.0f, 0.0f), Vector2(80.0f, 112.0f), Vector2::Zero, 1, 2.0f);
 
@@ -94,23 +92,6 @@ namespace ya
 
 		for (size_t i = 0; i < (UINT)eState::End; i++)
 			mTimer[i] = mTimerMax[i];
-
-		//{ // effect
-		//	mEffect = object::Instantiate<GameObject>(eLayerType::Effect, GetOwner());
-
-		//	std::shared_ptr<Material> effectMaterial = Resources::Find<Material>(L"bloodpoofMaterial");
-		//	std::shared_ptr<Texture> effectTexture = material->GetTexture();
-
-		//	SpriteRenderer* effectMr = mEffect->AddComponent<SpriteRenderer>();
-		//	effectMr->SetMesh(mesh);
-		//	effectMr->SetMaterial(material);
-
-		//	Animator* animator = mEffect->AddComponent<Animator>();
-		//	animator->Create(L"None", effectTexture, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), Vector2::Zero, 1, 0.1f);
-		//	animator->Create(L"Normal", effectTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 12, 0.1f, 3, 4);
-		//	animator->Play(L"None", false);
-		//	animator->GetCompleteEvent(L"Normal") = std::bind(&MonstroScript::Destroy, this);
-		//}
 
 		Shadow(Vector3(0.0f, -0.45f, 0.0f), Vector3(0.8f, 0.2f, 0.0f));
 	}
@@ -413,6 +394,7 @@ namespace ya
 		if (mTimer[(UINT)eState::Die] < 0.0f)
 		{
 			mTimer[(UINT)eState::Die] = mTimerMax[(UINT)eState::Die];
+			mTransform->SetHeight(0.0f);
 			mState = eState::None;
 
 			{

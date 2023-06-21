@@ -175,8 +175,6 @@ namespace ya
 
 	void Room::EnterRoom()
 	{
-		// 몬스터 있는경우, clear 안한경우 문 닫힘
-		// 문,몬스터에 이미지 효과추가
 		if(mMonsterCount > 0 && !IsClear())
 		{
 			for (size_t i = (UINT)eDirection::UP; i < (UINT)eDirection::End; i++)

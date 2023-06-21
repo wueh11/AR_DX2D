@@ -8,6 +8,7 @@ namespace ya
 	using namespace isaac;
 	class Monster;
 	class UIScript;
+	class MinimapScript;
 	class StageScene : public Scene
 	{
 	public:
@@ -56,6 +57,7 @@ namespace ya
 		bool mbBossRoom;
 
 		UIScript* mUI;
+		MinimapScript* mMinimap;
 	};
 }
 

@@ -64,7 +64,6 @@ namespace ya
 
 	void MinimapScript::Update()
 	{
-		UpdateMinimap();
 	}
 
 	void MinimapScript::FixedUpdate()
@@ -95,9 +94,7 @@ namespace ya
 					continue;
 
 				Vector2 roomgrid = room->GetRoomGrid();
-
 				
-				//GameObject* r = CreateRoom(roomgrid.x, roomgrid.y);
 				GameObject* roomBox = object::Instantiate<GameObject>(eLayerType::UI, mMinimapBg);
 				{
 					Transform* roomTr = roomBox->GetComponent<Transform>();
@@ -119,7 +116,7 @@ namespace ya
 					mRooms[roomgrid.x][roomgrid.y] = roomBox;
 				}
 
-				/*{
+				{
 					GameObject* roomIcon = object::Instantiate<GameObject>(eLayerType::UI, roomBox);
 
 					SpriteRenderer* roomIconMr = roomIcon->AddComponent<SpriteRenderer>();
@@ -149,9 +146,11 @@ namespace ya
 					roomIconAnimator->Play(L"none", false);
 
 					mRoomIcons[roomgrid.x][roomgrid.y] = roomIcon;
-				}*/
+				}
 			}
 		}
+
+		UpdateMinimap();
 	}
 
 	void MinimapScript::UpdateMinimap()
