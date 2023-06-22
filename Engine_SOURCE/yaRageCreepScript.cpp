@@ -73,8 +73,11 @@ namespace ya
 		if (monster->GetState() != GameObject::eState::Active)
 			return;
 
-		if (monster->GetHp() <= 0.0f)
+		if (!mbDeath && monster->GetHp() <= 0.0f)
+		{
+			mbDeath = true;
 			mState = eState::Die;
+		}
 
 		switch (mState)
 		{
@@ -171,7 +174,7 @@ namespace ya
 			else
 				mRigidbody->AddForce(Vector3(0.0f, speed, 0.0f));
 
-			if (rageCreepPos.y > playerPos.y - playerCollider->GetSize().y && rageCreepPos.y < playerPos.y + playerCollider->GetSize().y)
+			if (rageCreepPos.y > playerPos.y - playerCollider->GetSize().y / 2.0f && rageCreepPos.y < playerPos.y - 0.2f + playerCollider->GetSize().y / 2.0f)
 			{
 				mState = eState::Attack;
 				mAnimator->Play(L"Attack");
@@ -232,6 +235,7 @@ namespace ya
 			std::shared_ptr<Texture> texture = material->GetTexture();
 
 			Animator* animator = mEffect->AddComponent<Animator>();
+			animator->Create(L"none", texture, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), Vector2::Zero, 1, 0.1f);
 			animator->Create(L"bloodpoof", texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 12, 0.05f, 3, 4);
 			animator->GetCompleteEvent(L"bloodpoof") = std::bind(&RageCreepScript::Destroy, this);
 			animator->Play(L"bloodpoof", false);
@@ -240,12 +244,15 @@ namespace ya
 			tr->SetPosition(mTransform->GetPosition());
 		}
 
-		mState == eState::None;
+		mState = eState::None;
 	}
 
 	void RageCreepScript::Destroy()
 	{
+		Animator* animator = mEffect->AddComponent<Animator>();
+		animator->Play(L"none", false);
 		mEffect->Death();
+
 		Death();
 	}
 

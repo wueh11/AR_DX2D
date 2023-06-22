@@ -12,6 +12,7 @@ namespace ya
 	StageScene::StageScene(eSceneType type)
 		: Scene(type)
 		, mCurrentRoom(nullptr)
+		, mPrevRoom(nullptr)
 		, mbStageClear(false)
 		, mbBossRoom(false)
 		, mBoss(nullptr)
@@ -81,10 +82,15 @@ namespace ya
 	void StageScene::SetCurrentRoom(Room* room)
 	{
 		if(mCurrentRoom != nullptr)
+		{
+			mPrevRoom = mCurrentRoom;
 			mCurrentRoom->Pause();
+			mCurrentRoom->ExitRoom();
+		}
 
 		room->SetActive();
 		mCurrentRoom = room;
+		mCurrentRoom->EnterRoom();
 
 		Vector3 roomPos = room->GetComponent<Transform>()->GetPosition();
 		Transform* cameraTr = mainCamera->GetOwner()->GetComponent<Transform>();
@@ -95,6 +101,7 @@ namespace ya
 	{
 		if (mCurrentRoom != nullptr)
 		{
+			mPrevRoom = mCurrentRoom;
 			mCurrentRoom->Pause();
 			mCurrentRoom->ExitRoom();
 		}

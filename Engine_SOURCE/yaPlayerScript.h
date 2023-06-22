@@ -73,6 +73,7 @@ namespace ya
 
 		GameObject* mHead;
 		GameObject* mBody;
+		GameObject* mWhole;
 
 		GameObject* mStarflash;
 		GameObject* mGainItem;

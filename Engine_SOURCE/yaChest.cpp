@@ -1,21 +1,13 @@
 #include "yaChest.h"
-#include "yaChest.h"
-#include "yaRigidbody.h"
 #include "yaChestScript.h"
 
 namespace ya
 {
 	Chest::Chest()
-		: GameObject()
+		: Item()
 		, mItems{}
-		, mChestType(eChestType::Normal)
+		, mChestType(eItemType::ChestNormal)
 	{
-		Collider2D* collider = AddComponent<Collider2D>();
-		collider->SetSize(Vector2(0.32f, 0.32f));
-		collider->SetColliderType(eColliderType::Rect);
-
-		AddComponent<Rigidbody>();
-
 		AddComponent<ChestScript>();
 	}
 	Chest::~Chest()
@@ -37,7 +29,7 @@ namespace ya
 	{
 		GameObject::Render();
 	}
-	void Chest::SetChestType(eChestType type)
+	void Chest::SetChestType(eItemType type)
 	{
 		mChestType = type;
 

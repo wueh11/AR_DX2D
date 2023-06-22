@@ -1,5 +1,6 @@
 #include "yaItem.h"
 #include "yaRigidbody.h"
+#include "yaRoom.h"
 
 namespace ya
 {

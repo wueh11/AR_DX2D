@@ -13,18 +13,18 @@ namespace ya
 	}
 	void Key::Initialize()
 	{
-		GameObject::Initialize();
+		Pickup::Initialize();
 	}
 	void Key::Update()
 	{
-		GameObject::Update();
+		Pickup::Update();
 	}
 	void Key::FixedUpdate()
 	{
-		GameObject::FixedUpdate();
+		Pickup::FixedUpdate();
 	}
 	void Key::Render()
 	{
-		GameObject::Render();
+		Pickup::Render();
 	}
 }

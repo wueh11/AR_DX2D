@@ -1,12 +1,10 @@
 #pragma once
-#include "yaScript.h"
+#include "yaPickupScript.h"
 
 namespace ya
 {
-	class Transform;
-	class Animator;
 	class Player;
-	class DropBombScript : public Script
+	class DropBombScript : public PickupScript
 	{
 		enum class eState
 		{
@@ -34,7 +32,6 @@ namespace ya
 
 		void Imprint();
 		void Explode();
-		void Death();
 
 	public:
 		Vector3 GetOwnerPos() { return mOwnerPos; }
@@ -42,9 +39,6 @@ namespace ya
 
 	private:
 		Vector3 mOwnerPos;
-
-		Transform* mTransform;
-		Animator* mAnimator;
 
 		float mAliveTime;
 		eState mState;

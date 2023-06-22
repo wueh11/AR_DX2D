@@ -48,6 +48,9 @@
 #include "yaGaper.h"
 #include "yaFly.h"
 #include "yaRageCreep.h"
+#include "yaHorfScript.h"
+#include "yaClotty.h"
+#include "yaClottyScript.h"
 
 #include "yaMonstro.h"
 #include "yaAudioListener.h"
@@ -95,7 +98,7 @@ namespace ya
 		{ // bgblack
 			GameObject* bgblack = object::Instantiate<GameObject>(eLayerType::UI);
 			Transform* bgblackTr = bgblack->GetComponent<Transform>();
-			bgblackTr->SetPosition(Vector3(0.0f, 0.0f, 400.0f));
+			bgblackTr->SetPosition(Vector3(0.0f, 0.0f, 300.0f));
 			bgblackTr->SetScale(Vector3(10.0f, 8.0f, 1.0f));
 
 			MeshRenderer* bgblackMr = bgblack->AddComponent<MeshRenderer>();
@@ -106,12 +109,7 @@ namespace ya
 
 		Player* player = object::Instantiate<Player>(eLayerType::Player);
 		{ // Player
-			Transform* playerTr = player->GetComponent<Transform>();
-			//playerTr->SetPosition(Vector3(0.0f, -1.0f, -10.0f));
-			playerTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
-
 			//object::DontDestroyOnLoad(player);
-
 			SetPlayer(player);
 		}
 
@@ -120,6 +118,7 @@ namespace ya
 		UIScript* uiScript = ui->AddComponent<UIScript>();
 		SetUI(uiScript);
 		MinimapScript* minimap = ui->AddComponent<MinimapScript>();
+		SetMinimap(minimap);
 
 		/*
 			0 0 0 0  0 0 0 0
@@ -136,7 +135,7 @@ namespace ya
 		{ // controls
 			GameObject* controls = object::Instantiate<GameObject>(eLayerType::Background, startRoom);
 			Transform* controlsTr = controls->GetComponent<Transform>();
-			controlsTr->SetPosition(Vector3(0.0, 0.0f, -0.5f));
+			controlsTr->SetPosition(Vector3(0.0, 0.0f, 95.0f));
 			controlsTr->SetScale(Vector3(6.0f, 1.5f, 1.0f));
 
 			MeshRenderer* controlsMr = controls->AddComponent<MeshRenderer>();
@@ -154,7 +153,7 @@ namespace ya
 					HeartFull* heart = object::Instantiate<HeartFull>(eLayerType::Item);
 					chest->AddItem(heart);
 				}
-				chest->SetChestType(eChestType::Treasure);
+				chest->SetChestType(eItemType::ChestTreasure);
 				startRoom->AddRoomObject(chest, 6, 6);
 			}
 
@@ -263,20 +262,45 @@ namespace ya
 			activeItem->SetActiveItemType(eActiveItem::YumHeart);
 			altar->SetItem(activeItem);
 			treasure->AddRoomObject(altar, 4, 7);
-			/*ActiveItem* activeItem = object::Instantiate<ActiveItem>(eLayerType::Item, treasure);
-			activeItem->SetActiveItemType(eActiveItem::YumHeart);
-			treasure->AddRoomObject(activeItem, 4, 7);*/
 		}
 
 		Room* dark = CreateRoom(3, 5, eRoomType::Dark);
 		{
 			{
 				Spike* spike = object::Instantiate<Spike>(eLayerType::Floor, dark);
-				dark->AddRoomObject(spike, 4, 7);
+				dark->AddRoomObject(spike, 4, 7, 40.0f);
 			}
 		}
 
 		Room* secret = CreateRoom(4, 5, eRoomType::Secret);
+		{
+			{
+				GameObject* hang = object::Instantiate<GameObject>(eLayerType::Land, secret);
+
+				Transform* tr = hang->GetComponent<Transform>();
+				tr->SetScale(Vector3(0.64f, 3.0f, 1.0f));
+				tr->SetPosition(Vector3(-1.6f, 3.0f, PositionZ(2.0f)));
+
+				ImageRenderer* rd = hang->AddComponent<ImageRenderer>();
+				std::shared_ptr<Material> material = Resources::Find<Material>(L"hangingguysMaterial");
+				std::shared_ptr<Texture> texture = material->GetTexture();
+
+				rd->SetMesh(mesh);
+				rd->SetMaterial(material);
+				rd->SetImageSize(texture, Vector2(32.0f * Random(0, 11), 0.0f), Vector2(32.0f, 150.0f));
+			}
+
+			for (size_t i = 2; i <= 4; i++)
+			{
+				for (size_t j = 6; j <= 8; j++)
+				{
+					{
+						Coin* coin = object::Instantiate<Coin>(eLayerType::Item, secret);
+						secret->AddRoomObject(coin, i, j);
+					}
+				}
+			}
+		}
 
 		Room* boss = CreateRoom(1, 3, eRoomType::Boss);
 		{
@@ -379,7 +403,54 @@ namespace ya
 				rock->SetRockType(Rock::eRockType::Rock);
 				room32->AddRoomObject(rock, 5, 12);
 			}
+
+			{
+				Monster* clotty = object::Instantiate<Monster>(eLayerType::Monster, room32);
+				clotty->AddComponent<ClottyScript>();
+				room32->AddRoomObject(clotty, 6, 11);
+			}
+			{
+				Monster* clotty = object::Instantiate<Monster>(eLayerType::Monster, room32);
+				clotty->AddComponent<ClottyScript>();
+				room32->AddRoomObject(clotty, 6, 3);
+			}
+
+			/*{
+				Horf* horf = object::Instantiate<Horf>(eLayerType::Monster, room32);
+				room32->AddRoomObject(horf, 5, 11);
+			}*/
 		} 
+
+		Room* room42 = CreateRoom(4, 2);
+		{
+			{
+				Rock* rock = object::Instantiate<Rock>(eLayerType::Land, room42);
+				rock->SetRockType(Rock::eRockType::Jar);
+				room42->AddRoomObject(rock, 4, 7);
+			}
+
+			{
+				Monster* horf = object::Instantiate<Monster>(eLayerType::Monster, room42);
+				horf->AddComponent<HorfScript>();
+				room42->AddRoomObject(horf, 4, 6);
+			}
+			{
+				Monster* horf = object::Instantiate<Monster>(eLayerType::Monster, room42);
+				horf->AddComponent<HorfScript>();
+				room42->AddRoomObject(horf, 4, 8);
+			}
+			{
+				Monster* horf = object::Instantiate<Monster>(eLayerType::Monster, room42);
+				horf->AddComponent<HorfScript>();
+				room42->AddRoomObject(horf, 3, 7);
+			}
+			{
+				Monster* horf = object::Instantiate<Monster>(eLayerType::Monster, room42);
+				horf->AddComponent<HorfScript>();
+				room42->AddRoomObject(horf, 5, 7);
+			}
+
+		}
 
 		Room* room23 = CreateRoom(2, 3);
 		{
@@ -406,35 +477,35 @@ namespace ya
 
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room23);
-				room23->AddRoomObject(web, 7, 1);
+				room23->AddRoomObject(web, 7, 1, 40.0f);
 			}
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room23);
-				room23->AddRoomObject(web, 7, 2);
+				room23->AddRoomObject(web, 7, 2, 40.0f);
 			}
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room23);
-				room23->AddRoomObject(web, 7, 4);
+				room23->AddRoomObject(web, 7, 4, 40.0f);
 			}
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room23);
-				room23->AddRoomObject(web, 5, 2);
+				room23->AddRoomObject(web, 5, 2, 40.0f);
 			}
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room23);
-				room23->AddRoomObject(web, 4, 4);
+				room23->AddRoomObject(web, 4, 4, 40.0f);
 			}
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room23);
-				room23->AddRoomObject(web, 3, 2);
+				room23->AddRoomObject(web, 3, 2, 40.0f);
 			}
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room23);
-				room23->AddRoomObject(web, 2, 1);
+				room23->AddRoomObject(web, 2, 1, 40.0f);
 			}
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room23);
-				room23->AddRoomObject(web, 1, 4);
+				room23->AddRoomObject(web, 1, 4, 40.0f);
 			}
 
 			{
@@ -523,23 +594,23 @@ namespace ya
 
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room34);
-				room34->AddRoomObject(web, 6, 1);
+				room34->AddRoomObject(web, 6, 1, 40.0f);
 			}
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room34);
-				room34->AddRoomObject(web,1, 1);
+				room34->AddRoomObject(web,1, 1, 40.0f);
 			}
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room34);
-				room34->AddRoomObject(web, 4, 4);
+				room34->AddRoomObject(web, 4, 4, 40.0f);
 			}
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room34);
-				room34->AddRoomObject(web, 5, 10);
+				room34->AddRoomObject(web, 5, 10, 40.0f);
 			}
 			{
 				Web* web = object::Instantiate<Web>(eLayerType::Floor, room34);
-				room34->AddRoomObject(web, 7, 12);
+				room34->AddRoomObject(web, 7, 12, 40.0f);
 			}
 
 			{
@@ -580,6 +651,9 @@ namespace ya
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Wall, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Floor, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Land, true);
+
+		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::Land, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::Wall, true);
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Projectile, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Projectile, eLayerType::Land, true);

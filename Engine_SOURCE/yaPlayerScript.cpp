@@ -33,6 +33,9 @@
 
 #include "Commons.h"
 
+#include "yaFmod.h"
+#include "yaAudioClip.h"
+
 namespace ya
 {
 	PlayerScript::PlayerScript()
@@ -41,6 +44,7 @@ namespace ya
 		, mRigidbody(nullptr)
 		, mHead(nullptr)
 		, mBody(nullptr)
+		, mWhole(nullptr)
 		, mStarflash(nullptr)
 		, mGainItem(nullptr)
 
@@ -64,8 +68,16 @@ namespace ya
 	}
 	void PlayerScript::Initialize()
 	{
+		//Transform* playerTr = GetOwner()->GetComponent<Transform>();
+		//playerTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
+
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mRigidbody = GetOwner()->GetComponent<Rigidbody>();
+
+		Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
+		collider->SetSize(Vector2(0.3f, 0.4f));
+		collider->SetCenter(Vector2(0.0f, -0.05f));
+		collider->SetColliderType(eColliderType::Rect);
 
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		isaac::Status status = player->GetStatus();
@@ -79,16 +91,28 @@ namespace ya
 		rd->SetMaterial(material);
 		std::shared_ptr<Texture> texture = material->GetTexture();
 
-		Animator* animator = GetOwner()->AddComponent<Animator>();
-		animator->Create(L"None", texture, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), Vector2::Zero, 1, 0.1f);
-		animator->Create(L"Hurt", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.1f);
-		animator->Create(L"Die", texture, Vector2(0.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.2f);
-		animator->Add(L"Die", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.2f);
-		animator->Add(L"Die", texture, Vector2(192.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.3f);
-		animator->Play(L"None", false);
+		{ // whole
+			mWhole = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
+
+			mWhole->GetComponent<Transform>()->SetScale(Vector3(1.32f, 1.32f, 1.0f));
+
+			SpriteRenderer* mMr = mWhole->AddComponent<SpriteRenderer>();
+			mMr->SetMesh(mesh);
+			mMr->SetMaterial(material);
+
+			Animator* wholeAnimator = mWhole->AddComponent<Animator>();
+			wholeAnimator->Create(L"None", texture, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), Vector2::Zero, 1, 0.1f);
+			wholeAnimator->Create(L"Hurt", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.1f);
+			wholeAnimator->Create(L"Die", texture, Vector2(0.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.2f);
+			wholeAnimator->Add(L"Die", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.2f);
+			wholeAnimator->Add(L"Die", texture, Vector2(192.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.3f);
+			wholeAnimator->Play(L"None", false);
+		}
 
 		{ // body
 			mBody = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
+
+			mBody->GetComponent<Transform>()->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
 			SpriteRenderer* mMr = mBody->AddComponent<SpriteRenderer>();
 			mMr->SetMesh(mesh);
@@ -110,6 +134,8 @@ namespace ya
 		{ // head
 			mHead = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
 
+			mHead->GetComponent<Transform>()->SetScale(Vector3(0.64f, 0.64f, 1.0f));
+
 			SpriteRenderer* mMr = mHead->AddComponent<SpriteRenderer>();
 			mMr->SetMesh(mesh);
 			mMr->SetMaterial(material);
@@ -128,9 +154,9 @@ namespace ya
 		}
 
 		Transform* headTr = mHead->GetComponent<Transform>();
-		headTr->SetPosition(Vector3(0.0f, 0.15f, 0.0f));
+		headTr->SetPosition(Vector3(0.0f, 0.1f, 0.0f));
 		Transform* bodyTr = mBody->GetComponent<Transform>();
-		bodyTr->SetPosition(Vector3(0.0f, -0.15f, 0.0f));
+		bodyTr->SetPosition(Vector3(0.0f, -0.1f, 0.0f));
 
 		{ // starflash
 			mStarflash = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
@@ -165,7 +191,13 @@ namespace ya
 			mGainItem->Pause();
 		}
 
-		Shadow(Vector3(0.0f, -0.4f, 0.0f), Vector3(0.5f, 0.2f, 0.0f));
+		Shadow(Vector3(0.0f, -0.24f, 0.0f), Vector3(0.4f, 0.16f, 0.0f));
+
+		{
+			std::shared_ptr<AudioClip> clip = std::make_shared<AudioClip>();
+			clip->Load(L"Issac\\sfx\\hurt_grunt.wav");
+			Resources::Insert<AudioClip>(L"hurt", clip);
+		}
 	}
 
 	void PlayerScript::Update()
@@ -365,14 +397,14 @@ namespace ya
 
 	void PlayerScript::Idle()
 	{
-		Animator* animator = GetOwner()->GetComponent<Animator>();
+		Animator* wholeAnimator = mWhole->GetComponent<Animator>();
 		Animator* headAnimator = mHead->GetComponent<Animator>();
 		Animator* bodyAnimator = mBody->GetComponent<Animator>();
 
-		animator->Play(L"None", false);
+		wholeAnimator->Play(L"None", false);
 		headAnimator->Play(L"FrontIdle", false);
 		bodyAnimator->Play(L"FrontIdle", false);
-		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+		//mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 	}
 
 	void PlayerScript::Move()
@@ -464,7 +496,7 @@ namespace ya
 
 	void PlayerScript::Attack()
 	{
-		Animator* animator = GetOwner()->GetComponent<Animator>();
+		Animator* wholeAnimator = mWhole->GetComponent<Animator>();
 		Animator* headAnimator = mHead->GetComponent<Animator>();
 		Animator* bodyAnimator = mBody->GetComponent<Animator>();
 
@@ -547,7 +579,7 @@ namespace ya
 		headAnimator->Play(L"ItemIdle", false);
 		bodyAnimator->Play(L"ItemIdle", false);
 
-		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+		//mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 
 		mStarflash->SetActive();
 		mGainItem->SetActive();
@@ -561,15 +593,15 @@ namespace ya
 		if (mbInvincible)
 			return;
 
-		Animator* animator = GetOwner()->GetComponent<Animator>();
+		Animator* wholeAnimator = mWhole->GetComponent<Animator>();
 		Animator* headAnimator = mHead->GetComponent<Animator>();
 		Animator* bodyAnimator = mBody->GetComponent<Animator>();
 
 		headAnimator->Play(L"None", false);
 		bodyAnimator->Play(L"None", false);
-		animator->Play(L"Hurt", false);
+		wholeAnimator->Play(L"Hurt", false);
 
-		mTransform->SetScale(Vector3(1.32f, 1.32f, 1.0f));
+		//mTransform->SetScale(Vector3(1.32f, 1.32f, 1.0f));
 
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		Player::Info info = player->GetInfo();
@@ -579,19 +611,22 @@ namespace ya
 			player->AddHeart(-1);
 
 		Invincible();
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"hurt");
+		clip->Play();
 	}
 
 	void PlayerScript::Die()
 	{
-		Animator* animator = GetOwner()->GetComponent<Animator>();
+		Animator* wholeAnimator = mWhole->GetComponent<Animator>();
 		Animator* headAnimator = mHead->GetComponent<Animator>();
 		Animator* bodyAnimator = mBody->GetComponent<Animator>();
 
 		headAnimator->Play(L"None", false);
 		bodyAnimator->Play(L"None", false);
-		animator->Play(L"Die", false);
+		wholeAnimator->Play(L"Die", false);
 
-		mTransform->SetScale(Vector3(1.32f, 1.32f, 1.0f));
+		//mTransform->SetScale(Vector3(1.32f, 1.32f, 1.0f));
 	}
 
 	/// <summary>

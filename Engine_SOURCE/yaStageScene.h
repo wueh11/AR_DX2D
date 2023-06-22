@@ -34,6 +34,7 @@ namespace ya
 		Room* GetCurrentRoom() { return mCurrentRoom; }
 		void SetCurrentRoom(Room* room);
 		void SetCurrentRoom(int x, int y);
+		Room* GetPrevRoom() { return mPrevRoom; }
 
 		void StageClear(bool clear);
 		bool IsStageClear() { return mbStageClear; }
@@ -47,9 +48,13 @@ namespace ya
 		UIScript* GetUI() { return mUI; }
 		void SetUI(UIScript* ui) { mUI = ui; }
 
+		MinimapScript* GetMinimap() { return mMinimap; }
+		void SetMinimap(MinimapScript* minimap) { mMinimap = minimap; }
+
 	protected:
 		std::vector<std::vector<Room*>> mRooms;
 		Room* mCurrentRoom;
+		Room* mPrevRoom;
 		
 		bool mbStageClear;
 		

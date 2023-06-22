@@ -13,18 +13,18 @@ namespace ya
 	}
 	void HeartHalf::Initialize()
 	{
-		GameObject::Initialize();
+		Pickup::Initialize();
 	}
 	void HeartHalf::Update()
 	{
-		GameObject::Update();
+		Pickup::Update();
 	}
 	void HeartHalf::FixedUpdate()
 	{
-		GameObject::FixedUpdate();
+		Pickup::FixedUpdate();
 	}
 	void HeartHalf::Render()
 	{
-		GameObject::Render();
+		Pickup::Render();
 	}
 }

@@ -66,9 +66,6 @@ namespace ya
 
 			gameObject->FixedUpdate();
 		}
-
-		// sort z axis
-		//std::sort(mGameObjects.begin(), mGameObjects.end(), compareGameObjectByZAxis);
 	}
 
 	void Layer::Render()

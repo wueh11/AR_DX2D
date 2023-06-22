@@ -1,17 +1,17 @@
 #include "yaWallScript.h"
 
-#include "yaGameObject.h"
-#include "yaTransform.h"
-#include "yaTime.h"
 #include "yaObject.h"
+#include "yaTime.h"
 
-#include "yaPlayer.h"
-#include "yaScene.h"
-#include "yaSceneManager.h"
+#include "yaTransform.h"
 #include "yaRigidbody.h"
 
-#include "yaInput.h"
-#include "yaPickup.h"
+#include "yaSceneManager.h"
+#include "yaScene.h"
+
+#include "yaGameObject.h"
+#include "yaPlayer.h"
+#include "yaMonster.h"
 
 namespace ya
 {
@@ -42,8 +42,9 @@ namespace ya
 	{
 		GameObject* other = collider->GetOwner();
 		Player* player = dynamic_cast<Player*>(other);
+		Monster* monster = dynamic_cast<Monster*>(other);
 
-		if (player != nullptr)
+		if (player != nullptr || monster != nullptr)
 		{
 			Transform* otherTr = other->GetComponent<Transform>();
 			Vector3 otherPos = collider->GetPosition();
@@ -73,8 +74,9 @@ namespace ya
 	{
 		GameObject* other = collider->GetOwner();
 		Player* player = dynamic_cast<Player*>(other);
+		Monster* monster = dynamic_cast<Monster*>(other);
 
-		if (player != nullptr)
+		if (player != nullptr || monster != nullptr)
 		{
 			Transform* otherTr = other->GetComponent<Transform>();
 			Vector3 otherPos = collider->GetPosition();
@@ -83,7 +85,10 @@ namespace ya
 			Transform* ownerTr = GetOwner()->GetComponent<Transform>();
 			Vector3 ownerPos = ownerCollider->GetPosition();
 
-			otherTr->SetPosition(mColliderPosition);
+			Vector3 dir = ownerPos - otherPos;
+			dir.Normalize();
+
+			otherTr->SetPosition(mColliderPosition + (dir * 0.005f));
 		}
 	}
 	void WallScript::OnCollisionExit(Collider2D* collider)

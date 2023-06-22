@@ -34,6 +34,8 @@ namespace ya
 		, mBombCount(nullptr)
 		, mCoinCount(nullptr)
 		, mbBossHealth(false)
+		, mBossHealthBar(nullptr)
+		, mBossHealth(nullptr)
 	{
 	}
 	UIScript::~UIScript()
@@ -499,8 +501,6 @@ namespace ya
 			mBossHealth->Pause();
 			mBossHealthBar->Pause();
 		}
-
-		
 	}
 
 	void UIScript::FixedUpdate()

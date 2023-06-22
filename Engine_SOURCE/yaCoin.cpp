@@ -14,18 +14,18 @@ namespace ya
 	}
 	void Coin::Initialize()
 	{
-		GameObject::Initialize();
+		Pickup::Initialize();
 	}
 	void Coin::Update()
 	{
-		GameObject::Update();
+		Pickup::Update();
 	}
 	void Coin::FixedUpdate()
 	{
-		GameObject::FixedUpdate();
+		Pickup::FixedUpdate();
 	}
 	void Coin::Render()
 	{
-		GameObject::Render();
+		Pickup::Render();
 	}
 }

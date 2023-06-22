@@ -13,18 +13,18 @@ namespace ya
 	}
 	void SoulHeartFull::Initialize()
 	{
-		GameObject::Initialize();
+		Pickup::Initialize();
 	}
 	void SoulHeartFull::Update()
 	{
-		GameObject::Update();
+		Pickup::Update();
 	}
 	void SoulHeartFull::FixedUpdate()
 	{
-		GameObject::FixedUpdate();
+		Pickup::FixedUpdate();
 	}
 	void SoulHeartFull::Render()
 	{
-		GameObject::Render();
+		Pickup::Render();
 	}
 }

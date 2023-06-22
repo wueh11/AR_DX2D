@@ -7,25 +7,25 @@ namespace ya
 	LittleBattery::LittleBattery()
 		: Pickup(eItemType::LittleBattery)
 	{
-		LittleBatteryScript* script = AddComponent<LittleBatteryScript>();
+		AddComponent<LittleBatteryScript>();
 	}
 	LittleBattery::~LittleBattery()
 	{
 	}
 	void LittleBattery::Initialize()
 	{
-		GameObject::Initialize();
+		Pickup::Initialize();
 	}
 	void LittleBattery::Update()
 	{
-		GameObject::Update();
+		Pickup::Update();
 	}
 	void LittleBattery::FixedUpdate()
 	{
-		GameObject::FixedUpdate();
+		Pickup::FixedUpdate();
 	}
 	void LittleBattery::Render()
 	{
-		GameObject::Render();
+		Pickup::Render();
 	}
 }

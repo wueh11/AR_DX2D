@@ -1,12 +1,11 @@
 #pragma once
-#include "yaGameObject.h"
 #include "yaItem.h"
 #include "yaIsaacEnums.h"
 
 namespace ya
 {
 	using namespace isaac;
-	class Chest : public GameObject
+	class Chest : public Item
 	{
 	public:
 		Chest();
@@ -25,10 +24,11 @@ namespace ya
 		}
 		std::vector<Item*> GetItems() { return mItems; }
 		
-		void SetChestType(eChestType type);
+		eItemType GetChestType() { return mChestType; }
+		void SetChestType(eItemType type);
 
 	private:
 		std::vector<Item*> mItems;
-		eChestType mChestType;
+		eItemType mChestType;
 	};
 }

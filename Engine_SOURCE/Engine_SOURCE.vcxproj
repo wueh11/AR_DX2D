@@ -131,6 +131,9 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>copy "$(SolutionDir)fmod.dll" "$(SolutionDir)\x64\Debug\"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -153,7 +156,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>copy "$(SolutionDir)fmod.dl" "$(SolutionDir)\x64\Release\"</Command>
+      <Command>copy "$(SolutionDir)fmod.dll" "$(SolutionDir)\x64\Release\"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -166,10 +169,13 @@
     <ClInclude Include="yaBasement1Boss.h" />
     <ClInclude Include="yaChest.h" />
     <ClInclude Include="yaChestScript.h" />
+    <ClInclude Include="yaClotty.h" />
+    <ClInclude Include="yaClottyScript.h" />
     <ClInclude Include="yaEffectScript.h" />
     <ClInclude Include="yaFly.h" />
     <ClInclude Include="yaFmod.h" />
     <ClInclude Include="yaFontWrapper.h" />
+    <ClInclude Include="yaHorfScript.h" />
     <ClInclude Include="yaIsaacObject.h" />
     <ClInclude Include="yaLittleBattery.h" />
     <ClInclude Include="yaBasement1.h" />
@@ -287,7 +293,6 @@
     <ClInclude Include="yaTrapdoorScript.h" />
     <ClInclude Include="yaTrinket.h" />
     <ClInclude Include="yaTrinketScript.h" />
-    <ClInclude Include="yaUIheart.h" />
     <ClInclude Include="yaUIScript.h" />
     <ClInclude Include="yaWallScript.h" />
     <ClInclude Include="yaWeb.h" />
@@ -302,10 +307,13 @@
     <ClCompile Include="yaBasement1Boss.cpp" />
     <ClCompile Include="yaChest.cpp" />
     <ClCompile Include="yaChestScript.cpp" />
+    <ClCompile Include="yaClotty.cpp" />
+    <ClCompile Include="yaClottyScript.cpp" />
     <ClCompile Include="yaEffectScript.cpp" />
     <ClCompile Include="yaFly.cpp" />
     <ClCompile Include="yaFmod.cpp" />
     <ClCompile Include="yaFontWrapper.cpp" />
+    <ClCompile Include="yaHorfScript.cpp" />
     <ClCompile Include="yaIsaacObject.cpp" />
     <ClCompile Include="yaLittleBattery.cpp" />
     <ClCompile Include="yaActiveItem.cpp" />
@@ -417,7 +425,6 @@
     <ClCompile Include="yaTrapdoorScript.cpp" />
     <ClCompile Include="yaTrinket.cpp" />
     <ClCompile Include="yaTrinketScript.cpp" />
-    <ClCompile Include="yaUIheart.cpp" />
     <ClCompile Include="yaUIScript.cpp" />
     <ClCompile Include="yaWallScript.cpp" />
     <ClCompile Include="yaWeb.cpp" />

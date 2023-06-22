@@ -4,7 +4,6 @@ namespace ya
 {
 	BaseRenderer::BaseRenderer(eComponentType type)
 		:Component(type)
-		, mImageCb{}
 		, mImageAlpha(0.0f)
 	{
 	}

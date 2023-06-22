@@ -61,7 +61,7 @@ namespace ya
 	{
 		BaseRenderer* rd = GetOwner()->GetComponent<BaseRenderer>();
 		rd->UseRate(true);
-		rd->SetRate(Vector2(1.0f, SinByTime(0.01f, 0.05f) + SinByTime(0.005f, 0.05f) + 1.0f));
+		rd->SetRate(Vector2(1.0f, SinByTime(0.01f, 0.02f) + SinByTime(0.005f, 0.02f) + 1.0f));
 
 		PickupScript::Render();
 	}
@@ -71,7 +71,7 @@ namespace ya
 		GameObject* other = collider->GetOwner();
 		Player* player = dynamic_cast<Player*>(other);
 
-		if (mbDeath)
+		if (mbDeath || !mbGain)
 			return;
 
 		if(player != nullptr)
@@ -102,6 +102,9 @@ namespace ya
 
 	void HeartScript::OnCollisionStay(Collider2D* collider)
 	{
+		if (mbDeath || !mbGain)
+			return;
+
 		PickupScript::OnCollisionStay(collider);
 	}
 

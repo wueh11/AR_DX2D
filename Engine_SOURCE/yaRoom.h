@@ -26,7 +26,7 @@ namespace ya
 		void CreateDoor(Room* targetRoom, eDirection doorDirection);
 		Door* GetDoor(eDirection doorDirection) { return mDoors[(UINT)doorDirection]; }
 
-		void AddRoomObject(GameObject* roomObj, int x = -1, int y = -1);
+		void AddRoomObject(GameObject* roomObj, int x = -1, int y = -1, float z = 0.0f);
 
 		void SetRoomGrid(Vector2 roomGrid);
 		void SetRoomPosition(Vector2 roomGrid);
@@ -45,9 +45,11 @@ namespace ya
 		bool IsClear() { return mbClear; }
 
 		void AddMonsterCount(int count);
+		std::vector<Item*> GetItems() { return mItems; }
+		void EraseItem(Item* item);
 
 		void Compensation();
-		void SetCompensation(GameObject* compensation);
+		void SetCompensation(GameObject* compensation, int x = 4, int y = 7);
 
 	private:
 		eRoomType mRoomType;
@@ -67,6 +69,7 @@ namespace ya
 		Door* mDoors[(UINT)eDirection::End];
 
 		GameObject* mCompensation;
+		Vector2 mCompensationGrid;
 		
 	};
 }

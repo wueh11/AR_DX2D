@@ -23,8 +23,6 @@ namespace ya
 		std::shared_ptr<Mesh> GetMesh() { return mMesh; }
 		std::shared_ptr<Material> GetMaterial() { return mMaterial; }
 
-		void SetImageCB(renderer::ImageCB imageCb) { mImageCb = imageCb; }
-
 		void SetColorType(int type) { mColorType = type; }
 		void SetAlpha(float alpha) { mImageAlpha = alpha; }
 		void UseRate(bool use) { mbUseRate = use; }
@@ -36,8 +34,6 @@ namespace ya
 	private:
 		std::shared_ptr<Mesh> mMesh;
 		std::shared_ptr<Material> mMaterial;
-
-		renderer::ImageCB mImageCb;
 
 		int mColorType;
 		float mImageAlpha;

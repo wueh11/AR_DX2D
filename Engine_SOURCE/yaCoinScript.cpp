@@ -46,7 +46,7 @@ namespace ya
 	}
 	void CoinScript::Update()
 	{
-		PickupScript::FixedUpdate();
+		PickupScript::Update();
 	}
 	void CoinScript::FixedUpdate()
 	{
@@ -54,12 +54,12 @@ namespace ya
 	}
 	void CoinScript::Render()
 	{
-		PickupScript::FixedUpdate();
+		PickupScript::Render();
 	}
 
 	void CoinScript::OnCollisionEnter(Collider2D* collider)
 	{
-		if (mbDeath)
+		if (mbDeath || !mbGain)
 			return;
 
 		GameObject* other = collider->GetOwner();
@@ -78,6 +78,9 @@ namespace ya
 
 	void CoinScript::OnCollisionStay(Collider2D* collider)
 	{
+		if (mbDeath || !mbGain)
+			return;
+
 		PickupScript::OnCollisionStay(collider);
 	}
 

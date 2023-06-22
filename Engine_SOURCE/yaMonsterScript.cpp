@@ -13,6 +13,8 @@
 
 #include "yaMonster.h"
 #include "yaTear.h"
+#include "yaExplosion.h"
+
 #include "Commons.h"
 #include "yaBaseRenderer.h"
 
@@ -25,6 +27,7 @@ namespace ya
 		, mbDeath(false)
 		, mCollideVelocity(Vector3::Zero)
 		, mTransform(nullptr)
+		, mAnimator(nullptr)
 		, mRigidbody(nullptr)
 	{
 		//mRigidbody = GetOwner()->GetComponent<Rigidbody>();
@@ -106,6 +109,14 @@ namespace ya
 			}
 		}
 
+		Explosion* explosion = dynamic_cast<Explosion*>(other);
+		if (explosion != nullptr)
+		{
+			// 몬스터 피격
+			Monster* monster = dynamic_cast<Monster*>(GetOwner());
+			monster->AddHp(-20.0f);
+		}
+
 		if (player != nullptr)
 		{
 			// 플레이어 피격
@@ -134,7 +145,6 @@ namespace ya
 
 			if (otherRigidbody != nullptr)
 				otherRigidbody->SetVelocity(Vector3::Zero);
-
 		}
 
 		Script::OnCollisionEnter(collider);
@@ -182,10 +192,8 @@ namespace ya
 	}
 	void MonsterScript::Death()
 	{
-		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
-
-		Monster* monster = dynamic_cast<Monster*>(GetOwner());
-		//Room* room = dynamic_cast<Room*>(monster->GetParent());
+		GameObject* obj = GetOwner();
+		Monster* monster = dynamic_cast<Monster*>(obj);
 		Room* room = monster->GetRoom();
 		if(room != nullptr)
 			room->AddMonsterCount(-1);

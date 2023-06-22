@@ -22,6 +22,7 @@
 #include "yaIsaacEnums.h"
 #include "yaDoorScript.h"
 
+#include "yaMinimapScript.h"
 #include "yaTrapdoor.h"
 
 #include "Commons.h"
@@ -149,12 +150,13 @@ namespace ya
 			GameObject* shading = object::Instantiate<GameObject>(eLayerType::Background, this);
 			Transform* shadingTr = shading->GetComponent<Transform>();
 			shadingTr->SetPosition(Vector3(0.0f, 0.0f, 100.0f));
-			shadingTr->SetScale(Vector3(8.7f, 6.0f, 1.0f));
+			shadingTr->SetScale(Vector3(7.7f, 4.7f, 1.0f));
 
-			MeshRenderer* shadingMr = shading->AddComponent<MeshRenderer>();
+			ImageRenderer* shadingMr = shading->AddComponent<ImageRenderer>();
 			shadingMr->SetMesh(mesh);
 			std::shared_ptr<Material> shadingMaterial = Resources::Find<Material>(L"shadingMaterial");
 			shadingMr->SetMaterial(shadingMaterial);
+			shadingMr->SetImageSize(shadingMaterial->GetTexture(), Vector2(22.0f, 22.0f), Vector2(398.0f, 242.0f));
 		}
 
 		GameObject::Initialize();
@@ -175,14 +177,21 @@ namespace ya
 
 	void Room::EnterRoom()
 	{
+		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+		MinimapScript* minimap = scene->GetMinimap();
+		if (minimap != nullptr)
+			minimap->UpdateMinimap();
+
 		if(mMonsterCount > 0 && !IsClear())
 		{
 			for (size_t i = (UINT)eDirection::UP; i < (UINT)eDirection::End; i++)
 			{
-				if (mDoors[i]->GetDoorType() != eRoomType::None)
+				if (mDoors[i]->GetDoorType() != eRoomType::None && !mDoors[i]->IsLock())
 					mDoors[i]->SetOpen(false);
 			}
 		}
+
+		mbVisit = true;
 	}
 
 	void Room::ExitRoom()
@@ -268,32 +277,38 @@ namespace ya
 
 		Transform* doorTr = door->GetComponent<Transform>();
 		if (doorDirection == eDirection::UP)
-			doorTr->SetPosition(Vector3(0.0f, 2.0f, 90.0f));
+			doorTr->SetPosition(Vector3(0.0f, 2.06f, 90.0f));
 		if (doorDirection == eDirection::DOWN)
-			doorTr->SetPosition(Vector3(0.0f, -2.05f, 90.0f));
+			doorTr->SetPosition(Vector3(0.0f, -2.06f, 90.0f));
 		if (doorDirection == eDirection::LEFT)
-			doorTr->SetPosition(Vector3(-3.6f, 0.0f, 90.0f));
+			doorTr->SetPosition(Vector3(-3.62f, 0.0f, 90.0f));
 		if (doorDirection == eDirection::RIGHT)
-			doorTr->SetPosition(Vector3(3.6f, 0.0f, 90.0f));
+			doorTr->SetPosition(Vector3(3.62f, 0.0f, 90.0f));
 	}
 
-	void Room::AddRoomObject(GameObject* roomObj, int x, int y)
+	void Room::AddRoomObject(GameObject* roomObj, int x, int y, float z)
 	{
 		if (x < 0 || y < 0 || x > 9 || y > 15)
 			return;
 
 		Monster* monster = dynamic_cast<Monster*>(roomObj);
 		if (monster != nullptr)
+		{
 			mMonsterCount++;
+		}
 		
 		Transform* tr = roomObj->GetComponent<Transform>();
 		Vector3 pos = (Vector3((y - 7) * ROOM_GRID_ROW_SIZE, (x - 4) * ROOM_GRID_COLUMN_SIZE, 0.0f));
-		pos.z = PositionZ(pos.y);
+		if(z == 0.0f)
+			pos.z = PositionZ(pos.y);
 		tr->SetPosition(pos);
 
 		Item* item = dynamic_cast<Item*>(roomObj);
 		if (item != nullptr)
+		{
 			mItems.push_back(item);
+			item->SetRoom(this);
+		}
 
 		Land* land = dynamic_cast<Land*>(roomObj);
 		if (land != nullptr)
@@ -337,19 +352,30 @@ namespace ya
 			Compensation();
 		}
 	}
+	void Room::EraseItem(Item* item)
+	{
+		for (std::vector<Item*>::iterator it = mItems.begin(); it != mItems.end();)
+		{
+			if (*it == item)
+				it = mItems.erase(it);
+			else
+				it++;
+		}
+	}
 	void Room::Compensation()
 	{
 		if(mCompensation != nullptr)
 		{
 			mCompensation->SetParent(this);
-			AddRoomObject(mCompensation, 4, 7);
+			AddRoomObject(mCompensation, mCompensationGrid.x, mCompensationGrid.y);
 			mCompensation->SetActive();
 		}
 	}
 
-	void Room::SetCompensation(GameObject* compensation)
+	void Room::SetCompensation(GameObject* compensation, int x, int y)
 	{
 		mCompensation = compensation; 
 		mCompensation->Pause();
+		mCompensationGrid = Vector2(x, y);
 	};
 }

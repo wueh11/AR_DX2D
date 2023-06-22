@@ -51,6 +51,11 @@ namespace ya::isaac
 
 		LittleBattery,
 
+		ChestNormal,
+		ChestSpike,
+		ChestTreasure,
+		ChestRock,
+
 		End,
 	};
 
@@ -144,17 +149,6 @@ namespace ya::isaac
 		Dark = 21,
 		Shop,
 		End,
-	};
-
-	/// <summary>
-	/// 상자 종류
-	/// </summary>
-	enum class eChestType
-	{
-		Normal,
-		Spike,
-		Treasure,
-		Rock,
 	};
 
 	struct Status

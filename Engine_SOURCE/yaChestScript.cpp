@@ -27,7 +27,7 @@ namespace ya
 {
 	ChestScript::ChestScript()
 		: PickupScript()
-		, mChestType(eChestType::Normal)
+		, mChestType(eItemType::ChestNormal)
 		, mbOpen(false)
 	{
 	}
@@ -88,17 +88,17 @@ namespace ya
 		GameObject* other = collider->GetOwner();
 		Player* player = dynamic_cast<Player*>(other);
 
-		if(mChestType == eChestType::Normal)
+		if(mChestType == eItemType::ChestNormal)
 		{
 			OpenChest();
 		}
-		else if (mChestType == eChestType::Treasure)
+		else if (mChestType == eItemType::ChestTreasure)
 		{
 			if(player != nullptr && player->GetPickup().key > 0)
 				player->AddKey(-1);
 				OpenChest();
 		}
-		else if (mChestType == eChestType::Rock)
+		else if (mChestType == eItemType::ChestRock)
 		{
 			Explosion* explosion = dynamic_cast<Explosion*>(other);
 			if(explosion != nullptr)
@@ -135,13 +135,13 @@ namespace ya
 	{
 		mbOpen = true;
 
-		if (mChestType == eChestType::Normal)
+		if (mChestType == eItemType::ChestNormal)
 			mAnimator->Play(L"Normal_Open");
-		else if (mChestType == eChestType::Spike)
+		else if (mChestType == eItemType::ChestSpike)
 			mAnimator->Play(L"Spike_Open");
-		else if (mChestType == eChestType::Treasure)
+		else if (mChestType == eItemType::ChestTreasure)
 			mAnimator->Play(L"Treasure_Open");
-		else if (mChestType == eChestType::Rock)
+		else if (mChestType == eItemType::ChestRock)
 			mAnimator->Play(L"Rock_Open");
 
 		Chest* chest = dynamic_cast<Chest*>(GetOwner());
@@ -167,25 +167,25 @@ namespace ya
 			Rigidbody* rigidbody = item->GetComponent<Rigidbody>();
 			rigidbody->SetHeightGround(false);
 			rigidbody->SetLimitVelocity(Vector3(5.0f, 5.0f, 0.0f));
-			rigidbody->AddForce(Vector3((float)Random(-10, 10) * 800.0f, (float)Random(-10, 10) * 800.0f, 0.0f));
+			rigidbody->AddForce(Vector3((float)Random(-10, 10) * 700.0f, (float)Random(-10, 10) * 700.0f, 0.0f));
 			rigidbody->AddHeightForce(500.0f);
 		}
 	}
 
-	void ChestScript::SetChestType(eChestType type)
+	void ChestScript::SetChestType(eItemType type)
 	{
 		mChestType = type;
 
 		if (mAnimator == nullptr)
 			return;
 
-		if(mChestType == eChestType::Normal)
+		if(mChestType == eItemType::ChestNormal)
 			mAnimator->Play(L"Normal");
-		else if(mChestType == eChestType::Spike)
+		else if(mChestType == eItemType::ChestSpike)
 			mAnimator->Play(L"Spike");
-		else if(mChestType == eChestType::Treasure)
+		else if(mChestType == eItemType::ChestTreasure)
 			mAnimator->Play(L"Treasure");
-		else if(mChestType == eChestType::Rock)
+		else if(mChestType == eItemType::ChestRock)
 			mAnimator->Play(L"Rock");
 	}
 }

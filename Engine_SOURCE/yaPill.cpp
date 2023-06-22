@@ -15,19 +15,19 @@ namespace ya
 	}
 	void Pill::Initialize()
 	{
-		GameObject::Initialize();
+		Pickup::Initialize();
 	}
 	void Pill::Update()
 	{
-		GameObject::Update();
+		Pickup::Update();
 	}
 	void Pill::FixedUpdate()
 	{
-		GameObject::FixedUpdate();
+		Pickup::FixedUpdate();
 	}
 	void Pill::Render()
 	{
-		GameObject::Render();
+		Pickup::Render();
 	}
 	void Pill::SetPillType(ePills type)
 	{

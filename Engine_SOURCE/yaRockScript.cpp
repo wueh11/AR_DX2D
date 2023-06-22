@@ -6,6 +6,7 @@
 #include "yaObject.h"
 
 #include "yaPlayer.h"
+#include "yaMonster.h"
 
 #include "yaResources.h"
 #include "yaSpriteRenderer.h"
@@ -81,7 +82,8 @@ namespace ya
 		}
 
 		Player* player = dynamic_cast<Player*>(other);
-		if (player == nullptr)
+		Monster* monster = dynamic_cast<Monster*>(other);
+		if (player == nullptr && monster == nullptr)
 			return;
 
 		WallScript::OnCollisionEnter(collider);

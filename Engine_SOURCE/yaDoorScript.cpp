@@ -300,7 +300,7 @@ namespace ya
 				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
 				Vector2 roomgrid = scene->GetCurrentRoom()->GetRoomGrid();
 
-				float dist = 1.0f;
+				float dist = 0.9f;
 				if (dir == eDirection::LEFT)
 				{
 					pos.x -= dist;

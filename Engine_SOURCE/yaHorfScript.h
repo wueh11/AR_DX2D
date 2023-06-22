@@ -1,15 +1,25 @@
 #pragma once
-#include "yaPickupScript.h"
+#include "yaMonsterScript.h"
 #include "yaIsaacEnums.h"
 
 namespace ya
 {
-	class Chest;
-	class ChestScript : public PickupScript
+	using namespace isaac;
+	class HorfScript : public MonsterScript
 	{
 	public:
-		ChestScript();
-		virtual ~ChestScript();
+		enum class eState
+		{
+			None,
+			Idle,
+			Attack,
+			Die,
+			End,
+		};
+
+	public:
+		HorfScript();
+		virtual ~HorfScript();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -24,14 +34,22 @@ namespace ya
 		virtual void OnTriggerStay(Collider2D* collider) override;
 		virtual void OnTriggerExit(Collider2D* collider) override;
 
-	public:
-		void OpenChest();
-
-	public:
-		void SetChestType(eItemType type);
+	private:
+		void Idle();
+		void Ready();
+		void Attack();
+		void Die();
+		void Destroy();
 
 	private:
-		eItemType mChestType;
-		bool mbOpen;
+		eState mState;
+		float mTimerMax[(UINT)eState::End];
+		float mTimer[(UINT)eState::End];
+
+		GameObject* mEffect;
+
+		Vector3 mTargetPos;
+
 	};
 }
+

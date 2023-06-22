@@ -24,8 +24,9 @@ namespace ya
 		, mItemType(eItemType::None)
 		, mbDeath(false)
 		, mTimer(0.1f)
+		, mGainTimer(0.3f)
 		, mCollideVelocity(Vector3::Zero)
-		, mbGain(true)
+		, mbGain(false)
 	{
 	}
 	PickupScript::~PickupScript()
@@ -37,6 +38,14 @@ namespace ya
 	}
 	void PickupScript::Update()
 	{
+		if(!mbGain)
+		{
+			if (mGainTimer < 0.0f)
+				mbGain = true;
+			else
+				mGainTimer -= Time::DeltaTime();
+		}
+
 		if (mTimer < 0.0f)
 			Death();
 
@@ -60,6 +69,9 @@ namespace ya
 
 	void PickupScript::OnCollisionEnter(Collider2D* collider)
 	{
+		if (!mbGain)
+			return;
+
 		GameObject* other = collider->GetOwner();
 
 		Player* player = dynamic_cast<Player*>(other);
@@ -80,6 +92,9 @@ namespace ya
 	}
 	void PickupScript::OnCollisionStay(Collider2D* collider)
 	{
+		if (!mbGain)
+			return;
+
 		GameObject* other = collider->GetOwner();
 		Player* player = dynamic_cast<Player*>(other);
 
@@ -154,6 +169,14 @@ namespace ya
 	}
 	void PickupScript::Death()
 	{
+		Item* item = dynamic_cast<Item*>(GetOwner());
+		if(item != nullptr)
+		{
+			Room* room = item->GetRoom();
+			if (room != nullptr)
+				room->EraseItem(item);
+		}
+
 		GetOwner()->Death();
 	}
 }

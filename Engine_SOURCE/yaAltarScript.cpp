@@ -156,5 +156,8 @@ namespace ya
 		Transform* tr = item->GetComponent<Transform>();
 		tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 		tr->SetPosition(Vector3(0.0f, 0.6f, 0.0f));
+
+		Collider2D* collider = item->GetComponent<Collider2D>();
+		collider->Disable(true);
 	}
 }

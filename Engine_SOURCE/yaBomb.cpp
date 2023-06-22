@@ -14,18 +14,18 @@ namespace ya
 	}
 	void Bomb::Initialize()
 	{
-		GameObject::Initialize();
+		Pickup::Initialize();
 	}
 	void Bomb::Update()
 	{
-		GameObject::Update();
+		Pickup::Update();
 	}
 	void Bomb::FixedUpdate()
 	{
-		GameObject::FixedUpdate();
+		Pickup::FixedUpdate();
 	}
 	void Bomb::Render()
 	{
-		GameObject::Render();
+		Pickup::Render();
 	}
 }

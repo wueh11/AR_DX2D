@@ -51,7 +51,7 @@ namespace ya
 
 	void KeyScript::OnCollisionEnter(Collider2D* collider)
 	{
-		if (mbDeath)
+		if (mbDeath || !mbGain)
 			return;
 
 		GameObject* other = collider->GetOwner();
@@ -67,6 +67,9 @@ namespace ya
 	}
 	void KeyScript::OnCollisionStay(Collider2D* collider)
 	{
+		if (mbDeath || !mbGain)
+			return;
+
 		PickupScript::OnCollisionStay(collider);
 	}
 	void KeyScript::OnCollisionExit(Collider2D* collider)

@@ -3,6 +3,7 @@
 
 namespace ya
 {
+	class Room;
 	class Item : public GameObject
 	{
 	public:
@@ -14,7 +15,11 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
+	public:
+		void SetRoom(Room* room) { mRoom = room; }
+		Room* GetRoom() { return mRoom; }
+
 	private:
-		//class Room* mRoom = nullptr;
+		Room* mRoom = nullptr;
 	};
 }

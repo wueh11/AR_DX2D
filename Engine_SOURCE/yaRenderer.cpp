@@ -474,6 +474,7 @@ namespace ya::renderer
 			Resources::Load<Texture>(L"starflash", L"Issac\\effects\\effect_023_starflash.png");
 			Resources::Load<Texture>(L"explosion", L"Issac\\effects\\effect_029_explosion.png");
 			Resources::Load<Texture>(L"largebloodexplosion", L"Issac\\effects\\effect_077_largebloodexplosion.png");
+			Resources::Load<Texture>(L"hangingguys", L"Issac\\effects\\hangingguys.png");
 		}
 
 		{ // ui
@@ -614,6 +615,7 @@ namespace ya::renderer
 			Resources::Load<Texture>(L"monster_bodies01", L"Issac\\monsters\\monster_000_bodies01.png");
 			Resources::Load<Texture>(L"fly", L"Issac\\monsters\\monster_010_fly.png");
 			Resources::Load<Texture>(L"gaper", L"Issac\\monsters\\monster_017_gaper.png");
+			Resources::Load<Texture>(L"horf", L"Issac\\monsters\\monster_029_horf.png");
 			Resources::Load<Texture>(L"hopperleaper", L"Issac\\monsters\\monster_044_hopperleaper.png");
 			Resources::Load<Texture>(L"clotty", L"Issac\\monsters\\monster_065_clotty.png");
 			Resources::Load<Texture>(L"trite", L"Issac\\monsters\\monster_082_trite.png");
@@ -804,6 +806,14 @@ namespace ya::renderer
 			material->SetShader(spriteShader);
 			material->SetTexture(texture);
 			Resources::Insert<Material>(L"explosionMaterial", material);
+		}
+		{ // hangingguys
+			std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"hangingguys");
+			std::shared_ptr<Material> material = std::make_shared<Material>();
+			material->SetRenderingMode(eRenderingMode::Transparent);
+			material->SetShader(spriteShader);
+			material->SetTexture(texture);
+			Resources::Insert<Material>(L"hangingguysMaterial", material);
 		}
 #pragma endregion
 
@@ -1260,7 +1270,7 @@ namespace ya::renderer
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"shading");
 				std::shared_ptr<Material> material = std::make_shared<Material>();
 				material->SetRenderingMode(eRenderingMode::Transparent);
-				material->SetShader(rectShader);
+				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"shadingMaterial", material);
 			}
@@ -1519,6 +1529,22 @@ namespace ya::renderer
 				material->SetShader(spriteShader);
 				material->SetTexture(texture);
 				Resources::Insert<Material>(L"gaperMaterial", material);
+			}
+			{ // horf
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"horf");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"horfMaterial", material);
+			}
+			{ // clotty
+				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"clotty");
+				std::shared_ptr<Material> material = std::make_shared<Material>();
+				material->SetRenderingMode(eRenderingMode::Transparent);
+				material->SetShader(spriteShader);
+				material->SetTexture(texture);
+				Resources::Insert<Material>(L"clottyMaterial", material);
 			}
 			{ // ragecreep
 				std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"ragecreep");

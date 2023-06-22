@@ -1,9 +1,9 @@
 #pragma once
 #include "yaScript.h"
+#include "yaGameObject.h"
 
 namespace ya
 {
-	class GameObject;
 	class Player;
 	class Room;
 	class MinimapScript : public Script
@@ -20,6 +20,7 @@ namespace ya
 	public:
 		void InitMinimap();
 		void UpdateMinimap();
+		void UpdateMinimapSideRoom(Room* room);
 
 		void SetPlayer(Player* player) { mPlayer = player; }
 
@@ -27,8 +28,10 @@ namespace ya
 		Player* mPlayer;
 
 		GameObject* mMinimapBg;
+		GameObject* mMinimapSpace;
 
 		std::vector<std::vector<GameObject*>> mRooms;
 		std::vector<std::vector<GameObject*>> mRoomIcons;
+		GameObject* mCurrentRoom;
 	};
 }

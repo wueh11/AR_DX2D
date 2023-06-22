@@ -24,9 +24,7 @@
 namespace ya
 {
 	DropBombScript::DropBombScript()
-		: Script()
-		, mTransform(nullptr)
-		, mAnimator(nullptr)
+		: PickupScript()
 		, mOwnerPos(Vector3::Zero)
 		, mbDead(false)
 		, mAliveTime(2.0f)
@@ -39,6 +37,8 @@ namespace ya
 	}
 	void DropBombScript::Initialize()
 	{
+		PickupScript::Initialize();
+
 		SpriteRenderer* rd = GetOwner()->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 		rd->SetMesh(mesh);
@@ -58,7 +58,6 @@ namespace ya
 		{
 			std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"explosion", L"explosion.png");
 			mAnimator->Create(L"Explosion", texture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 12, 0.05f, 2, 3);
-			//mAnimator->GetEvent(L"Explosion", 1) = std::bind(&DropBombScript::Explosion, this);
 			mAnimator->GetEvent(L"Explosion", 2) = std::bind(&DropBombScript::Imprint, this);
 			mAnimator->GetCompleteEvent(L"Explosion") = std::bind(&DropBombScript::Death, this);
 		}
@@ -80,9 +79,9 @@ namespace ya
 		break;
 		case ya::DropBombScript::eState::Explosion:
 		{
+			mShadow->Pause();
 			mTransform->SetScale(Vector3(1.6f, 1.6f, 1.0f));
 			mTransform->SetPosition(mTransform->GetPosition() + Vector3(0.0f, 0.5f, 0.0f));
-
 			Explode();
 			mAnimator->Play(L"Explosion", false);
 			mState = eState::None;
@@ -94,36 +93,35 @@ namespace ya
 			break;
 		}
 
+		PickupScript::Update();
 	}
 	void DropBombScript::FixedUpdate()
 	{
+		PickupScript::FixedUpdate();
 	}
 	void DropBombScript::Render()
 	{
+		PickupScript::Render();
 	}
 	void DropBombScript::OnCollisionEnter(Collider2D* collider)
 	{
 		if (mAliveTime < 1.5f)
 			mbEnter = true;
+
+		PickupScript::OnCollisionEnter(collider);
 	}
 	void DropBombScript::OnCollisionStay(Collider2D* collider)
 	{
-		if (mbEnter)
-		{
-			Player* player = dynamic_cast<Player*>(collider->GetOwner());
+		if (!mbEnter)
+			return;
 
-			if (player != nullptr)
-			{
-				Rigidbody* playerRigidbody = player->GetComponent<Rigidbody>();
-
-				Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
-				rigidbody->AddForce(playerRigidbody->GetVelocity() * 40.0f);
-			}
-		}
+		PickupScript::OnCollisionStay(collider);
 	}
 	void DropBombScript::OnCollisionExit(Collider2D* collider)
 	{
 		mbEnter = false;
+
+		PickupScript::OnCollisionExit(collider);
 	}
 	void DropBombScript::OnTriggerEnter(Collider2D* collider)
 	{
@@ -156,7 +154,10 @@ namespace ya
 		rd->SetImageSize(texture, Vector2(0.0f, 0.0f), Vector2(96.0f, 64.0f));
 
 		Transform* tr = bombradius->GetComponent<Transform>();
-		tr->SetPosition(mTransform->GetPosition() - Vector3(room->GetRoomPosition().x, room->GetRoomPosition().y, 0.0f) + Vector3(0.0f, -0.6f, 0.0f));
+		Vector3 pos = tr->GetPosition();
+
+		tr->SetPosition(Vector3(mTransform->GetPosition().x - room->GetRoomPosition().x, mTransform->GetPosition().y - room->GetRoomPosition().y - 0.6f, 91.0f));
+
 		tr->SetScale(Vector3(1.0f, 0.6f, 0.0f));
 	}
 
@@ -166,10 +167,5 @@ namespace ya
 		explosion->SetName(L"explosion");
 		Transform* tr = explosion->GetComponent<Transform>();
 		tr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.5f, 0.0f));
-	}
-
-	void DropBombScript::Death()
-	{
-		GetOwner()->Death();
 	}
 }

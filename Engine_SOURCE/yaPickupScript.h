@@ -38,6 +38,7 @@ namespace ya
 		eItemType mItemType;
 
 		float mTimer;
+		float mGainTimer;
 		bool mbDeath;
 
 		Vector3 mCollideVelocity;

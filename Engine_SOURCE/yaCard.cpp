@@ -16,19 +16,19 @@ namespace ya
 	}
 	void Card::Initialize()
 	{
-		GameObject::Initialize();
+		Pickup::Initialize();
 	}
 	void Card::Update()
 	{
-		GameObject::Update();
+		Pickup::Update();
 	}
 	void Card::FixedUpdate()
 	{
-		GameObject::FixedUpdate();
+		Pickup::FixedUpdate();
 	}
 	void Card::Render()
 	{
-		GameObject::Render();
+		Pickup::Render();
 	}
 	void Card::SetCardType(eCards card)
 	{

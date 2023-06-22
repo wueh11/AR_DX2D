@@ -44,7 +44,7 @@ namespace ya
 		MonsterScript::Initialize();
 
 		Monster* monster = dynamic_cast<Monster*>(GetOwner());
-		monster->SetStatus(10.0f, 0.1f, 6.0f, 2.0f);
+		monster->SetStatus(125.0f, 0.1f, 6.0f, 2.0f);
 
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mTransform->SetScale(Vector3(1.5f, 2.0f, 1.0f));
@@ -102,8 +102,9 @@ namespace ya
 		if (monster->GetState() != GameObject::eState::Active)
 			return;
 
-		if (monster->GetHp() <= 0.0f && mState != eState::Die && mState != eState::None)
+		if (monster->GetHp() <= 0.0f && mState != eState::Die && mState != eState::None && !mbDeath)
 		{
+			mbDeath = true;
 			mState = eState::Die; 
 			mAnimator->Play(L"After", false);
 			Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
@@ -172,9 +173,6 @@ namespace ya
 			break;
 		}
 		
-		/*headTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));
-		bodyTr->SetRotation(Vector3(0.0f, XM_PI, 0.0f));*/
-
 		MonsterScript::Update();
 	}
 	void MonstroScript::FixedUpdate()
@@ -418,8 +416,8 @@ namespace ya
 					animator->Create(L"largebloodexplosion", texture, Vector2(0.0f, 100.0f), Vector2(146.0f, 110.0f), Vector2::Zero, 7, 0.1f, 3, 3);
 					animator->Play(L"largebloodexplosion", false);
 
-					EffectScript* effectScript = largebloodexplosion->AddComponent<EffectScript>();
-					effectScript->SetAutoDestroy(L"largebloodexplosion");
+					/*EffectScript* effectScript = largebloodexplosion->AddComponent<EffectScript>();
+					effectScript->SetAutoDestroy(L"largebloodexplosion");*/
 				}
 			}
 
@@ -452,8 +450,8 @@ namespace ya
 					animator->Create(L"bloodpoof_small", texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 12, 0.1f, 3, 4);
 					animator->Play(L"bloodpoof_small", false);
 
-					EffectScript* effectScript = bloodpoof_small->AddComponent<EffectScript>();
-					effectScript->SetAutoDestroy(L"bloodpoof_small");
+					/*EffectScript* effectScript = bloodpoof_small->AddComponent<EffectScript>();
+					effectScript->SetAutoDestroy(L"bloodpoof_small");*/
 				}
 			}
 		}
@@ -461,7 +459,6 @@ namespace ya
 
 	void MonstroScript::Destroy()
 	{
-		//mEffect->Death();
 		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
 		scene->StageClear(true);
 		UIScript* ui = scene->GetUI();
