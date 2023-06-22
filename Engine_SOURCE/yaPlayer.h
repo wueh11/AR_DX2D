@@ -29,7 +29,7 @@ namespace ya
 
 			Pickup()
 				: coin(0)
-				, bomb(1)
+				, bomb(10)
 				, key(0)
 			{}
 		};

@@ -348,7 +348,7 @@ namespace ya
 					mRigidbody->AddHeightForce(10.0f);
 				}
 
-				Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+				Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom()->GetComponent<Transform>());
 				tear->Parabola(true);
 				tear->InitTear(GetOwner(), dir + Vector3((float)(Random(-4, 4)) / 10.0f, (float)(Random(-4, 4)) / 10.0f, 0.0f));
 				Rigidbody* rigidbody = tear->GetComponent<Rigidbody>();

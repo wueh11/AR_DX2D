@@ -188,7 +188,8 @@ namespace ya
 
 	void DropBombScript::Explode()
 	{
-		Explosion* explosion = object::Instantiate<Explosion>(eLayerType::Projectile);
+		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+		Explosion* explosion = object::Instantiate<Explosion>(eLayerType::Projectile, scene->GetCurrentRoom()->GetComponent<Transform>());
 		explosion->SetName(L"explosion");
 		Transform* tr = explosion->GetComponent<Transform>();
 		tr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.5f, 0.0f));

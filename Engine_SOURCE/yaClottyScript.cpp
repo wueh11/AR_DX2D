@@ -173,20 +173,22 @@ namespace ya
 		mAnimator->Play(L"Attack", false);
 
 		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+		Room* room = scene->GetCurrentRoom();
+		Transform* roomTr = room->GetComponent<Transform>();
 
-		Tear* tear1 = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+		Tear* tear1 = object::Instantiate<Tear>(eLayerType::Projectile, roomTr);
 		tear1->AddComponent<MonsterTearScript>();
 		tear1->InitTear(GetOwner(), Vector3(1.0f, 0.0f, 0.0f));
 
-		Tear* tear2 = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+		Tear* tear2 = object::Instantiate<Tear>(eLayerType::Projectile, roomTr);
 		tear2->AddComponent<MonsterTearScript>();
 		tear2->InitTear(GetOwner(), Vector3(-1.0f, 0.0f, 0.0f));
 
-		Tear* tear3 = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+		Tear* tear3 = object::Instantiate<Tear>(eLayerType::Projectile, roomTr);
 		tear3->AddComponent<MonsterTearScript>();
 		tear3->InitTear(GetOwner(), Vector3(0.0f, 1.0f, 0.0f));
 
-		Tear* tear4 = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+		Tear* tear4 = object::Instantiate<Tear>(eLayerType::Projectile, roomTr);
 		tear4->AddComponent<MonsterTearScript>();
 		tear4->InitTear(GetOwner(), Vector3(0.0f, -1.0f, 0.0f));
 

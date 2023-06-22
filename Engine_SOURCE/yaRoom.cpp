@@ -186,8 +186,11 @@ namespace ya
 		{
 			for (size_t i = (UINT)eDirection::UP; i < (UINT)eDirection::End; i++)
 			{
-				if (mDoors[i]->GetDoorType() != eRoomType::None && !mDoors[i]->IsLock())
-					mDoors[i]->SetOpen(false);
+				if (mDoors[i]->GetDoorType() == eRoomType::None)
+					continue;
+				if (mDoors[i]->IsLock())
+					continue;
+				mDoors[i]->SetOpen(false);
 			}
 		}
 

@@ -219,7 +219,7 @@ namespace ya
 			{
 				mInvincibleTime -= Time::DeltaTime();
 
-				BaseRenderer* rd = GetOwner()->GetComponent<BaseRenderer>();
+				BaseRenderer* rd = mWhole->GetComponent<BaseRenderer>();
 				if (SinByTime(0.05f, 1.0f) > -0.5f)
 					rd->SetAlpha(0.01f);
 				else
@@ -263,10 +263,12 @@ namespace ya
 		{
 			if (player->GetPickup().bomb > 0)
 			{
-				DropBomb* bomb = new DropBomb(pos);
-				Scene* scene = SceneManager::GetActiveScene();
+				DropBomb* bomb = new DropBomb(player->GetRelativePosition());
+				StageScene* scene = dynamic_cast<StageScene *>(SceneManager::GetActiveScene());
 				Layer& layer = scene->GetLayer(eLayerType::Item);
 				layer.AddGameObject(bomb);
+				
+				bomb->SetParent(scene->GetCurrentRoom());
 
 				player->AddBomb(-1);
 			}

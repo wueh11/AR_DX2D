@@ -203,7 +203,7 @@ namespace ya
 		if (mTimer[(UINT)eState::Tear] < 0.0f)
 		{
 			StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
-			Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+			Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom()->GetComponent<Transform>());
 			tear->AddComponent<MonsterTearScript>();
 			tear->InitTear(GetOwner(), tearDir);
 			mTimer[(UINT)eState::Tear] = mTimerMax[(UINT)eState::Tear];
