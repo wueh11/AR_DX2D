@@ -9,6 +9,9 @@
 #include "yaActiveItem.h"
 #include "yaPassiveItem.h"
 #include "yaHeartFull.h"
+#include "yaStageScene.h"
+
+#include "yaRigidbody.h"
 
 namespace ya
 {
@@ -208,18 +211,38 @@ namespace ya
 	}
 	void ItemManager::TheLovers()
 	{
-		Scene* scene = SceneManager::GetActiveScene();
+		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+		Room* room = scene->GetCurrentRoom();
 		Player* player = scene->GetPlayer();
 		Transform* playerTr = player->GetComponent<Transform>();
-		Vector3 playerPos = playerTr->GetPosition();
+		//Vector3 playerPos = playerTr->GetPosition();
+		Vector3 playerPos = player->GetRelativePosition();
 
-		HeartFull* heart1 = object::Instantiate<HeartFull>(eLayerType::Item);
-		Transform* heart1Tr = heart1->GetComponent<Transform>();
-		heart1Tr->SetPosition(Vector3(playerPos.x, playerPos.y, -10.0f) + Vector3(0.5f, 0.5f, 0.0f));
+		{
+			HeartFull* heart1 = object::Instantiate<HeartFull>(eLayerType::Item, room);
+			Transform* heart1Tr = heart1->GetComponent<Transform>();
+			heart1Tr->SetPosition(Vector3(playerPos.x, playerPos.y, 0.0f) + Vector3(0.3f, 0.0f, 0.0f));
+			heart1Tr->SetHeight(0.4f);
 
-		HeartFull* heart2 = object::Instantiate<HeartFull>(eLayerType::Item);
-		Transform* heart2Tr = heart2->GetComponent<Transform>();
-		heart2Tr->SetPosition(Vector3(playerPos.x, playerPos.y, -10.0f) + Vector3(0.0f, 0.5f, 0.0f));
+			Rigidbody* rigidbody = heart1->GetComponent<Rigidbody>();
+			rigidbody->SetHeightGround(false);
+			rigidbody->SetLimitVelocity(Vector3(5.0f, 5.0f, 0.0f));
+			rigidbody->AddForce(Vector3(1000.0f, 0.0f, 0.0f));
+			rigidbody->AddHeightForce(500.0f);
+		}
+
+		{
+			HeartFull* heart2 = object::Instantiate<HeartFull>(eLayerType::Item, room);
+			Transform* heart2Tr = heart2->GetComponent<Transform>();
+			heart2Tr->SetPosition(Vector3(playerPos.x, playerPos.y, 0.0f) + Vector3(-0.3f, 0.0f, 0.0f));
+			heart2Tr->SetHeight(0.4f);
+
+			Rigidbody* rigidbody = heart2->GetComponent<Rigidbody>();
+			rigidbody->SetHeightGround(false);
+			rigidbody->SetLimitVelocity(Vector3(5.0f, 5.0f, 0.0f));
+			rigidbody->AddForce(Vector3(0.0f, 1000.0f, 0.0f));
+			rigidbody->AddHeightForce(400.0f);
+		}
 	}
 	/// <summary>
 	/// ÇöÀçÆøÅº x2, 0°³ÀÏ¶§ +2

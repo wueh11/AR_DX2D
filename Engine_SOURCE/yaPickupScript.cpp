@@ -25,6 +25,7 @@ namespace ya
 		, mbDeath(false)
 		, mTimer(0.1f)
 		, mGainTimer(0.3f)
+		, mCollidePosition(Vector3::Zero)
 		, mCollideVelocity(Vector3::Zero)
 		, mbGain(false)
 	{
@@ -60,6 +61,17 @@ namespace ya
 		Vector3 pos = mTransform->GetPosition();
 		mTransform->SetPosition(Vector3(pos.x, pos.y, PositionZ(pos.y)));
 
+		if(mTransform->GetPosition().x > 3.3f || mTransform->GetPosition().x < -3.3f
+			|| mTransform->GetPosition().y > 1.8f || mTransform->GetPosition().y < -1.8f)
+		{
+			mTransform->SetPosition(mCollidePosition);
+			Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
+			if (rigidbody != nullptr)
+			{
+				rigidbody->SetVelocity(-mCollideVelocity);
+			}
+		}
+
 		Script::FixedUpdate();
 	}
 	void PickupScript::Render()
@@ -88,6 +100,8 @@ namespace ya
 			if (rigidbody == nullptr)
 				return;
 			mCollideVelocity = rigidbody->GetVelocity();
+
+			mCollidePosition = GetOwner()->GetComponent<Transform>()->GetPosition();
 		}
 	}
 	void PickupScript::OnCollisionStay(Collider2D* collider)
@@ -128,11 +142,11 @@ namespace ya
 
 				Rigidbody* otherRigidbody = other->GetComponent<Rigidbody>();
 				if (otherRigidbody != nullptr)
-					otherRigidbody->AddForce(mCollideVelocity * 50.0f);
+					otherRigidbody->AddForce(mCollideVelocity * 30.0f);
 
 				Vector3 force = rigidbody->Bounce(-mCollideVelocity, target);
 				rigidbody->ClearForce();
-				rigidbody->AddForce(force * 50.0f);
+				rigidbody->AddForce(force * 30.0f);
 			}
 		}
 	}

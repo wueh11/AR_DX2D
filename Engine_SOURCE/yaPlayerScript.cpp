@@ -188,6 +188,7 @@ namespace ya
 
 			Transform* gainItemTr = mGainItem->GetComponent<Transform>();
 			gainItemTr->SetPosition(Vector3(0.0f, 0.7f, 1.0f));
+			gainItemTr->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 			mGainItem->Pause();
 		}
 
@@ -729,6 +730,8 @@ namespace ya
 
 			SetGainItem(gainPill->GetComponent<Animator>());
 			gainPill->Death();
+
+			ItemAction();
 		}
 		else if (item.card != eCards::None)
 		{
@@ -741,9 +744,9 @@ namespace ya
 			gainCard->SetCardType(item.card);
 			SetGainItem(gainCard->GetComponent<Animator>());
 			gainCard->Death();
-		}
 
-		ItemAction();
+			ItemAction();
+		}	
 	}
 
 	void PlayerScript::ThrowConsumable()

@@ -20,6 +20,7 @@
 #include "yaStageScene.h"
 #include "yaScene.h"
 
+#include "Commons.h"
 
 namespace ya
 {
@@ -101,6 +102,30 @@ namespace ya
 	}
 	void DropBombScript::Render()
 	{
+		BaseRenderer* rd = GetOwner()->GetComponent<BaseRenderer>();
+		
+		if(mState == eState::Bomb)
+		{
+			if (SinByTime(0.05f, 1.0f) > -0.4f)
+			{
+				rd->SetColorType(2);
+				rd->SetColor(Vector4(1.0f, 1.0f, 0.0f, 0.3f));
+			}
+			else if (SinByTime(0.05f, 1.0f) > -0.8f)
+			{
+				rd->SetColorType(2);
+				rd->SetColor(Vector4(1.0f, 0.0f, 0.0f, 0.3f));
+			}
+			else
+			{
+				rd->SetColorType(0);
+			}
+		}
+		else
+		{
+			rd->SetColorType(0);
+		}
+
 		PickupScript::Render();
 	}
 	void DropBombScript::OnCollisionEnter(Collider2D* collider)

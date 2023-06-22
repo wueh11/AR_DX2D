@@ -157,7 +157,7 @@ namespace ya
 				startRoom->AddRoomObject(chest, 6, 6);
 			}
 
-			/*{
+			{
 				Coin* coin = object::Instantiate<Coin>(eLayerType::Item, startRoom);
 				startRoom->AddRoomObject(coin, 4, 4);
 			}
@@ -199,7 +199,7 @@ namespace ya
 				Trinket* trinket = object::Instantiate<Trinket>(eLayerType::Item, startRoom);
 				trinket->SetTrinketType(eTrinkets::FishHead);
 				startRoom->AddRoomObject(trinket, 2, 2);
-			}*/
+			}
 		}
 
 		Room* shop = CreateRoom(3, 1, eRoomType::Shop, true);

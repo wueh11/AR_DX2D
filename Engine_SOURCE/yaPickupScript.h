@@ -41,6 +41,7 @@ namespace ya
 		float mGainTimer;
 		bool mbDeath;
 
+		Vector3 mCollidePosition;
 		Vector3 mCollideVelocity;
 
 		bool mbGain;
