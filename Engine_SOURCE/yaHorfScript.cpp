@@ -155,7 +155,7 @@ namespace ya
 				dir.Normalize();
 
 				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
-				Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom()->GetComponent<Transform>());
+				Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
 				tear->InitTear(GetOwner(), dir);
 				tear->AddComponent<MonsterTearScript>();
 			}
