@@ -103,10 +103,6 @@ namespace ya
 		void SetActive() 
 		{ 
 			mState = eState::Active;
-			/*Collider2D* collider = GetComponent<Collider2D>();
-			if (collider != nullptr)
-				collider->Active(true);*/
-
 			for (auto obj : mChildren)
 				obj->SetActive();
 		}

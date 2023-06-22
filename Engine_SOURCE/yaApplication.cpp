@@ -88,7 +88,7 @@ namespace ya
 
 	void Application::Release()
 	{
-		Fmod::Release();
+		//Fmod::Release();
 		FontWrapper::Release();
 	}
 

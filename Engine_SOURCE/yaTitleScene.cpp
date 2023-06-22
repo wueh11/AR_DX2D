@@ -27,6 +27,7 @@
 #include "yaLight.h"
 
 #include "yaPaintShader.h"
+#include "yaFontWrapper.h"
 
 namespace ya
 {
@@ -202,6 +203,8 @@ namespace ya
 
 	void TitleScene::Render()
 	{
+		FontWrapper::DrawFont(L"isaac", 0.0f, 0.0f, 100, 0x000000F);
+
 		Scene::Render();
 	}
 

@@ -196,8 +196,8 @@ namespace ya
 
 		{
 			std::shared_ptr<AudioClip> clip = std::make_shared<AudioClip>();
-			clip->Load(L"Issac\\sfx\\hurt_grunt.wav");
-			Resources::Insert<AudioClip>(L"hurt", clip);
+			clip->Load(L"..\\Resources\\Issac\\sfx\\hurt_grunt.wav");
+			Resources::Insert<AudioClip>(L"audio_hurt", clip);
 		}
 	}
 
@@ -207,7 +207,7 @@ namespace ya
 		
 		Player::Info info = player->GetInfo();
 		if (info.heart < 0)
-			player->SetHeart(0);
+			player->SetHeart(0); 
 
 		Player::Items items = player->GetItem();
 
@@ -615,7 +615,7 @@ namespace ya
 
 		Invincible();
 
-		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"hurt");
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"audio_hurt");
 		clip->Play();
 	}
 

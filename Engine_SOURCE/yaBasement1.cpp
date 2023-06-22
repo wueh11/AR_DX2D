@@ -54,6 +54,7 @@
 
 #include "yaMonstro.h"
 #include "yaAudioListener.h"
+#include "yaFontWrapper.h"
 
 #include "Commons.h"
 
@@ -72,6 +73,8 @@ namespace ya
 	{
 		//Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
+
+		
 		cameraObj->AddComponent<CameraScript>();
 
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
