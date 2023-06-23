@@ -23,6 +23,8 @@
 
 #include "yaObject.h"
 #include "yaExplosion.h"
+#include "yaAudioClip.h"
+
 namespace ya
 {
 	ChestScript::ChestScript()
@@ -66,6 +68,8 @@ namespace ya
 		mAnimator->Create(L"Rock_Open", texture, Vector2(224.0f, 224.0f), Vector2(32.0f, 32.0f), Vector2(0.0f, 0.0f), 1, 0.1f);
 		mAnimator->Play(L"Normal");
 	}
+
+
 	void ChestScript::Update()
 	{
 		PickupScript::Update();
@@ -87,25 +91,34 @@ namespace ya
 
 		GameObject* other = collider->GetOwner();
 		Player* player = dynamic_cast<Player*>(other);
-
-		if(mChestType == eItemType::ChestNormal)
+		if (player != nullptr)
 		{
-			OpenChest();
-		}
-		else if (mChestType == eItemType::ChestTreasure)
-		{
-			if(player != nullptr && player->GetPickup().key > 0)
-				player->AddKey(-1);
+			if (mChestType == eItemType::ChestNormal)
+			{
 				OpenChest();
-		}
-		else if (mChestType == eItemType::ChestRock)
-		{
-			Explosion* explosion = dynamic_cast<Explosion*>(other);
-			if(explosion != nullptr)
-				OpenChest();
+			}
+			else if (mChestType == eItemType::ChestTreasure)
+			{
+				if (player != nullptr && player->GetPickup().key > 0)
+				{
+					player->AddKey(-1);
+					OpenChest();
+
+					std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"unlock");
+					clip->Play();
+				}
+			}
+			else if (mChestType == eItemType::ChestRock)
+			{
+				/*Explosion* explosion = dynamic_cast<Explosion*>(other);
+				if (explosion != nullptr)
+				{
+					OpenChest();
+				}*/
+			}
 		}
 
-		//PickupScript::OnCollisionEnter(collider);
+		PickupScript::OnCollisionEnter(collider);
 	}
 
 	void ChestScript::OnCollisionStay(Collider2D* collider)
@@ -170,6 +183,9 @@ namespace ya
 			rigidbody->AddForce(Vector3((float)Random(-10, 10) * 700.0f, (float)Random(-10, 10) * 700.0f, 0.0f));
 			rigidbody->AddHeightForce(500.0f);
 		}
+		
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"chest_open");
+		clip->Play();
 	}
 
 	void ChestScript::SetChestType(eItemType type)

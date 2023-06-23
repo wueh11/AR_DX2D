@@ -26,6 +26,14 @@
 #include "yaTrapdoor.h"
 
 #include "Commons.h"
+#include "yaAudioClip.h"
+
+#include "yaChest.h"
+#include "yaKey.h"
+#include "yaCoin.h"
+
+#include "yaItemManager.h"
+#include "yaItemObject.h"
 
 namespace ya
 {
@@ -191,6 +199,9 @@ namespace ya
 				if (mDoors[i]->IsLock())
 					continue;
 				mDoors[i]->SetOpen(false);
+
+				std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"door heavy close");
+				clip->Play();
 			}
 		}
 
@@ -338,8 +349,13 @@ namespace ya
 		{
 			for (size_t i = (UINT)eDirection::UP; i < (UINT)eDirection::End; i++)
 			{
-				if (mDoors[i]->GetDoorType() != eRoomType::None)
+				if (mDoors[i]->GetDoorType() != eRoomType::None && !mDoors[i]->IsLock())
+				{
 					mDoors[i]->SetOpen(true);
+
+					std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"door heavy open");
+					clip->Play();
+				}
 			}
 
 			if (mRoomType == eRoomType::Boss) 
@@ -349,7 +365,21 @@ namespace ya
 				Room* room = scene->GetCurrentRoom();
 
 				Trapdoor* trapdoor = object::Instantiate<Trapdoor>(eLayerType::Land, room);
-				room->AddRoomObject(trapdoor, 6, 7);
+				room->AddRoomObject(trapdoor, 6, 7, -40.0f);
+			}
+
+			Player* player = SceneManager::GetActiveScene()->GetPlayer();
+			if (player != nullptr)
+			{
+				eActiveItem activeItem = player->GetItem().activeItem;
+				if (activeItem != eActiveItem::None)
+				{
+					ItemObject* itemObject = ItemManager::GetItemObjects(eItemType::ActiveItem)[(UINT)activeItem];
+					itemObject->AddCharge(1);
+
+					std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"battery charge");
+					clip->Play();
+				}
 			}
 
 			Compensation();
@@ -372,6 +402,25 @@ namespace ya
 			mCompensation->SetParent(this);
 			AddRoomObject(mCompensation, mCompensationGrid.x, mCompensationGrid.y);
 			mCompensation->SetActive();
+
+			Chest* chest = dynamic_cast<Chest*>(mCompensation);
+			if (chest != nullptr)
+			{
+				std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"chest drop 1");
+				clip->Play();
+			}
+			Key* key = dynamic_cast<Key*>(mCompensation);
+			if (key != nullptr)
+			{
+				std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"key drop 2");
+				clip->Play();
+			}
+			Coin* coin = dynamic_cast<Coin*>(mCompensation);
+			if (coin != nullptr)
+			{
+				std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"penny drop 1");
+				clip->Play();
+			}
 		}
 	}
 

@@ -21,7 +21,7 @@
 #include "yaMonsterTearScript.h"
 
 #include "Commons.h"
-
+#include "yaAudioClip.h"
 namespace ya
 {
 	HorfScript::HorfScript()
@@ -154,10 +154,21 @@ namespace ya
 				Vector3 dir = mTargetPos - mTransform->GetPosition();
 				dir.Normalize();
 
-				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
-				Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+				Monster* monster = dynamic_cast<Monster*>(GetOwner());
+				Room* room = monster->GetRoom();
+
+				Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, room);
 				tear->InitTear(GetOwner(), dir);
 				tear->AddComponent<MonsterTearScript>();
+
+				{
+					std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"shakey kid roar");
+					clip->Play();
+				}
+				{
+					std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"tear fire " + std::to_wstring(Random(4, 5)));
+					clip->Play();
+				}
 			}
 		}
 

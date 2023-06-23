@@ -90,6 +90,7 @@ namespace ya::isaac
 		OuijaBoard, // 공격속도+0.4, 눈물 장애물관통
 
 		CubeOfMeat, // 고기조각 패밀리어
+		End,
 	};
 
 	enum class eTrinkets
@@ -97,6 +98,7 @@ namespace ya::isaac
 		None,
 		FishHead, //피격당할시 푸른파리생김
 		PinkyEye, // 10%확률로 중독 상태이상을 주는 눈물 발사
+		GoatHoof,
 		End,
 	};
 

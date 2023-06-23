@@ -19,6 +19,7 @@
 #include "yaStageScene.h"
 
 #include "yaExplosion.h"
+#include "yaAudioClip.h"
 
 namespace ya
 {
@@ -272,6 +273,9 @@ namespace ya
 					scene->GetRoom(roomgrid.x - 1, roomgrid.y)->GetDoor(eDirection::DOWN)->SetDamaged(true);
 				else if (dir == eDirection::DOWN)
 					scene->GetRoom(roomgrid.x + 1, roomgrid.y)->GetDoor(eDirection::UP)->SetDamaged(true);
+
+				std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"maggot enter ground ");
+				clip->Play();
 			}
 		}
 		
@@ -284,6 +288,9 @@ namespace ya
 					player->AddKey(-1);
 					door->SetLock(false);
 					door->SetOpen(true);
+
+					std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"unlock");
+					clip->Play();
 				}
 			}
 			else if(!door->IsOpen())
@@ -330,6 +337,9 @@ namespace ya
 					SceneManager::LoadScene((eSceneType)((UINT)sceneType + 1));
 					scene->SetBossRoom(true);
 					//playDeco(scene->GetCurrentRoom()->GetRoomType(), false);
+
+					std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"castleportcullis");
+					clip->Play();
 				}
 				return;
 			}

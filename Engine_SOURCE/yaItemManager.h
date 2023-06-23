@@ -13,12 +13,6 @@ namespace ya
 		static void Initialize();
 
 	public:
-		/*static class Pill* CreatePill(ePills pillType);
-		static class Card* CreateCard(eCards cardType);
-		static class ActiveItem* CreateActiveItem(eActiveItem activeType);
-		static class Trinket* CreateTrinket(eTrinkets trinketType);*/
-
-	public:
 		static std::vector<ItemObject*> GetItemObjects(eItemType itemType);
 
 	private:
@@ -42,6 +36,7 @@ namespace ya
 		//Trinkets
 		static void FishHead();
 		static void PinkyEye();
+		static void GoatHoof();
 		
 		//Actives
 		static void TheBible();
@@ -49,6 +44,9 @@ namespace ya
 		static void YumHeart();
 
 		//Passives
+		static void CricketHead();
+		static void Lunch();
+		static void GrowthHormones();
 
 	private:
 		static std::vector<ItemObject*> mPills;

@@ -59,11 +59,14 @@ cbuffer ParticleSystem : register(b5)
 cbuffer ImageData : register(b7)
 {
     uint colorType;
-    float imageAlpha;
     uint useRate;
     uint useRange;
+    uint imagepadding;
     
     float4 imageColor;
     float4 imageRange;
     float2 imageRate;
+    
+    int useAlpha;
+    float imageAlpha;
 }

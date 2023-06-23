@@ -9,6 +9,7 @@
 
 #include "yaItemManager.h"
 #include "yaItemObject.h"
+#include "yaAudioClip.h"
 
 namespace ya
 {
@@ -24,7 +25,7 @@ namespace ya
 		PickupScript::Initialize();
 
 		mTransform = GetOwner()->GetComponent<Transform>();
-		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
+		mTransform->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 
@@ -65,6 +66,9 @@ namespace ya
 				mbDeath = true;
 				ItemObject* itemObject = ItemManager::GetItemObjects(eItemType::ActiveItem)[(UINT)activeItem];
 				itemObject->AddCharge(12);
+
+				std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"battery charge");
+				clip->Play();
 			}
 		}
 

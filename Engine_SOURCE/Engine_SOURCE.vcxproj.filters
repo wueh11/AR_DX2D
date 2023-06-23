@@ -400,16 +400,10 @@
     <ClCompile Include="yaActiveItem.cpp">
       <Filter>GameObject\Item\Items</Filter>
     </ClCompile>
-    <ClCompile Include="yaPit.cpp">
-      <Filter>GameObject\Land</Filter>
-    </ClCompile>
     <ClCompile Include="yaRock.cpp">
       <Filter>GameObject\Land</Filter>
     </ClCompile>
     <ClCompile Include="yaSpike.cpp">
-      <Filter>GameObject\Land</Filter>
-    </ClCompile>
-    <ClCompile Include="yaFireplace.cpp">
       <Filter>GameObject\Land</Filter>
     </ClCompile>
     <ClCompile Include="yaPillScript.cpp">
@@ -439,9 +433,6 @@
     </ClCompile>
     <ClCompile Include="yaMonster.cpp">
       <Filter>GameObject\Monsters\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="yaGaper.cpp">
-      <Filter>GameObject\Monsters</Filter>
     </ClCompile>
     <ClCompile Include="yaMonsterScript.cpp">
       <Filter>Component\Script\Monsters\Base</Filter>
@@ -507,9 +498,6 @@
       <Filter>GameObject\Land</Filter>
     </ClCompile>
     <ClCompile Include="yaRageCreep.cpp">
-      <Filter>GameObject\Monsters</Filter>
-    </ClCompile>
-    <ClCompile Include="yaFly.cpp">
       <Filter>GameObject\Monsters</Filter>
     </ClCompile>
     <ClCompile Include="yaRageCreepScript.cpp">
@@ -584,15 +572,13 @@
     <ClCompile Include="yaFontWrapper.cpp">
       <Filter>FontWrapper</Filter>
     </ClCompile>
-    <ClCompile Include="yaClotty.cpp">
-      <Filter>GameObject\Monsters</Filter>
-    </ClCompile>
     <ClCompile Include="yaClottyScript.cpp">
       <Filter>Component\Script\Monsters</Filter>
     </ClCompile>
     <ClCompile Include="yaHorfScript.cpp">
       <Filter>Component\Script\Monsters</Filter>
     </ClCompile>
+    <ClCompile Include="yaAudioManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -806,16 +792,10 @@
     <ClInclude Include="yaActiveItem.h">
       <Filter>GameObject\Item\Items</Filter>
     </ClInclude>
-    <ClInclude Include="yaPit.h">
-      <Filter>GameObject\Land</Filter>
-    </ClInclude>
     <ClInclude Include="yaRock.h">
       <Filter>GameObject\Land</Filter>
     </ClInclude>
     <ClInclude Include="yaSpike.h">
-      <Filter>GameObject\Land</Filter>
-    </ClInclude>
-    <ClInclude Include="yaFireplace.h">
       <Filter>GameObject\Land</Filter>
     </ClInclude>
     <ClInclude Include="yaPillScript.h">
@@ -849,9 +829,6 @@
     </ClInclude>
     <ClInclude Include="yaMonster.h">
       <Filter>GameObject\Monsters\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="yaGaper.h">
-      <Filter>GameObject\Monsters</Filter>
     </ClInclude>
     <ClInclude Include="yaMonsterScript.h">
       <Filter>Component\Script\Monsters\Base</Filter>
@@ -917,9 +894,6 @@
       <Filter>GameObject\Land</Filter>
     </ClInclude>
     <ClInclude Include="yaRageCreep.h">
-      <Filter>GameObject\Monsters</Filter>
-    </ClInclude>
-    <ClInclude Include="yaFly.h">
       <Filter>GameObject\Monsters</Filter>
     </ClInclude>
     <ClInclude Include="yaRageCreepScript.h">
@@ -994,15 +968,13 @@
     <ClInclude Include="yaFontWrapper.h">
       <Filter>FontWrapper</Filter>
     </ClInclude>
-    <ClInclude Include="yaClotty.h">
-      <Filter>GameObject\Monsters</Filter>
-    </ClInclude>
     <ClInclude Include="yaClottyScript.h">
       <Filter>Component\Script\Monsters</Filter>
     </ClInclude>
     <ClInclude Include="yaHorfScript.h">
       <Filter>Component\Script\Monsters</Filter>
     </ClInclude>
+    <ClInclude Include="yaAudioManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

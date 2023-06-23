@@ -21,6 +21,7 @@
 #include "yaItemManager.h"
 #include "yaItem.h"
 #include "yaActiveItem.h"
+#include "yaPassiveItem.h"
 #include "yaPickup.h"
 #include "yaDropBomb.h"
 #include "yaPill.h"
@@ -33,7 +34,6 @@
 
 #include "Commons.h"
 
-#include "yaFmod.h"
 #include "yaAudioClip.h"
 
 namespace ya
@@ -75,8 +75,8 @@ namespace ya
 		mRigidbody = GetOwner()->GetComponent<Rigidbody>();
 
 		Collider2D* collider = GetOwner()->GetComponent<Collider2D>();
-		collider->SetSize(Vector2(0.3f, 0.4f));
-		collider->SetCenter(Vector2(0.0f, -0.05f));
+		collider->SetSize(Vector2(0.3f, 0.25f));
+		collider->SetCenter(Vector2(0.0f, -0.15f));
 		collider->SetColliderType(eColliderType::Rect);
 
 		Player* player = dynamic_cast<Player*>(GetOwner());
@@ -92,7 +92,7 @@ namespace ya
 		std::shared_ptr<Texture> texture = material->GetTexture();
 
 		{ // whole
-			mWhole = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
+			mWhole = object::Instantiate<GameObject>(eLayerType::Player, GetOwner());
 
 			mWhole->GetComponent<Transform>()->SetScale(Vector3(1.32f, 1.32f, 1.0f));
 
@@ -103,14 +103,19 @@ namespace ya
 			Animator* wholeAnimator = mWhole->AddComponent<Animator>();
 			wholeAnimator->Create(L"None", texture, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), Vector2::Zero, 1, 0.1f);
 			wholeAnimator->Create(L"Hurt", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.1f);
+			wholeAnimator->Create(L"ThumbsUp", texture, Vector2(128.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.4f);
+			wholeAnimator->Create(L"ThumbsDown", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.4f);
 			wholeAnimator->Create(L"Die", texture, Vector2(0.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.2f);
 			wholeAnimator->Add(L"Die", texture, Vector2(128.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.2f);
 			wholeAnimator->Add(L"Die", texture, Vector2(192.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2(0.0f, -0.025f), 1, 0.3f);
 			wholeAnimator->Play(L"None", false);
+
+			wholeAnimator->GetCompleteEvent(L"ThumbsUp") = std::bind(&PlayerScript::Idle, this);
+			wholeAnimator->GetCompleteEvent(L"ThumbsDown") = std::bind(&PlayerScript::Idle, this);
 		}
 
 		{ // body
-			mBody = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
+			mBody = object::Instantiate<GameObject>(eLayerType::Player, GetOwner());
 
 			mBody->GetComponent<Transform>()->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
@@ -132,7 +137,7 @@ namespace ya
 		}
 
 		{ // head
-			mHead = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
+			mHead = object::Instantiate<GameObject>(eLayerType::Player, GetOwner());
 
 			mHead->GetComponent<Transform>()->SetScale(Vector3(0.64f, 0.64f, 1.0f));
 
@@ -159,7 +164,7 @@ namespace ya
 		bodyTr->SetPosition(Vector3(0.0f, -0.1f, 0.0f));
 
 		{ // starflash
-			mStarflash = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
+			mStarflash = object::Instantiate<GameObject>(eLayerType::Player, GetOwner());
 
 			std::shared_ptr<Material> starflashMaterial = Resources::Find<Material>(L"starflashMaterial");
 			std::shared_ptr<Texture> starflashTexture = starflashMaterial->GetTexture();
@@ -179,7 +184,7 @@ namespace ya
 		}
 
 		{
-			mGainItem = object::Instantiate<GameObject>(eLayerType::Player, mTransform);
+			mGainItem = object::Instantiate<GameObject>(eLayerType::Player, GetOwner());
 
 			std::shared_ptr<Material> gainItemMaterial = Resources::Find<Material>(L"gainItemMaterial");
 			ImageRenderer* gainItemMr = mGainItem->AddComponent<ImageRenderer>();
@@ -193,12 +198,6 @@ namespace ya
 		}
 
 		Shadow(Vector3(0.0f, -0.24f, 0.0f), Vector3(0.4f, 0.16f, 0.0f));
-
-		{
-			std::shared_ptr<AudioClip> clip = std::make_shared<AudioClip>();
-			clip->Load(L"..\\Resources\\Issac\\sfx\\hurt_grunt.wav");
-			Resources::Insert<AudioClip>(L"audio_hurt", clip);
-		}
 	}
 
 	void PlayerScript::Update()
@@ -415,6 +414,12 @@ namespace ya
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		isaac::Status status = player->GetStatus();
 		float speed = 1.8f + status.speed;
+
+		if (player->GetItem().trinket == eTrinkets::GoatHoof)
+		{
+			speed += 0.15;
+		}
+
 		Rigidbody* rigidbody = player->GetComponent<Rigidbody>();
 
 		//TODO: set speed 
@@ -541,6 +546,9 @@ namespace ya
 			tear->InitTear(GetOwner(), Vector3(0.0f, 1.0f, 0.0f));
 			tear->AddComponent<PlayerTearScript>();
 			mAttackAble = false;
+
+			std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"tear fire " + std::to_wstring(Random(4, 5)));
+			clip->Play();
 		}
 		else if (Input::GetKey(eKeyCode::DOWN))
 		{
@@ -550,6 +558,9 @@ namespace ya
 			tear->InitTear(GetOwner(), Vector3(0.0f, -1.0f, 0.0f));
 			tear->AddComponent<PlayerTearScript>();
 			mAttackAble = false;
+
+			std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"tear fire " + std::to_wstring(Random(4, 5)));
+			clip->Play();
 		}
 		else if (Input::GetKey(eKeyCode::LEFT))
 		{
@@ -559,6 +570,9 @@ namespace ya
 			tear->InitTear(GetOwner(), Vector3(-1.0f, 0.0f, 0.0f));
 			tear->AddComponent<PlayerTearScript>();
 			mAttackAble = false;
+
+			std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"tear fire " + std::to_wstring(Random(4, 5)));
+			clip->Play();
 		}
 		else if (Input::GetKey(eKeyCode::RIGHT))
 		{
@@ -568,6 +582,9 @@ namespace ya
 			tear->InitTear(GetOwner(), Vector3(1.0f, 0.0f, 0.0f));
 			tear->AddComponent<PlayerTearScript>();
 			mAttackAble = false;
+
+			std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"tear fire " + std::to_wstring(Random(4, 5)));
+			clip->Play();
 		}
 	}
 
@@ -645,8 +662,21 @@ namespace ya
 	{
 		Player* player = dynamic_cast<Player*>(GetOwner());
 		
-		eActiveItem active = item->GetActveItemType();
+		eActiveItem active = item->GetActiveItemType();
 		player->SetActiveItem(active);
+		ItemAction();
+
+		SetGainItem(item->GetComponent<Animator>());
+	}
+
+	void PlayerScript::gainPassiveItem(PassiveItem* item)
+	{
+		Player* player = dynamic_cast<Player*>(GetOwner());
+
+		ePassiveItem passiveType = item->GetPassiveItemType();
+		ItemManager::GetItemObjects(eItemType::PassiveItem)[(UINT)passiveType]->PlayEvent();
+		player->AddPassiveItem(passiveType);
+
 		ItemAction();
 
 		SetGainItem(item->GetComponent<Animator>());
@@ -725,7 +755,6 @@ namespace ya
 			ItemManager::GetItemObjects(eItemType::Pill)[(UINT)item.pill]->PlayEvent();
 			player->SetPill(ePills::None);
 
-
 			StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
 			Pill* gainPill = object::Instantiate<Pill>(eLayerType::Item, scene->GetCurrentRoom());
 			gainPill->SetPillType(item.pill);
@@ -733,7 +762,24 @@ namespace ya
 			SetGainItem(gainPill->GetComponent<Animator>());
 			gainPill->Death();
 
-			ItemAction();
+			Animator* wholeAnimator = mWhole->GetComponent<Animator>();
+			Animator* headAnimator = mHead->GetComponent<Animator>();
+			Animator* bodyAnimator = mBody->GetComponent<Animator>();
+
+			if (item.pill == ePills::HealthUp)
+			{
+				headAnimator->Play(L"None", false);
+				bodyAnimator->Play(L"None", false);
+				wholeAnimator->Play(L"ThumbsUp", false);
+			}
+			else if ((item.pill == ePills::HealthDown))
+			{
+				headAnimator->Play(L"None", false);
+				bodyAnimator->Play(L"None", false);
+				wholeAnimator->Play(L"ThumbsDown", false);
+			}
+
+			//ItemAction();
 		}
 		else if (item.card != eCards::None)
 		{
@@ -764,7 +810,15 @@ namespace ya
 			Pill* pill = object::Instantiate<Pill>(eLayerType::Item, scene->GetCurrentRoom());
 			pill->SetPillType(item.pill);
 
-			pill->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
+			Transform* pillTr = pill->GetComponent<Transform>();
+			pillTr->SetPosition(player->GetRelativePosition());
+			pillTr->SetHeight(0.4f);
+		
+			Rigidbody* rigidbody = pill->GetComponent<Rigidbody>();
+			rigidbody->SetHeightGround(false);
+			rigidbody->SetLimitVelocity(Vector3(5.0f, 5.0f, 0.0f));
+			rigidbody->AddForce(Vector3((float)Random(-10, 10) * 400.0f, (float)Random(-10, 10) * 400.0f, 0.0f));
+			rigidbody->AddHeightForce(400.0f);
 		}
 
 		if (item.card != eCards::None)
@@ -774,7 +828,15 @@ namespace ya
 			Card* card = object::Instantiate<Card>(eLayerType::Item, scene->GetCurrentRoom());
 			card->SetCardType(item.card);
 
-			card->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
+			Transform* cardTr = card->GetComponent<Transform>();
+			cardTr->SetPosition(player->GetRelativePosition());
+			cardTr->SetHeight(0.4f);
+
+			Rigidbody* rigidbody = card->GetComponent<Rigidbody>();
+			rigidbody->SetHeightGround(false);
+			rigidbody->SetLimitVelocity(Vector3(5.0f, 5.0f, 0.0f));
+			rigidbody->AddForce(Vector3((float)Random(-10, 10) * 400.0f, (float)Random(-10, 10) * 400.0f, 0.0f));
+			rigidbody->AddHeightForce(400.0f);
 		}
 	}
 	void PlayerScript::ThrowTrinket()
@@ -790,7 +852,15 @@ namespace ya
 			Trinket* trinket = object::Instantiate<Trinket>(eLayerType::Item, scene->GetCurrentRoom());
 			trinket->SetTrinketType(item.trinket);
 
-			trinket->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
+			Transform* trinketTr = trinket->GetComponent<Transform>();
+			trinketTr->SetPosition(player->GetRelativePosition());
+			trinketTr->SetHeight(0.4f);
+
+			Rigidbody* rigidbody = trinket->GetComponent<Rigidbody>();
+			rigidbody->SetHeightGround(false);
+			rigidbody->SetLimitVelocity(Vector3(5.0f, 5.0f, 0.0f));
+			rigidbody->AddForce(Vector3((float)Random(-10, 10) * 400.0f, (float)Random(-10, 10) * 400.0f, 0.0f));
+			rigidbody->AddHeightForce(400.0f);
 		}
 	}
 

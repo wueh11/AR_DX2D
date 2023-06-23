@@ -19,6 +19,8 @@
 
 #include "yaTear.h"
 #include "yaMonsterTearScript.h"
+#include "yaAudioClip.h"
+
 
 namespace ya
 {
@@ -39,6 +41,7 @@ namespace ya
 
 		Monster* monster = dynamic_cast<Monster*>(GetOwner());
 		monster->SetStatus(10.0f, 1.0f, 6.0f, 1.0f);
+		monster->Fly(true);
 
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
@@ -139,6 +142,9 @@ namespace ya
 			mTimer[(UINT)eState::Idle] = mTimerMax[(UINT)eState::Idle];
 			mState = eState::Move;
 			mAnimator->Play(L"Move");
+
+			std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"spider coughs");
+			clip->Play();
 		}
 	}
 
@@ -202,17 +208,24 @@ namespace ya
 
 		if (mTimer[(UINT)eState::Tear] < 0.0f)
 		{
-			StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
-			Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+			//StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+			Monster* monster = dynamic_cast<Monster*>(GetOwner());
+			Room* room = monster->GetRoom();
+
+			Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, room);
 			tear->AddComponent<MonsterTearScript>();
 			tear->InitTear(GetOwner(), tearDir);
 			mTimer[(UINT)eState::Tear] = mTimerMax[(UINT)eState::Tear];
+
+			std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"spider spit roar 0");
+			clip->Play();
 		}
 
 		if (mTimer[(UINT)eState::Attack] < 0.0f)
 		{
 			mTimer[(UINT)eState::Tear] = mTimerMax[(UINT)eState::Tear];
 			mTimer[(UINT)eState::Attack] = mTimerMax[(UINT)eState::Attack];
+
 			mState = eState::Idle;
 			mAnimator->Play(L"Idle");
 		}

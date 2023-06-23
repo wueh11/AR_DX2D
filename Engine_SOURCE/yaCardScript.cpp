@@ -11,6 +11,7 @@
 #include "yaPlayerScript.h"
 
 #include "yaPickup.h"
+#include "yaAudioClip.h"
 
 namespace ya
 {
@@ -74,6 +75,9 @@ namespace ya
 				{
 					playerScript->gainConsumable(dynamic_cast<Pickup*>(GetOwner()));
 					mbDeath = true;
+
+					std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"power up1");
+					clip->Play();
 				}
 			}
 		}

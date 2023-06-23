@@ -1,16 +1,14 @@
 #include "yaFadeScript.h"
-#include "yaFadeScript.h"
-#include "yaTransform.h"
-#include "yaGameObject.h"
-#include "yaApplication.h"
-#include "yaConstantBuffer.h"
-#include "yaRenderer.h"
-#include "yaMeshRenderer.h"
-#include "yaMaterial.h"
+
+#include "yaResources.h"
 #include "yaTime.h"
 #include "yaInput.h"
 
-extern ya::Application application;
+#include "yaMeshRenderer.h"
+#include "yaMaterial.h"
+
+#include "yaGameObject.h"
+
 namespace ya
 {
 	FadeScript::FadeScript()
@@ -26,6 +24,11 @@ namespace ya
 
 	void FadeScript::Initialize()
 	{
+		MeshRenderer* mr = GetOwner()->AddComponent<MeshRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"bgblackMaterial");
+		mr->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		mr->SetMesh(mesh);
 	}
 
 	void FadeScript::Update()
@@ -64,10 +67,10 @@ namespace ya
 			break;
 		}
 
-		// material constant buffer setting
 		MeshRenderer* mr = GetOwner()->GetComponent<MeshRenderer>();
-		Material* fadeMaterial = mr->GetMaterial().get();
-		fadeMaterial->SetData(eGPUParam::Float, &mAlpha);
+		std::shared_ptr<Material> material = mr->GetMaterial();
+		//material->SetData(eGPUParam::Float, &mAlpha);
+		mr->SetAlpha(mAlpha);
 	}
 
 	void FadeScript::FixedUpdate()

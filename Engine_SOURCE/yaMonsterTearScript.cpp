@@ -18,7 +18,7 @@
 #include "yaStageScene.h"
 
 #include "yaRoom.h"
-
+#include "yaAudioClip.h"
 namespace ya
 {
 	MonsterTearScript::MonsterTearScript()
@@ -79,6 +79,9 @@ namespace ya
 			PlayerScript* script = player->GetScript<PlayerScript>();
 			script->Hurt();
 		}
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"tear block");
+		clip->Play();
 
 		TearScript::OnCollisionEnter(collider);
 	}

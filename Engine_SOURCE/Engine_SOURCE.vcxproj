@@ -166,13 +166,12 @@
     <ClInclude Include="yaAltarScript.h" />
     <ClInclude Include="yaAudioClip.h" />
     <ClInclude Include="yaAudioListener.h" />
+    <ClInclude Include="yaAudioManager.h" />
     <ClInclude Include="yaBasement1Boss.h" />
     <ClInclude Include="yaChest.h" />
     <ClInclude Include="yaChestScript.h" />
-    <ClInclude Include="yaClotty.h" />
     <ClInclude Include="yaClottyScript.h" />
     <ClInclude Include="yaEffectScript.h" />
-    <ClInclude Include="yaFly.h" />
     <ClInclude Include="yaFmod.h" />
     <ClInclude Include="yaFontWrapper.h" />
     <ClInclude Include="yaHorfScript.h" />
@@ -185,7 +184,6 @@
     <ClInclude Include="yaFireplaceScript.h" />
     <ClInclude Include="yaIsaacEnums.h" />
     <ClInclude Include="yaCollectibleScript.h" />
-    <ClInclude Include="yaGaper.h" />
     <ClInclude Include="yaGaperScript.h" />
     <ClInclude Include="yaItemObject.h" />
     <ClInclude Include="yaActiveItem.h" />
@@ -210,7 +208,6 @@
     <ClInclude Include="yaCollisionManager.h" />
     <ClInclude Include="yaComputeShader.h" />
     <ClInclude Include="yaExplosionScript.h" />
-    <ClInclude Include="yaFireplace.h" />
     <ClInclude Include="yaHeartFull.h" />
     <ClInclude Include="yaHeartHalf.h" />
     <ClInclude Include="yaHeartScript.h" />
@@ -255,7 +252,6 @@
     <ClInclude Include="yaParticleSystem.h" />
     <ClInclude Include="yaPill.h" />
     <ClInclude Include="yaPillScript.h" />
-    <ClInclude Include="yaPit.h" />
     <ClInclude Include="yaPitScript.h" />
     <ClInclude Include="yaPlayer.h" />
     <ClInclude Include="yaPlayerScript.h" />
@@ -304,13 +300,12 @@
     <ClCompile Include="yaAltarScript.cpp" />
     <ClCompile Include="yaAudioClip.cpp" />
     <ClCompile Include="yaAudioListener.cpp" />
+    <ClCompile Include="yaAudioManager.cpp" />
     <ClCompile Include="yaBasement1Boss.cpp" />
     <ClCompile Include="yaChest.cpp" />
     <ClCompile Include="yaChestScript.cpp" />
-    <ClCompile Include="yaClotty.cpp" />
     <ClCompile Include="yaClottyScript.cpp" />
     <ClCompile Include="yaEffectScript.cpp" />
-    <ClCompile Include="yaFly.cpp" />
     <ClCompile Include="yaFmod.cpp" />
     <ClCompile Include="yaFontWrapper.cpp" />
     <ClCompile Include="yaHorfScript.cpp" />
@@ -324,9 +319,7 @@
     <ClCompile Include="yaDoor.cpp" />
     <ClCompile Include="yaDoorScript.cpp" />
     <ClCompile Include="yaExplosion.cpp" />
-    <ClCompile Include="yaFireplace.cpp" />
     <ClCompile Include="yaFireplaceScript.cpp" />
-    <ClCompile Include="yaGaper.cpp" />
     <ClCompile Include="yaGaperScript.cpp" />
     <ClCompile Include="yaItem.cpp" />
     <ClCompile Include="yaAnimation.cpp" />
@@ -387,7 +380,6 @@
     <ClCompile Include="yaParticleSystem.cpp" />
     <ClCompile Include="yaPill.cpp" />
     <ClCompile Include="yaPillScript.cpp" />
-    <ClCompile Include="yaPit.cpp" />
     <ClCompile Include="yaPitScript.cpp" />
     <ClCompile Include="yaPlayer.cpp" />
     <ClCompile Include="yaPlayerScript.cpp" />

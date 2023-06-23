@@ -115,7 +115,7 @@ namespace ya
 		if (player != nullptr)
 		{
 			Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
-			rigidbody->AddForce(mCollideVelocity * 50.0f);
+			rigidbody->AddForce(mCollideVelocity * 30.0f);
 		}
 		else
 		{

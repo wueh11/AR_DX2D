@@ -51,6 +51,9 @@ namespace ya
 		MinimapScript* GetMinimap() { return mMinimap; }
 		void SetMinimap(MinimapScript* minimap) { mMinimap = minimap; }
 
+		Room* GetStartRoom() { return mStartRoom; }
+		Room* GetBossRoom() { return mBossRoom; }
+
 	protected:
 		std::vector<std::vector<Room*>> mRooms;
 		Room* mCurrentRoom;
@@ -63,6 +66,9 @@ namespace ya
 
 		UIScript* mUI;
 		MinimapScript* mMinimap;
+
+		Room* mStartRoom;
+		Room* mBossRoom;
 	};
 }
 

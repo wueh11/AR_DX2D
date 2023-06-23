@@ -23,17 +23,17 @@
 #include "yaAnimator.h"
 
 #include "yaPlayer.h"
-#include "yaIsaacEnums.h"
-#include "yaLight.h"
 
-#include "yaPaintShader.h"
 #include "yaFontWrapper.h"
+
+#include "Commons.h"
+#include "yaFadeScript.h"
 
 namespace ya
 {
 	TitleScene::TitleScene()
 		:Scene(eSceneType::Title)
-		
+		, mLogo(nullptr)
 	{
 	}
 	TitleScene::~TitleScene()
@@ -68,6 +68,7 @@ namespace ya
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 		std::shared_ptr<Material> spriteMaterial = Resources::Find<Material>(L"SpriteMaterial");
+
 
 		{ // titlemenu
 			std::shared_ptr<Texture> titlemenuTexture = Resources::Find<Texture>(L"titlemenu");
@@ -114,12 +115,12 @@ namespace ya
 			}
 
 			{ // logo
-				GameObject* logo = object::Instantiate<GameObject>(eLayerType::Background);
-				Transform* logoTr = logo->GetComponent<Transform>();
+				mLogo = object::Instantiate<GameObject>(eLayerType::Background);
+				Transform* logoTr = mLogo->GetComponent<Transform>();
 				logoTr->SetPosition(Vector3(0.0f, 1.5f, 1.0f));
 				logoTr->SetScale(Vector3(5.4f, 1.7f, 1.0f));
 
-				ImageRenderer* logoMr = logo->AddComponent<ImageRenderer>();
+				ImageRenderer* logoMr = mLogo->AddComponent<ImageRenderer>();
 				logoMr->SetMesh(mesh);
 				logoMr->SetMaterial(spriteMaterial);
 				logoMr->SetImageSize(titlemenuTexture, Vector2(106.0f, 286.0f), Vector2(265.0f, 82.0f));
@@ -183,6 +184,12 @@ namespace ya
 
 	void TitleScene::Update()
 	{
+		if(mLogo != nullptr)
+		{
+			Transform* logoTr = mLogo->GetComponent<Transform>();
+			logoTr->SetPosition(Vector3(0.0f, 1.5f + SinByTime(0.002f, 0.04f), 1.0f));
+		}
+
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
 			SceneManager::LoadScene(eSceneType::Basement1);

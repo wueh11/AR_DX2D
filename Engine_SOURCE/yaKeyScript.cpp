@@ -7,6 +7,7 @@
 #include "yaObject.h"
 
 #include "yaPlayer.h"
+#include "yaAudioClip.h"
 
 namespace ya
 {
@@ -61,6 +62,8 @@ namespace ya
 		{
 			player->AddKey(1);
 			mbDeath = true;
+			std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"key pickup guantlet 4");
+			clip->Play();
 		}
 
 		PickupScript::OnCollisionEnter(collider);

@@ -34,10 +34,15 @@ namespace ya
 
 		Room* GetRoom() { return mRoom; }
 
+		void Fly(bool fly) { mbFly = fly; }
+		bool IsFly() { return mbFly; }
+
 	protected:
 		eMonsterType mType;
 		Room* mRoom;
 		float mHealth;
 		float mHp;
+
+		bool mbFly;
 	};
 }

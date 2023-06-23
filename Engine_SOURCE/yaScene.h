@@ -22,6 +22,9 @@ namespace ya
 		virtual void OnEnter();
 		virtual void OnExit();
 
+		void FadeIn();
+		void FadeOut();
+
 		eSceneType GetSceneType() { return mType; }
 		void AddGameObject(GameObject* gameObject, const eLayerType type);
 		Layer& GetLayer(eLayerType type) { return mLayers[(UINT)type];}
@@ -35,6 +38,8 @@ namespace ya
 		std::vector<Layer> mLayers;
 		eSceneType mType;
 		Player* mPlayer;
+
+		GameObject* mFadeObject;
 	};
 }
 

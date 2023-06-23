@@ -12,6 +12,7 @@
 #include "yaDoor.h"
 
 #include "Commons.h"
+#include "yaAudioClip.h"
 
 namespace ya
 {
@@ -77,6 +78,9 @@ namespace ya
 		Door* door = dynamic_cast<Door*>(other);
 		if (door != nullptr)
 			return;
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"tear block");
+		clip->Play();
 
 		TearScript::OnCollisionEnter(collider);
 	}

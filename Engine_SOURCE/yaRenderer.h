@@ -88,13 +88,16 @@ namespace ya::renderer
 	CBUFFER(ImageCB, CBSLOT_IMAGE)
 	{
 		UINT colorType;
-		float imageAlpha;
 		UINT useRate;
 		UINT useRange;
+		UINT imagepadding;
 
 		Vector4 imageColor;
 		Vector4 imageRange;
 		Vector2 imageRate;
+
+		UINT useAlpha;
+		float imageAlpha;
 	};
 
 	//정점 데이터

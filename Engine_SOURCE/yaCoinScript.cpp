@@ -10,6 +10,7 @@
 #include "yaSpriteRenderer.h"
 
 #include "yaPlayer.h"
+#include "yaAudioClip.h"
 
 namespace ya
 {
@@ -70,6 +71,9 @@ namespace ya
 			mTransform->SetScale(Vector3(0.66f, 0.66f, 1.0f));
 			player->AddCoin(1);
 			mAnimator->Play(L"Effect", false);
+
+			std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"penny pickup 1");
+			clip->Play();
 			return;
 		}
 

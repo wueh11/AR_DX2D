@@ -20,6 +20,7 @@
 #include "yaTear.h"
 #include "yaMonsterTearScript.h"
 #include "Commons.h"
+#include "yaAudioClip.h"
 
 namespace ya
 {
@@ -150,6 +151,9 @@ namespace ya
 			mState = eState::Move;
 
 			mMoveDir = Vector3((float)Random(-1, 1), (float)Random(-1, 1), 0.0f);
+
+			std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"meat feet slow");
+			clip->Play();
 		}
 	}
 
@@ -172,9 +176,12 @@ namespace ya
 	{
 		mAnimator->Play(L"Attack", false);
 
-		StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
+		/*StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
 		Room* room = scene->GetCurrentRoom();
-		Transform* roomTr = room->GetComponent<Transform>();
+		Transform* roomTr = room->GetComponent<Transform>();*/
+
+		Monster* monster = dynamic_cast<Monster*>(GetOwner());
+		Room* room = monster->GetRoom();
 
 		Tear* tear1 = object::Instantiate<Tear>(eLayerType::Projectile, room);
 		tear1->AddComponent<MonsterTearScript>();
@@ -192,6 +199,8 @@ namespace ya
 		tear4->AddComponent<MonsterTearScript>();
 		tear4->InitTear(GetOwner(), Vector3(0.0f, -1.0f, 0.0f));
 
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"meat head shoot");
+		clip->Play();
 	}
 
 	void ClottyScript::Reset()

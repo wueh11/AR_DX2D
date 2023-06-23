@@ -28,12 +28,13 @@ namespace ya
 	{
 		renderer::ImageCB imageCb = {};
 		imageCb.colorType = mColorType;
-		imageCb.imageAlpha = mImageAlpha;
 		imageCb.useRate = mbUseRate;
 		imageCb.useRange = mbUseRange;
 		imageCb.imageColor = mImageColor;
 		imageCb.imageRange = mImageRange;
 		imageCb.imageRate = mImageRate;
+		imageCb.useAlpha = mbUseAlpha;
+		imageCb.imageAlpha = mImageAlpha;
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Image];
 		cb->SetData(&imageCb);

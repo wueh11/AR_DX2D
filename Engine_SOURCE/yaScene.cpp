@@ -1,4 +1,6 @@
 #include "yaScene.h"
+#include "yaObject.h"
+#include "yaFadeScript.h"
 
 namespace ya
 {
@@ -14,6 +16,14 @@ namespace ya
 
 	void Scene::Initialize()
 	{
+		{ // fade Object
+			mFadeObject = object::Instantiate<GameObject>(eLayerType::UI);
+			Transform* fadeObjectTr = mFadeObject->GetComponent<Transform>();
+			fadeObjectTr->SetPosition(Vector3(0.0f, 0.0f, -40.0f));
+			fadeObjectTr->SetScale(Vector3(10.0f, 8.0f, 1.0f));
+			mFadeObject->AddComponent<FadeScript>();
+		}
+
 		for (Layer& layer : mLayers)
 		{
 			layer.Initialize();
@@ -54,10 +64,32 @@ namespace ya
 
 	void Scene::OnEnter()
 	{
+		FadeIn();
 	}
 
 	void Scene::OnExit()
 	{
+		FadeOut();
+	}
+
+	void Scene::FadeIn()
+	{
+		FadeScript* script = mFadeObject->GetScript<FadeScript>();
+
+		if (script == nullptr)
+			return;
+
+		script->SetState(FadeScript::FadeIn);
+	}
+
+	void Scene::FadeOut()
+	{
+		FadeScript* script = mFadeObject->GetScript<FadeScript>();
+
+		if (script == nullptr)
+			return;
+
+		script->SetState(FadeScript::FadeOut);
 	}
 
 	void Scene::AddGameObject(GameObject* gameObject, const eLayerType type)

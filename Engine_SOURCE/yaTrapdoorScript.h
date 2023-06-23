@@ -30,7 +30,12 @@ namespace ya
 		void OpenTrapDoor();
 
 	private:
+		GameObject* mPlayerTrapdoor;
+
 		bool mbOpen;
 		bool mbCreateComplete;
+
+		bool mbInTrapdoor;
+		float mTimer;
 	};
 }

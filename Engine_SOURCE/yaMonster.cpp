@@ -11,6 +11,7 @@ namespace ya
 		, mHealth(-1.0f)
 		, mHp(-1.0f)
 		, mRoom(nullptr)
+		, mbFly(false)
 	{
 		Collider2D* collider = GetComponent<Collider2D>();
 		collider->SetColliderType(eColliderType::Rect);

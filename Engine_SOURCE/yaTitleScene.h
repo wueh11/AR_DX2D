@@ -3,6 +3,7 @@
 
 namespace ya
 {
+	class GameObject;
 	class TitleScene : public Scene
 	{
 	public:
@@ -18,7 +19,7 @@ namespace ya
 		virtual void OnExit();
 
 	private:
-
+		GameObject* mLogo;
 	};
 
 }

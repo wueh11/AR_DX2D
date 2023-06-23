@@ -18,6 +18,8 @@ namespace ya
 		, mBoss(nullptr)
 		, mUI(nullptr)
 		, mMinimap(nullptr)
+		, mStartRoom(nullptr)
+		, mBossRoom(nullptr)
 	{
 		mRooms.resize(isaac::STAGE_MAX_ROW);
 		for (size_t i = 0; i < isaac::STAGE_MAX_ROW; i++)

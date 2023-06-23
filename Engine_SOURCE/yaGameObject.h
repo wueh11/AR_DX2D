@@ -119,6 +119,9 @@ namespace ya
 			mState = eState::Dead;
 			for (auto obj : mChildren)
 				obj->Death();
+
+			if (mParent != nullptr)
+				mParent->EraseChild(this);
 		}
 
 		eState GetState() { return mState; }
@@ -140,6 +143,17 @@ namespace ya
 
 		std::vector<GameObject*> GetChildren() { return mChildren; }
 		void AddChild(GameObject* child) { mChildren.push_back(child); }
+
+		void EraseChild(GameObject* child)
+		{
+			for (std::vector<GameObject*>::iterator it = mChildren.begin(); it != mChildren.end();)
+			{
+				if (*it == child)
+					it = mChildren.erase(it);
+				else
+					it++;
+			}
+		}
 
 	protected:
 		std::vector<Component*> mComponents;

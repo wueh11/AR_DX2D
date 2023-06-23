@@ -9,6 +9,7 @@
 #include "yaFontWrapper.h"
 
 #include "yaItemManager.h"
+#include "yaAudioManager.h"
 
 namespace ya
 {
@@ -36,6 +37,7 @@ namespace ya
 		SceneManager::Initialize();
 
 		ItemManager::Initialize();
+		AudioManager::Initialize();
 	}
 
 	// 게임 로직 캐릭터 이동 등등 

@@ -19,8 +19,11 @@
 
 #include "Commons.h"
 
+#include "yaItemManager.h"
 #include "yaActiveItem.h"
 #include "yaPassiveItem.h"
+#include "yaAudioClip.h"
+
 
 namespace ya
 {
@@ -78,7 +81,7 @@ namespace ya
 		if(mItem != nullptr)
 		{
 			ActiveItem* activeItem = dynamic_cast<ActiveItem*>(mItem);
-			if (activeItem != nullptr && activeItem->GetActveItemType() != eActiveItem::None)
+			if (activeItem != nullptr && activeItem->GetActiveItemType() != eActiveItem::None)
 			{
 				GameObject* other = collider->GetOwner();
 				Player* player = dynamic_cast<Player*>(other);
@@ -95,11 +98,16 @@ namespace ya
 
 						if (temp == eActiveItem::None)
 						{
-							mItem->Pause();
+							mItem->Death();
 							SetItem(nullptr);
 						}
 						else
+						{
 							activeItem->SetActiveItemType(temp);
+						}
+
+						std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"power up1");
+						clip->Play();
 					}
 				}
 			}
@@ -111,15 +119,21 @@ namespace ya
 				Player* player = dynamic_cast<Player*>(other);
 				if (player != nullptr)
 				{
+					Player::Items item = player->GetItem();
 					PlayerScript* playerScript = player->GetScript<PlayerScript>();
 
 					if (playerScript->IsGainItem())
 					{
-						//playerScript->gainPassiveItem(dynamic_cast<PassiveItem*>(GetOwner()));
+						playerScript->gainPassiveItem(passiveItem);
+
+						mItem->Death();
+						SetItem(nullptr);
 					}
+
+					std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"power up1");
+					clip->Play();
 				}
 			}
-
 		}
 
 		WallScript::OnCollisionEnter(collider);

@@ -165,6 +165,7 @@ namespace ya
 			animator->Create(L"None", Resources::Find<Texture>(L"transparent"), Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f), Vector2::Zero, 1, 0.1f);
 			animator->Create(L"trinket_" + std::to_wstring((UINT)eTrinkets::FishHead), Resources::Find<Texture>(L"fishhead"), Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			animator->Create(L"trinket_" + std::to_wstring((UINT)eTrinkets::PinkyEye), Resources::Find<Texture>(L"pinkyeye"), Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			animator->Create(L"trinket_" + std::to_wstring((UINT)eTrinkets::GoatHoof), Resources::Find<Texture>(L"goathoof"), Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 			animator->Play(L"None", false);
 		}
 
@@ -492,7 +493,7 @@ namespace ya
 
 			BaseRenderer* rd = mBossHealthBar->GetComponent<BaseRenderer>();
 			rd->UseRange(true);
-			rd->SetRange(Vector4(0.0f, 0.0f, (hp / health) - 0.1f, 1.0f));
+			rd->SetRange(Vector4(0.0f, 0.0f, 0.1f + ((hp / health) * 0.8f), 1.0f));
 			rd->SetColorType(1);
 			rd->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 		}

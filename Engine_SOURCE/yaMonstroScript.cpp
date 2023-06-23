@@ -25,6 +25,8 @@
 
 #include "Commons.h"
 
+#include "yaAudioClip.h"
+
 namespace ya
 {
 	MonstroScript::MonstroScript()
@@ -243,6 +245,9 @@ namespace ya
 			{
 				mState = eState::SpitAttack;
 				mAnimator->Play(L"Spit", false);
+
+				std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"boss_spit_blob_barf");
+				clip->Play();
 			}
 			else if (ran == 2)
 			{
@@ -315,6 +320,9 @@ namespace ya
 				mState = eState::SpreadAttack;
 				mAnimator->Play(L"JumpDown2", false);
 				mRigidbody->SetHeightGround(true);
+
+				std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"forest boss stomp");
+				clip->Play();
 			}
 		}
 		else if (mTimer[(UINT)eState::JumpDown] > 0.2f)
@@ -336,6 +344,9 @@ namespace ya
 		}
 		else
 		{
+			Monster* monster = dynamic_cast<Monster*>(GetOwner());
+			Room* room = monster->GetRoom();
+
 			if(Random(0, 10) < 1)
 			{
 				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
@@ -348,7 +359,7 @@ namespace ya
 					mRigidbody->AddHeightForce(10.0f);
 				}
 
-				Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+				Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, room);
 				tear->Parabola(true);
 				tear->InitTear(GetOwner(), dir + Vector3((float)(Random(-4, 4)) / 10.0f, (float)(Random(-4, 4)) / 10.0f, 0.0f));
 				Rigidbody* rigidbody = tear->GetComponent<Rigidbody>();
@@ -370,11 +381,14 @@ namespace ya
 		}
 		else
 		{
+			Monster* monster = dynamic_cast<Monster*>(GetOwner());
+			Room* room = monster->GetRoom();
+
 			if (Random(0, 8) < 1)
 			{
 				StageScene* scene = dynamic_cast<StageScene*>(SceneManager::GetActiveScene());
 				{
-					Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, scene->GetCurrentRoom());
+					Tear* tear = object::Instantiate<Tear>(eLayerType::Projectile, room);
 					tear->Parabola(true);
 					tear->InitTear(GetOwner(), Vector3((float)(Random(-10, 10)) / 10.0f, (float)(Random(-10, 10)) / 10.0f, 0.0f));
 					Rigidbody* rigidbody = tear->GetComponent<Rigidbody>();

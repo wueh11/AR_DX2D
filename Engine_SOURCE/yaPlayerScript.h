@@ -52,6 +52,7 @@ namespace ya
 		void Invincible();
 
 		void gainActiveItem(class ActiveItem* item);
+		void gainPassiveItem(class PassiveItem* item);
 		void gainConsumable(class Pickup* pickup);
 		void gainTrinket(class Trinket* pickup);
 

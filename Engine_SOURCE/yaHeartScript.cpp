@@ -12,6 +12,8 @@
 
 #include "Commons.h"
 
+#include "yaAudioClip.h"
+
 namespace ya
 {
 	HeartScript::HeartScript()
@@ -84,16 +86,25 @@ namespace ya
 			{
 				player->AddSoulHeart(2);
 				mbDeath = true;
+
+				std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"holy!");
+				clip->Play();
 			}
 			else if (info.heartMax > info.heart && itemType == eItemType::HeartFull)
 			{
 				player->AddHeart(2);
 				mbDeath = true;
+
+				std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"boss 2 bubbles");
+				clip->Play();
 			}
 			else if (info.heartMax > info.heart && itemType == eItemType::HeartHalf)
 			{
 				player->AddHeart(1);
 				mbDeath = true;
+
+				std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"boss 2 bubbles");
+				clip->Play();
 			}
 		}
 
@@ -123,24 +134,5 @@ namespace ya
 	}
 	void HeartScript::Take()
 	{
-		/*Player::Info info = player->GetInfo();
-		Pickup* item = dynamic_cast<Pickup*>(GetOwner());
-		isaac::eItemType itemType = item->GetItemType();
-
-		if (info.heartMax < 12 && itemType == eItemType::SoulHeartFull)
-		{
-			player->AddSoulHeart(2);
-			mbDeath = true;
-		}
-		else if (info.heartMax > info.heart && itemType == eItemType::HeartFull)
-		{
-			player->AddHeart(2);
-			mbDeath = true;
-		}
-		else if (info.heartMax > info.heart && itemType == eItemType::HeartHalf)
-		{
-			player->AddHeart(1);
-			mbDeath = true;
-		}*/
 	}
 }

@@ -16,8 +16,8 @@ namespace ya
 
 			Info()
 				: heartMax(6)
-				, heart(3)
-				, soulHeart(2)
+				, heart(6)
+				, soulHeart(0)
 			{}
 		};
 
@@ -29,7 +29,7 @@ namespace ya
 
 			Pickup()
 				: coin(0)
-				, bomb(10)
+				, bomb(1)
 				, key(0)
 			{}
 		};

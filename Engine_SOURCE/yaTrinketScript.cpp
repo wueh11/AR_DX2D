@@ -18,6 +18,7 @@
 #include "yaRigidbody.h"
 #include "yaPlayerScript.h"
 #include "yaTime.h"
+#include "yaAudioClip.h"
 
 namespace ya
 {
@@ -49,6 +50,7 @@ namespace ya
 		mAnimator->Create(L"None", Resources::Find<Texture>(L"transparent"), Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f), Vector2::Zero, 1, 0.1f);
 		mAnimator->Create(L"trinket_" + std::to_wstring((UINT)eTrinkets::FishHead), Resources::Find<Texture>(L"fishhead"), Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 		mAnimator->Create(L"trinket_" + std::to_wstring((UINT)eTrinkets::PinkyEye), Resources::Find<Texture>(L"pinkyeye"), Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+		mAnimator->Create(L"trinket_" + std::to_wstring((UINT)eTrinkets::GoatHoof), Resources::Find<Texture>(L"goathoof"), Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
 		mAnimator->Play(L"None", false);
 	}
 
@@ -79,6 +81,9 @@ namespace ya
 				{
 					playerScript->gainTrinket(dynamic_cast<Trinket*>(GetOwner()));
 					mbDeath = true;
+
+					std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"power up1");
+					clip->Play();
 				}
 			}
 		}

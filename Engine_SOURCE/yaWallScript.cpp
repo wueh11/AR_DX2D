@@ -12,6 +12,7 @@
 #include "yaGameObject.h"
 #include "yaPlayer.h"
 #include "yaMonster.h"
+#include "yaItem.h"
 
 namespace ya
 {
@@ -43,8 +44,9 @@ namespace ya
 		GameObject* other = collider->GetOwner();
 		Player* player = dynamic_cast<Player*>(other);
 		Monster* monster = dynamic_cast<Monster*>(other);
+		Item* item = dynamic_cast<Item*>(other);
 
-		if (player != nullptr || monster != nullptr)
+		if (player != nullptr || (monster != nullptr && !monster->IsFly()))
 		{
 			Transform* otherTr = other->GetComponent<Transform>();
 			Vector3 otherPos = collider->GetPosition();
@@ -75,8 +77,9 @@ namespace ya
 		GameObject* other = collider->GetOwner();
 		Player* player = dynamic_cast<Player*>(other);
 		Monster* monster = dynamic_cast<Monster*>(other);
+		Item* item = dynamic_cast<Item*>(other);
 
-		if (player != nullptr || monster != nullptr)
+		if (player != nullptr || (monster != nullptr && !monster->IsFly()))
 		{
 			Transform* otherTr = other->GetComponent<Transform>();
 			Vector3 otherPos = collider->GetPosition();

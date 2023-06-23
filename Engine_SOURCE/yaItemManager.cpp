@@ -12,6 +12,8 @@
 #include "yaStageScene.h"
 
 #include "yaRigidbody.h"
+#include "yaAudioClip.h"
+#include "yaResources.h"
 
 namespace ya
 {
@@ -19,6 +21,7 @@ namespace ya
 	std::vector<ItemObject*> ItemManager::mCards = {};
 	std::vector<ItemObject*> ItemManager::mTrinkets = {};
 	std::vector<ItemObject*> ItemManager::mActives = {};
+	std::vector<ItemObject*> ItemManager::mPassives = {};
 
 	void ItemManager::Initialize()
 	{
@@ -47,6 +50,7 @@ namespace ya
 			mTrinkets.resize((UINT)eTrinkets::End);
 			mTrinkets[(UINT)eTrinkets::FishHead] = new ItemObject(eItemType::Trinket, (UINT)eTrinkets::FishHead, L"Fish Head", std::bind(&ItemManager::FishHead));
 			mTrinkets[(UINT)eTrinkets::PinkyEye] = new ItemObject(eItemType::Trinket, (UINT)eTrinkets::PinkyEye, L"Pinky Eye", std::bind(&ItemManager::PinkyEye));
+			mTrinkets[(UINT)eTrinkets::GoatHoof] = new ItemObject(eItemType::Trinket, (UINT)eTrinkets::GoatHoof, L"Goat Hoof", std::bind(&ItemManager::GoatHoof));
 		}
 
 		{ // ActiveItem
@@ -57,47 +61,14 @@ namespace ya
 			mActives[(UINT)eActiveItem::YumHeart] = new ItemObject(eItemType::ActiveItem, (UINT)eActiveItem::YumHeart, L"Yum Heart", 4, std::bind(&ItemManager::YumHeart));
 		}
 
+		{ // PassiceItem
+			mPassives.resize((UINT)ePassiveItem::End);
+
+			mPassives[(UINT)ePassiveItem::CricketsHead] = new ItemObject(eItemType::ActiveItem, (UINT)ePassiveItem::CricketsHead, L"Cricket's Head", std::bind(&ItemManager::CricketHead));
+			mPassives[(UINT)ePassiveItem::Lunch] = new ItemObject(eItemType::ActiveItem, (UINT)ePassiveItem::Lunch, L"Lunch", std::bind(&ItemManager::Lunch));
+			mPassives[(UINT)ePassiveItem::GrowthHormones] = new ItemObject(eItemType::ActiveItem, (UINT)ePassiveItem::GrowthHormones, L"Growth Hormones", std::bind(&ItemManager::GrowthHormones));
+		}
 	}
-
-	/*Pill* ItemManager::CreatePill(ePills pillType)
-	{
-		Pill* pill = new Pill(pillType);
-		Scene* scene = SceneManager::GetActiveScene();
-		Layer& layer = scene->GetLayer(eLayerType::Item);
-		layer.AddGameObject(pill);
-
-		return pill;
-	}
-
-	Card* ItemManager::CreateCard(eCards cardType)
-	{
-		Card* card = new Card(cardType);
-		Scene* scene = SceneManager::GetActiveScene();
-		Layer& layer = scene->GetLayer(eLayerType::Item);
-		layer.AddGameObject(card);
-
-		return card;
-	}
-
-	ActiveItem* ItemManager::CreateActiveItem(eActiveItem activeType)
-	{
-		ActiveItem* active = new ActiveItem(activeType);
-		Scene * scene = SceneManager::GetActiveScene();
-		Layer& layer = scene->GetLayer(eLayerType::Item);
-		layer.AddGameObject(active);
-
-		return active;
-	}
-
-	Trinket* ItemManager::CreateTrinket(eTrinkets trinketType)
-	{
-		Trinket* trinket = new Trinket(trinketType);
-		Scene* scene = SceneManager::GetActiveScene();
-		Layer& layer = scene->GetLayer(eLayerType::Item);
-		layer.AddGameObject(trinket);
-
-		return trinket;
-	}*/
 
 	std::vector<ItemObject*> ItemManager::GetItemObjects(eItemType itemType)
 	{
@@ -107,7 +78,7 @@ namespace ya
 		}
 		else if (itemType == eItemType::PassiveItem)
 		{
-
+			return mPassives;
 		}
 		else if (itemType == eItemType::Pill)
 		{
@@ -128,6 +99,9 @@ namespace ya
 			return;
 
 		player->AddMaxHeart(2);
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"thumbs up");
+		clip->Play();
 	}
 	void ItemManager::HealthDown()
 	{
@@ -138,6 +112,9 @@ namespace ya
 			return;
 
 		player->AddMaxHeart(-2);
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"thumbs down");
+		clip->Play();
 	}
 	void ItemManager::RangeUp()
 	{
@@ -148,6 +125,9 @@ namespace ya
 			return;
 
 		player->AddRange(2.0f);
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"thumbs up");
+		clip->Play();
 	}
 	void ItemManager::RangeDown()
 	{
@@ -158,6 +138,9 @@ namespace ya
 			return;
 
 		player->AddRange(-2.0f);
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"thumbs down");
+		clip->Play();
 	}
 	void ItemManager::TearsUp()
 	{
@@ -168,6 +151,9 @@ namespace ya
 			return;
 
 		player->AddAttackSpeed(0.35f);
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"thumbs up");
+		clip->Play();
 	}
 	void ItemManager::TearsDown()
 	{
@@ -178,6 +164,9 @@ namespace ya
 			return;
 
 		player->AddAttackSpeed(-0.28f);
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"thumbs down");
+		clip->Play();
 	}
 	void ItemManager::SpeedUp()
 	{
@@ -188,6 +177,9 @@ namespace ya
 			return;
 
 		player->AddSpeed(-0.15f);
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"thumbs up");
+		clip->Play();
 	}
 	void ItemManager::SpeedDown()
 	{
@@ -198,6 +190,9 @@ namespace ya
 			return;
 
 		player->AddSpeed(-0.12f);
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"thumbs down");
+		clip->Play();
 	}
 
 	void ItemManager::TheFool()
@@ -304,6 +299,17 @@ namespace ya
 	{
 	}
 
+	void ItemManager::GoatHoof()
+	{
+		Scene* scene = SceneManager::GetActiveScene();
+		Player* player = scene->GetPlayer();
+
+		if (player == nullptr)
+			return;
+
+		player->AddSpeed(0.15);
+	}
+
 	void ItemManager::TheBible()
 	{
 	}
@@ -324,5 +330,25 @@ namespace ya
 			return;
 
 		player->AddHeart(2);
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"vamp");
+		clip->Play();
+	}
+	void ItemManager::CricketHead()
+	{
+	}
+	void ItemManager::Lunch()
+	{
+		Scene* scene = SceneManager::GetActiveScene();
+		Player* player = scene->GetPlayer();
+
+		if (player == nullptr)
+			return;
+
+		player->AddMaxHeart(2);
+		player->AddHeart(2);
+	}
+	void ItemManager::GrowthHormones()
+	{
 	}
 }

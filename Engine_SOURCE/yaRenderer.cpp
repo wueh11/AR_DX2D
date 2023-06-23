@@ -518,6 +518,7 @@ namespace ya::renderer
 			{ // trinkets
 				Resources::Load<Texture>(L"fishhead", L"Issac\\trinkets\\trinket_029_fishhead.png");
 				Resources::Load<Texture>(L"pinkyeye", L"Issac\\trinkets\\trinket_030_pinkyeye.png");
+				Resources::Load<Texture>(L"goathoof", L"Issac\\trinkets\\trinket_037_goathoof.png");
 			}
 		}
 

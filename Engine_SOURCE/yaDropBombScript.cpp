@@ -21,7 +21,7 @@
 #include "yaScene.h"
 
 #include "Commons.h"
-
+#include "yaAudioClip.h"
 namespace ya
 {
 	DropBombScript::DropBombScript()
@@ -181,7 +181,8 @@ namespace ya
 		Transform* tr = bombradius->GetComponent<Transform>();
 		Vector3 pos = tr->GetPosition();
 
-		tr->SetPosition(Vector3(mTransform->GetPosition().x - room->GetRoomPosition().x, mTransform->GetPosition().y - room->GetRoomPosition().y - 0.6f, 91.0f));
+		//tr->SetPosition(Vector3(mTransform->GetPosition().x + room->GetRoomPosition().x, mTransform->GetPosition().y + room->GetRoomPosition().y - 0.6f, 91.0f));
+		tr->SetPosition(Vector3(mTransform->GetPosition().x, mTransform->GetPosition().y - 0.6f, 91.0f));
 
 		tr->SetScale(Vector3(1.0f, 0.6f, 0.0f));
 	}
@@ -193,5 +194,8 @@ namespace ya
 		explosion->SetName(L"explosion");
 		Transform* tr = explosion->GetComponent<Transform>();
 		tr->SetPosition(mTransform->GetPosition() + Vector3(0.0f, -0.1f, 0.0f));
+
+		std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"boss explosions 0");
+		clip->Play();
 	}
 }

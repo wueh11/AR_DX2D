@@ -1,19 +1,22 @@
 #include "yaRockScript.h"
 #include "yaRock.h"
 
-#include "yaGameObject.h"
-#include "yaTransform.h"
+#include "yaResources.h"
 #include "yaObject.h"
 
-#include "yaPlayer.h"
-#include "yaMonster.h"
-
-#include "yaResources.h"
 #include "yaSpriteRenderer.h"
-
-#include "yaExplosion.h"
+#include "yaTransform.h"
+#include "yaRigidbody.h"
+#include "yaAudioClip.h"
 
 #include "Commons.h"
+
+#include "yaGameObject.h"
+#include "yaSoulHeartFull.h"
+#include "yaRoom.h"
+#include "yaMonster.h"
+#include "yaPlayer.h"
+#include "yaExplosion.h"
 
 namespace ya
 {
@@ -78,6 +81,31 @@ namespace ya
 		if (explosion != nullptr)
 		{
 			GetOwner()->Death();
+
+			std::shared_ptr<AudioClip> clip = Resources::Find<AudioClip>(L"maggot enter ground ");
+			clip->Play();
+
+			Rock* rock = dynamic_cast<Rock*>(GetOwner());
+			Rock::eRockType rockType = rock->GetRockType();
+			if (rockType == Rock::eRockType::RockItem)
+			{
+				Room* room = dynamic_cast<Room*>(rock->GetParent());
+				if(room != nullptr)
+				{
+					SoulHeartFull* heart = object::Instantiate<SoulHeartFull>(eLayerType::Item, room);
+
+					Transform* itemTr = heart->GetComponent<Transform>();
+					itemTr->SetPosition(GetOwner()->GetComponent<Transform>()->GetPosition());
+					itemTr->SetHeight(0.4f);
+
+					Rigidbody* rigidbody = heart->GetComponent<Rigidbody>();
+					rigidbody->SetHeightGround(false);
+					rigidbody->SetLimitVelocity(Vector3(5.0f, 5.0f, 0.0f));
+					rigidbody->AddForce(Vector3((float)Random(-10, 10) * 600.0f, (float)Random(-10, 10) * 600.0f, 0.0f));
+					rigidbody->AddHeightForce(400.0f);
+				}
+			}
+
 			return;
 		}
 
